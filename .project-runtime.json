@@ -1,0 +1,67 @@
+{
+  "language": "Go",
+  "project_shape": "backend",
+  "source_extensions": [
+    ".go"
+  ],
+  "build_command": "go build ./...",
+  "testing": "deferred",
+  "workflow_checks": [
+    {
+      "workflow_id": "create",
+      "command": "python3 scripts/walkthrough.py --workflow create"
+    },
+    {
+      "workflow_id": "revise",
+      "command": "python3 scripts/walkthrough.py --workflow revise"
+    },
+    {
+      "workflow_id": "branch",
+      "command": "python3 scripts/walkthrough.py --workflow branch"
+    },
+    {
+      "workflow_id": "archive",
+      "command": "python3 scripts/walkthrough.py --workflow archive"
+    },
+    {
+      "workflow_id": "png",
+      "command": "python3 scripts/walkthrough.py --workflow png"
+    },
+    {
+      "workflow_id": "svg",
+      "command": "python3 scripts/walkthrough.py --workflow svg"
+    },
+    {
+      "workflow_id": "exposure",
+      "command": "python3 scripts/walkthrough.py --workflow exposure"
+    },
+    {
+      "workflow_id": "cancel",
+      "command": "python3 scripts/walkthrough.py --workflow cancel"
+    },
+    {
+      "workflow_id": "artifact",
+      "command": "python3 scripts/walkthrough.py --workflow artifact"
+    },
+    {
+      "workflow_id": "proof",
+      "command": "python3 scripts/walkthrough.py --workflow proof"
+    },
+    {
+      "workflow_id": "bundle",
+      "command": "python3 scripts/walkthrough.py --workflow bundle"
+    },
+    {
+      "workflow_id": "restore",
+      "command": "python3 scripts/walkthrough.py --workflow restore"
+    },
+    {
+      "workflow_id": "isolation",
+      "command": "python3 scripts/walkthrough.py --workflow isolation"
+    },
+    {
+      "workflow_id": "rejection",
+      "command": "python3 scripts/walkthrough.py --workflow rejection"
+    }
+  ]
+}

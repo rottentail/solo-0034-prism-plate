@@ -1,0 +1,334 @@
+{
+  "project_name": "solo-0034-prism-plate",
+  "project_shape": "backend",
+  "modules": [
+    {
+      "id": "scene",
+      "name": "场景值契约",
+      "path": "internal/scene"
+    },
+    {
+      "id": "geom",
+      "name": "仿射与轮廓",
+      "path": "internal/geom"
+    },
+    {
+      "id": "validate",
+      "name": "准入与预算",
+      "path": "internal/validate"
+    },
+    {
+      "id": "paint",
+      "name": "线性光合成",
+      "path": "internal/paint"
+    },
+    {
+      "id": "raster",
+      "name": "PNG采样",
+      "path": "internal/raster"
+    },
+    {
+      "id": "vector",
+      "name": "SVG安全输出",
+      "path": "internal/vector"
+    },
+    {
+      "id": "repository",
+      "name": "原子快照谱系",
+      "path": "internal/repository"
+    },
+    {
+      "id": "exposure",
+      "name": "成像工作者",
+      "path": "internal/exposure"
+    },
+    {
+      "id": "bundle",
+      "name": "封包校验",
+      "path": "internal/bundle"
+    },
+    {
+      "id": "service",
+      "name": "版本与校样用例",
+      "path": "internal/service"
+    },
+    {
+      "id": "transport",
+      "name": "HTTP契约",
+      "path": "internal/transport"
+    }
+  ],
+  "workflows": [
+    {
+      "id": "create",
+      "name": "建立版面",
+      "entry": "POST /v1/plates",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "固定首稿与摘要",
+      "failure": "非法场景或重复标识拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow create"
+    },
+    {
+      "id": "revise",
+      "name": "并行修订",
+      "entry": "PUT /v1/plates/{id}",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "同一期望版本恰好一次追加",
+      "failure": "陈旧版本409",
+      "verification": "python3 scripts/walkthrough.py --workflow revise"
+    },
+    {
+      "id": "branch",
+      "name": "历史分支",
+      "entry": "POST /v1/plates/{id}/branch",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "复制指定历史为独立首稿",
+      "failure": "不存在的稿本404",
+      "verification": "python3 scripts/walkthrough.py --workflow branch"
+    },
+    {
+      "id": "archive",
+      "name": "归档与历史出图",
+      "entry": "POST /v1/plates/{id}/archive",
+      "module_ids": [
+        "transport",
+        "service",
+        "repository",
+        "raster"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "归档禁止编辑但可出旧图",
+      "failure": "归档修订409",
+      "verification": "python3 scripts/walkthrough.py --workflow archive"
+    },
+    {
+      "id": "png",
+      "name": "栅格校样",
+      "entry": "POST /v1/plates/{id}/render?format=png",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "geom",
+        "paint",
+        "raster",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "有完整PNG和稳定摘要",
+      "failure": "未知稿本或预算超限拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow png"
+    },
+    {
+      "id": "svg",
+      "name": "矢量校样",
+      "entry": "POST /v1/plates/{id}/render?format=svg",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "geom",
+        "vector",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "输出有固定资源引用的SVG",
+      "failure": "未知稿本拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow svg"
+    },
+    {
+      "id": "exposure",
+      "name": "有界异步成像",
+      "entry": "POST /v1/plates/{id}/exposures",
+      "module_ids": [
+        "transport",
+        "service",
+        "exposure",
+        "raster",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "任务终局指向固定稿本成品",
+      "failure": "队列或工作容量不足拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow exposure"
+    },
+    {
+      "id": "cancel",
+      "name": "取消成像",
+      "entry": "DELETE /v1/exposures/{id}",
+      "module_ids": [
+        "transport",
+        "exposure",
+        "service",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "取消请求后得到真实终局",
+      "failure": "不存在任务404",
+      "verification": "python3 scripts/walkthrough.py --workflow cancel"
+    },
+    {
+      "id": "artifact",
+      "name": "成品获取与撤销",
+      "entry": "GET/DELETE /v1/artifacts/{id}",
+      "module_ids": [
+        "transport",
+        "service",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "内容ETag与摘要一致；撤销后不可读",
+      "failure": "未知404或已撤销409",
+      "verification": "python3 scripts/walkthrough.py --workflow artifact"
+    },
+    {
+      "id": "proof",
+      "name": "校样裁决",
+      "entry": "POST /v1/proofs → PUT /v1/proofs/{id}",
+      "module_ids": [
+        "transport",
+        "service",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "通过校样阻止撤销",
+      "failure": "重复裁决与受保护撤销409",
+      "verification": "python3 scripts/walkthrough.py --workflow proof"
+    },
+    {
+      "id": "bundle",
+      "name": "源稿封包移交",
+      "entry": "GET /v1/plates/{id}/bundle → POST /v1/bundles",
+      "module_ids": [
+        "transport",
+        "bundle",
+        "validate",
+        "service",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "空实例恢复全部历史及相同出图",
+      "failure": "篡改或重名拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow bundle"
+    },
+    {
+      "id": "restore",
+      "name": "重启恢复",
+      "entry": "SIGTERM → 重启数据根 → GET成品",
+      "module_ids": [
+        "transport",
+        "service",
+        "repository",
+        "validate"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "旧成品字节与稿本摘要保留",
+      "failure": "坏谱系或不合法场景启动拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow restore"
+    },
+    {
+      "id": "isolation",
+      "name": "单写入隔离",
+      "entry": "启动第二写入进程",
+      "module_ids": [
+        "transport",
+        "service",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "活跃写入者不受第二进程影响",
+      "failure": "第二实例非零退出",
+      "verification": "python3 scripts/walkthrough.py --workflow isolation"
+    },
+    {
+      "id": "rejection",
+      "name": "错误场景原子拒绝",
+      "entry": "POST非法场景 → GET → 正常出图",
+      "module_ids": [
+        "transport",
+        "validate",
+        "service",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "非法场景不占历史，已有图仍可生成",
+      "failure": "过量画布或错误渐变400",
+      "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    }
+  ],
+  "complexity": {
+    "mechanisms": [
+      "state_machine",
+      "resource_lifecycle",
+      "error_propagation",
+      "concurrency",
+      "versioning_audit",
+      "export_freeze",
+      "capacity",
+      "idempotency",
+      "policy_rules",
+      "lineage",
+      "snapshot_consistency"
+    ]
+  }
+}

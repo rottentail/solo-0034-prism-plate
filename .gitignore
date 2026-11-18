@@ -1,0 +1,4 @@
+/var/
+/bin/
+*.tmp
+.DS_Store

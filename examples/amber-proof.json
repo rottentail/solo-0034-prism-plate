@@ -1,0 +1,302 @@
+{
+  "id": "amber-plate",
+  "title": "琥珀叠色校样",
+  "document": {
+    "width": 192,
+    "height": 144,
+    "background": {
+      "r": 0.04,
+      "g": 0.055,
+      "b": 0.09,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "amber-sheet",
+        "opacity": 1,
+        "blend": "normal",
+        "clip": [
+          {
+            "kind": "M",
+            "points": [
+              {
+                "x": 8,
+                "y": 8
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 184,
+                "y": 8
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 184,
+                "y": 136
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 8,
+                "y": 136
+              }
+            ]
+          },
+          {
+            "kind": "Z"
+          }
+        ],
+        "shapes": [
+          {
+            "id": "amber-contour",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 14,
+                    "y": 110
+                  }
+                ]
+              },
+              {
+                "kind": "C",
+                "points": [
+                  {
+                    "x": 32,
+                    "y": -10
+                  },
+                  {
+                    "x": 154,
+                    "y": 0
+                  },
+                  {
+                    "x": 178,
+                    "y": 110
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 14,
+                    "y": 110
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "linear",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 192,
+                "y": 144
+              },
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 0
+              },
+              "stops": [
+                {
+                  "at": 0,
+                  "color": {
+                    "r": 1,
+                    "g": 0.7,
+                    "b": 0.22,
+                    "a": 1
+                  }
+                },
+                {
+                  "at": 1,
+                  "color": {
+                    "r": 0.9,
+                    "g": 0.18,
+                    "b": 0.14,
+                    "a": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      {
+        "id": "cyan-glaze",
+        "opacity": 0.72,
+        "blend": "screen",
+        "mask": [
+          {
+            "kind": "M",
+            "points": [
+              {
+                "x": 20,
+                "y": 20
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 172,
+                "y": 20
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 172,
+                "y": 128
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 20,
+                "y": 128
+              }
+            ]
+          },
+          {
+            "kind": "Z"
+          }
+        ],
+        "shapes": [
+          {
+            "id": "cyan-window",
+            "fill_rule": "evenodd",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 42,
+                    "y": 48
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 144,
+                    "y": 48
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 144,
+                    "y": 124
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 42,
+                    "y": 124
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              },
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 64,
+                    "y": 64
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 124,
+                    "y": 64
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 124,
+                    "y": 104
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 64,
+                    "y": 104
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0.12,
+              -0.08,
+              1,
+              8,
+              -4
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.1,
+                "g": 0.65,
+                "b": 0.84,
+                "a": 0.82
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
