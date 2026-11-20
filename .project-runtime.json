@@ -48,6 +48,10 @@
       "command": "python3 scripts/walkthrough.py --workflow proof"
     },
     {
+      "workflow_id": "delivery",
+      "command": "python3 scripts/walkthrough.py --workflow delivery"
+    },
+    {
       "workflow_id": "bundle",
       "command": "python3 scripts/walkthrough.py --workflow bundle"
     },

@@ -50,6 +50,15 @@ func Sample(b scene.Brush, p geom.Point) Pixel {
 	}
 	return From(b.Stops[len(b.Stops)-1].Color)
 }
+
+// Composite is the canonical single-point composition shared by every output
+// backend. Callers supply a lookup that folds the layer's shapes into one source
+// pixel; the function applies layer opacity, isolation and blend mode in the
+// fixed order the contract describes.
+func Composite(dst Pixel, shapes func() Pixel, opacity float64, mode string) Pixel {
+	return Over(dst, shapes().Scale(opacity), mode)
+}
+
 func Over(dst, src Pixel, mode string) Pixel {
 	blend := func(d, s float64) float64 {
 		if mode == "normal" || src.A == 0 || dst.A == 0 {

@@ -6,8 +6,10 @@ import (
 	"fmt"
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
+	"prismplate/internal/geom"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
+	"prismplate/internal/sanitize"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
 	"prismplate/internal/vector"
@@ -250,6 +252,100 @@ func (s *Service) Export(id string) ([]byte, error) {
 		return nil, e
 	}
 	return bundle.Seal(p)
+}
+
+// SanitizePreflight reports which revisions of a plate cannot be converted to a
+// delivery-only draft for the requested region. It performs no mutation and no
+// persistence, so a sender can learn about blocked revisions before exporting.
+func (s *Service) SanitizePreflight(id string, points []geom.Point) (sanitize.Eligibility, error) {
+	p, e := s.Plate(id)
+	if e != nil {
+		return sanitize.Eligibility{}, e
+	}
+	// A structurally invalid region is a caller error, not a property of any
+	// revision; only valid regions can be used to report blocked revisions.
+	if _, e := sanitize.NewPolygon(points); e != nil {
+		return sanitize.Eligibility{}, e
+	}
+	revisions := make([]sanitize.Revision, 0, len(p.Revisions))
+	for _, r := range p.Revisions {
+		revisions = append(revisions, sanitize.Revision{Number: r.Number, Scene: r.Document})
+	}
+	elig := sanitize.Preflight(revisions, points)
+	return elig, nil
+}
+
+// SanitizeExport builds a standalone delivery draft for one revision. The
+// result is a fresh single-revision bundle envelope reusing the existing
+// import contract, so it opens in an empty data root. Nothing is written to
+// this repository: the bytes are the entire delivery.
+func (s *Service) SanitizeExport(ctx context.Context, id string, revision int, points []geom.Point) ([]byte, sanitize.Report, string, error) {
+	// Delivery verification renders the source and the draft, so it shares the
+	// same bounded compute slots as ordinary exposures instead of adding an
+	// unbounded second rendering path.
+	select {
+	case s.slots <- struct{}{}:
+		defer func() { <-s.slots }()
+	case <-ctx.Done():
+		return nil, sanitize.Report{}, "", ctx.Err()
+	default:
+		return nil, sanitize.Report{}, "", exposure.ErrBusy
+	}
+	r, e := s.capture(id, revision)
+	if e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	area, e := sanitize.AreaFor(points, r.Document)
+	if e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	res, e := sanitize.Sanitize(r.Document, area)
+	if e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	if _, e = validate.Compile(res.Document); e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	// The delivery must not leak anything from the source plate: it is one
+	// revision, no artifacts, no proofs and no jobs.
+	p := repository.Plate{
+		ID:    id,
+		Title: s.PlateTitle(id),
+		State: "active",
+		Revisions: []repository.Revision{{
+			Number:   1,
+			Digest:   repository.SceneHash(res.Document),
+			Document: res.Document,
+		}},
+	}
+	raw, e := bundle.Seal(p)
+	if e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	// Opening the sealed envelope with the real import path proves the
+	// delivery is self-contained before it leaves this process.
+	if _, e = bundle.Open(raw); e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	bnd, e := sanitize.ComputeBound(ctx, r.Document, res.Document, area)
+	if e != nil {
+		return nil, sanitize.Report{}, "", e
+	}
+	rep := res.Report
+	rep.SampledError = bnd.MaxError
+	rep.VerifiedPixels = bnd.Interior
+	rep.BoundarySkipped = bnd.Boundary
+	rep.OutsidePixels = bnd.Outside
+	rep.OutsideError = bnd.OutsideError
+	if bnd.OutsideError != 0 {
+		return nil, sanitize.Report{}, "", fmt.Errorf("delivery differs from the background in %d pixels outside the region", bnd.Outside)
+	}
+	return raw, rep, res.Digest, nil
+}
+
+func (s *Service) PlateTitle(id string) string {
+	p, _ := s.Plate(id)
+	return p.Title
 }
 func (s *Service) Import(raw []byte) (repository.Plate, error) {
 	p, e := bundle.Open(raw)

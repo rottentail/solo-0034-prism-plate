@@ -33,6 +33,11 @@
       "path": "internal/vector"
     },
     {
+      "id": "sanitize",
+      "name": "净化交付几何",
+      "path": "internal/sanitize"
+    },
+    {
       "id": "repository",
       "name": "原子快照谱系",
       "path": "internal/repository"
@@ -242,6 +247,27 @@
       "success": "通过校样阻止撤销",
       "failure": "重复裁决与受保护撤销409",
       "verification": "python3 scripts/walkthrough.py --workflow proof"
+    },
+    {
+      "id": "delivery",
+      "name": "净化交付导出",
+      "entry": "POST /v1/plates/{id}/deliveries",
+      "module_ids": [
+        "transport",
+        "service",
+        "sanitize",
+        "validate",
+        "bundle",
+        "raster",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "区域外几何被删除而非隐藏，交付封包含区域内可编辑轮廓且有逐像素误差报告，可导入空数据根",
+      "failure": "非凸或越界区域400，无法安全裁切的轮廓在预检中指名并拒绝导出",
+      "verification": "python3 scripts/walkthrough.py --workflow delivery"
     },
     {
       "id": "bundle",

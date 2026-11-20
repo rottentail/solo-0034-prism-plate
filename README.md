@@ -30,6 +30,10 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 
 取消是请求，已进入成品提交点的任务仍可成功；成功任务的事实不会变为取消。取消或失败不得提交半张图片。成品按版面、稿本、格式、内容摘要产生稳定标识；撤销后不允许再次悄悄激活。校样只有 open→accepted/rejected；通过的校样禁止撤销其成品。
 
+## 净化交付
+
+`POST /v1/plates/{id}/deliveries` 按调用方给出的凸交付区域生成新的单稿本源稿：区域外轮廓被几何删除（不是被裁域或隐藏），覆盖区域的裁域与蒙版被替换为区域多边形，所有保留顶点的世界坐标都在区域内，因此接收方移走任何属性都无法恢复区域外几何。与边界相交的轮廓在形状局部坐标内做精确凸布尔裁切并保留填充规则、局部变换与渐变轴，完全在区域内的轮廓原样保留以便继续编辑。导出附带逐像素 PNG 误差报告（区域内最大通道差、单列的边界像素数、区域外必须为 0）；`preflight:true` 在转换前指名无法安全裁切的稿件。封包不含原历史、成品、校样或任务，可直接导入空数据根。详见 docs/api.md。
+
 ## 入口
 
 详见 docs/api.md。保存版面、修订、分支、归档、PNG、SVG、异步提交、取消、成品读取/撤销、校样、封包、恢复及写入隔离分别有独立的有界生产流程：
@@ -39,7 +43,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、delivery、restore、isolation、rejection。`delivery` 先预检再导出净化交付稿，并在空数据根验证其可独立打开。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 
@@ -47,4 +51,4 @@ python3 scripts/walkthrough.py --workflow bundle
 
 上线容量：128版面，每版64稿本，256成品，1024校样，状态快照128MiB，HTTP输入8MiB，单稿本4倍采样预计边遍历不超过1.6亿。容量达到时需要运维规划，不会自动淘汰被校样引用的数据。完整快照复制意味着吞吐适用于小规模打样服务。
 
-自动化测试套件按初始化边界延后，本仓库不含测试命令。已提供构建、静态检查与真实生产流程演示；后续质量保障任务可以建立独立测试体系。Dockerfile提供容器构建路径，容器跨架构和生产部署不在本机Go构建的验证结论内。
+自动化测试套件按初始化边界延后，本仓库不含新的测试工作流。净化交付的几何裁切与误差比较附带包内单元测试（`go test ./internal/sanitize`），其余单元/性质/视觉回归体系仍待后续建立。已提供构建、静态检查与真实生产流程演示。Dockerfile提供容器构建路径，容器跨架构和生产部署不在本机Go构建的验证结论内。

@@ -78,6 +78,52 @@ def main():
                     stop();os.rename(base/'state',base/'original');start();imported=call('POST','/v1/bundles',sealed,status=201);assert imported['revisions'][0]['digest']==a['scene_digest'];assert render()['digest']==a['digest']
                 else:
                     stop();start();assert call('GET','/v1/artifacts/'+a['id'],raw=True)[0][:8]==b'\x89PNG\r\n\x1a\n';assert render()['digest']==a['digest']
+            elif w=='delivery':
+                # Preflight explains blocked revisions before any conversion.
+                region={'points':[{'x':20,'y':20},{'x':172,'y':20},{'x':172,'y':128},{'x':20,'y':128}]}
+                pre=call('POST','/v1/plates/amber-plate/deliveries',{'preflight':True,'region':region})
+                assert pre['convertible'] is True and not pre.get('blockers')
+                # A region outside the canvas is a caller error.
+                off={'points':[{'x':-1,'y':0},{'x':10,'y':0},{'x':10,'y':10}]}
+                call('POST','/v1/plates/amber-plate/deliveries',{'revision':1,'region':off},status=400)
+                # A concave region is refused rather than approximated.
+                concave={'points':[{'x':0,'y':0},{'x':180,'y':0},{'x':180,'y':140},{'x':90,'y':70},{'x':0,'y':140}]}
+                call('POST','/v1/plates/amber-plate/deliveries',{'preflight':True,'region':concave},status=400)
+                delivery=call('POST','/v1/plates/amber-plate/deliveries',{'revision':1,'region':region},status=201)
+                envelope=delivery['envelope'];report=delivery['report']
+                assert report['max_png_channel_error']==0 and report['max_outside_channel_error']==0
+                assert report['clipped_shapes']>=1 and envelope['schema']=='prism-plate-bundle-v1'
+                plate=envelope['plate'];assert len(plate['revisions'])==1 and len(plate['revisions'][0]['document']['layers'])>=1
+                # Same input, same delivery document and same report.
+                again=call('POST','/v1/plates/amber-plate/deliveries',{'revision':1,'region':region},status=201)
+                assert again['report']==report
+                assert again['envelope']['plate']['revisions'][0]['document']==plate['revisions'][0]['document']
+                call('POST','/v1/plates/amber-plate/deliveries',{'revision':9,'region':region},status=404)
+                # The delivery is self-contained: it imports into an empty data root.
+                stop();os.rename(base/'state',base/'original');start()
+                imported=call('POST','/v1/bundles',envelope,status=201)
+                assert imported['revisions'][0]['digest']==plate['revisions'][0]['digest']
+                # Nothing outside the region is recoverable: every retained vertex
+                # lies in the closed region, and no surviving clip is larger than
+                # the region (a covering clip would hide, not remove, geometry).
+                points=region['points']
+                def inside(pt):
+                    sign=None
+                    for i,p in enumerate(points):
+                        q=points[(i+1)%len(points)]
+                        cross=(q['x']-p['x'])*(pt['y']-p['y'])-(q['y']-p['y'])*(pt['x']-p['x'])
+                        if cross< -1e-6:return False
+                    return True
+                for layer in imported['revisions'][0]['document']['layers']:
+                    assert not layer.get('mask') or all(inside(o['points'][0]) for o in layer['mask'] if o['kind']=='M')
+                    for shape in layer['shapes']:
+                        for op in shape['path']:
+                            for pt in op.get('points',[]):
+                                assert inside(pt),(shape['id'],pt)
+                # Sanitizing a delivery again changes nothing visible.
+                second=call('POST','/v1/plates/amber-plate/deliveries',{'revision':1,'region':region},status=201)
+                assert second['report']['max_png_channel_error']==0
+                assert second['envelope']['plate']['revisions'][0]['digest']==imported['revisions'][0]['digest']
             elif w=='isolation':
                 lockproc=subprocess.run([str(binary),'-listen','127.0.0.1:0','-data',str(base/'state')],capture_output=True,timeout=3);assert lockproc.returncode!=0;assert b'locked' in lockproc.stderr
                 call('POST','/v1/plates',b'{"id":"x"} true',status=400)

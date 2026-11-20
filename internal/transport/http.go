@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
+	"prismplate/internal/sanitize"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
 	"strconv"
@@ -236,6 +237,49 @@ func (a API) Handler() http.Handler {
 		}
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write(v)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/deliveries", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Revision  int             `json:"revision"`
+			Preflight bool            `json:"preflight"`
+			Region    sanitize.Region `json:"region"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		if q.Preflight {
+			v, e := a.Service.SanitizePreflight(r.PathValue("id"), q.Region.Points)
+			if e != nil {
+				failure(w, e)
+				return
+			}
+			jsonOut(w, 200, v)
+			return
+		}
+		if q.Revision < 1 {
+			failure(w, fmt.Errorf("positive revision required"))
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		raw, rep, digest, e := a.Service.SanitizeExport(ctx, r.PathValue("id"), q.Revision, q.Region.Points)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("X-Sanitize-Report", "report")
+		w.Header().Set("X-Delivery-Digest", digest)
+		w.Header().Set("ETag", `"`+digest+`"`)
+		if r.Header.Get("If-None-Match") == `"`+digest+`"` {
+			w.WriteHeader(304)
+			return
+		}
+		jsonOut(w, 201, struct {
+			Envelope json.RawMessage `json:"envelope"`
+			Report   sanitize.Report `json:"report"`
+		}{Envelope: raw, Report: rep})
 	})
 	mux.HandleFunc("POST /v1/bundles", func(w http.ResponseWriter, r *http.Request) {
 		r.Body = http.MaxBytesReader(w, r.Body, 8<<20)
