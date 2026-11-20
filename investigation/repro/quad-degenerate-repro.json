@@ -1,0 +1,85 @@
+{
+  "id": "degenerate-quad-repro",
+  "title": "百万级仿射缩放SVG退化复现稿",
+  "document": {
+    "width": 48,
+    "height": 48,
+    "background": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    },
+    "layers": [
+      {
+        "id": "normal-sheet",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "blue-quad",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 0.000008000002708286047,
+                    "y": 0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 319999.99988,
+                    "y": -319999.999872
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 0.000040000013541430235,
+                    "y": 0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": -319999.999832,
+                    "y": 319999.999872
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              999999.9996,
+              999999.9996,
+              999999.9995,
+              999999.9996,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.1,
+                "g": 0.3,
+                "b": 0.95,
+                "a": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

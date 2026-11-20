@@ -1,0 +1,70 @@
+[
+  {
+    "plate": "degenerate-quad-control",
+    "source": "quad-control-noncolliding.json",
+    "artifacts": {
+      "png": {
+        "id": "446e2fb933b2dcd2e6da062bdc860580ec619719385f267a67aa6bf6b0a786fc",
+        "digest": "6304a9130740a6e4da4ea6f9dcc945f1a8e624967e1170f671c96599758a79b7",
+        "bytes": 255
+      },
+      "svg": {
+        "id": "023e74d72cae3e1093f9866bca3a05a9c92bed76f091d74cfd41c679253f2de5",
+        "digest": "f22756aae79dd88930760c1b797c361215af1cfb7553944d5f1e3f5ed397b554",
+        "bytes": 477
+      }
+    },
+    "svg_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" color-interpolation=\"linearRGB\"><defs></defs><rect width=\"100%\" height=\"100%\" fill=\"rgb(0%,0%,0%)\" fill-opacity=\"0\"/><g opacity=\"1\" style=\"isolation:isolate;mix-blend-mode:normal\"><g><path d=\"M8.00000271e-06 0L320000 -320000L4.00000135e-05 0L-320000 320000Z\" fill=\"rgb(10%,30%,95%)\" fill-opacity=\"1\" fill-rule=\"nonzero\" transform=\"matrix(1000000 1000000 999999.999 1000000 0 0)\"/></g></g></svg>"
+  },
+  {
+    "plate": "degenerate-quad-neighbor",
+    "source": "quad-degenerate-neighbor.json",
+    "artifacts": {
+      "png": {
+        "id": "70067b7c14c5587be9f8ec5f09135373cc27cfb87aff186091daf092875d5909",
+        "digest": "f6b94560c4f6fc7cda5c04b21fda3c726af31aca8438b5b69347e56a76f62d72",
+        "bytes": 282
+      },
+      "svg": {
+        "id": "4a4cd53a23b852f5960389868df71471ab4ac1b7d849cdcb66d99e67dd667718",
+        "digest": "ea2415f5c1cf9829a0a890c73a70981aab913f1a00eed719018b7b75ded61268",
+        "bytes": 474
+      }
+    },
+    "svg_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" color-interpolation=\"linearRGB\"><defs></defs><rect width=\"100%\" height=\"100%\" fill=\"rgb(0%,0%,0%)\" fill-opacity=\"0\"/><g opacity=\"1\" style=\"isolation:isolate;mix-blend-mode:normal\"><g><path d=\"M8.00000271e-06 0L320000 -320000L4.00000135e-05 0L-320000 320000Z\" fill=\"rgb(10%,30%,95%)\" fill-opacity=\"1\" fill-rule=\"nonzero\" transform=\"matrix(1000000 1000000 1000000 1000000 0 0)\"/></g></g></svg>"
+  },
+  {
+    "plate": "degenerate-quad-repro",
+    "source": "quad-degenerate-repro.json",
+    "artifacts": {
+      "png": {
+        "id": "5b744fd454c6804b51988b773be11c78aedb9cc3bebb96192ebf904b68fb0f95",
+        "digest": "cc9e783fcdb19136cf0fa116a2c73961b0fa63cea96bb023151825cf444b190e",
+        "bytes": 170
+      },
+      "svg": {
+        "id": "74e8aba1d179c7b579da3044f311f05d42a140573b5951a01d76efc0f1ae0896",
+        "digest": "ea2415f5c1cf9829a0a890c73a70981aab913f1a00eed719018b7b75ded61268",
+        "bytes": 474
+      }
+    },
+    "svg_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" color-interpolation=\"linearRGB\"><defs></defs><rect width=\"100%\" height=\"100%\" fill=\"rgb(0%,0%,0%)\" fill-opacity=\"0\"/><g opacity=\"1\" style=\"isolation:isolate;mix-blend-mode:normal\"><g><path d=\"M8.00000271e-06 0L320000 -320000L4.00000135e-05 0L-320000 320000Z\" fill=\"rgb(10%,30%,95%)\" fill-opacity=\"1\" fill-rule=\"nonzero\" transform=\"matrix(1000000 1000000 1000000 1000000 0 0)\"/></g></g></svg>"
+  },
+  {
+    "plate": "degenerate-quad-workaround",
+    "source": "quad-workaround-baked.json",
+    "artifacts": {
+      "png": {
+        "id": "42c9402671cdc2d701f632a299694a077f7269ffff80b18d55c5653f8e3afff9",
+        "digest": "cc9e783fcdb19136cf0fa116a2c73961b0fa63cea96bb023151825cf444b190e",
+        "bytes": 170
+      },
+      "svg": {
+        "id": "3b3c68a7a6be93a9881434fe5ce1facf2dc0ab40db0bf852318a28795334a37c",
+        "digest": "5a169fc32232c4a7334ab6f9827d86e83a8a8dea8c78dc41dee7cfc0d1a73eed",
+        "bytes": 440
+      }
+    },
+    "svg_text": "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"48\" height=\"48\" viewBox=\"0 0 48 48\" color-interpolation=\"linearRGB\"><defs></defs><rect width=\"100%\" height=\"100%\" fill=\"rgb(0%,0%,0%)\" fill-opacity=\"0\"/><g opacity=\"1\" style=\"isolation:isolate;mix-blend-mode:normal\"><g><path d=\"M8.00000271 8.00000271L40 8L40.0000135 40.0000135L8 40Z\" fill=\"rgb(10%,30%,95%)\" fill-opacity=\"1\" fill-rule=\"nonzero\" transform=\"matrix(1 0 0 1 0 0)\"/></g></g></svg>"
+  }
+]

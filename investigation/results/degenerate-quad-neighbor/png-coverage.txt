@@ -1,0 +1,9 @@
+png=/workspace/investigation/results/degenerate-quad-neighbor/artifact.png
+size=48x48 channels=4
+fully_opaque_pixels=1192 partial_alpha_pixels=48
+coverage_bbox=x[0..47] y[8..39]
+top_rgba_values=
+  rgba(26, 76, 242, 255) count=1192
+  rgba(26, 76, 242, 128) count=38
+  rgba(26, 76, 242, 191) count=7
+  rgba(26, 76, 242, 64) count=3

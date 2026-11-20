@@ -1,0 +1,9 @@
+png=/workspace/investigation/results/degenerate-quad-control/artifact.png
+size=48x48 channels=4
+fully_opaque_pixels=1464 partial_alpha_pixels=16
+coverage_bbox=x[0..47] y[8..39]
+top_rgba_values=
+  rgba(26, 76, 242, 255) count=1464
+  rgba(26, 76, 242, 191) count=8
+  rgba(26, 76, 242, 64) count=4
+  rgba(26, 76, 242, 128) count=4

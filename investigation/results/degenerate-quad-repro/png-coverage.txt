@@ -1,0 +1,6 @@
+png=/workspace/investigation/results/degenerate-quad-repro/artifact.png
+size=48x48 channels=4
+fully_opaque_pixels=1024 partial_alpha_pixels=0
+coverage_bbox=x[8..39] y[8..39]
+top_rgba_values=
+  rgba(26, 76, 242, 255) count=1024

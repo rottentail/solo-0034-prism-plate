@@ -1,0 +1,16 @@
+svg_file=/workspace/investigation/results/degenerate-quad-workaround/artifact.svg
+fill_rule=nonzero
+local_vertices_as_written_in_file=
+  (8.00000271, 8.00000271)
+  (40.0, 8.0)
+  (40.0000135, 40.0000135)
+  (8.0, 40.0)
+matrix_tokens_as_written=[1.0, 0.0, 0.0, 1.0, 0.0, 0.0]
+canvas_vertices_recomputed_by_viewer_f64=
+  (8.00000271, 8.00000271)
+  (40.0, 8.0)
+  (40.0000135, 40.0000135)
+  (8.0, 40.0)
+viewer_polygon_area=1024.00034528
+all_viewer_vertices_on_y_equals_x=False
+viewer_rasterized_covered_pixels=1024 bbox=x[8..39] y[8..39]

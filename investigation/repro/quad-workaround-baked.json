@@ -1,0 +1,85 @@
+{
+  "id": "degenerate-quad-workaround",
+  "title": "规避对照:预烘焙到画布坐标并使用单位变换",
+  "document": {
+    "width": 48,
+    "height": 48,
+    "background": {
+      "r": 0,
+      "g": 0,
+      "b": 0,
+      "a": 0
+    },
+    "layers": [
+      {
+        "id": "normal-sheet",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "blue-quad-baked",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 8.000002705086046,
+                    "y": 8.000002705086046
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 39.999999984,
+                    "y": 7.9999999968
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 40.00001352543023,
+                    "y": 40.00001352543023
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 7.9999999968,
+                    "y": 39.999999984
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.1,
+                "g": 0.3,
+                "b": 0.95,
+                "a": 1
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

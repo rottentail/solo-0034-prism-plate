@@ -1,0 +1,41 @@
+section,case,det,admission,area_service_f64,area_viewer_f64,max_vertex_drift_px,viewer_degenerate
+# m2 sweep around the reported 999999.9995; m0=m1=m3=999999.9996
+m2_sweep,m2=999998.9995(d-1),1.0001e+06,OK,10241027.5,10240003.5,40.7922,false
+m2_sweep,m2=999999.8995(d-0.1),100100,OK,1025024.34,1024000.35,40.7922,false
+m2_sweep,m2=999999.9895(d-0.01),10100,OK,103424.035,102400.035,40.7922,false
+m2_sweep,m2=999999.9945(d-0.005),5100,OK,52224.0177,51200.0173,40.7922,false
+m2_sweep,m2=999999.9985(d-0.001),1100,OK,11264.0038,20480.0069,330.43,false
+m2_sweep,m2=999999.999(d-0.0005),600,OK,6144.00012,10240.0035,172.696,false
+m2_sweep,m2=999999.9994(d-0.0001),200,OK,2047.99874,10240.0035,298.691,false
+m2_sweep,m2=999999.9995(d+0),100,OK,1024.00035,0,40.7922,true
+m2_sweep,m2=999999.9996(d+0.0001),3.7838e-05,REJECTED(ill-conditioned transform),,,,,
+m2_sweep,m2=1000000(d+0.0005),-400,OK,4096.00139,0,172.696,true
+m2_sweep,m2=1000000.001(d+0.001),-900,REJECTED(invalid transform),,,,,
+m2_sweep,m2=1000000.005(d+0.005),-4900,REJECTED(invalid transform),,,,,
+m2_sweep,m2=1000000.01(d+0.01),-9900,REJECTED(invalid transform),,,,,
+m2_sweep,m2=1000000.1(d+0.1),-99900,REJECTED(invalid transform),,,,,
+m2_sweep,m2=1000001(d+1),-999900,REJECTED(invalid transform),,,,,
+# same rounding grid: every entry in [999999.9995,1000000.0005)
+same_grid,gap=0,3.7838e-05,REJECTED(ill-conditioned transform),,,,,
+same_grid,gap=0.0001,100,OK,1024.00035,0,40.7922,true
+same_grid,gap=0.001,1000,OK,10240.0035,10240.0035,56.5685,false
+same_grid,gap=0.01,10000,OK,102400.035,102400.035,56.5685,false
+same_grid,gap=0.1,100000,OK,1024000.35,1024000.35,56.5685,false
+same_grid,gap=10,1e+07,OK,102400035,102400035,56.5695,false
+same_grid,gap=50,5e+07,OK,512000173,512000173,56.5731,false
+same_grid,gap=99,9.9e+07,OK,1.01376034e+09,1.01376034e+09,56.5775,false
+same_grid,gap=100,1e+08,OK,1.02400035e+09,1.02400035e+09,56.5776,false
+same_grid,gap=500,5e+08,OK,5.12000173e+09,5.12000173e+09,56.6138,false
+# magnitude sweep: m0=m1=m3=s, m2=s-1e-4
+magnitude,s=100,0.01,OK,0.102400035,0.102400035,0.00565687,false
+magnitude,s=1000,0.1,OK,1.02400035,1.02400035,0.0565686,false
+magnitude,s=10000,1,OK,10.2400035,10.2400035,0.565686,false
+magnitude,s=100000,10,OK,102.400035,102.400035,5.65686,false
+magnitude,s=316227.766,31.6228,OK,323.817342,0,34.6224,true
+magnitude,s=999999,99.9998,OK,1023.99737,0,40.7921,true
+magnitude,s=999999.9996,100,OK,1024.00035,0,40.7922,true
+magnitude,s=1000000,99.9999,OK,1023.99839,0,40.7922,true
+magnitude,s=1000001,100,REJECTED(invalid transform),,,,,
+magnitude,s=1000100,100.01,REJECTED(invalid transform),,,,,
+# fingerprint cases
+fingerprint,reported_matrix,100,OK,1024.00035,0,40.7922,true

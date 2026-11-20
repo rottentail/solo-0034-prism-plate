@@ -1,0 +1,29 @@
+# 1. grid spacing of the 9-significant-digit format across magnitudes (adjacent distinct tokens)
+near 100: token=100 smallest_token_changing_delta=5.000001693e-07 next_token=100.000001
+near 1000: token=1000 smallest_token_changing_delta=5.000000783e-06 next_token=1000.00001
+near 10000: token=10000 smallest_token_changing_delta=5.000000056e-05 next_token=10000.0001
+near 100000: token=100000 smallest_token_changing_delta=0.0005000000028 next_token=100000.001
+near 316227.766: token=316227.766 smallest_token_changing_delta=0.0004999999946 next_token=316227.767
+near 999999: token=999999 smallest_token_changing_delta=0.0005000000237 next_token=999999.001
+near 1000000: token=1000000 smallest_token_changing_delta=0.004999999947 next_token=1000000.01
+near 1000001: token=1000001 smallest_token_changing_delta=0.004999999947 next_token=1000001.01
+
+# 2. exact collision boundary around the reported entries
+m2=999999.99945 token(m0)=1000000 token(m2)=999999.999 viewer_rounded_singular=false exact_det=150
+m2=999999.99949 token(m0)=1000000 token(m2)=999999.999 viewer_rounded_singular=false exact_det=110
+m2=999999.9995 token(m0)=1000000 token(m2)=1000000 viewer_rounded_singular=true exact_det=100
+m2=999999.99955 token(m0)=1000000 token(m2)=1000000 viewer_rounded_singular=true exact_det=50.0001
+m2=999999.9996 token(m0)=1000000 token(m2)=1000000 viewer_rounded_singular=true exact_det=3.7838e-05
+m2=999999.9997 token(m0)=1000000 token(m2)=1000000 viewer_rounded_singular=true exact_det=-100
+m2=999999.9999 token(m0)=1000000 token(m2)=1000000 viewer_rounded_singular=true exact_det=-300
+m2=1000000 token(m0)=1000000 token(m2)=1000000 viewer_rounded_singular=true exact_det=-400
+
+# 3. full binary search: largest |m2-m0| that still collides (m0=999999.9996)
+low-side collision radius ~ 0.00010000000384 (m2 down to 999999.9995)
+high-side collision radius ~ 0.00539999996545 (m2 up to 1000000.005)
+
+# 4. path-coordinate rounding: which local vertices collapse
+input=319999.99988 token=320000 parsed_back=320000 abs_round_error=0.0001199999824
+input=-319999.999872 token=-320000 parsed_back=-320000 abs_round_error=0.0001279999851
+input=-319999.999832 token=-320000 parsed_back=-320000 abs_round_error=0.0001679999987
+input=319999.999872 token=320000 parsed_back=320000 abs_round_error=0.0001279999851
