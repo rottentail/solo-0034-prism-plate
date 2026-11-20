@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"prismplate/internal/correct"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -127,6 +128,43 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 200, map[string]string{"state": "archived"})
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/corrections/probe", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q correct.ProbeRequest
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		v, e := a.Service.ProbeCorrection(ctx, r.PathValue("id"), n, q)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/corrections/commit", func(w http.ResponseWriter, r *http.Request) {
+		var q correct.CommitRequest
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		if q.ExpectedRevision < 1 {
+			failure(w, fmt.Errorf("positive expected_revision required"))
+			return
+		}
+		plate, cand, e := a.Service.CommitCorrection(r.PathValue("id"), q)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, map[string]any{"plate": plate, "candidate": cand})
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)

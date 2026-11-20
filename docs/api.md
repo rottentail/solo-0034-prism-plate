@@ -10,6 +10,8 @@
 | PUT /v1/plates/{id} | expected_revision,document →追加稿本 |
 | POST /v1/plates/{id}/branch | revision,id,title →201独立版面 |
 | POST /v1/plates/{id}/archive | 禁止修订；历史仍可读取 |
+| POST /v1/plates/{id}/corrections/probe?revision=N | 选线性渐变+画布取样目标→候选色阶、逐点偏差、不可同时满足目标（不落盘） |
+| POST /v1/plates/{id}/corrections/commit | 按确认模式重解并追加稿本，expected_revision冲突409 |
 | POST /v1/plates/{id}/render?revision=1&format=png | 201成品元数据；format也可为svg |
 | POST /v1/plates/{id}/exposures?revision=1&format=png | 202瞬态任务 |
 | GET /v1/exposures/{id} | queued/running/succeeded/failed/cancelled |

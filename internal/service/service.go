@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"prismplate/internal/bundle"
+	"prismplate/internal/correct"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
@@ -95,6 +96,69 @@ func (s *Service) Branch(id string, revision int, target, title string) (reposit
 		return p, repository.ErrMissing
 	}
 	return s.Create(target, title, p.Revisions[revision-1].Document)
+}
+
+// ProbeCorrection analyzes canvas color targets against a fixed revision and
+// returns constrained gradient candidates without touching the plate history.
+// It acquires a render slot because each candidate is verified by a real PNG.
+func (s *Service) ProbeCorrection(ctx context.Context, id string, revision int, req correct.ProbeRequest) (correct.Proposal, error) {
+	var proposal correct.Proposal
+	select {
+	case s.slots <- struct{}{}:
+		defer func() { <-s.slots }()
+	case <-ctx.Done():
+		return proposal, ctx.Err()
+	default:
+		return proposal, exposure.ErrBusy
+	}
+	r, err := s.capture(id, revision)
+	if err != nil {
+		return proposal, err
+	}
+	proposal, err = correct.Solve(r.Document, req)
+	if err != nil {
+		return proposal, err
+	}
+	proposal.PlateID = id
+	proposal.Revision = revision
+	return proposal, nil
+}
+
+// CommitCorrection re-solves the targets server-side and appends one revision
+// carrying the confirmed gradient. The same expected_revision contract and
+// immutable-history rules as Revise apply; old revisions and artifacts remain.
+func (s *Service) CommitCorrection(id string, req correct.CommitRequest) (repository.Plate, correct.Candidate, error) {
+	var plate repository.Plate
+	var chosen correct.Candidate
+	err := s.Repo.Update(func(st *repository.State) error {
+		p, ok := st.Plates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if p.State != "active" {
+			return repository.ErrState
+		}
+		if len(p.Revisions) != req.ExpectedRevision {
+			return repository.ErrConflict
+		}
+		if len(p.Revisions) >= 64 {
+			return fmt.Errorf("revision capacity reached")
+		}
+		base := p.Revisions[req.ExpectedRevision-1].Document
+		doc, cand, e := correct.Apply(base, req)
+		if e != nil {
+			return e
+		}
+		if _, e = validate.Compile(doc); e != nil {
+			return e
+		}
+		p.Revisions = append(p.Revisions, repository.Revision{Number: req.ExpectedRevision + 1, Digest: repository.SceneHash(doc), Document: doc, Created: time.Now().UTC()})
+		st.Plates[id] = p
+		plate = p
+		chosen = cand
+		return nil
+	})
+	return plate, chosen, err
 }
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
 	p, err := s.Plate(id)

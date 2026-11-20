@@ -9,6 +9,8 @@ import (
 
 type Pixel struct{ R, G, B, A float64 }
 
+func Linear(v float64) float64 { return linear(v) }
+func SRGB(v float64) float64   { return srgb(v) }
 func linear(v float64) float64 {
 	if v <= 0.04045 {
 		return v / 12.92

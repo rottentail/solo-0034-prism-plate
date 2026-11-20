@@ -37,9 +37,16 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 ```sh
 python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
+python3 scripts/walkthrough.py --workflow correction
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、correction。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+## 取样目标校色
+
+`POST /v1/plates/{id}/corrections/probe?revision=N` 选定一个现有线性渐变，提交若干画布位置与期望的最终可见色。服务先做命中分析（镂空、mask/clip、完全遮挡、零覆盖的点不会被当作色刷），再沿与PNG相同的线性光合成链把可见色反推为笔刷色，在保持色轴、停止点数量与每个停止点透明度的前提下，用带箱约束的凸优化给出“仅改颜色”和“颜色+内部停止点位置”两套候选，并附逐点线性光/sRGB偏差、用真实PNG字节核验的8-bit偏差以及无法同时满足的冲突目标。该接口无副作用、不落盘。
+
+`POST /v1/plates/{id}/corrections/commit` 由设计师确认模式后在服务端重解并追加一个稿本；服务端不直接接受客户端颜色，遵守expected_revision并发契约，旧稿本与旧成品不变。求解空间、误差判据与解不唯一时的选择见 docs/correction.md。
 
 ## 持久化与范围
 
