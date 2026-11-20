@@ -22,6 +22,81 @@ func (m Matrix) Inverse() (Matrix, bool) {
 	return Matrix{m[3] / d, -m[1] / d, -m[2] / d, m[0] / d, (m[2]*m[5] - m[3]*m[4]) / d, (m[1]*m[4] - m[0]*m[5]) / d}, true
 }
 
+// Compose returns the affine that first applies a and then b: p -> b(a(p)).
+func Compose(b, a Matrix) Matrix {
+	return Matrix{
+		b[0]*a[0] + b[2]*a[1],
+		b[1]*a[0] + b[3]*a[1],
+		b[0]*a[2] + b[2]*a[3],
+		b[1]*a[2] + b[3]*a[3],
+		b[0]*a[4] + b[2]*a[5] + b[4],
+		b[1]*a[4] + b[3]*a[5] + b[5],
+	}
+}
+
+// Bounds is an axis-aligned rectangle in plate coordinates.
+type Bounds struct {
+	MinX, MinY, MaxX, MaxY float64
+	Empty                  bool
+}
+
+func (b Bounds) Width() float64  { return b.MaxX - b.MinX }
+func (b Bounds) Height() float64 { return b.MaxY - b.MinY }
+func (b Bounds) Contains(p Point) bool {
+	return !b.Empty && p.X >= b.MinX && p.X <= b.MaxX && p.Y >= b.MinY && p.Y <= b.MaxY
+}
+
+// Intersect returns the overlap of two bounds; disjoint bounds become Empty.
+func (b Bounds) Intersect(o Bounds) Bounds {
+	if b.Empty || o.Empty {
+		return Bounds{Empty: true}
+	}
+	out := Bounds{MinX: math.Max(b.MinX, o.MinX), MinY: math.Max(b.MinY, o.MinY), MaxX: math.Min(b.MaxX, o.MaxX), MaxY: math.Min(b.MaxY, o.MaxY)}
+	if out.MaxX < out.MinX || out.MaxY < out.MinY {
+		return Bounds{Empty: true}
+	}
+	return out
+}
+
+// PathBounds bounds a flattened contour path.
+func PathBounds(p Path) Bounds {
+	b := Bounds{Empty: true}
+	for _, ring := range p {
+		for _, v := range ring {
+			if b.Empty {
+				b = Bounds{MinX: v.X, MinY: v.Y, MaxX: v.X, MaxY: v.Y}
+			} else {
+				b.MinX = math.Min(b.MinX, v.X)
+				b.MinY = math.Min(b.MinY, v.Y)
+				b.MaxX = math.Max(b.MaxX, v.X)
+				b.MaxY = math.Max(b.MaxY, v.Y)
+			}
+		}
+	}
+	return b
+}
+
+// TransformBounds applies an affine to an axis-aligned box.
+func TransformBounds(m Matrix, b Bounds) Bounds {
+	if b.Empty {
+		return b
+	}
+	corners := [4]Point{
+		m.Apply(Point{b.MinX, b.MinY}),
+		m.Apply(Point{b.MaxX, b.MinY}),
+		m.Apply(Point{b.MaxX, b.MaxY}),
+		m.Apply(Point{b.MinX, b.MaxY}),
+	}
+	out := Bounds{MinX: corners[0].X, MinY: corners[0].Y, MaxX: corners[0].X, MaxY: corners[0].Y}
+	for _, p := range corners[1:] {
+		out.MinX = math.Min(out.MinX, p.X)
+		out.MinY = math.Min(out.MinY, p.Y)
+		out.MaxX = math.Max(out.MaxX, p.X)
+		out.MaxY = math.Max(out.MaxY, p.Y)
+	}
+	return out
+}
+
 type Op struct {
 	Kind   string  `json:"kind"`
 	Points []Point `json:"points,omitempty"`

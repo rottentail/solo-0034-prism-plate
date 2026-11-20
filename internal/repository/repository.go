@@ -10,6 +10,7 @@ import (
 	"os"
 	"path/filepath"
 	"prismplate/internal/scene"
+	"regexp"
 	"sync"
 	"time"
 )
@@ -18,17 +19,39 @@ var ErrConflict = errors.New("revision conflict")
 var ErrMissing = errors.New("not found")
 var ErrState = errors.New("invalid lifecycle state")
 
+var idPattern = regexp.MustCompile(`^[a-zA-Z][a-zA-Z0-9_-]{0,63}$`)
+
+func validID(s string) bool { return idPattern.MatchString(s) }
+
 type Revision struct {
 	Number   int            `json:"number"`
 	Digest   string         `json:"digest"`
 	Document scene.Document `json:"document"`
 	Created  time.Time      `json:"created"`
 }
+
+// Ref addresses a layer, or one shape inside a layer, inside its source document.
+type Ref struct {
+	Layer string `json:"layer"`
+	Shape string `json:"shape,omitempty"`
+}
+
+// Provenance records how a plate was derived from another plate's frozen revision.
+// It never points back into mutable state: the scene digest pins the exact source.
+type Provenance struct {
+	PlateID     string    `json:"plate_id"`
+	Revision    int       `json:"revision"`
+	SceneDigest string    `json:"scene_digest"`
+	Placement   string    `json:"placement"`
+	Selection   []Ref     `json:"selection"`
+	Created     time.Time `json:"created"`
+}
 type Plate struct {
-	ID        string     `json:"id"`
-	Title     string     `json:"title"`
-	State     string     `json:"state"`
-	Revisions []Revision `json:"revisions"`
+	ID         string      `json:"id"`
+	Title      string      `json:"title"`
+	State      string      `json:"state"`
+	Revisions  []Revision  `json:"revisions"`
+	Provenance *Provenance `json:"provenance,omitempty"`
 }
 type Artifact struct {
 	ID          string `json:"id"`
@@ -104,6 +127,19 @@ func Check(s State) error {
 		for i, r := range p.Revisions {
 			if r.Number != i+1 || r.Digest != SceneHash(r.Document) {
 				return fmt.Errorf("invalid revision digest")
+			}
+		}
+		if p.Provenance != nil {
+			pr := p.Provenance
+			if !validID(pr.PlateID) || pr.Revision < 1 || len(pr.SceneDigest) != 64 || (pr.Placement != "original" && pr.Placement != "fit") || len(pr.Selection) == 0 {
+				return fmt.Errorf("invalid provenance lineage")
+			}
+			seen := map[string]bool{}
+			for _, ref := range pr.Selection {
+				if !validID(ref.Layer) || (ref.Shape != "" && !validID(ref.Shape)) || seen[ref.Layer+"\x00"+ref.Shape] {
+					return fmt.Errorf("invalid provenance selection")
+				}
+				seen[ref.Layer+"\x00"+ref.Shape] = true
 			}
 		}
 	}

@@ -20,6 +20,10 @@
       "command": "python3 scripts/walkthrough.py --workflow branch"
     },
     {
+      "workflow_id": "extract",
+      "command": "python3 scripts/walkthrough.py --workflow extract"
+    },
+    {
       "workflow_id": "archive",
       "command": "python3 scripts/walkthrough.py --workflow archive"
     },

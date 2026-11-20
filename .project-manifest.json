@@ -109,9 +109,28 @@
         "从公开入口解析并获取固定来源",
         "跨职责计算或判定并提交完整结果"
       ],
-      "success": "复制指定历史为独立首稿",
-      "failure": "不存在的稿本404",
+      "success": "复制指定历史或按选取抽出为独立首稿，带来源谱系与外观通知",
+      "failure": "不存在的稿本404；未知图层/形状或矛盾选取400",
       "verification": "python3 scripts/walkthrough.py --workflow branch"
+    },
+    {
+      "id": "extract",
+      "name": "选层抽出分支",
+      "entry": "POST /v1/plates/{id}/branch/preview → POST /v1/plates/{id}/branch",
+      "module_ids": [
+        "transport",
+        "service",
+        "branch",
+        "validate",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "只读预览与实际分支文档一致，provenance 与 notices 可核对，PNG 摘要稳定，源稿不改写",
+      "failure": "未知图层/形状、矛盾选取、非法放置或画布返回400",
+      "verification": "python3 scripts/walkthrough.py --workflow extract"
     },
     {
       "id": "archive",

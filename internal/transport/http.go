@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"prismplate/internal/branch"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -109,17 +110,34 @@ func (a API) Handler() http.Handler {
 			Revision int    `json:"revision"`
 			ID       string `json:"id"`
 			Title    string `json:"title"`
+			branch.Plan
 		}
 		if e := decode(w, r, &q); e != nil {
 			failure(w, e)
 			return
 		}
-		p, e := a.Service.Branch(r.PathValue("id"), q.Revision, q.ID, q.Title)
+		p, preview, e := a.Service.Branch(r.PathValue("id"), q.Revision, q.ID, q.Title, q.Plan)
 		if e != nil {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 201, p)
+		jsonOut(w, 201, map[string]any{"plate": p, "preview": preview})
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/branch/preview", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Revision int `json:"revision"`
+			branch.Plan
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		preview, e := a.Service.PreviewBranch(r.PathValue("id"), q.Revision, q.Plan)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, preview)
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/archive", func(w http.ResponseWriter, r *http.Request) {
 		if e := a.Service.Archive(r.PathValue("id")); e != nil {

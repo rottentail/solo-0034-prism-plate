@@ -4,6 +4,7 @@ package service
 import (
 	"context"
 	"fmt"
+	"prismplate/internal/branch"
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
@@ -26,13 +27,28 @@ func New(r *repository.Repo) *Service {
 }
 func (s *Service) Close() { s.Pool.Close() }
 func (s *Service) Create(id, title string, d scene.Document) (repository.Plate, error) {
+	return s.createWithProvenance(id, title, d, nil)
+}
+
+func (s *Service) createWithProvenance(id, title string, d scene.Document, prov *repository.Provenance) (repository.Plate, error) {
 	if !validate.ID(id) || len(title) == 0 || len(title) > 160 {
 		return repository.Plate{}, fmt.Errorf("invalid plate identity")
 	}
 	if _, err := validate.Compile(d); err != nil {
 		return repository.Plate{}, err
 	}
-	p := repository.Plate{ID: id, Title: title, State: "active", Revisions: []repository.Revision{{Number: 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()}}}
+	p := repository.Plate{
+		ID:         id,
+		Title:      title,
+		State:      "active",
+		Provenance: prov,
+		Revisions: []repository.Revision{{
+			Number:   1,
+			Digest:   repository.SceneHash(d),
+			Document: d,
+			Created:  time.Now().UTC(),
+		}},
+	}
 	err := s.Repo.Update(func(st *repository.State) error {
 		if _, ok := st.Plates[id]; ok {
 			return repository.ErrConflict
@@ -86,15 +102,39 @@ func (s *Service) Archive(id string) error {
 		return nil
 	})
 }
-func (s *Service) Branch(id string, revision int, target, title string) (repository.Plate, error) {
-	p, err := s.Plate(id)
+
+// Branch copies a frozen source revision — wholly or as selected layers/shapes —
+// into a new independent plate. The source revision is never rewritten.
+func (s *Service) Branch(id string, revision int, target, title string, plan branch.Plan) (repository.Plate, branch.Preview, error) {
+	rev, err := s.capture(id, revision)
 	if err != nil {
-		return p, err
+		return repository.Plate{}, branch.Preview{}, err
 	}
-	if revision < 1 || revision > len(p.Revisions) {
-		return p, repository.ErrMissing
+	preview, err := branch.Build(id, rev, plan)
+	if err != nil {
+		return repository.Plate{}, branch.Preview{}, err
 	}
-	return s.Create(target, title, p.Revisions[revision-1].Document)
+	// Stamp the provenance at commit time; the preview only represents a plan.
+	preview.Provenance.Created = time.Now().UTC()
+	prov := preview.Provenance
+	p, err := s.createWithProvenance(target, title, preview.Document, &prov)
+	if err == nil {
+		// Reflect the committed provenance in the echoed preview.
+		if p.Provenance != nil {
+			preview.Provenance = *p.Provenance
+		}
+	}
+	return p, preview, err
+}
+
+// PreviewBranch resolves a partitive branch plan without creating any plate or
+// artifact, so the caller can verify the derived document before committing.
+func (s *Service) PreviewBranch(id string, revision int, plan branch.Plan) (branch.Preview, error) {
+	rev, err := s.capture(id, revision)
+	if err != nil {
+		return branch.Preview{}, err
+	}
+	return branch.Build(id, rev, plan)
 }
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
 	p, err := s.Plate(id)

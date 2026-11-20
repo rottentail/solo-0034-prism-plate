@@ -1,0 +1,22 @@
+{
+  "revision": 1,
+  "id": "cyan-extract",
+  "title": "青色单形抽出",
+  "placement": "fit",
+  "selection": [
+    {
+      "layer": "cyan-glaze",
+      "shape": "cyan-window"
+    }
+  ],
+  "canvas": {
+    "width": 128,
+    "height": 128,
+    "background": {
+      "r": 0.04,
+      "g": 0.055,
+      "b": 0.09,
+      "a": 1
+    }
+  }
+}

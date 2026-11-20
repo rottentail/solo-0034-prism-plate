@@ -28,6 +28,8 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 
 新建版面的初始稿本为1。PUT 传 expected_revision，只有当前最新版本相符才追加；旧版本不修改。归档禁止后续修订，仍可渲染历史及从历史分支。异步任务提交即捕获指定稿本；稍后修订不会改变它。任务只在当前进程内保留，重启后以已持久化成品为事实，不支持任务续跑；256条任务记录用尽后拒绝新任务。两名工作者、8条等待队列，所有渲染共用2个计算名额，同步或异步均可能在拥挤时得到拒绝。
 
+分支支持选层抽出：`POST /v1/plates/{id}/branch/preview` 先做只读预览，`POST /v1/plates/{id}/branch` 再提交独立首稿。selection 可点名整层或单个形状，placement 选择 `original` 保持源坐标（超界由新画布裁切）或 `fit` 等比缩放居中；canvas 可指定新尺寸与背景。派生版面只复制被选几何，图层 clip/mask 随形状保留并继续裁剪，形状笔刷与局部路径不变。每个结果带 provenance（源版面、稿本号、源稿摘要、放置方式、选取引用）和 notices：被抽出的 screen/multiply 与半透明形状失去原下层叠色背景，外观会改变，notices 会逐条说明；源稿在任何路径下都不被修改。示例请求见 examples/extract-branch.json。
+
 取消是请求，已进入成品提交点的任务仍可成功；成功任务的事实不会变为取消。取消或失败不得提交半张图片。成品按版面、稿本、格式、内容摘要产生稳定标识；撤销后不允许再次悄悄激活。校样只有 open→accepted/rejected；通过的校样禁止撤销其成品。
 
 ## 入口
@@ -39,7 +41,9 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、extract、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。extract 流程覆盖只读预览、选形状抽出、原位/贴合放置、实际PNG摘要核对、拒绝路径以及源稿冻结校验。
+
+需要留存实际PNG与预览JSON时运行 `python3 scripts/demo-extract.py`，证据写入 var/demo（被 .gitignore 忽略，可随时删除重建），每张PNG附 sha256 摘要文件，整稿分支与原稿渲染的摘要必须一致。
 
 ## 持久化与范围
 

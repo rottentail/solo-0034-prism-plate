@@ -50,7 +50,62 @@ def main():
                 assert sum(x=='conflict' for x in results)==1;assert len(call('GET','/v1/plates/amber-plate')['revisions'])==2
                 assert call('GET','/v1/plates/amber-plate')['revisions'][0]['document']==created['revisions'][0]['document']
             elif w=='branch':
-                b=call('POST','/v1/plates/amber-plate/branch',{'revision':1,'id':'amber-fork','title':'琥珀新稿'},status=201);assert b['revisions'][0]['digest']==created['revisions'][0]['digest'];call('POST','/v1/plates/amber-plate/branch',{'revision':99,'id':'missing-fork','title':'无效稿'},status=404)
+                r=call('POST','/v1/plates/amber-plate/branch',{'revision':1,'id':'amber-fork','title':'琥珀新稿'},status=201)
+                b=r['plate'];assert b['revisions'][0]['digest']==created['revisions'][0]['digest']
+                assert b['provenance']['plate_id']=='amber-plate' and b['provenance']['placement']=='original'
+                assert r['preview']['document']==b['revisions'][0]['document']
+                call('POST','/v1/plates/amber-plate/branch',{'revision':99,'id':'missing-fork','title':'无效稿'},status=404)
+            elif w=='extract':
+                # Read-only preview first: nothing is created and the source stays frozen.
+                plan={'revision':1,'placement':'original','selection':[{'layer':'cyan-glaze','shape':'cyan-window'}],
+                      'canvas':{'width':160,'height':120,'background':{'r':1,'g':1,'b':1,'a':1}}}
+                pv=call('POST','/v1/plates/amber-plate/branch/preview',plan,status=200)
+                assert pv['document']['width']==160 and pv['document']['height']==120
+                assert [l['id'] for l in pv['document']['layers']]==['cyan-glaze']
+                assert [s['id'] for s in pv['document']['layers'][0]['shapes']]==['cyan-window']
+                assert pv['provenance']['scene_digest']==created['revisions'][0]['digest']
+                assert pv['provenance']['selection']==plan['selection'] and pv.get('transform') is None
+                codes={n['code'] for n in pv['notices']}
+                assert {'partial-layer','blend-context','opacity-context','background-changed','canvas-crop'} <= codes
+                assert call('GET','/v1/plates/cyan-extract',status=404)['error']
+                # Commit the same plan; the actual new plate matches the preview exactly.
+                committed=call('POST','/v1/plates/amber-plate/branch',dict(plan,id='cyan-extract',title='青色单形抽出'),status=201)
+                plate=committed['plate'];assert plate['revisions'][0]['document']==pv['document']
+                pp={k:v for k,v in plate['provenance'].items() if k!='created'}
+                vp={k:v for k,v in pv['provenance'].items() if k!='created'}
+                assert pp==vp and plate['provenance']['created']
+                assert committed['preview']['notices']==pv['notices']
+                # Real PNG of the extracted plate: signature, size and stable digest.
+                a=call('POST','/v1/plates/cyan-extract/render?revision=1&format=png',status=201)
+                raw,hs=call('GET','/v1/artifacts/'+a['id'],raw=True)
+                assert raw[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',raw[16:24])==(160,120)
+                assert hashlib.sha256(raw).hexdigest()==a['digest']
+                assert call('POST','/v1/plates/cyan-extract/render?revision=1&format=png',status=201)['digest']==a['digest']
+                # Fit placement scales and centers the selection onto the new canvas.
+                fit_plan={'revision':1,'placement':'fit','selection':[{'layer':'amber-sheet'}],'canvas':{'width':96,'height':96}}
+                fit=call('POST','/v1/plates/amber-plate/branch/preview',fit_plan,status=200)
+                assert fit['document']['width']==fit['document']['height']==96
+                assert fit['transform'] is not None and fit['transform'][0]==fit['transform'][3]
+                assert any(n['code']=='fit-scaled' for n in fit['notices'])
+                clip=fit['document']['layers'][0]['clip']
+                s_,tx,ty=fit['transform'][0],fit['transform'][4],fit['transform'][5]
+                assert clip[0]['points'][0]=={'x':s_*8+tx,'y':s_*8+ty}
+                call('POST','/v1/plates/amber-plate/branch',dict(fit_plan,id='amber-fit',title='琥珀贴合版'),status=201)
+                fit_png=call('POST','/v1/plates/amber-fit/render?revision=1&format=png',status=201)
+                fit_raw,_=call('GET','/v1/artifacts/'+fit_png['id'],raw=True)
+                assert fit_raw[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',fit_raw[16:24])==(96,96)
+                # Whole-layer plus one shape from the same layer is contradictory.
+                call('POST','/v1/plates/amber-plate/branch/preview',
+                     {'revision':1,'selection':[{'layer':'amber-sheet'},{'layer':'amber-sheet','shape':'amber-contour'}]},status=400)
+                call('POST','/v1/plates/amber-plate/branch/preview',{'revision':1,'selection':[{'layer':'ghost'}]},status=400)
+                call('POST','/v1/plates/amber-plate/branch/preview',{'revision':1,'placement':'snap'},status=400)
+                call('POST','/v1/plates/amber-plate/branch',{'revision':1,'id':'cyan-extract','title':'重复目标'},status=409)
+                # Original plate and its history are untouched and still render identically.
+                src_now=call('GET','/v1/plates/amber-plate')
+                assert src_now==created and len(src_now['revisions'])==1
+                src_png=call('POST','/v1/plates/amber-plate/render?revision=1&format=png',status=201)
+                src_raw,_=call('GET','/v1/artifacts/'+src_png['id'],raw=True)
+                assert struct.unpack('>II',src_raw[16:24])==(192,144)
             elif w=='archive':
                 call('POST','/v1/plates/amber-plate/archive');call('PUT','/v1/plates/amber-plate',{'expected_revision':1,'document':seed['document']},status=409);assert render()['revision']==1
             elif w in ('png','svg','artifact'):
