@@ -106,8 +106,11 @@ func (s *Service) capture(id string, revision int) (repository.Revision, error) 
 	}
 	return p.Revisions[revision-1], nil
 }
-func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
+func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string, t *scene.Target) (repository.Artifact, error) {
 	var a repository.Artifact
+	if err := validate.Target(t); err != nil {
+		return a, err
+	}
 	select {
 	case s.slots <- struct{}{}:
 		defer func() { <-s.slots }()
@@ -123,9 +126,18 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	var data []byte
 	switch format {
 	case "png":
-		data, err = raster.Render(ctx, c)
+		// The bounded work budget is charged on output pixels: a larger
+		// delivery size consumes the same allowance, never bypasses it.
+		w, h := c.Document.Width, c.Document.Height
+		if t != nil {
+			w, h = t.Width, t.Height
+		}
+		if err = validate.Work(c.Segments, w, h); err != nil {
+			return a, err
+		}
+		data, err = raster.Render(ctx, c, t)
 	case "svg":
-		data = vector.Export(c)
+		data = vector.Export(c, t)
 	default:
 		return a, fmt.Errorf("format must be png or svg")
 	}
@@ -133,8 +145,14 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 		return a, err
 	}
 	digest := repository.Hash(data)
-	key := repository.Hash([]byte(id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + digest))
-	a = repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Digest: digest, State: "available", Data: data}
+	// The target joins the artifact identity; a nil target keeps the legacy
+	// identity formula so existing artifacts and proofs stay authoritative.
+	identity := id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format
+	if t != nil {
+		identity += ":" + t.Key()
+	}
+	key := repository.Hash([]byte(identity + ":" + digest))
+	a = repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Target: t, Digest: digest, State: "available", Data: data}
 	err = s.Repo.Update(func(st *repository.State) error {
 		if err := ctx.Err(); err != nil {
 			return err
@@ -151,14 +169,14 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	})
 	return a, err
 }
-func (s *Service) Render(ctx context.Context, id string, revision int, format string) (repository.Artifact, error) {
+func (s *Service) Render(ctx context.Context, id string, revision int, format string, t *scene.Target) (repository.Artifact, error) {
 	r, err := s.capture(id, revision)
 	if err != nil {
 		return repository.Artifact{}, err
 	}
-	return s.render(ctx, id, r, format)
+	return s.render(ctx, id, r, format, t)
 }
-func (s *Service) Submit(id string, revision int, format string) (exposure.Job, error) {
+func (s *Service) Submit(id string, revision int, format string, t *scene.Target) (exposure.Job, error) {
 	r, err := s.capture(id, revision)
 	if err != nil {
 		return exposure.Job{}, err
@@ -166,10 +184,13 @@ func (s *Service) Submit(id string, revision int, format string) (exposure.Job, 
 	if format != "png" && format != "svg" {
 		return exposure.Job{}, fmt.Errorf("unknown format")
 	}
+	if err := validate.Target(t); err != nil {
+		return exposure.Job{}, err
+	}
 	return s.Pool.Submit(func(ctx context.Context) (string, error) {
 		ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 		defer cancel()
-		a, e := s.render(ctx, id, r, format)
+		a, e := s.render(ctx, id, r, format, t)
 		return a.ID, e
 	})
 }

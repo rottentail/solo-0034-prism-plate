@@ -24,6 +24,8 @@ examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、
 
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
+渲染与异步任务可附加 width、height、fit=contain|cover 选择输出尺寸：contain 等比缩放居中、留白为透明，cover 等比填满并居中裁切；width 与 height 须同时给出，fit 缺省为 contain。不带尺寸的请求保持文档尺寸输出，行为不变。局部色刷、裁域、蒙版与镂空随同一仿射布局缩放。输出边长上限1024，PNG 边遍历预算按输出像素计算，尺寸更大不会获得额外工作量。成品谱系记录输出尺寸，不同尺寸的同一稿本产生不同成品标识。
+
 ## 版本及生命周期
 
 新建版面的初始稿本为1。PUT 传 expected_revision，只有当前最新版本相符才追加；旧版本不修改。归档禁止后续修订，仍可渲染历史及从历史分支。异步任务提交即捕获指定稿本；稍后修订不会改变它。任务只在当前进程内保留，重启后以已持久化成品为事实，不支持任务续跑；256条任务记录用尽后拒绝新任务。两名工作者、8条等待队列，所有渲染共用2个计算名额，同步或异步均可能在拥挤时得到拒绝。
@@ -39,7 +41,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、size。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 

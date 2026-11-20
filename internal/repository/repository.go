@@ -31,14 +31,15 @@ type Plate struct {
 	Revisions []Revision `json:"revisions"`
 }
 type Artifact struct {
-	ID          string `json:"id"`
-	Plate       string `json:"plate"`
-	Revision    int    `json:"revision"`
-	SceneDigest string `json:"scene_digest"`
-	Format      string `json:"format"`
-	Digest      string `json:"digest"`
-	State       string `json:"state"`
-	Data        []byte `json:"data"`
+	ID          string        `json:"id"`
+	Plate       string        `json:"plate"`
+	Revision    int           `json:"revision"`
+	SceneDigest string        `json:"scene_digest"`
+	Format      string        `json:"format"`
+	Target      *scene.Target `json:"target,omitempty"`
+	Digest      string        `json:"digest"`
+	State       string        `json:"state"`
+	Data        []byte        `json:"data"`
 }
 type Proof struct {
 	ID       string `json:"id"`
@@ -110,6 +111,9 @@ func Check(s State) error {
 	for id, a := range s.Artifacts {
 		p, ok := s.Plates[a.Plate]
 		if !ok || a.ID != id || a.Revision < 1 || a.Revision > len(p.Revisions) || a.SceneDigest != p.Revisions[a.Revision-1].Digest || Hash(a.Data) != a.Digest || (a.State != "available" && a.State != "revoked") || (a.Format != "png" && a.Format != "svg") {
+			return fmt.Errorf("invalid artifact lineage")
+		}
+		if a.Target != nil && !a.Target.Valid() {
 			return fmt.Errorf("invalid artifact lineage")
 		}
 	}

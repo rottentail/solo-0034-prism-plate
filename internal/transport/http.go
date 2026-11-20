@@ -12,6 +12,7 @@ import (
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
+	"prismplate/internal/validate"
 	"strconv"
 	"time"
 )
@@ -57,6 +58,29 @@ func revision(r *http.Request) (int, error) {
 		return 0, fmt.Errorf("positive revision required")
 	}
 	return n, nil
+}
+
+// target parses the optional output size. Requests without any sizing keep the
+// legacy document-size behaviour; width and height must appear together.
+func target(r *http.Request) (*scene.Target, error) {
+	q := r.URL.Query()
+	ws, hs, fit := q.Get("width"), q.Get("height"), q.Get("fit")
+	if ws == "" && hs == "" && fit == "" {
+		return nil, nil
+	}
+	w, ew := strconv.Atoi(ws)
+	h, eh := strconv.Atoi(hs)
+	if ew != nil || eh != nil {
+		return nil, fmt.Errorf("sized render requires integer width and height")
+	}
+	if fit == "" {
+		fit = "contain"
+	}
+	t := &scene.Target{Width: w, Height: h, Fit: fit}
+	if err := validate.Target(t); err != nil {
+		return nil, err
+	}
+	return t, nil
 }
 func (a API) Handler() http.Handler {
 	mux := http.NewServeMux()
@@ -134,9 +158,14 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
+		t, e := target(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
 		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
 		defer cancel()
-		v, e := a.Service.Render(ctx, r.PathValue("id"), n, r.URL.Query().Get("format"))
+		v, e := a.Service.Render(ctx, r.PathValue("id"), n, r.URL.Query().Get("format"), t)
 		if e != nil {
 			failure(w, e)
 			return
@@ -150,7 +179,12 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		v, e := a.Service.Submit(r.PathValue("id"), n, r.URL.Query().Get("format"))
+		t, e := target(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.Submit(r.PathValue("id"), n, r.URL.Query().Get("format"), t)
 		if e != nil {
 			failure(w, e)
 			return
@@ -181,6 +215,9 @@ func (a API) Handler() http.Handler {
 		}
 		w.Header().Set("ETag", `"`+v.Digest+`"`)
 		w.Header().Set("X-Scene-Digest", v.SceneDigest)
+		if v.Target != nil {
+			w.Header().Set("X-Render-Target", v.Target.Key())
+		}
 		w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")
 		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml"}[v.Format])
 		if r.Header.Get("If-None-Match") == `"`+v.Digest+`"` {

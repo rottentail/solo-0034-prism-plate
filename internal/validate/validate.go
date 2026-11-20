@@ -15,6 +15,26 @@ func ID(s string) bool         { return identifier.MatchString(s) }
 func finite(x float64) bool    { return !math.IsNaN(x) && !math.IsInf(x, 0) && math.Abs(x) <= 1e6 }
 func Unit(x float64) bool      { return finite(x) && x >= 0 && x <= 1 }
 func Color(c scene.Color) bool { return Unit(c.R) && Unit(c.G) && Unit(c.B) && Unit(c.A) }
+
+// Work bounds coverage sampling: four samples per output pixel, so an explicit
+// output size can never exceed the budget a document-sized render would allow.
+func Work(segments, width, height int) error {
+	if int64(segments)*int64(width)*int64(height)*4 > 160_000_000 {
+		return fmt.Errorf("scene exceeds bounded rendering work")
+	}
+	return nil
+}
+
+// Target admits an explicit output size for rendering.
+func Target(t *scene.Target) error {
+	if t == nil {
+		return nil
+	}
+	if !t.Valid() {
+		return fmt.Errorf("invalid output target (fit contain or cover, maximum 1024 square)")
+	}
+	return nil
+}
 func path(ops []geom.Op) (geom.Path, error) {
 	if len(ops) == 0 || len(ops) > 256 {
 		return nil, fmt.Errorf("contour operation count must be 1..256")
@@ -171,8 +191,8 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 		c.Layers = append(c.Layers, cl)
 	}
 	// Four samples per pixel; every fill is bounded even under adversarial input.
-	if int64(c.Segments)*int64(d.Width)*int64(d.Height)*4 > 160_000_000 {
-		return c, fmt.Errorf("scene exceeds bounded rendering work")
+	if err := Work(c.Segments, d.Width, d.Height); err != nil {
+		return c, err
 	}
 	return c, nil
 }

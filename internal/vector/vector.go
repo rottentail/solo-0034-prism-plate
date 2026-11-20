@@ -30,10 +30,18 @@ func color(c scene.Color) string {
 
 // SVG uses the same flattened geometry. Browser gradient alpha interpolation and
 // pixel coverage may differ from the canonical PNG renderer; SVG is a vector proof.
-func Export(c scene.Compiled) []byte {
+// A nil target keeps the document size; otherwise the output frame carries the
+// target dimensions and the whole document is wrapped in one shared transform,
+// so brushes, clips, masks and cutouts scale under the same layout. Contain
+// margins stay transparent; cover overflow is clipped by the viewport.
+func Export(c scene.Compiled, t *scene.Target) []byte {
 	var b bytes.Buffer
 	d := c.Document
-	fmt.Fprintf(&b, `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" color-interpolation="linearRGB"><defs>`, d.Width, d.Height, d.Width, d.Height)
+	w, h := d.Width, d.Height
+	if t != nil {
+		w, h = t.Width, t.Height
+	}
+	fmt.Fprintf(&b, `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" color-interpolation="linearRGB"><defs>`, w, h, w, h)
 	for i, l := range c.Layers {
 		if len(l.Clip) > 0 {
 			fmt.Fprintf(&b, `<clipPath id="c%d" clipPathUnits="userSpaceOnUse"><path d="%s"/></clipPath>`, i, path(l.Clip))
@@ -53,7 +61,13 @@ func Export(c scene.Compiled) []byte {
 		}
 	}
 	b.WriteString(`</defs>`)
-	fmt.Fprintf(&b, `<rect width="100%%" height="100%%" fill="%s" fill-opacity="%s"/>`, color(d.Background), number(d.Background.A))
+	if t != nil {
+		m := t.Matrix(d.Width, d.Height)
+		fmt.Fprintf(&b, `<g transform="matrix(%s 0 0 %s %s %s)">`, number(m[0]), number(m[3]), number(m[4]), number(m[5]))
+		fmt.Fprintf(&b, `<rect x="0" y="0" width="%d" height="%d" fill="%s" fill-opacity="%s"/>`, d.Width, d.Height, color(d.Background), number(d.Background.A))
+	} else {
+		fmt.Fprintf(&b, `<rect width="100%%" height="100%%" fill="%s" fill-opacity="%s"/>`, color(d.Background), number(d.Background.A))
+	}
 	for i, l := range c.Layers {
 		fmt.Fprintf(&b, `<g opacity="%s" style="isolation:isolate;mix-blend-mode:%s"`, number(l.Layer.Opacity), map[string]string{"normal": "normal", "multiply": "multiply", "screen": "screen"}[l.Layer.Blend])
 		if len(l.Clip) > 0 {
@@ -76,6 +90,9 @@ func Export(c scene.Compiled) []byte {
 			fmt.Fprintf(&b, `<path d="%s" fill="%s" fill-opacity="%s" fill-rule="%s" transform="matrix(%s %s %s %s %s %s)"/>`, path(s.Path), fill, number(alpha), s.Shape.FillRule, number(m[0]), number(m[1]), number(m[2]), number(m[3]), number(m[4]), number(m[5]))
 		}
 		b.WriteString(`</g></g>`)
+	}
+	if t != nil {
+		b.WriteString(`</g>`)
 	}
 	b.WriteString(`</svg>`)
 	return b.Bytes()
