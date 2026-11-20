@@ -20,9 +20,26 @@ curl -X POST 'http://127.0.0.1:7846/v1/plates/amber-plate/render?revision=1&form
 
 ## 场景约定
 
-examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、裁域、二值蒙版和 screen 叠色。坐标原点在左上，颜色为 0..1 的 sRGB 直通色值，PNG 在内部转换为线性光预乘透明度。M/L/Q/C/Z 路径必须显式闭合，轮廓至少三条端点指令；Q/C 分别固定细分16/24段。图层可选 normal/multiply/screen，组透明度在整层合成后施加，蒙版与裁域处于版面坐标，笔刷与填充轮廓处于形状局部坐标。未提供的数值使用 JSON 的零值；形状必须明确传入可逆 transform。
+examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、裁域、二值蒙版和 screen 叠色。examples/perspective-proof.json 提供透视样机对照。坐标原点在左上，颜色为 0..1 的 sRGB 直通色值，PNG 在内部转换为线性光预乘透明度。M/L/Q/C/Z 路径必须显式闭合，轮廓至少三条端点指令；Q/C 分别固定细分16/24段。图层可选 normal/multiply/screen，组透明度在整层合成后施加，蒙版与裁域处于版面坐标，笔刷与填充轮廓处于形状局部坐标。未提供的数值使用 JSON 的零值；形状必须明确传入可逆 transform。
 
-PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
+### 透视映射
+
+形状可带可选 `projective` 对象，把平面图稿贴到四边形展示面：
+
+```json
+"projective": {
+  "quad":   [{"x":18,"y":18},{"x":146,"y":40},{"x":128,"y":166},{"x":6,"y":150}],
+  "source": [{"x":0,"y":0},{"x":160,"y":0},{"x":160,"y":120},{"x":0,"y":120}]
+}
+```
+
+`quad` 与 `source` 的四个角都按左上、右上、右下、左下排序，分别是展示面与图稿的对应四边形。省略 `source` 时取图稿经 transform 后的包围四边形。映射在 transform 之后施加，因此完整链路是局部→仿射 transform→source 空间→quad 平面。
+
+保持的不变量：直线仍为直线；局部渐变的色值按真实透视参数采样，所以色带间距随面缩进；镂空（evenodd 内环、多轮廓）与 fill-rule 一并投影，不做重新填充；覆盖被裁到展示面内，图稿不会溢出四边形。`quad`/`source` 必须为有限、严格凸且不自交的四边形，否则 400；若轮廓跨越投影地平线（w 变号或趋零），映射会产生无界坐标，服务直接拒绝而不是裁剪出失控数值。仿射 transform 仍按原样工作，旧稿本不需要任何迁移。
+
+`"affine": true` 让该形状改用最小二乘仿射近似而不是真透视，用于生成可区分的对照。同一图稿分别以 `perspective` 与 `affine-approx` 输出时，展示面四边形附近的色带与边缘会有可见差异。
+
+PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。对于透视形状，SVG 不能携带投影变换，因此输出的是已映射到版面坐标的展开轮廓（直线仍为直线、顶点可编辑），并在路径上标注 `data-prism-map="perspective"`、`data-prism-source="flattened"` 以及原局部轮廓 `data-prism-original`；渐变轴按映射后端点输出并重采样色标，标注 `data-prism-gradient="perspective-resampled"`。这明确表达的是“展开后编辑”而非可逆的投影引用。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
 ## 版本及生命周期
 
@@ -39,7 +56,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、perspective、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。`perspective` 走真实HTTP建立透视样机版面，检查直线保持、镂空、对照标记、退化与跨地平线拒绝。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 

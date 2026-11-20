@@ -84,6 +84,33 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='perspective':
+                # The committed example carries a true-perspective panel and an
+                # explicitly marked affine-approximation panel on identical art.
+                mock=json.loads((ROOT/'examples/perspective-proof.json').read_text())
+                call('POST','/v1/plates',mock,status=201)
+                svg=call('POST','/v1/plates/perspective-mockup/render?revision=1&format=svg',status=201)
+                raw,_=call('GET','/v1/artifacts/'+svg['id'],raw=True,status=200)
+                text=raw.decode();assert 'data-prism-map="perspective"' in text;assert 'data-prism-map="affine-approx"' in text
+                assert 'data-prism-original="M0 0L160 0' in text;assert 'clipPath id="f0_0"' in text
+                # Straight source edges stay straight: the panel's emitted outline
+                # is exactly the four quad corners, with a hole preserved.
+                assert 'd="M18 18L146 40L128 166L6 150Z' in text
+                # Degenerate and self-intersecting faces are refused at admission.
+                for name,quad in (('degenerate',[{'x':20,'y':20},{'x':60,'y':20},{'x':100,'y':20},{'x':140,'y':20}]),
+                                  ('bowtie',[{'x':20,'y':20},{'x':140,'y':120},{'x':140,'y':20},{'x':20,'y':120}]),
+                                  ('duplicate',[{'x':20,'y':20},{'x':20,'y':20},{'x':140,'y':120},{'x':20,'y':120}])):
+                    bad=copy.deepcopy(mock);bad['id']='bad-'+name;bad['document']['layers'][0]['shapes']=[bad['document']['layers'][0]['shapes'][0]];bad['document']['layers'][0]['shapes'][0]['projective']={'quad':quad}
+                    call('POST','/v1/plates',bad,status=400)
+                # A source that crosses the projective horizon cannot produce a
+                # bounded display outline and is rejected rather than clipped.
+                bad=copy.deepcopy(mock);bad['id']='horizon';sh=bad['document']['layers'][0]['shapes'][0]
+                sh['path']=[{'kind':'M','points':[{'x':-1000,'y':-1000}]},{'kind':'L','points':[{'x':1000,'y':-1000}]},{'kind':'L','points':[{'x':1000,'y':1000}]},{'kind':'L','points':[{'x':-1000,'y':1000}]},{'kind':'Z'}]
+                sh['transform']=[0.5,0,0,0.5,0,0]
+                sh['projective']={'quad':[{'x':18,'y':18},{'x':146,'y':40},{'x':128,'y':166},{'x':6,'y':150}],'source':[{'x':-0.5,'y':-0.5},{'x':0.5,'y':-0.5},{'x':0.5,'y':0.5},{'x':-0.5,'y':0.5}]}
+                call('POST','/v1/plates',bad,status=400)
+                # Legacy affine plates still render unchanged.
+                assert render()['revision']==1
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()

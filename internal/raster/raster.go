@@ -34,7 +34,13 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 						}
 						src := paint.Pixel{}
 						for _, s := range l.Shapes {
-							q := s.Inverse.Apply(p)
+							if s.FaceSet && !geom.QuadContains(s.Face, p) {
+								continue
+							}
+							q, ok := s.PlaneToLocal.Apply(p)
+							if !ok {
+								continue
+							}
 							if s.Path.Contains(q, s.Shape.FillRule) {
 								src = paint.Over(src, paint.Sample(s.Shape.Brush, q), "normal")
 							}

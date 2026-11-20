@@ -33,6 +33,34 @@ func (p Pixel) RGBA8() (uint8, uint8, uint8, uint8) {
 	return uint8(math.Round(srgb(p.R/p.A) * 255)), uint8(math.Round(srgb(p.G/p.A) * 255)), uint8(math.Round(srgb(p.B/p.A) * 255)), uint8(math.Round(math.Min(1, p.A) * 255))
 }
 func mix(a, b, t float64) float64 { return a + (b-a)*t }
+
+// ColorAt evaluates a gradient brush's color at local axis parameter t and
+// returns it as unpremultiplied sRGB, matching the linear-light interpolation
+// used for pixels. Exporters reuse it so their stop colours agree with PNG.
+func ColorAt(b scene.Brush, t float64) scene.Color {
+	if b.Kind == "solid" {
+		return b.Color
+	}
+	t = math.Max(0, math.Min(1, t))
+	px := From(b.Stops[len(b.Stops)-1].Color)
+	for i := 1; i < len(b.Stops); i++ {
+		z := b.Stops[i]
+		if t <= z.At {
+			a := b.Stops[i-1]
+			u := (t - a.At) / (z.At - a.At)
+			x, y := From(a.Color), From(z.Color)
+			px = Pixel{mix(x.R, y.R, u), mix(x.G, y.G, u), mix(x.B, y.B, u), mix(x.A, y.A, u)}
+			break
+		}
+	}
+	if px.A <= 0 {
+		return scene.Color{A: 0}
+	}
+	return scene.Color{R: srgb(px.R / px.A), G: srgb(px.G / px.A), B: srgb(px.B / px.A), A: px.A}
+}
+
+// Sample evaluates a brush in local shape coordinates. Gradient interpolation
+// is shared with exporters through ColorAt so both sides agree on stop colour.
 func Sample(b scene.Brush, p geom.Point) Pixel {
 	if b.Kind == "solid" {
 		return From(b.Color)
