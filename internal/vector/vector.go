@@ -68,6 +68,10 @@ func Export(c scene.Compiled) []byte {
 			m := s.Shape.Transform
 			br := s.Shape.Brush
 			fill := color(br.Color)
+			// Solid fills carry shape-level alpha on the path; gradient fills keep
+			// the path opaque because per-stop alphas carry the gradient alpha.
+			// Animated shape opacity scales the same brush alpha the PNG renderer
+			// consumes, so the vector proof matches the canonical raster proof.
 			alpha := br.Color.A
 			if br.Kind == "linear" {
 				fill = fmt.Sprintf("url(#b%d_%d)", i, j)

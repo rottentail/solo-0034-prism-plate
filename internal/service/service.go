@@ -9,6 +9,7 @@ import (
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
+	"prismplate/internal/timeline"
 	"prismplate/internal/validate"
 	"prismplate/internal/vector"
 	"strconv"
@@ -106,7 +107,32 @@ func (s *Service) capture(id string, revision int) (repository.Revision, error) 
 	}
 	return p.Revisions[revision-1], nil
 }
-func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
+
+// resolveAt validates a requested sampling instant against the revision's
+// timeline. A nil request means a static exposure; a present instant requires
+// a timeline and is pinned to its content digest.
+func resolveAt(r repository.Revision, at *float64) (scene.Document, string, error) {
+	if at == nil {
+		if r.Document.Timeline != nil {
+			// Timed documents have no implicit frame: the caller must state time.
+			return scene.Document{}, "", fmt.Errorf("document carries a timeline; time query parameter is required")
+		}
+		return r.Document, "", nil
+	}
+	if r.Document.Timeline == nil {
+		return scene.Document{}, "", fmt.Errorf("document has no timeline; timed rendering is not available")
+	}
+	sampled, err := timeline.Sample(r.Document, r.Document.Timeline, *at)
+	if err != nil {
+		return scene.Document{}, "", err
+	}
+	return sampled, repository.TimelineHash(r.Document.Timeline), nil
+}
+
+// renderResolved renders an already-sampled document. r stays the captured
+// revision (its Digest is the lineage anchor); at and tlDigest record the
+// sampling lock and are empty for a static exposure.
+func (s *Service) renderResolved(ctx context.Context, id string, r repository.Revision, doc scene.Document, format string, at *float64, tlDigest string) (repository.Artifact, error) {
 	var a repository.Artifact
 	select {
 	case s.slots <- struct{}{}:
@@ -116,7 +142,7 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	default:
 		return a, exposure.ErrBusy
 	}
-	c, err := validate.Compile(r.Document)
+	c, err := validate.Compile(doc)
 	if err != nil {
 		return a, err
 	}
@@ -133,8 +159,13 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 		return a, err
 	}
 	digest := repository.Hash(data)
-	key := repository.Hash([]byte(id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + digest))
-	a = repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Digest: digest, State: "available", Data: data}
+	timeKey := "static"
+	if at != nil {
+		// %.12g pins the exact parsed instant without locale-dependent noise.
+		timeKey = "t=" + strconv.FormatFloat(*at, 'g', 12, 64)
+	}
+	key := repository.Hash([]byte(id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + timeKey + ":" + tlDigest + ":" + digest))
+	a = repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Digest: digest, State: "available", Data: data, Time: at, TimelineDigest: tlDigest}
 	err = s.Repo.Update(func(st *repository.State) error {
 		if err := ctx.Err(); err != nil {
 			return err
@@ -151,14 +182,21 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	})
 	return a, err
 }
-func (s *Service) Render(ctx context.Context, id string, revision int, format string) (repository.Artifact, error) {
+func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string, at *float64) (repository.Artifact, error) {
+	doc, tlDigest, err := resolveAt(r, at)
+	if err != nil {
+		return repository.Artifact{}, err
+	}
+	return s.renderResolved(ctx, id, r, doc, format, at, tlDigest)
+}
+func (s *Service) Render(ctx context.Context, id string, revision int, format string, at *float64) (repository.Artifact, error) {
 	r, err := s.capture(id, revision)
 	if err != nil {
 		return repository.Artifact{}, err
 	}
-	return s.render(ctx, id, r, format)
+	return s.render(ctx, id, r, format, at)
 }
-func (s *Service) Submit(id string, revision int, format string) (exposure.Job, error) {
+func (s *Service) Submit(id string, revision int, format string, at *float64) (exposure.Job, error) {
 	r, err := s.capture(id, revision)
 	if err != nil {
 		return exposure.Job{}, err
@@ -166,11 +204,23 @@ func (s *Service) Submit(id string, revision int, format string) (exposure.Job, 
 	if format != "png" && format != "svg" {
 		return exposure.Job{}, fmt.Errorf("unknown format")
 	}
+	// Resolve and validate the instant before queueing: the submitted job is
+	// locked to this revision, scene digest, time and animation source. The
+	// sampled document is handed to the worker as-is, so sampling happens once.
+	doc, tlDigest, err := resolveAt(r, at)
+	if err != nil {
+		return exposure.Job{}, err
+	}
+	lockedTime, lockedTL, lockedScene := at, tlDigest, r.Digest
 	return s.Pool.Submit(func(ctx context.Context) (string, error) {
 		ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 		defer cancel()
-		a, e := s.render(ctx, id, r, format)
+		a, e := s.renderResolved(ctx, id, r, doc, format, lockedTime, lockedTL)
 		return a.ID, e
+	}, func(j *exposure.Job) {
+		j.Time = lockedTime
+		j.TimelineDigest = lockedTL
+		j.SceneDigest = lockedScene
 	})
 }
 func (s *Service) Artifact(id string) (repository.Artifact, error) {

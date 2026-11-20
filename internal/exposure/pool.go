@@ -18,6 +18,11 @@ type Job struct {
 	Artifact string    `json:"artifact,omitempty"`
 	Error    string    `json:"error,omitempty"`
 	Created  time.Time `json:"created"`
+	// Time and TimelineDigest are captured at submission; later revisions of the
+	// plate cannot change what a queued job will render. nil Time = static.
+	Time           *float64 `json:"time,omitempty"`
+	TimelineDigest string   `json:"timeline_digest,omitempty"`
+	SceneDigest    string   `json:"scene_digest,omitempty"`
 }
 type item struct {
 	job    Job
@@ -42,7 +47,7 @@ func New(workers, capacity int) *Pool {
 	}
 	return p
 }
-func (p *Pool) Submit(work func(context.Context) (string, error)) (Job, error) {
+func (p *Pool) Submit(work func(context.Context) (string, error), seed func(*Job)) (Job, error) {
 	p.mu.Lock()
 	defer p.mu.Unlock()
 	if p.state != "open" {
@@ -55,6 +60,11 @@ func (p *Pool) Submit(work func(context.Context) (string, error)) (Job, error) {
 	id := fmt.Sprintf("exposure-%d", p.seq)
 	ctx, cancel := context.WithCancel(context.Background())
 	it := &item{job: Job{ID: id, State: "queued", Created: time.Now().UTC()}, ctx: ctx, cancel: cancel, work: work}
+	// Seed is applied under the pool lock before the worker can observe the job,
+	// so the captured revision/time fields never race with state transitions.
+	if seed != nil {
+		seed(&it.job)
+	}
 	select {
 	case p.queue <- it:
 		p.jobs[id] = it

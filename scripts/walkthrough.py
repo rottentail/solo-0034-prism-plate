@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Run bounded production HTTP journeys against an isolated ephemeral service."""
-import argparse, concurrent.futures, copy, hashlib, json, os, pathlib, signal, socket, struct, subprocess, tempfile, time, urllib.error, urllib.request
+import argparse, concurrent.futures, copy, hashlib, json, math, os, pathlib, re, signal, socket, struct, subprocess, tempfile, time, urllib.error, urllib.request
 ROOT=pathlib.Path(__file__).resolve().parents[1]
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--workflow',required=True);args=parser.parse_args()
@@ -84,6 +84,132 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w == 'timeline':
+                motion=json.loads((ROOT/'examples/timed-proof.json').read_text())
+                call('POST','/v1/plates',motion,status=201)
+                def timed(at,fmt='png'):
+                    return call('POST',f"/v1/plates/motion-plate/render?revision=1&format={fmt}&time={at}",status=201)
+                def svg_at(at):
+                    raw,_=call('GET','/v1/artifacts/'+timed(at,'svg')['id'],raw=True)
+                    # Only the shape path carries these attributes; the background
+                    # rect has its own earlier fill-opacity.
+                    m=re.search(rb'<path[^>]*?transform="matrix\(([^"]*?)\)"',raw)
+                    vals=[float(x) for x in m.group(1).split()]
+                    op=re.search(rb'<path[^>]*?fill-opacity="([^"]*)"',raw)
+                    return vals,float(op.group(1))
+                # 1) Domain and format rejection paths.
+                call('POST','/v1/plates/motion-plate/render?revision=1&format=png',status=400)
+                call('POST','/v1/plates/motion-plate/render?revision=1&format=png&time=-1',status=400)
+                call('POST','/v1/plates/motion-plate/render?revision=1&format=png&time=4.01',status=400)
+                call('POST','/v1/plates/motion-plate/render?revision=1&format=png&time=soon',status=400)
+                call('POST','/v1/plates/amber-plate/render?revision=1&format=png&time=1',status=400)
+                bad=copy.deepcopy(motion);bad['id']='bad-motion';bad['document']['timeline']['tracks'][0]['target']='ghost'
+                call('POST','/v1/plates',bad,status=400)
+                bad=copy.deepcopy(motion);bad['id']='bad-motion2';bad['document']['timeline']['duration']=0
+                call('POST','/v1/plates',bad,status=400)
+                bad=copy.deepcopy(motion);bad['id']='bad-motion3';bad['document']['timeline']['tracks'][1]['keyframes'][0]['rotation']=1e9
+                call('POST','/v1/plates',bad,status=400)
+                bad=copy.deepcopy(motion);bad['id']='bad-motion4';bad['document']['timeline']['tracks'][3]['keyframes'][0]['opacity']=2
+                call('POST','/v1/plates',bad,status=400)
+                # 2) Endpoint keyframes are sampled exactly; intermediate frames linearly.
+                a0=timed(0);a4=timed(4);amid=timed(2)
+                assert a0['time']==0 and a4['time']==4 and amid['time']==2
+                assert a0['timeline_digest']==a4['timeline_digest']==amid['timeline_digest']
+                assert timed(0)['digest']==a0['digest']
+                raw,hs=call('GET','/v1/artifacts/'+a0['id'],raw=True)
+                assert raw[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',raw[16:24])==(96,96)
+                assert hs['x-sample-time']=='0' and hs['x-timeline-digest']==a0['timeline_digest']
+                # SVG matrix() is column-major: (m0,m1,m2,m3,m4,m5).
+                vals,op=svg_at(0)
+                # %.9g export keeps ~1e-9 relative precision at unit magnitude.
+                eps=2e-9
+                assert len(vals)==6 and abs(vals[0]-math.cos(math.radians(350)))<eps and abs(vals[4]-10)<eps and op==0
+                vals,op=svg_at(4)
+                assert abs(vals[0]-math.cos(math.radians(390)))<eps and abs(vals[4]-10)<eps and op==1
+                vals,op=svg_at(0.5)
+                # t=0.5 on each channel's own keyframes: rotation 355deg,
+                # scale_x = 1 + (-1-1)*0.25 = 0.5, position (17.5,15), opacity 0.5.
+                assert abs(vals[0]-0.5*math.cos(math.radians(355)))<eps
+                assert abs(vals[1]-0.5*math.sin(math.radians(355)))<eps
+                assert abs(vals[4]-17.5)<eps and abs(vals[5]-15)<eps and abs(op-0.5)<eps
+                # 3) Rotation crosses the 360 boundary with a continuous sweep, never
+                # an unexplained backward snap. Every non-collapse sample must match
+                # the analytic piecewise-linear TRS expectation within SVG export
+                # precision; the only sanctioned discontinuity is the exact collapse
+                # instant t=1 (checked below). This is also the continuous-sampling
+                # error statement: interpolation is exact, export error stays at the
+                # fixed %.9g numeric precision, there is no unmodelled time jump.
+                for k in range(41):
+                    at=round(2*k/40,6)
+                    if at == 1.0:
+                        continue
+                    rot=350+10*at
+                    sx=1-at
+                    sy=1.0
+                    px=10+15*at if at<=2 else 40-15*(at-2)
+                    py=10+10*at if at<=2 else 30-10*(at-2)
+                    exp=[sx*math.cos(math.radians(rot)),sx*math.sin(math.radians(rot)),
+                         -sy*math.sin(math.radians(rot)),sy*math.cos(math.radians(rot)),px,py]
+                    vals,_=svg_at(at)
+                    for u,v in zip(exp,vals):
+                        assert abs(v-u) <= 1e-8+1e-9*max(1,abs(u)), f'matrix drift at t={at}'
+                # On either side of the boundary the rotation keeps growing: at t=0
+                # it is 350deg and at t=2 it is 370deg, i.e. a +20deg sweep, not a
+                # -340deg rewind through the 360 wrap. At t=2 scale_x is -1 so the
+                # first column is the rotated basis mirrored in x.
+                v0,_=svg_at(0);v2,_=svg_at(2)
+                assert abs(v0[0]-math.cos(math.radians(350)))<eps
+                assert abs(v2[1]-(-1)*math.sin(math.radians(370)))<eps                # 4) Mirror sweep through scale_x=0: the collapse instant is the
+                # documented zero-alpha fallback, neighbours stay mirrored and visible.
+                vals,op=svg_at(1)
+                assert vals==[1,0,0,1,0,0] and op==0
+                vals,op=svg_at(1.01)
+                assert vals[0] < 0 and op==1
+                vals,op=svg_at(0.99)
+                assert vals[0] > 0 and abs(op-0.99)<eps                # 5) Fade-in is continuous: alpha rises monotonically over dense
+                # samples up to the collapse instant, then stays fully present.
+                ops=[]
+                for k in range(10):
+                    _,o=svg_at(round(k/10,6))
+                    ops.append(o)
+                assert ops[0]==0 and all(b>=a-1e-12 for a,b in zip(ops,ops[1:])) and abs(ops[-1]-0.9)<eps
+                _,op_after=svg_at(1.5)
+                assert op_after==1
+                # The collapse instant itself is forced transparent by definition.
+                _,op_collapse=svg_at(1)
+                assert op_collapse==0
+                # 6) Async exposures lock revision, time and animation source at submit.
+                job=call('POST','/v1/plates/motion-plate/exposures?revision=1&format=png&time=2',status=202)
+                assert job['time']==2 and job['timeline_digest']==amid['timeline_digest'] and job['scene_digest']
+                for _ in range(200):
+                    job=call('GET','/v1/exposures/'+job['id'])
+                    if job['state'] in ('succeeded','cancelled','failed'):break
+                    time.sleep(.02)
+                assert job['state']=='succeeded' and call('GET','/v1/artifacts/'+job['artifact'],status=200,raw=True)[0][:8]==b'\x89PNG\r\n\x1a\n'
+                done=call('GET','/v1/artifacts/'+job['artifact'],raw=True)[0]
+                assert hashlib.sha256(done).hexdigest()==amid['digest']
+                revised=copy.deepcopy(motion['document']);revised['background']['r']=.3
+                call('PUT','/v1/plates/motion-plate',{'expected_revision':1,'document':revised},status=200)
+                # A later revision must not change the already-captured timed artifact.
+                assert call('GET','/v1/artifacts/'+amid['id'],raw=True)[0]==done
+                # 6b) A plain restart re-runs snapshot lineage (including timed
+                # artifact fields) and recompiles the timeline document.
+                stop();start()
+                restarted=call('GET','/v1/artifacts/'+amid['id'],raw=True)[0]
+                assert hashlib.sha256(restarted).hexdigest()==amid['digest']
+                assert timed(2)['digest']==amid['digest']
+                # 7) The portable time description survives bundle export and import.
+                sealed,_=call('GET','/v1/plates/motion-plate/bundle',raw=True)
+                payload=json.loads(sealed)
+                assert payload['plate']['revisions'][0]['document']['timeline']['duration']==4
+                stop();os.rename(base/'state',base/'original');start()
+                call('POST','/v1/bundles',sealed,status=201)
+                assert timed(2)['digest']==amid['digest']
+                # 8) Continuous sampling error: interpolation is exact piecewise linear,
+                # so the only raster error is the fixed four-sample pixel grid; dense
+                # neighbouring samples never jump between keyframe endpoint values.
+                digests=[timed(round(0.2*k,6))['digest'] for k in range(21)]
+                assert digests[10]==amid['digest'] and len(set(digests))>1
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()

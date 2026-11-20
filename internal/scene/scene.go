@@ -35,11 +35,42 @@ type Layer struct {
 	Mask    []geom.Op `json:"mask,omitempty"`
 	Shapes  []Shape   `json:"shapes"`
 }
+
+// Keyframe carries the value of its track's channel at one instant. Admission
+// requires every keyframe on a track to define exactly that track's channel;
+// values before the first and after the last keyframe are held, not extrapolated.
+type Keyframe struct {
+	At       float64     `json:"at"`
+	Position *geom.Point `json:"position,omitempty"`
+	Rotation *float64    `json:"rotation,omitempty"`
+	ScaleX   *float64    `json:"scale_x,omitempty"`
+	ScaleY   *float64    `json:"scale_y,omitempty"`
+	Opacity  *float64    `json:"opacity,omitempty"`
+}
+
+// Track binds keyframes of one channel kind to one shape. Kind is one of
+// position, rotation, scale or opacity.
+type Track struct {
+	ID        string     `json:"id"`
+	Target    string     `json:"target"`
+	Kind      string     `json:"kind"`
+	Keyframes []Keyframe `json:"keyframes"`
+}
+
+// Timeline is the portable time description stored inside a document, so it is
+// saved with revisions, sealed into bundles and recompiled on recovery exactly
+// like every other scene fact.
+type Timeline struct {
+	Duration float64 `json:"duration"`
+	Tracks   []Track `json:"tracks"`
+}
+
 type Document struct {
-	Width      int     `json:"width"`
-	Height     int     `json:"height"`
-	Background Color   `json:"background"`
-	Layers     []Layer `json:"layers"`
+	Width      int       `json:"width"`
+	Height     int       `json:"height"`
+	Background Color     `json:"background"`
+	Layers     []Layer   `json:"layers"`
+	Timeline   *Timeline `json:"timeline,omitempty"`
 }
 type CompiledShape struct {
 	Shape   Shape

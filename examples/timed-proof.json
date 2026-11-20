@@ -1,0 +1,178 @@
+{
+  "id": "motion-plate",
+  "title": "关键帧时序校样",
+  "document": {
+    "width": 96,
+    "height": 96,
+    "background": {
+      "r": 0.04,
+      "g": 0.055,
+      "b": 0.09,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "motion-sheet",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "moving-block",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 20,
+                    "y": 20
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 60,
+                    "y": 20
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 60,
+                    "y": 60
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 20,
+                    "y": 60
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.95,
+                "g": 0.4,
+                "b": 0.15,
+                "a": 1
+              }
+            }
+          }
+        ]
+      }
+    ],
+    "timeline": {
+      "duration": 4,
+      "tracks": [
+        {
+          "id": "pos-move",
+          "target": "moving-block",
+          "kind": "position",
+          "keyframes": [
+            {
+              "at": 0,
+              "position": {
+                "x": 10,
+                "y": 10
+              }
+            },
+            {
+              "at": 2,
+              "position": {
+                "x": 40,
+                "y": 30
+              }
+            },
+            {
+              "at": 4,
+              "position": {
+                "x": 10,
+                "y": 10
+              }
+            }
+          ]
+        },
+        {
+          "id": "rot-spin",
+          "target": "moving-block",
+          "kind": "rotation",
+          "keyframes": [
+            {
+              "at": 0,
+              "rotation": 350
+            },
+            {
+              "at": 2,
+              "rotation": 370
+            },
+            {
+              "at": 4,
+              "rotation": 390
+            }
+          ]
+        },
+        {
+          "id": "flip-x",
+          "target": "moving-block",
+          "kind": "scale",
+          "keyframes": [
+            {
+              "at": 0,
+              "scale_x": 1,
+              "scale_y": 1
+            },
+            {
+              "at": 2,
+              "scale_x": -1,
+              "scale_y": 1
+            },
+            {
+              "at": 4,
+              "scale_x": 1,
+              "scale_y": 1
+            }
+          ]
+        },
+        {
+          "id": "fade-in",
+          "target": "moving-block",
+          "kind": "opacity",
+          "keyframes": [
+            {
+              "at": 0,
+              "opacity": 0
+            },
+            {
+              "at": 1,
+              "opacity": 1
+            },
+            {
+              "at": 4,
+              "opacity": 1
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

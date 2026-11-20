@@ -58,6 +58,20 @@ func revision(r *http.Request) (int, error) {
 	}
 	return n, nil
 }
+
+// sampleTime parses the optional time parameter. Absent -> nil (static proof);
+// present must be a finite non-negative number within the timeline domain.
+func sampleTime(r *http.Request) (*float64, error) {
+	raw := r.URL.Query().Get("time")
+	if raw == "" {
+		return nil, nil
+	}
+	v, err := strconv.ParseFloat(raw, 64)
+	if err != nil || v != v || v < 0 {
+		return nil, fmt.Errorf("time must be a non-negative finite number")
+	}
+	return &v, nil
+}
 func (a API) Handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -134,9 +148,14 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
+		at, e := sampleTime(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
 		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
 		defer cancel()
-		v, e := a.Service.Render(ctx, r.PathValue("id"), n, r.URL.Query().Get("format"))
+		v, e := a.Service.Render(ctx, r.PathValue("id"), n, r.URL.Query().Get("format"), at)
 		if e != nil {
 			failure(w, e)
 			return
@@ -150,7 +169,12 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		v, e := a.Service.Submit(r.PathValue("id"), n, r.URL.Query().Get("format"))
+		at, e := sampleTime(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.Submit(r.PathValue("id"), n, r.URL.Query().Get("format"), at)
 		if e != nil {
 			failure(w, e)
 			return
@@ -181,6 +205,10 @@ func (a API) Handler() http.Handler {
 		}
 		w.Header().Set("ETag", `"`+v.Digest+`"`)
 		w.Header().Set("X-Scene-Digest", v.SceneDigest)
+		if v.Time != nil {
+			w.Header().Set("X-Sample-Time", strconv.FormatFloat(*v.Time, 'g', 12, 64))
+			w.Header().Set("X-Timeline-Digest", v.TimelineDigest)
+		}
 		w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")
 		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml"}[v.Format])
 		if r.Header.Get("If-None-Match") == `"`+v.Digest+`"` {

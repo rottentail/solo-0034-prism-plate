@@ -6,6 +6,7 @@ import (
 	"math"
 	"prismplate/internal/geom"
 	"prismplate/internal/scene"
+	"prismplate/internal/timeline"
 	"regexp"
 )
 
@@ -173,6 +174,23 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 	// Four samples per pixel; every fill is bounded even under adversarial input.
 	if int64(c.Segments)*int64(d.Width)*int64(d.Height)*4 > 160_000_000 {
 		return c, fmt.Errorf("scene exceeds bounded rendering work")
+	}
+	if d.Timeline != nil {
+		if err := timeline.Validate(d, d.Timeline); err != nil {
+			return c, err
+		}
+		// Admission must hold at every instant, not just at t=0: recompile the
+		// sampled document for each authored keyframe and both domain endpoints.
+		// Sampled documents carry no timeline, so this never recurses.
+		for _, at := range timeline.KeyframeTimes(d.Timeline) {
+			sampled, err := timeline.Sample(d, d.Timeline, at)
+			if err != nil {
+				return c, err
+			}
+			if _, err = Compile(sampled); err != nil {
+				return c, fmt.Errorf("timeline not admissible at t=%g: %w", at, err)
+			}
+		}
 	}
 	return c, nil
 }

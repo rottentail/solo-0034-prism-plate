@@ -24,6 +24,18 @@ examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、
 
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
+## 关键帧时序取样
+
+文档可携带可选 `timeline`，让形状的位置、旋转、有符号非等比缩放与透明度随时间变化；时间描述是稿本的一部分，随修订冻结、随封包移交、随快照恢复并重新准入。插值范围明确限定为各通道关键帧之间的分段线性，端点外保持不外推。旋转以无界有符号角度存储且永不重绕，跨越360边界按作者方向连续扫掠；缩放允许负值，镜像线性经过零，塌缩瞬间以「保留原可逆变换＋填充完全透明」定义，不产生未解释跳变；透明度在0..1线性淡入淡出。
+
+静态校样在渲染入口追加 `time`：
+
+```sh
+curl -X POST 'http://127.0.0.1:7846/v1/plates/motion-plate/render?revision=1&format=png&time=2'
+```
+
+无timeline的稿本不接受time，有timeline的稿本必须显式指定时刻。写入时服务对每个关键帧端点取样并完整重编译，保证任意时刻取样都满足同一静态准入。定时成品与异步任务锁定稿本摘要、时刻与timeline内容摘要（响应与 `X-Sample-Time`/`X-Timeline-Digest` 头可查），在途任务不受后续修订影响。插值误差为零（精确分段线性），剩余误差仅为既有SVG `%.9g` 输出与PNG四点采样/8位量化；契约细节见 docs/api.md，示例见 examples/timed-proof.json。
+
 ## 版本及生命周期
 
 新建版面的初始稿本为1。PUT 传 expected_revision，只有当前最新版本相符才追加；旧版本不修改。归档禁止后续修订，仍可渲染历史及从历史分支。异步任务提交即捕获指定稿本；稍后修订不会改变它。任务只在当前进程内保留，重启后以已持久化成品为事实，不支持任务续跑；256条任务记录用尽后拒绝新任务。两名工作者、8条等待队列，所有渲染共用2个计算名额，同步或异步均可能在拥挤时得到拒绝。
@@ -37,9 +49,10 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 ```sh
 python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
+python3 scripts/walkthrough.py --workflow timeline
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、timeline。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 
