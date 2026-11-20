@@ -1,0 +1,81 @@
+{
+  "id": "badge-standard",
+  "title": "徽章标准模板",
+  "definition": {
+    "recipe": "badge-v1",
+    "width": 192,
+    "height": 192,
+    "background": {
+      "r": 0.05,
+      "g": 0.06,
+      "b": 0.1,
+      "a": 1
+    },
+    "edge": {
+      "r": 0.95,
+      "g": 0.8,
+      "b": 0.3,
+      "a": 1
+    },
+    "fill_from": {
+      "r": 0.2,
+      "g": 0.5,
+      "b": 0.9,
+      "a": 1
+    },
+    "fill_to": {
+      "r": 0.85,
+      "g": 0.25,
+      "b": 0.35,
+      "a": 1
+    },
+    "core_diameter": 120,
+    "params": [
+      {
+        "name": "margin",
+        "kind": "number",
+        "min": 0,
+        "max": 64
+      },
+      {
+        "name": "levels",
+        "kind": "integer",
+        "min": 2,
+        "max": 12
+      },
+      {
+        "name": "outline",
+        "kind": "number",
+        "min": 0.02,
+        "max": 0.5
+      }
+    ],
+    "constraints": [
+      {
+        "id": "canvas-fit",
+        "terms": {
+          "margin": 2,
+          "span": 1
+        },
+        "op": "<=",
+        "limit": 192
+      },
+      {
+        "id": "ring-floor",
+        "terms": {
+          "ring": 1
+        },
+        "op": ">=",
+        "limit": 1.5
+      },
+      {
+        "id": "ring-cap",
+        "terms": {
+          "ring": 1
+        },
+        "op": "<=",
+        "limit": 30
+      }
+    ]
+  }
+}

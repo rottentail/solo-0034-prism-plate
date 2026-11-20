@@ -10,6 +10,7 @@ import (
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
+	"prismplate/internal/variant"
 	"prismplate/internal/vector"
 	"strconv"
 	"time"
@@ -264,4 +265,160 @@ func (s *Service) Import(raw []byte) (repository.Plate, error) {
 		return nil
 	})
 	return p, e
+}
+func (s *Service) CreateTemplate(id, title string, def variant.Definition) (repository.Template, error) {
+	var t repository.Template
+	if !validate.ID(id) || len(title) == 0 || len(title) > 160 {
+		return t, fmt.Errorf("invalid template identity")
+	}
+	if err := variant.ValidateDefinition(def); err != nil {
+		return t, err
+	}
+	t = repository.Template{ID: id, Title: title, State: "active", Revisions: []repository.TemplateRevision{{Number: 1, Digest: repository.DefinitionHash(def), Definition: def, Created: time.Now().UTC()}}}
+	err := s.Repo.Update(func(st *repository.State) error {
+		if _, ok := st.Templates[id]; ok {
+			return repository.ErrConflict
+		}
+		st.Templates[id] = t
+		return nil
+	})
+	return t, err
+}
+func (s *Service) Template(id string) (repository.Template, error) {
+	t, ok := s.Repo.View().Templates[id]
+	if !ok {
+		return t, repository.ErrMissing
+	}
+	return t, nil
+}
+func (s *Service) ReviseTemplate(id string, expected int, def variant.Definition) (repository.Template, error) {
+	var t repository.Template
+	if err := variant.ValidateDefinition(def); err != nil {
+		return t, err
+	}
+	err := s.Repo.Update(func(st *repository.State) error {
+		var ok bool
+		t, ok = st.Templates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if t.State != "active" {
+			return repository.ErrState
+		}
+		if len(t.Revisions) != expected {
+			return repository.ErrConflict
+		}
+		if len(t.Revisions) >= 32 {
+			return fmt.Errorf("template revision capacity reached")
+		}
+		t.Revisions = append(t.Revisions, repository.TemplateRevision{Number: expected + 1, Digest: repository.DefinitionHash(def), Definition: def, Created: time.Now().UTC()})
+		st.Templates[id] = t
+		return nil
+	})
+	return t, err
+}
+
+// ArchiveTemplate mirrors plate archival: revisions freeze, but historical
+// template revisions stay usable for new batches.
+func (s *Service) ArchiveTemplate(id string) error {
+	return s.Repo.Update(func(st *repository.State) error {
+		t, ok := st.Templates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		t.State = "archived"
+		st.Templates[id] = t
+		return nil
+	})
+}
+
+type ItemRequest struct {
+	Label  string             `json:"label"`
+	Params map[string]float64 `json:"params"`
+}
+
+// CreateBatch resolves every parameter set against one fixed template
+// revision and commits the outcome atomically: each resolved item becomes an
+// independent draft plate whose revision 1 freezes the resolved document,
+// each rejected item keeps only its reason. Template edits afterwards cannot
+// alter the frozen drafts, and replaying the same revision and parameters
+// reproduces the same digest.
+func (s *Service) CreateBatch(templateID string, revision int, batchID string, items []ItemRequest) (repository.Batch, error) {
+	var b repository.Batch
+	if !validate.ID(batchID) {
+		return b, fmt.Errorf("invalid batch identity")
+	}
+	if len(items) < 1 || len(items) > 24 {
+		return b, fmt.Errorf("batch requires 1..24 items")
+	}
+	t, err := s.Template(templateID)
+	if err != nil {
+		return b, err
+	}
+	if revision < 1 || revision > len(t.Revisions) {
+		return b, repository.ErrMissing
+	}
+	rev := t.Revisions[revision-1]
+	labels := map[string]bool{}
+	for _, it := range items {
+		if !validate.ID(it.Label) || labels[it.Label] {
+			return b, fmt.Errorf("invalid or duplicate item label %q", it.Label)
+		}
+		labels[it.Label] = true
+		if len(batchID)+1+len(it.Label) > 64 || len(it.Label)+3+len(t.Title) > 160 {
+			return b, fmt.Errorf("item label %q too long for the derived draft identity", it.Label)
+		}
+	}
+	now := time.Now().UTC()
+	b = repository.Batch{ID: batchID, Template: t.ID, Revision: revision, TemplateDigest: rev.Digest, Created: now}
+	plates := map[string]repository.Plate{}
+	for _, it := range items {
+		item := repository.BatchItem{Label: it.Label, Params: it.Params}
+		doc, err := variant.Resolve(rev.Definition, it.Params)
+		if err != nil {
+			item.State = "rejected"
+			item.Reason = err.Error()
+		} else {
+			digest := repository.SceneHash(doc)
+			plateID := batchID + "-" + it.Label
+			item.State = "resolved"
+			item.Digest = digest
+			item.Plate = plateID
+			item.Document = &doc
+			plates[plateID] = repository.Plate{
+				ID: plateID, Title: it.Label + " / " + t.Title, State: "active",
+				Revisions: []repository.Revision{{Number: 1, Digest: digest, Document: doc, Created: now}},
+				Origin:    &repository.Origin{Batch: batchID, Template: t.ID, Revision: revision, Digest: rev.Digest, Label: it.Label, Params: it.Params},
+			}
+		}
+		b.Items = append(b.Items, item)
+	}
+	err = s.Repo.Update(func(st *repository.State) error {
+		if _, ok := st.Batches[batchID]; ok {
+			return repository.ErrConflict
+		}
+		tv, ok := st.Templates[t.ID]
+		if !ok || revision > len(tv.Revisions) || tv.Revisions[revision-1].Digest != rev.Digest {
+			return repository.ErrConflict
+		}
+		if len(st.Plates)+len(plates) > 128 {
+			return fmt.Errorf("plate capacity reached")
+		}
+		for id, p := range plates {
+			if _, ok := st.Plates[id]; ok {
+				return repository.ErrConflict
+			}
+			st.Plates[id] = p
+		}
+		st.Batches[batchID] = b
+		return nil
+	})
+	return b, err
+}
+func (s *Service) Batch(id string) (repository.Batch, error) {
+	b, ok := s.Repo.View().Batches[id]
+	if !ok {
+		return b, repository.ErrMissing
+	}
+	return b, nil
 }

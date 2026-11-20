@@ -56,6 +56,11 @@
       "id": "transport",
       "name": "HTTP契约",
       "path": "internal/transport"
+    },
+    {
+      "id": "variant",
+      "name": "参数模板与批量解析",
+      "path": "internal/variant"
     }
   ],
   "workflows": [
@@ -314,6 +319,43 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "template",
+      "name": "参数模板版本化",
+      "entry": "POST/PUT /v1/templates",
+      "module_ids": [
+        "transport",
+        "service",
+        "variant",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "模板稿本追加且旧稿本不变",
+      "failure": "非法定义或陈旧版本拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow template"
+    },
+    {
+      "id": "batch",
+      "name": "批量变体解析",
+      "entry": "POST /v1/templates/{id}/batches",
+      "module_ids": [
+        "transport",
+        "service",
+        "variant",
+        "validate",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "成功项冻结为独立草稿版面并记录来源",
+      "failure": "组合越界逐项留因；结构错误整体拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow batch"
     }
   ],
   "complexity": {

@@ -11,6 +11,7 @@ import (
 	"prismplate/internal/service"
 	"prismplate/internal/transport"
 	"prismplate/internal/validate"
+	"prismplate/internal/variant"
 	"syscall"
 	"time"
 )
@@ -31,10 +32,27 @@ func run() error {
 	}
 	defer repo.Close()
 	// A checksum proves identity, not semantic validity. Recompile recovered scenes.
-	for _, p := range repo.View().Plates {
+	st := repo.View()
+	for _, p := range st.Plates {
 		for _, r := range p.Revisions {
 			if _, err = validate.Compile(r.Document); err != nil {
 				return err
+			}
+		}
+	}
+	for _, t := range st.Templates {
+		for _, r := range t.Revisions {
+			if err = variant.ValidateDefinition(r.Definition); err != nil {
+				return err
+			}
+		}
+	}
+	for _, b := range st.Batches {
+		for _, it := range b.Items {
+			if it.State == "resolved" {
+				if _, err = validate.Compile(*it.Document); err != nil {
+					return err
+				}
 			}
 		}
 	}

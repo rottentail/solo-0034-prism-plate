@@ -5,6 +5,7 @@ ROOT=pathlib.Path(__file__).resolve().parents[1]
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--workflow',required=True);args=parser.parse_args()
     seed=json.loads((ROOT/'examples/amber-proof.json').read_text())
+    tseed=json.loads((ROOT/'examples/badge-template.json').read_text())
     with tempfile.TemporaryDirectory(prefix='prism-plate-') as tmp:
         base=pathlib.Path(tmp);binary=base/'prismplate';subprocess.run(['go','build','-o',str(binary),'./cmd/prismplate'],cwd=ROOT,check=True)
         sock=socket.socket();sock.bind(('127.0.0.1',0));port=sock.getsockname()[1];sock.close();url=f'http://127.0.0.1:{port}'
@@ -84,6 +85,56 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='template':
+                t=call('POST','/v1/templates',tseed,status=201);assert t['revisions'][0]['number']==1
+                call('POST','/v1/templates',tseed,status=409)
+                bad=copy.deepcopy(tseed);bad['id']='badge-bad-term';bad['definition']['constraints'][0]['terms']={'nope':1};call('POST','/v1/templates',bad,status=400)
+                bad=copy.deepcopy(tseed);bad['id']='badge-bad-kind';bad['definition']['params'][1]['kind']='number';call('POST','/v1/templates',bad,status=400)
+                bad=copy.deepcopy(tseed);bad['id']='badge-bad-canvas';bad['definition']['width']=513;call('POST','/v1/templates',bad,status=400)
+                rev=copy.deepcopy(tseed['definition']);rev['edge']={'r':0.9,'g':0.2,'b':0.2,'a':1}
+                call('PUT','/v1/templates/badge-standard',{'expected_revision':2,'definition':rev},status=409)
+                t=call('PUT','/v1/templates/badge-standard',{'expected_revision':1,'definition':rev});assert t['revisions'][1]['number']==2
+                got=call('GET','/v1/templates/badge-standard');assert got['revisions'][0]['definition']==tseed['definition']
+                call('POST','/v1/templates/badge-standard/archive');call('PUT','/v1/templates/badge-standard',{'expected_revision':2,'definition':rev},status=409)
+                call('GET','/v1/templates/missing',status=404)
+            elif w=='batch':
+                t=call('POST','/v1/templates',tseed,status=201)
+                body=json.loads((ROOT/'examples/badge-batch.json').read_text())
+                call('POST','/v1/templates/badge-standard/batches',body,status=400)
+                call('POST','/v1/templates/badge-standard/batches?revision=9',body,status=404)
+                call('POST','/v1/templates/missing/batches?revision=1',body,status=404)
+                b=call('POST','/v1/templates/badge-standard/batches?revision=1',body,status=201)
+                by={i['label']:i for i in b['items']}
+                assert by['compact']['state']=='resolved' and by['wide-ring']['state']=='resolved'
+                assert by['overflow']['state']=='rejected' and 'canvas-fit' in by['overflow']['reason']
+                assert by['hairline']['state']=='rejected' and 'ring-floor' in by['hairline']['reason']
+                assert by['domain']['state']=='rejected' and 'outside' in by['domain']['reason']
+                assert by['stray']['state']=='rejected' and 'unknown parameter' in by['stray']['reason']
+                call('POST','/v1/templates/badge-standard/batches?revision=1',body,status=409)
+                plate_id=by['compact']['plate']
+                p=call('GET','/v1/plates/'+plate_id)
+                assert p['origin']['template']=='badge-standard' and p['origin']['revision']==1 and p['origin']['params']==body['items'][0]['params']
+                a=call('POST',f'/v1/plates/{plate_id}/render?revision=1&format=png',status=201)
+                raw,_=call('GET','/v1/artifacts/'+a['id'],raw=True);assert raw[:8]==b'\x89PNG\r\n\x1a\n'
+                call('POST','/v1/proofs',{'id':'proof-compact','artifact':a['id']},status=201)
+                assert call('PUT','/v1/proofs/proof-compact',{'state':'accepted','note':'边距与色阶通过'})['state']=='accepted'
+                call('GET','/v1/plates/'+body['id']+'-overflow',status=404)
+                got=call('GET','/v1/batches/'+body['id']);assert got['template_digest']==t['revisions'][0]['digest']
+                rev=copy.deepcopy(tseed['definition']);rev['fill_to']={'r':0.1,'g':0.9,'b':0.4,'a':1}
+                call('PUT','/v1/templates/badge-standard',{'expected_revision':1,'definition':rev})
+                body2=copy.deepcopy(body);body2['id']='badge-batch-002';body2['items']=[body['items'][0]]
+                b2=call('POST','/v1/templates/badge-standard/batches?revision=1',body2,status=201)
+                assert b2['items'][0]['digest']==by['compact']['digest']
+                b3=call('POST','/v1/templates/badge-standard/batches?revision=2',{**body2,'id':'badge-batch-003'},status=201)
+                assert b3['items'][0]['digest']!=by['compact']['digest']
+                dup=copy.deepcopy(body2);dup['id']='badge-batch-004';dup['items']=[body['items'][0],body['items'][0]]
+                call('POST','/v1/templates/badge-standard/batches?revision=1',dup,status=400)
+                call('POST','/v1/templates/badge-standard/archive')
+                b4=call('POST','/v1/templates/badge-standard/batches?revision=1',{**body2,'id':'badge-batch-005'},status=201)
+                assert b4['items'][0]['state']=='resolved'
+                stop();start()
+                again=call('GET','/v1/batches/'+body['id']);assert again['items'][0]['digest']==by['compact']['digest']
+                assert call('POST',f'/v1/plates/{plate_id}/render?revision=1&format=png',status=201)['digest']==a['digest']
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()

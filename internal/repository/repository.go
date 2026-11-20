@@ -10,6 +10,8 @@ import (
 	"os"
 	"path/filepath"
 	"prismplate/internal/scene"
+	"prismplate/internal/variant"
+	"reflect"
 	"sync"
 	"time"
 )
@@ -24,11 +26,56 @@ type Revision struct {
 	Document scene.Document `json:"document"`
 	Created  time.Time      `json:"created"`
 }
+
+// Origin pins the template provenance of a batch-resolved draft plate. The
+// frozen document lives in revision 1; Origin explains which template
+// revision and parameter set produced it.
+type Origin struct {
+	Batch    string             `json:"batch"`
+	Template string             `json:"template"`
+	Revision int                `json:"revision"`
+	Digest   string             `json:"digest"`
+	Label    string             `json:"label"`
+	Params   map[string]float64 `json:"params"`
+}
 type Plate struct {
 	ID        string     `json:"id"`
 	Title     string     `json:"title"`
 	State     string     `json:"state"`
 	Revisions []Revision `json:"revisions"`
+	Origin    *Origin    `json:"origin,omitempty"`
+}
+type TemplateRevision struct {
+	Number     int                `json:"number"`
+	Digest     string             `json:"digest"`
+	Definition variant.Definition `json:"definition"`
+	Created    time.Time          `json:"created"`
+}
+type Template struct {
+	ID        string             `json:"id"`
+	Title     string             `json:"title"`
+	State     string             `json:"state"`
+	Revisions []TemplateRevision `json:"revisions"`
+}
+
+// BatchItem is one submitted parameter set. Resolved items carry the frozen
+// document and its draft plate; rejected items carry only the reason.
+type BatchItem struct {
+	Label    string             `json:"label"`
+	Params   map[string]float64 `json:"params"`
+	State    string             `json:"state"`
+	Reason   string             `json:"reason,omitempty"`
+	Digest   string             `json:"digest,omitempty"`
+	Plate    string             `json:"plate,omitempty"`
+	Document *scene.Document    `json:"document,omitempty"`
+}
+type Batch struct {
+	ID             string      `json:"id"`
+	Template       string      `json:"template"`
+	Revision       int         `json:"revision"`
+	TemplateDigest string      `json:"template_digest"`
+	Items          []BatchItem `json:"items"`
+	Created        time.Time   `json:"created"`
 }
 type Artifact struct {
 	ID          string `json:"id"`
@@ -51,6 +98,8 @@ type State struct {
 	Plates    map[string]Plate    `json:"plates"`
 	Artifacts map[string]Artifact `json:"artifacts"`
 	Proofs    map[string]Proof    `json:"proofs"`
+	Templates map[string]Template `json:"templates"`
+	Batches   map[string]Batch    `json:"batches"`
 }
 type Repo struct {
 	mu    sync.RWMutex
@@ -61,8 +110,12 @@ type Repo struct {
 
 func Hash(b []byte) string              { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
 func SceneHash(d scene.Document) string { b, _ := json.Marshal(d); return Hash(b) }
+func DefinitionHash(d variant.Definition) string {
+	b, _ := json.Marshal(d)
+	return Hash(b)
+}
 func Fresh() State {
-	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}}
+	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}, Templates: map[string]Template{}, Batches: map[string]Batch{}}
 }
 func Open(root string) (*Repo, error) {
 	if err := os.MkdirAll(root, 0700); err != nil {
@@ -82,6 +135,13 @@ func Open(root string) (*Repo, error) {
 			err = json.Unmarshal(b, &r.state)
 		}
 		if err == nil {
+			// Snapshots written before templates and batches existed restore as empty sets.
+			if r.state.Templates == nil {
+				r.state.Templates = map[string]Template{}
+			}
+			if r.state.Batches == nil {
+				r.state.Batches = map[string]Batch{}
+			}
 			err = Check(r.state)
 		}
 	}
@@ -94,8 +154,18 @@ func Open(root string) (*Repo, error) {
 
 // Check verifies internal lineage before a restored state can become authoritative.
 func Check(s State) error {
-	if s.Schema != "prism-plate-v1" || s.Plates == nil || s.Artifacts == nil || s.Proofs == nil {
+	if s.Schema != "prism-plate-v1" || s.Plates == nil || s.Artifacts == nil || s.Proofs == nil || s.Templates == nil || s.Batches == nil {
 		return fmt.Errorf("unsupported snapshot schema")
+	}
+	for id, t := range s.Templates {
+		if t.ID != id || len(t.Revisions) == 0 || len(t.Revisions) > 32 || (t.State != "active" && t.State != "archived") {
+			return fmt.Errorf("invalid template lineage")
+		}
+		for i, r := range t.Revisions {
+			if r.Number != i+1 || r.Digest != DefinitionHash(r.Definition) {
+				return fmt.Errorf("invalid template revision digest")
+			}
+		}
 	}
 	for id, p := range s.Plates {
 		if p.ID != id || len(p.Revisions) == 0 || (p.State != "active" && p.State != "archived") {
@@ -104,6 +174,27 @@ func Check(s State) error {
 		for i, r := range p.Revisions {
 			if r.Number != i+1 || r.Digest != SceneHash(r.Document) {
 				return fmt.Errorf("invalid revision digest")
+			}
+		}
+		// Draft provenance is enforced against the batch record when the batch
+		// lives in this instance; an imported bundle carries it as declared
+		// provenance because the template may not exist here.
+		if o := p.Origin; o != nil {
+			b, ok := s.Batches[o.Batch]
+			if !ok {
+				continue
+			}
+			if b.Template != o.Template || b.Revision != o.Revision || b.TemplateDigest != o.Digest {
+				return fmt.Errorf("invalid draft origin")
+			}
+			found := false
+			for _, it := range b.Items {
+				if it.Label == o.Label && it.State == "resolved" && it.Plate == p.ID && it.Digest == p.Revisions[0].Digest && reflect.DeepEqual(it.Params, o.Params) {
+					found = true
+				}
+			}
+			if !found {
+				return fmt.Errorf("invalid draft origin")
 			}
 		}
 	}
@@ -117,6 +208,35 @@ func Check(s State) error {
 		_, ok := s.Artifacts[p.Artifact]
 		if p.ID != id || !ok || (p.State != "open" && p.State != "accepted" && p.State != "rejected") {
 			return fmt.Errorf("invalid proof lineage")
+		}
+	}
+	for id, b := range s.Batches {
+		t, ok := s.Templates[b.Template]
+		if !ok || b.ID != id || b.Revision < 1 || b.Revision > len(t.Revisions) || b.TemplateDigest != t.Revisions[b.Revision-1].Digest || len(b.Items) == 0 || len(b.Items) > 24 {
+			return fmt.Errorf("invalid batch lineage")
+		}
+		labels := map[string]bool{}
+		for _, it := range b.Items {
+			if labels[it.Label] {
+				return fmt.Errorf("invalid batch item")
+			}
+			labels[it.Label] = true
+			switch it.State {
+			case "resolved":
+				if it.Document == nil || it.Reason != "" || it.Digest == "" || SceneHash(*it.Document) != it.Digest {
+					return fmt.Errorf("invalid batch item lineage")
+				}
+				p, ok := s.Plates[it.Plate]
+				if !ok || p.Revisions[0].Digest != it.Digest || p.Origin == nil || p.Origin.Batch != id || p.Origin.Label != it.Label {
+					return fmt.Errorf("invalid batch item lineage")
+				}
+			case "rejected":
+				if it.Reason == "" || it.Digest != "" || it.Plate != "" || it.Document != nil {
+					return fmt.Errorf("invalid batch item lineage")
+				}
+			default:
+				return fmt.Errorf("invalid batch item state")
+			}
 		}
 	}
 	return nil
@@ -139,7 +259,7 @@ func (r *Repo) Update(fn func(*State) error) error {
 	if err := Check(next); err != nil {
 		return err
 	}
-	if len(next.Plates) > 128 || len(next.Artifacts) > 256 || len(next.Proofs) > 1024 {
+	if len(next.Plates) > 128 || len(next.Artifacts) > 256 || len(next.Proofs) > 1024 || len(next.Templates) > 64 || len(next.Batches) > 64 {
 		return fmt.Errorf("snapshot object capacity reached")
 	}
 	b, err := json.Marshal(next)

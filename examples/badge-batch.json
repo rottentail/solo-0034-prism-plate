@@ -1,0 +1,54 @@
+{
+  "id": "badge-batch-001",
+  "items": [
+    {
+      "label": "compact",
+      "params": {
+        "margin": 24,
+        "levels": 6,
+        "outline": 0.12
+      }
+    },
+    {
+      "label": "wide-ring",
+      "params": {
+        "margin": 12,
+        "levels": 8,
+        "outline": 0.3
+      }
+    },
+    {
+      "label": "overflow",
+      "params": {
+        "margin": 40,
+        "levels": 6,
+        "outline": 0.4
+      }
+    },
+    {
+      "label": "hairline",
+      "params": {
+        "margin": 10,
+        "levels": 6,
+        "outline": 0.02
+      }
+    },
+    {
+      "label": "domain",
+      "params": {
+        "margin": 80,
+        "levels": 6,
+        "outline": 0.1
+      }
+    },
+    {
+      "label": "stray",
+      "params": {
+        "margin": 20,
+        "levels": 6,
+        "outline": 0.1,
+        "glow": 1
+      }
+    }
+  ]
+}

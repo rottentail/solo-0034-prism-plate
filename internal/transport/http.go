@@ -12,6 +12,7 @@ import (
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
+	"prismplate/internal/variant"
 	"strconv"
 	"time"
 )
@@ -250,6 +251,83 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 201, v)
+	})
+	mux.HandleFunc("POST /v1/templates", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			ID         string             `json:"id"`
+			Title      string             `json:"title"`
+			Definition variant.Definition `json:"definition"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.CreateTemplate(q.ID, q.Title, q.Definition)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, v)
+	})
+	mux.HandleFunc("GET /v1/templates/{id}", func(w http.ResponseWriter, r *http.Request) {
+		v, e := a.Service.Template(r.PathValue("id"))
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("PUT /v1/templates/{id}", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Expected   int                `json:"expected_revision"`
+			Definition variant.Definition `json:"definition"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.ReviseTemplate(r.PathValue("id"), q.Expected, q.Definition)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("POST /v1/templates/{id}/archive", func(w http.ResponseWriter, r *http.Request) {
+		if e := a.Service.ArchiveTemplate(r.PathValue("id")); e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, map[string]string{"state": "archived"})
+	})
+	mux.HandleFunc("POST /v1/templates/{id}/batches", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q struct {
+			ID    string                `json:"id"`
+			Items []service.ItemRequest `json:"items"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.CreateBatch(r.PathValue("id"), n, q.ID, q.Items)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, v)
+	})
+	mux.HandleFunc("GET /v1/batches/{id}", func(w http.ResponseWriter, r *http.Request) {
+		v, e := a.Service.Batch(r.PathValue("id"))
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")
