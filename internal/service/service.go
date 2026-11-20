@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"prismplate/internal/bundle"
+	"prismplate/internal/convert"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
@@ -95,6 +96,21 @@ func (s *Service) Branch(id string, revision int, target, title string) (reposit
 		return p, repository.ErrMissing
 	}
 	return s.Create(target, title, p.Revisions[revision-1].Document)
+}
+
+// ConvertFillRule produces a revision candidate that swaps one shape's fill
+// rule while preserving its visible region. It is a pure read over an existing
+// revision: no plate state is changed and the source revision remains the
+// immutable original; the caller commits the returned document via Revise.
+func (s *Service) ConvertFillRule(id string, revision int, layerID, shapeID, targetRule string) (convert.Result, error) {
+	r, err := s.capture(id, revision)
+	if err != nil {
+		return convert.Result{}, err
+	}
+	if targetRule != "nonzero" && targetRule != "evenodd" {
+		return convert.Result{}, fmt.Errorf("target fill rule must be nonzero or evenodd")
+	}
+	return convert.Document(id, layerID, shapeID, targetRule, r.Document)
 }
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
 	p, err := s.Plate(id)

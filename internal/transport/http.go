@@ -121,6 +121,31 @@ func (a API) Handler() http.Handler {
 		}
 		jsonOut(w, 201, p)
 	})
+	// ConvertFillRule returns a region-preserving fill-rule revision candidate
+	// plus geometric evidence. It never mutates the plate; the candidate is
+	// committed through the normal PUT revision flow after review.
+	mux.HandleFunc("POST /v1/plates/{id}/convert-fill", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q struct {
+			LayerID    string `json:"layer_id"`
+			ShapeID    string `json:"shape_id"`
+			TargetRule string `json:"target_rule"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.ConvertFillRule(r.PathValue("id"), n, q.LayerID, q.ShapeID, q.TargetRule)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
 	mux.HandleFunc("POST /v1/plates/{id}/archive", func(w http.ResponseWriter, r *http.Request) {
 		if e := a.Service.Archive(r.PathValue("id")); e != nil {
 			failure(w, e)

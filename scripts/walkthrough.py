@@ -81,6 +81,28 @@ def main():
             elif w=='isolation':
                 lockproc=subprocess.run([str(binary),'-listen','127.0.0.1:0','-data',str(base/'state')],capture_output=True,timeout=3);assert lockproc.returncode!=0;assert b'locked' in lockproc.stderr
                 call('POST','/v1/plates',b'{"id":"x"} true',status=400)
+            elif w=='convert':
+                pt=lambda x,y:{'x':x,'y':y}
+                ring=lambda x0,y0,x1,y1:[{'kind':'M','points':[pt(x0,y0)]},{'kind':'L','points':[pt(x1,y0)]},{'kind':'L','points':[pt(x1,y1)]},{'kind':'L','points':[pt(x0,y1)]},{'kind':'Z'}]
+                fill=copy.deepcopy(seed);fill['id']='fill-plate';fill['title']='填充规则转换'
+                shape=fill['document']['layers'][1]['shapes'][0]
+                shape['fill_rule']='evenodd';shape['path']=ring(8,8,184,136)+ring(40,30,150,120)
+                call('POST','/v1/plates',fill,status=201)
+                before=call('POST','/v1/plates/fill-plate/render?revision=1&format=png',status=201)
+                conv=call('POST','/v1/plates/fill-plate/convert-fill?revision=1',{'layer_id':'cyan-glaze','shape_id':'cyan-window','target_rule':'nonzero'},status=200)
+                rep=conv['report'];assert rep['grid_mismatches']==0 and rep['candidate_compiles'] and rep['reliability'] in ('exact','approx')
+                assert rep['area_absolute_delta']<=rep['area_tolerance']
+                # The original revision is immutable until the candidate is committed.
+                assert len(call('GET','/v1/plates/fill-plate')['revisions'])==1
+                call('PUT','/v1/plates/fill-plate',{'expected_revision':1,'document':conv['candidate_document']},status=200)
+                after=call('POST','/v1/plates/fill-plate/render?revision=2&format=png',status=201)
+                assert call('GET','/v1/artifacts/'+before['id'],raw=True)[0]==call('GET','/v1/artifacts/'+after['id'],raw=True)[0]
+                # Re-converting to the same rule and targeting a missing shape are rejected.
+                call('POST','/v1/plates/fill-plate/convert-fill?revision=2',{'layer_id':'cyan-glaze','shape_id':'cyan-window','target_rule':'nonzero'},status=400)
+                call('POST','/v1/plates/fill-plate/convert-fill?revision=2',{'layer_id':'cyan-glaze','shape_id':'ghost','target_rule':'evenodd'},status=400)
+                # The hole stays empty in the committed nonzero geometry.
+                committed=call('GET','/v1/plates/fill-plate')['revisions'][1]['document']['layers'][1]['shapes'][0]
+                assert committed['fill_rule']=='nonzero' and len(committed['path'])==len(ring(0,0,1,1))+len(ring(0,0,1,1))
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1

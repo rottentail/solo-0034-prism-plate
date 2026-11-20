@@ -37,9 +37,12 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 ```sh
 python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
+python3 scripts/walkthrough.py --workflow convert
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、convert。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+填充规则（nonzero/evenodd）互转不是替换字段，而是生成保持可见区域的可编辑改稿候选：`POST /v1/plates/{id}/convert-fill?revision=n` 返回候选文档与面积、网格、可靠性证据，原稿不被改写，审阅后再用普通修订提交；窄通道、相切和曲线细分等近似或超节点限额的情况会在提交前说明。详见 docs/fill-rule-conversion.md。真实图像与几何证据由 `scripts/fill_convert_evidence.py` 生成到 var/fill-convert-evidence（含逐字节一致的前后 PNG 与 manifest.json）。
 
 ## 持久化与范围
 
