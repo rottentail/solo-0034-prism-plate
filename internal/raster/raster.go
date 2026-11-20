@@ -14,6 +14,16 @@ import (
 
 func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 	d := c.Document
+	// Mesh color functions are compiled once per render; sampling stays pure.
+	meshes := make([][]*paint.Mesh, len(c.Layers))
+	for i, l := range c.Layers {
+		meshes[i] = make([]*paint.Mesh, len(l.Shapes))
+		for j, s := range l.Shapes {
+			if s.Shape.Brush.Kind == "mesh" && s.Shape.Brush.Mesh != nil {
+				meshes[i][j] = paint.CompileMesh(s.Shape.Brush.Mesh)
+			}
+		}
+	}
 	img := image.NewNRGBA(image.Rect(0, 0, d.Width, d.Height))
 	for y := 0; y < d.Height; y++ {
 		if err := ctx.Err(); err != nil {
@@ -25,7 +35,7 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 				for sx := 0; sx < 2; sx++ {
 					p := geom.Point{X: float64(x) + (float64(sx)+0.5)/2, Y: float64(y) + (float64(sy)+0.5)/2}
 					dst := paint.From(d.Background)
-					for _, l := range c.Layers {
+					for i, l := range c.Layers {
 						if len(l.Clip) > 0 && !l.Clip.Contains(p, "nonzero") {
 							continue
 						}
@@ -33,10 +43,20 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 							continue
 						}
 						src := paint.Pixel{}
-						for _, s := range l.Shapes {
+						for j, s := range l.Shapes {
 							q := s.Inverse.Apply(p)
 							if s.Path.Contains(q, s.Shape.FillRule) {
-								src = paint.Over(src, paint.Sample(s.Shape.Brush, q), "normal")
+								var px paint.Pixel
+								if s.Shape.Brush.Kind == "mesh" {
+									// Admitted scenes always carry mesh data;
+									// a missing grid samples transparent.
+									if m := meshes[i][j]; m != nil {
+										px = m.Sample(q)
+									}
+								} else {
+									px = paint.Sample(s.Shape.Brush, q)
+								}
+								src = paint.Over(src, px, "normal")
 							}
 						}
 						dst = paint.Over(dst, src.Scale(l.Layer.Opacity), l.Layer.Blend)

@@ -56,12 +56,128 @@ func path(ops []geom.Op) (geom.Path, error) {
 	}
 	return geom.Flatten(ops), nil
 }
+
+// MeshMinDoubleArea is the smallest admitted doubled triangle area in shape
+// local units; below it barycentric interpolation is ill-conditioned.
+const MeshMinDoubleArea = 1e-9
+
+// MeshOverlapRatio bounds admitted triangle intersection area relative to the
+// smaller triangle, with an absolute floor for degenerate-scale scenes.
+const MeshOverlapRatio = 1e-9
+
+func doubleArea(a, b, c geom.Point) float64 {
+	return (b.X-a.X)*(c.Y-a.Y) - (b.Y-a.Y)*(c.X-a.X)
+}
+
+// clipHalfPlane keeps the part of poly on the interior side of edge a->b;
+// sign orients the edge toward the clip triangle interior.
+func clipHalfPlane(poly []geom.Point, a, b geom.Point, sign float64) []geom.Point {
+	var out []geom.Point
+	f := func(p geom.Point) float64 { return sign * ((b.X-a.X)*(p.Y-a.Y) - (b.Y-a.Y)*(p.X-a.X)) }
+	for i, s := range poly {
+		e := poly[(i+1)%len(poly)]
+		fs, fe := f(s), f(e)
+		if fe >= 0 {
+			if fs < 0 {
+				if d := fs - fe; d != 0 {
+					u := fs / d
+					out = append(out, geom.Point{X: s.X + u*(e.X-s.X), Y: s.Y + u*(e.Y-s.Y)})
+				}
+			}
+			out = append(out, e)
+		} else if fs >= 0 {
+			if d := fs - fe; d != 0 {
+				u := fs / d
+				out = append(out, geom.Point{X: s.X + u*(e.X-s.X), Y: s.Y + u*(e.Y-s.Y)})
+			}
+		}
+	}
+	return out
+}
+
+// intersectionArea is the overlap area of two triangles via convex clipping;
+// shared edges or vertices contribute zero area and stay legal.
+func intersectionArea(t1, t2 [3]geom.Point) float64 {
+	poly := []geom.Point{t2[0], t2[1], t2[2]}
+	sign := 1.0
+	if doubleArea(t1[0], t1[1], t1[2]) < 0 {
+		sign = -1
+	}
+	for i := 0; i < 3 && len(poly) > 0; i++ {
+		poly = clipHalfPlane(poly, t1[i], t1[(i+1)%3], sign)
+	}
+	if len(poly) < 3 {
+		return 0
+	}
+	area := 0.0
+	for i, p := range poly {
+		q := poly[(i+1)%len(poly)]
+		area += p.X*q.Y - p.Y*q.X
+	}
+	return math.Abs(area) / 2
+}
+
+// mesh admits a vertex-color triangle grid. Triangles must be non-degenerate
+// and free of interior overlap, so the sampled color function is single
+// valued: no shared-edge cracks and no double compositing are possible.
+func mesh(m *scene.Mesh) error {
+	if m == nil {
+		return fmt.Errorf("mesh brush requires mesh data")
+	}
+	if len(m.Vertices) < 3 || len(m.Vertices) > 256 {
+		return fmt.Errorf("mesh requires 3..256 vertices")
+	}
+	for _, v := range m.Vertices {
+		if !finite(v.X) || !finite(v.Y) || !Color(v.Color) {
+			return fmt.Errorf("invalid mesh vertex")
+		}
+	}
+	if len(m.Triangles) < 1 || len(m.Triangles) > 256 {
+		return fmt.Errorf("mesh requires 1..256 triangles")
+	}
+	n := len(m.Vertices)
+	tris := make([][3]geom.Point, len(m.Triangles))
+	areas := make([]float64, len(m.Triangles))
+	for i, t := range m.Triangles {
+		if t.A < 0 || t.B < 0 || t.C < 0 || t.A >= n || t.B >= n || t.C >= n {
+			return fmt.Errorf("mesh triangle index out of range")
+		}
+		if t.A == t.B || t.B == t.C || t.A == t.C {
+			return fmt.Errorf("mesh triangle indices must be distinct")
+		}
+		tris[i] = [3]geom.Point{
+			{X: m.Vertices[t.A].X, Y: m.Vertices[t.A].Y},
+			{X: m.Vertices[t.B].X, Y: m.Vertices[t.B].Y},
+			{X: m.Vertices[t.C].X, Y: m.Vertices[t.C].Y},
+		}
+		da := doubleArea(tris[i][0], tris[i][1], tris[i][2])
+		if math.Abs(da) < MeshMinDoubleArea {
+			return fmt.Errorf("degenerate mesh triangle")
+		}
+		areas[i] = math.Abs(da) / 2
+	}
+	for i := 0; i < len(tris); i++ {
+		for j := i + 1; j < len(tris); j++ {
+			limit := MeshOverlapRatio * math.Min(areas[i], areas[j])
+			if limit < 1e-12 {
+				limit = 1e-12
+			}
+			if intersectionArea(tris[i], tris[j]) > limit {
+				return fmt.Errorf("mesh triangles overlap")
+			}
+		}
+	}
+	return nil
+}
 func brush(b scene.Brush) error {
 	if b.Kind == "solid" {
 		if !Color(b.Color) {
 			return fmt.Errorf("invalid solid color")
 		}
 		return nil
+	}
+	if b.Kind == "mesh" {
+		return mesh(b.Mesh)
 	}
 	if b.Kind != "linear" {
 		return fmt.Errorf("unknown brush")
@@ -166,6 +282,11 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 				return c, e
 			}
 			count(p)
+			// A mesh sample tests each triangle like a short contour; three
+			// edge-equivalents per triangle keeps the work budget honest.
+			if s.Brush.Kind == "mesh" && s.Brush.Mesh != nil {
+				c.Segments += 3 * len(s.Brush.Mesh.Triangles)
+			}
 			cl.Shapes = append(cl.Shapes, scene.CompiledShape{Shape: s, Path: p, Inverse: inv})
 		}
 		c.Layers = append(c.Layers, cl)

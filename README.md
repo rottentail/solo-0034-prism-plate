@@ -22,7 +22,11 @@ curl -X POST 'http://127.0.0.1:7846/v1/plates/amber-plate/render?revision=1&form
 
 examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、裁域、二值蒙版和 screen 叠色。坐标原点在左上，颜色为 0..1 的 sRGB 直通色值，PNG 在内部转换为线性光预乘透明度。M/L/Q/C/Z 路径必须显式闭合，轮廓至少三条端点指令；Q/C 分别固定细分16/24段。图层可选 normal/multiply/screen，组透明度在整层合成后施加，蒙版与裁域处于版面坐标，笔刷与填充轮廓处于形状局部坐标。未提供的数值使用 JSON 的零值；形状必须明确传入可逆 transform。
 
+examples/prism-mesh.json 提供顶点颜色三角网格笔刷（brush.kind 为 mesh）：mesh.vertices 为 3..256 个带 sRGB 颜色的顶点，mesh.triangles 为 1..256 个三顶点索引。网格坐标处于形状局部坐标，随轮廓一起被 transform 变换，填充仍受填充规则镂空、图层裁域与蒙版约束。插值在线性光预乘空间按重心坐标进行，细长三角形与半透明顶点都有确定结果；采样点归属网格序中第一个重心权重均不低于 -1e-9 的三角形，因此共享边不会裂缝也不会重复叠色，网格并集之外为透明。准入边界：顶点坐标有限且绝对值不超过 1e6，索引互异且在界内，三角形双倍面积至少 1e-9，任意两个三角形的相交面积不得超过较小三角形面积的 1e-9（绝对下限 1e-12），共边或共点不算重叠；每个三角形按 3 条边计入渲染预算。
+
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
+
+网格笔刷的 SVG 移交是诚实的：SVG 1.1 没有三角网格渐变，单个 linearGradient 也无法表达一个三角形上四个独立的仿射通道场，因此网格填充以画布分辨率栅格内嵌为 data: PNG——与权威 PNG 校样使用同一颜色函数、同一亚像素采样网格，被裁域内的像素与 PNG 逐字节一致；轮廓、镂空、裁域与蒙版仍保持矢量裁切。放大超过画布分辨率会看到像素而非矢量边缘，这是声明的取舍而非矢量近似。成品响应的 CSP 相应允许 img-src data:，仍然禁止脚本与外链。
 
 ## 版本及生命周期
 
@@ -39,7 +43,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、mesh。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 

@@ -314,6 +314,28 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "mesh",
+      "name": "顶点色三角网格渐变",
+      "entry": "POST /v1/plates → render?format=png|svg",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "geom",
+        "paint",
+        "raster",
+        "vector",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "共享边无裂缝无叠色,镂空裁域生效,摘要确定",
+      "failure": "退化/重叠/越界网格400",
+      "verification": "python3 scripts/walkthrough.py --workflow mesh"
     }
   ],
   "complexity": {

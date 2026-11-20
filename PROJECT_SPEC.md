@@ -2,7 +2,7 @@
 
 用户为需要二维叠色校样的设计集成人员。核心工作是提交几何版面、冻结稿本、生成可追溯图像、校验并移交源稿。没有前端依赖，HTTP JSON是业务入口。
 
-实体：Document（画布背景与尺寸）、Layer（隔离组透明度/混合方式）、Shape（局部轮廓与变换）、Brush（实色或渐变）、Revision（序号/摘要/时间）、Plate（版面历史）、Artifact（二进制内容及谱系）、Proof（终局校样）、Exposure（瞬态任务）、Envelope（带摘要的历史封包）。
+实体：Document（画布背景与尺寸）、Layer（隔离组透明度/混合方式）、Shape（局部轮廓与变换）、Brush（实色、线性渐变或顶点色三角网格）、Revision（序号/摘要/时间）、Plate（版面历史）、Artifact（二进制内容及谱系）、Proof（终局校样）、Exposure（瞬态任务）、Envelope（带摘要的历史封包）。
 
 职责分工：scene定义契约；geom负责仿射和闭合轮廓展开；validate负责准入与估算预算；paint处理线性光合成；raster负责确定性覆盖采样与PNG；vector负责复用几何的安全SVG；repository负责原子快照、谱系校验与写入锁；exposure负责有界并发与取消；bundle负责封包摘要、版本和导入校验；service维护稿本与成品/校样关系；transport负责HTTP编解码与状态码；cmd负责启动恢复和关停。
 

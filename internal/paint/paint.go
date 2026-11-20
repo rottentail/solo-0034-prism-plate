@@ -50,6 +50,76 @@ func Sample(b scene.Brush, p geom.Point) Pixel {
 	}
 	return From(b.Stops[len(b.Stops)-1].Color)
 }
+
+// MeshTol is the dimensionless barycentric membership tolerance. A sample
+// point is owned by the first triangle (mesh order) whose weights all exceed
+// -MeshTol, so points on shared edges resolve to exactly one triangle and no
+// point inside the union falls between triangles.
+const MeshTol = 1e-9
+
+type meshTri struct {
+	x0, y0     float64
+	e1x, e1y   float64
+	e2x, e2y   float64
+	invDen     float64
+	minX, minY float64
+	maxX, maxY float64
+	c0, c1, c2 Pixel
+}
+
+// Mesh is the compiled form of scene.Mesh: barycentric constants, per-triangle
+// bounds and premultiplied linear vertex colors, all fixed at compile time.
+type Mesh struct{ tris []meshTri }
+
+// CompileMesh assumes the scene mesh passed admission; it is pure and
+// deterministic, so PNG, SVG and any future renderer share one color function.
+func CompileMesh(m *scene.Mesh) *Mesh {
+	out := &Mesh{tris: make([]meshTri, 0, len(m.Triangles))}
+	for _, t := range m.Triangles {
+		a, b, c := m.Vertices[t.A], m.Vertices[t.B], m.Vertices[t.C]
+		e1x, e1y := b.X-a.X, b.Y-a.Y
+		e2x, e2y := c.X-a.X, c.Y-a.Y
+		den := e1x*e2y - e1y*e2x
+		if den == 0 {
+			continue
+		}
+		tr := meshTri{x0: a.X, y0: a.Y, e1x: e1x, e1y: e1y, e2x: e2x, e2y: e2y, invDen: 1 / den,
+			minX: math.Min(a.X, math.Min(b.X, c.X)), maxX: math.Max(a.X, math.Max(b.X, c.X)),
+			minY: math.Min(a.Y, math.Min(b.Y, c.Y)), maxY: math.Max(a.Y, math.Max(b.Y, c.Y)),
+			c0: From(a.Color), c1: From(b.Color), c2: From(c.Color)}
+		out.tris = append(out.tris, tr)
+	}
+	return out
+}
+
+// Sample evaluates the mesh color function. Barycentric interpolation runs in
+// premultiplied linear light, so translucent vertices and sliver triangles
+// have stable, order-independent results; outside the union it is transparent.
+func (m *Mesh) Sample(p geom.Point) Pixel {
+	for i := range m.tris {
+		t := &m.tris[i]
+		if p.X < t.minX || p.X > t.maxX || p.Y < t.minY || p.Y > t.maxY {
+			continue
+		}
+		dx, dy := p.X-t.x0, p.Y-t.y0
+		w1 := (dx*t.e2y - dy*t.e2x) * t.invDen
+		w2 := (t.e1x*dy - t.e1y*dx) * t.invDen
+		w0 := 1 - w1 - w2
+		if w0 < -MeshTol || w1 < -MeshTol || w2 < -MeshTol {
+			continue
+		}
+		w0 = math.Max(0, math.Min(1, w0))
+		w1 = math.Max(0, math.Min(1, w1))
+		w2 = math.Max(0, math.Min(1, w2))
+		return Pixel{
+			R: w0*t.c0.R + w1*t.c1.R + w2*t.c2.R,
+			G: w0*t.c0.G + w1*t.c1.G + w2*t.c2.G,
+			B: w0*t.c0.B + w1*t.c1.B + w2*t.c2.B,
+			A: w0*t.c0.A + w1*t.c1.A + w2*t.c2.A,
+		}
+	}
+	return Pixel{}
+}
 func Over(dst, src Pixel, mode string) Pixel {
 	blend := func(d, s float64) float64 {
 		if mode == "normal" || src.A == 0 || dst.A == 0 {

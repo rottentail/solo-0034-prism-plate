@@ -13,12 +13,35 @@ type Stop struct {
 	At    float64 `json:"at"`
 	Color Color   `json:"color"`
 }
+
+// MeshVertex carries one vertex color of a triangle mesh gradient.
+type MeshVertex struct {
+	X     float64 `json:"x"`
+	Y     float64 `json:"y"`
+	Color Color   `json:"color"`
+}
+
+// MeshTriangle indexes three mesh vertices; either winding is accepted.
+type MeshTriangle struct {
+	A int `json:"a"`
+	B int `json:"b"`
+	C int `json:"c"`
+}
+
+// Mesh is a vertex-color triangle grid. Triangles tile without interior
+// overlap; the color function is barycentric interpolation in linear-light
+// premultiplied space, transparent outside the union.
+type Mesh struct {
+	Vertices  []MeshVertex   `json:"vertices"`
+	Triangles []MeshTriangle `json:"triangles"`
+}
 type Brush struct {
 	Kind  string     `json:"kind"`
 	Color Color      `json:"color"`
 	From  geom.Point `json:"from"`
 	To    geom.Point `json:"to"`
 	Stops []Stop     `json:"stops,omitempty"`
+	Mesh  *Mesh      `json:"mesh,omitempty"`
 }
 type Shape struct {
 	ID        string      `json:"id"`

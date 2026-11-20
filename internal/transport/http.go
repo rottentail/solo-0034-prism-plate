@@ -181,7 +181,7 @@ func (a API) Handler() http.Handler {
 		}
 		w.Header().Set("ETag", `"`+v.Digest+`"`)
 		w.Header().Set("X-Scene-Digest", v.SceneDigest)
-		w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")
+		w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; img-src data:; sandbox")
 		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml"}[v.Format])
 		if r.Header.Get("If-None-Match") == `"`+v.Digest+`"` {
 			w.WriteHeader(304)
