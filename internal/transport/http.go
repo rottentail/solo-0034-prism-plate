@@ -58,6 +58,44 @@ func revision(r *http.Request) (int, error) {
 	}
 	return n, nil
 }
+
+// region parses the optional x,y,width,height canvas rectangle. All four
+// parameters must appear together and at most once each; omitting all of them
+// requests the whole canvas. Values are integers because region coordinates
+// name canvas pixels.
+func region(r *http.Request) (*scene.Region, error) {
+	q := r.URL.Query()
+	names := []string{"x", "y", "width", "height"}
+	present := 0
+	for _, n := range names {
+		switch len(q[n]) {
+		case 0:
+		case 1:
+			present++
+		default:
+			return nil, fmt.Errorf("region %s must be given at most once", n)
+		}
+	}
+	if present == 0 {
+		return nil, nil
+	}
+	if present != len(names) {
+		return nil, fmt.Errorf("region requires x, y, width and height together")
+	}
+	values := make([]int, len(names))
+	for i, n := range names {
+		v, e := strconv.Atoi(q.Get(n))
+		if e != nil {
+			return nil, fmt.Errorf("region %s must be an integer", n)
+		}
+		values[i] = v
+	}
+	reg := scene.Region{X: values[0], Y: values[1], Width: values[2], Height: values[3]}
+	if reg.X < 0 || reg.Y < 0 || reg.Width < 1 || reg.Height < 1 {
+		return nil, fmt.Errorf("region requires non-negative x,y and positive width,height")
+	}
+	return &reg, nil
+}
 func (a API) Handler() http.Handler {
 	mux := http.NewServeMux()
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
@@ -134,9 +172,14 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
+		reg, e := region(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
 		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
 		defer cancel()
-		v, e := a.Service.Render(ctx, r.PathValue("id"), n, r.URL.Query().Get("format"))
+		v, e := a.Service.Render(ctx, r.PathValue("id"), n, r.URL.Query().Get("format"), reg)
 		if e != nil {
 			failure(w, e)
 			return
@@ -150,7 +193,12 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		v, e := a.Service.Submit(r.PathValue("id"), n, r.URL.Query().Get("format"))
+		reg, e := region(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.Submit(r.PathValue("id"), n, r.URL.Query().Get("format"), reg)
 		if e != nil {
 			failure(w, e)
 			return

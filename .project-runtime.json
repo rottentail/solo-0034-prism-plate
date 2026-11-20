@@ -36,6 +36,10 @@
       "command": "python3 scripts/walkthrough.py --workflow exposure"
     },
     {
+      "workflow_id": "region",
+      "command": "python3 scripts/walkthrough.py --workflow region"
+    },
+    {
       "workflow_id": "cancel",
       "command": "python3 scripts/walkthrough.py --workflow cancel"
     },

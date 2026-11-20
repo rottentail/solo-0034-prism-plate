@@ -1,7 +1,36 @@
 #!/usr/bin/env python3
 """Run bounded production HTTP journeys against an isolated ephemeral service."""
-import argparse, concurrent.futures, copy, hashlib, json, os, pathlib, signal, socket, struct, subprocess, tempfile, time, urllib.error, urllib.request
+import argparse, concurrent.futures, copy, hashlib, json, os, pathlib, signal, socket, struct, subprocess, tempfile, time, urllib.error, urllib.request, zlib
 ROOT=pathlib.Path(__file__).resolve().parents[1]
+def png_pixels(raw):
+    """Decode the service's 8-bit RGB/RGBA non-interlaced PNG into rows of pixels."""
+    assert raw[:8]==b'\x89PNG\r\n\x1a\n'
+    pos=8;idat=b'';w=h=channels=None
+    while pos<len(raw):
+        ln=struct.unpack('>I',raw[pos:pos+4])[0];typ=raw[pos+4:pos+8];data=raw[pos+8:pos+8+ln];pos+=12+ln
+        if typ==b'IHDR':
+            w,h,depth,ctype,_,_,inter=struct.unpack('>IIBBBBB',data)
+            assert depth==8 and ctype in (2,6) and inter==0;channels=3 if ctype==2 else 4
+        elif typ==b'IDAT':idat+=data
+        elif typ==b'IEND':break
+    raw=zlib.decompress(idat);stride=w*channels;bpp=channels;rows=[];prev=bytearray(stride);i=0
+    for _ in range(h):
+        f=raw[i];i+=1;line=bytearray(raw[i:i+stride]);i+=stride
+        if f==1:
+            for x in range(bpp,stride):line[x]=(line[x]+line[x-bpp])&255
+        elif f==2:
+            for x in range(stride):line[x]=(line[x]+prev[x])&255
+        elif f==3:
+            for x in range(stride):
+                left=line[x-bpp] if x>=bpp else 0;line[x]=(line[x]+((left+prev[x])>>1))&255
+        elif f==4:
+            for x in range(stride):
+                a=line[x-bpp] if x>=bpp else 0;b=prev[x];c=prev[x-bpp] if x>=bpp else 0
+                p=a+b-c;pa=abs(p-a);pb=abs(p-b);pc=abs(p-c)
+                pr=a if (pa<=pb and pa<=pc) else (b if pb<=pc else c);line[x]=(line[x]+pr)&255
+        elif f!=0:raise AssertionError(f'unknown PNG filter {f}')
+        rows.append(bytes(line));prev=line
+    return w,h,channels,rows
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--workflow',required=True);args=parser.parse_args()
     seed=json.loads((ROOT/'examples/amber-proof.json').read_text())
@@ -32,6 +61,18 @@ def main():
             if code!=status:raise RuntimeError(f'{method} {path}: expected {status}, observed {code}: {payload[:200]!r}')
             return (payload,hs) if raw else json.loads(payload) if payload else None
         def render(fmt='png',revision=1):return call('POST',f'/v1/plates/amber-plate/render?revision={revision}&format={fmt}',status=201)
+        def png_of(artifact):
+            raw,_=call('GET','/v1/artifacts/'+artifact['id'],raw=True)
+            assert hashlib.sha256(raw).hexdigest()==artifact['digest']
+            return raw,*png_pixels(raw)
+        def region_query(x,y,w,h):return f'&x={x}&y={y}&width={w}&height={h}'
+        def crop(full,x,y,w,h):
+            a=call('POST','/v1/plates/amber-plate/render?revision=1&format=png'+region_query(x,y,w,h),status=201)
+            assert a['region']=={'x':x,'y':y,'width':w,'height':h}
+            raw,cw,chh,cch,crows=png_of(a);_,fw,fh,fch,frows=full
+            assert (cw,chh)==(w,h) and cch==fch
+            for yy in range(h):assert crows[yy]==frows[y+yy][x*cch:(x+w)*cch],(x,y,x+w,y+yy)
+            return a,raw
         try:
             start();created=call('POST','/v1/plates',seed,status=201);assert created['revisions'][0]['number']==1
             w=args.workflow
@@ -53,6 +94,42 @@ def main():
                 b=call('POST','/v1/plates/amber-plate/branch',{'revision':1,'id':'amber-fork','title':'琥珀新稿'},status=201);assert b['revisions'][0]['digest']==created['revisions'][0]['digest'];call('POST','/v1/plates/amber-plate/branch',{'revision':99,'id':'missing-fork','title':'无效稿'},status=404)
             elif w=='archive':
                 call('POST','/v1/plates/amber-plate/archive');call('PUT','/v1/plates/amber-plate',{'expected_revision':1,'document':seed['document']},status=409);assert render()['revision']==1
+            elif w=='region':
+                whole=render();full=png_of(whole);assert (full[1],full[2])==(192,144)
+                for x,y,rw,rh in ((20,20,100,50),(0,0,1,1),(183,130,9,14),(8,8,176,128),(64,64,1,1),(191,143,1,1)):
+                    a,raw=crop(full,x,y,rw,rh);assert a['id']!=whole['id'] and a['digest']!=''
+                    assert call('GET','/v1/artifacts/'+a['id'],raw=True)[0]==raw
+                alias=call('POST','/v1/plates/amber-plate/render?revision=1&format=png'+region_query(0,0,192,144),status=201)
+                assert alias['id']==whole['id'] and alias.get('region') is None
+                assert render()['id']==whole['id']
+                job=call('POST','/v1/plates/amber-plate/exposures?revision=1&format=png'+region_query(20,20,100,50),status=202)
+                for _ in range(200):
+                    job=call('GET','/v1/exposures/'+job['id'])
+                    if job['state'] in ('succeeded','failed','cancelled'):break
+                    time.sleep(.02)
+                assert job['state']=='succeeded'
+                sync,_=crop(full,20,20,100,50);assert job['artifact']==sync['id']
+                for q in (region_query(190,0,4,4),region_query(0,0,0,4),region_query(0,0,4,4).replace('&height=4',''),region_query(-1,0,4,4)):
+                    call('POST','/v1/plates/amber-plate/render?revision=1&format=png'+q,status=400)
+                    call('POST','/v1/plates/amber-plate/exposures?revision=1&format=png'+q,status=400)
+                call('POST','/v1/plates/amber-plate/render?revision=1&format=svg'+region_query(0,0,4,4),status=400)
+                heavy=copy.deepcopy(seed);heavy['id']='heavy-plate';heavy['title']='重场景'
+                shape=heavy['document']['layers'][0]['shapes'][0]
+                import math
+                def ring(i):return {'x':256+180*math.cos(i*6.2832/100),'y':256+180*math.sin(i*6.2832/100)}
+                shape['path']=[{'kind':'M','points':[ring(0)]}]+[{'kind':'L','points':[ring(i)]} for i in range(1,100)]+[{'kind':'Z'}]
+                heavy['document']['width']=heavy['document']['height']=512
+                call('POST','/v1/plates',heavy,status=201)
+                def timed(path):t=time.perf_counter();v=call('POST',path,status=201);return time.perf_counter()-t,v
+                whole_time,_=timed('/v1/plates/heavy-plate/render?revision=1&format=png')
+                small_time,sample=timed('/v1/plates/heavy-plate/render?revision=1&format=png'+region_query(250,250,4,4))
+                assert (sample['region']['width'],sample['region']['height'])==(4,4)
+                assert small_time*4<whole_time,(small_time,whole_time)
+                a,raw=crop(full,20,20,100,50)
+                stop();start()
+                assert call('GET','/v1/artifacts/'+a['id'],raw=True)[0]==raw
+                restored=call('POST','/v1/plates/amber-plate/render?revision=1&format=png'+region_query(20,20,100,50),status=201)
+                assert restored['id']==a['id'] and restored['region']==a['region']
             elif w in ('png','svg','artifact'):
                 fmt='svg' if w=='svg' else 'png';a=render(fmt);raw,hs=call('GET','/v1/artifacts/'+a['id'],raw=True);assert hashlib.sha256(raw).hexdigest()==a['digest']
                 if fmt=='png':assert raw[:8]==b'\x89PNG\r\n\x1a\n';assert struct.unpack('>II',raw[16:24])==(192,144)

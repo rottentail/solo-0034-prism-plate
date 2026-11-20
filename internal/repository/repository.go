@@ -36,9 +36,13 @@ type Artifact struct {
 	Revision    int    `json:"revision"`
 	SceneDigest string `json:"scene_digest"`
 	Format      string `json:"format"`
-	Digest      string `json:"digest"`
-	State       string `json:"state"`
-	Data        []byte `json:"data"`
+	// Region is the canvas-space rectangle that was rendered. A nil Region is
+	// the historical whole-canvas artifact, so older snapshots stay valid and a
+	// full render keeps exactly its previous metadata and identity.
+	Region *scene.Region `json:"region,omitempty"`
+	Digest string        `json:"digest"`
+	State  string        `json:"state"`
+	Data   []byte        `json:"data"`
 }
 type Proof struct {
 	ID       string `json:"id"`
@@ -111,6 +115,11 @@ func Check(s State) error {
 		p, ok := s.Plates[a.Plate]
 		if !ok || a.ID != id || a.Revision < 1 || a.Revision > len(p.Revisions) || a.SceneDigest != p.Revisions[a.Revision-1].Digest || Hash(a.Data) != a.Digest || (a.State != "available" && a.State != "revoked") || (a.Format != "png" && a.Format != "svg") {
 			return fmt.Errorf("invalid artifact lineage")
+		}
+		if a.Region != nil {
+			if a.Format != "png" || !a.Region.Within(p.Revisions[a.Revision-1].Document.Width, p.Revisions[a.Revision-1].Document.Height) {
+				return fmt.Errorf("invalid artifact region")
+			}
 		}
 	}
 	for id, p := range s.Proofs {

@@ -3,6 +3,25 @@ package scene
 
 import "prismplate/internal/geom"
 
+// Region is an integer pixel rectangle in document canvas coordinates. It is a
+// render request scope, not scene state: x/y name the canvas pixel that becomes
+// the first output pixel, and width/height are output pixel counts.
+type Region struct {
+	X      int `json:"x"`
+	Y      int `json:"y"`
+	Width  int `json:"width"`
+	Height int `json:"height"`
+}
+
+// Within reports whether the region is non-empty and lies fully inside a
+// width by height canvas. Empty or partially outside regions are not cropped.
+func (r Region) Within(width, height int) bool {
+	if r.X < 0 || r.Y < 0 || r.Width < 1 || r.Height < 1 || r.X > width || r.Y > height {
+		return false
+	}
+	return r.Width <= width-r.X && r.Height <= height-r.Y
+}
+
 type Color struct {
 	R float64 `json:"r"`
 	G float64 `json:"g"`

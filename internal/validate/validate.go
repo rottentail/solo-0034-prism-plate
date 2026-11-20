@@ -171,6 +171,8 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 		c.Layers = append(c.Layers, cl)
 	}
 	// Four samples per pixel; every fill is bounded even under adversarial input.
+	// The budget is charged for the whole canvas, the most a single request can
+	// sample, so any admitted scene also admits every interior rectangle.
 	if int64(c.Segments)*int64(d.Width)*int64(d.Height)*4 > 160_000_000 {
 		return c, fmt.Errorf("scene exceeds bounded rendering work")
 	}

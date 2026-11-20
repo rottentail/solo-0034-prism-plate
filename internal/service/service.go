@@ -106,8 +106,43 @@ func (s *Service) capture(id string, revision int) (repository.Revision, error) 
 	}
 	return p.Revisions[revision-1], nil
 }
-func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
+
+// normalizeRegion reports the effective canvas-space region and whether the
+// request is a whole-canvas render. A nil region and a region equal to the full
+// canvas both mean "whole canvas", so both keep the historical artifact
+// identity, metadata and pixels. Anything else must be a non-empty rectangle
+// fully inside the canvas; it is never silently clipped.
+func normalizeRegion(d scene.Document, region *scene.Region) (scene.Region, bool, error) {
+	full := scene.Region{X: 0, Y: 0, Width: d.Width, Height: d.Height}
+	if region == nil || *region == full {
+		return full, true, nil
+	}
+	if !region.Within(d.Width, d.Height) {
+		return full, false, fmt.Errorf("region must be a non-empty rectangle inside the %dx%d canvas", d.Width, d.Height)
+	}
+	return *region, false, nil
+}
+
+func renderKey(id string, r repository.Revision, format string, region scene.Region, whole bool, digest string) string {
+	key := id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + digest
+	if !whole {
+		key += ":" + strconv.Itoa(region.X) + "," + strconv.Itoa(region.Y) + "," + strconv.Itoa(region.Width) + "," + strconv.Itoa(region.Height)
+	}
+	return repository.Hash([]byte(key))
+}
+
+func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string, region *scene.Region) (repository.Artifact, error) {
 	var a repository.Artifact
+	if format != "png" && format != "svg" {
+		return a, fmt.Errorf("format must be png or svg")
+	}
+	if format == "svg" && region != nil {
+		return a, fmt.Errorf("region is only supported for png")
+	}
+	scope, whole, err := normalizeRegion(r.Document, region)
+	if err != nil {
+		return a, err
+	}
 	select {
 	case s.slots <- struct{}{}:
 		defer func() { <-s.slots }()
@@ -123,18 +158,20 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	var data []byte
 	switch format {
 	case "png":
-		data, err = raster.Render(ctx, c)
+		data, err = raster.Render(ctx, c, scope)
 	case "svg":
 		data = vector.Export(c)
-	default:
-		return a, fmt.Errorf("format must be png or svg")
 	}
 	if err != nil {
 		return a, err
 	}
 	digest := repository.Hash(data)
-	key := repository.Hash([]byte(id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + digest))
+	key := renderKey(id, r, format, scope, whole, digest)
 	a = repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Digest: digest, State: "available", Data: data}
+	if !whole {
+		regionCopy := scope
+		a.Region = &regionCopy
+	}
 	err = s.Repo.Update(func(st *repository.State) error {
 		if err := ctx.Err(); err != nil {
 			return err
@@ -151,14 +188,14 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	})
 	return a, err
 }
-func (s *Service) Render(ctx context.Context, id string, revision int, format string) (repository.Artifact, error) {
+func (s *Service) Render(ctx context.Context, id string, revision int, format string, region *scene.Region) (repository.Artifact, error) {
 	r, err := s.capture(id, revision)
 	if err != nil {
 		return repository.Artifact{}, err
 	}
-	return s.render(ctx, id, r, format)
+	return s.render(ctx, id, r, format, region)
 }
-func (s *Service) Submit(id string, revision int, format string) (exposure.Job, error) {
+func (s *Service) Submit(id string, revision int, format string, region *scene.Region) (exposure.Job, error) {
 	r, err := s.capture(id, revision)
 	if err != nil {
 		return exposure.Job{}, err
@@ -166,10 +203,18 @@ func (s *Service) Submit(id string, revision int, format string) (exposure.Job, 
 	if format != "png" && format != "svg" {
 		return exposure.Job{}, fmt.Errorf("unknown format")
 	}
+	// Validate the region against the captured revision now so an asynchronous
+	// submission fails at the entry instead of later in a worker.
+	if _, _, err = normalizeRegion(r.Document, region); err != nil {
+		return exposure.Job{}, err
+	}
+	if format == "svg" && region != nil {
+		return exposure.Job{}, fmt.Errorf("region is only supported for png")
+	}
 	return s.Pool.Submit(func(ctx context.Context) (string, error) {
 		ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
 		defer cancel()
-		a, e := s.render(ctx, id, r, format)
+		a, e := s.render(ctx, id, r, format, region)
 		return a.ID, e
 	})
 }

@@ -314,6 +314,26 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "region",
+      "name": "局部PNG区域",
+      "entry": "POST /v1/plates/{id}/render?revision=1&format=png&x=&y=&width=&height=",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "repository",
+        "raster",
+        "scene"
+      ],
+      "steps": [
+        "从公开入口解析画布矩形并与稿本一起固定",
+        "按同一画布坐标采样区域并提交完整结果"
+      ],
+      "success": "局部图与整幅PNG对应像素逐字节一致，且仅计算区域",
+      "failure": "越界、部分参数、零或负尺寸、SVG区域400",
+      "verification": "python3 scripts/walkthrough.py --workflow region"
     }
   ],
   "complexity": {
