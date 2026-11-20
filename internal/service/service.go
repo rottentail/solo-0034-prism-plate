@@ -194,6 +194,13 @@ func (s *Service) Revoke(id string) error {
 				return repository.ErrState
 			}
 		}
+		for _, r := range st.Reviews {
+			for _, side := range r.Sides {
+				if side.Artifact == id && side.State == "accepted" {
+					return repository.ErrState
+				}
+			}
+		}
 		a.State = "revoked"
 		st.Artifacts[id] = a
 		return nil
@@ -243,6 +250,95 @@ func (s *Service) Decide(id, state, note string) (repository.Proof, error) {
 		return nil
 	})
 	return p, err
+}
+
+// OpenReview starts one sign-off session over the two deliverables of a single
+// draft: exactly one png and one svg of the same plate and revision. Mixing
+// revisions or plates can never form a session, so a pass cannot be assembled
+// from different draft numbers.
+func (s *Service) OpenReview(id string, artifacts []string) (repository.Review, error) {
+	v := repository.Review{ID: id, State: "open"}
+	if !validate.ID(id) || len(artifacts) != 2 || artifacts[0] == artifacts[1] {
+		return v, fmt.Errorf("invalid review identity")
+	}
+	err := s.Repo.Update(func(st *repository.State) error {
+		if _, ok := st.Reviews[id]; ok {
+			return repository.ErrConflict
+		}
+		var sides []repository.ReviewSide
+		formats := map[string]bool{}
+		for i, aid := range artifacts {
+			a, ok := st.Artifacts[aid]
+			if !ok {
+				return repository.ErrMissing
+			}
+			if a.State != "available" {
+				return repository.ErrState
+			}
+			if i == 0 {
+				v.Plate, v.Revision = a.Plate, a.Revision
+			} else if a.Plate != v.Plate || a.Revision != v.Revision {
+				return repository.ErrConflict
+			}
+			formats[a.Format] = true
+			sides = append(sides, repository.ReviewSide{Artifact: aid, Role: repository.RoleFor(a.Format), State: "pending"})
+		}
+		if len(formats) != 2 {
+			return fmt.Errorf("review requires one png and one svg of one draft")
+		}
+		v.Sides = sides
+		st.Reviews[id] = v
+		return nil
+	})
+	return v, err
+}
+func (s *Service) Review(id string) (repository.Review, error) {
+	v, ok := s.Repo.View().Reviews[id]
+	if !ok {
+		return v, repository.ErrMissing
+	}
+	return v, nil
+}
+
+// DecideSide records the conclusion of one side of a review. A concluded side
+// is final; the session verdict is derived once both sides conclude, so one
+// deliverable may be kept while the other is returned.
+func (s *Service) DecideSide(id, artifact, state, note string) (repository.Review, error) {
+	var v repository.Review
+	if (state != "accepted" && state != "returned") || len(note) > 1000 {
+		return v, fmt.Errorf("invalid review decision")
+	}
+	err := s.Repo.Update(func(st *repository.State) error {
+		var ok bool
+		v, ok = st.Reviews[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if v.State != "open" {
+			return repository.ErrState
+		}
+		hit := -1
+		for i := range v.Sides {
+			if v.Sides[i].Artifact == artifact {
+				hit = i
+			}
+		}
+		if hit < 0 {
+			return repository.ErrMissing
+		}
+		if v.Sides[hit].State != "pending" {
+			return repository.ErrState
+		}
+		if st.Artifacts[artifact].State != "available" {
+			return repository.ErrState
+		}
+		v.Sides[hit].State = state
+		v.Sides[hit].Note = note
+		v.State = repository.ReviewVerdict(v.Sides)
+		st.Reviews[id] = v
+		return nil
+	})
+	return v, err
 }
 func (s *Service) Export(id string) ([]byte, error) {
 	p, e := s.Plate(id)

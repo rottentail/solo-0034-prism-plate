@@ -71,6 +71,51 @@ def main():
                 call('DELETE','/v1/exposures/absent',status=404)
             elif w=='proof':
                 a=render();call('POST','/v1/proofs',{'id':'proof-amber','artifact':a['id']},status=201);assert call('PUT','/v1/proofs/proof-amber',{'state':'accepted','note':'叠色与镂空检查通过'})['state']=='accepted';call('DELETE','/v1/artifacts/'+a['id'],status=409);call('PUT','/v1/proofs/proof-amber',{'state':'rejected','note':'重复裁决'},status=409)
+            elif w=='review':
+                png1=render('png',1);svg1=render('svg',1)
+                q={'expected_revision':1,'document':copy.deepcopy(seed['document'])};q['document']['background']['r']=.2;call('PUT','/v1/plates/amber-plate',q)
+                png2=render('png',2);svg2=render('svg',2)
+                q={'expected_revision':2,'document':copy.deepcopy(seed['document'])};q['document']['background']['r']=.4;call('PUT','/v1/plates/amber-plate',q)
+                png3=render('png',3);svg3=render('svg',3)
+                call('POST','/v1/reviews',{'id':'review-mixed','artifacts':[png2['id'],svg1['id']]},status=409)
+                call('POST','/v1/reviews',{'id':'review-dup','artifacts':[png1['id'],png1['id']]},status=400)
+                call('POST','/v1/reviews',{'id':'review-gone','artifacts':[png1['id'],'missing']},status=404)
+                call('GET','/v1/reviews/missing',status=404)
+                dual=call('POST','/v1/reviews',{'id':'review-dual','artifacts':[png1['id'],svg1['id']]},status=201)
+                assert dual['state']=='open' and dual['plate']=='amber-plate' and dual['revision']==1
+                roles={s['artifact']:s['role'] for s in dual['sides']}
+                assert roles[png1['id']]=='pixel' and roles[svg1['id']]=='geometry'
+                call('POST','/v1/reviews',{'id':'review-dual','artifacts':[png1['id'],svg1['id']]},status=409)
+                dual=call('PUT','/v1/reviews/review-dual',{'artifact':svg1['id'],'state':'returned','note':'透明渐变与组混合在矢量侧与权威像素不一致，退回几何成品'})
+                assert dual['state']=='open'
+                call('PUT','/v1/reviews/review-dual',{'artifact':svg1['id'],'state':'accepted','note':'重复裁决'},status=409)
+                call('PUT','/v1/reviews/review-dual',{'artifact':png2['id'],'state':'accepted','note':'非本会话成品'},status=404)
+                dual=call('PUT','/v1/reviews/review-dual',{'artifact':png1['id'],'state':'accepted','note':'像素结果权威，客户已确认PNG'})
+                assert dual['state']=='partial'
+                call('PUT','/v1/reviews/review-dual',{'artifact':png1['id'],'state':'returned','note':'会话已关闭'},status=409)
+                call('DELETE','/v1/artifacts/'+png1['id'],status=409)
+                call('DELETE','/v1/artifacts/'+svg1['id'])
+                call('POST','/v1/plates/amber-plate/render?revision=1&format=svg',status=409)
+                passed=call('POST','/v1/reviews',{'id':'review-pass','artifacts':[png2['id'],svg2['id']]},status=201)
+                call('PUT','/v1/reviews/review-pass',{'artifact':png2['id'],'state':'accepted','note':'像素通过'})
+                passed=call('PUT','/v1/reviews/review-pass',{'artifact':svg2['id'],'state':'accepted','note':'几何通过'})
+                assert passed['state']=='accepted'
+                call('DELETE','/v1/artifacts/'+svg2['id'],status=409)
+                back=call('POST','/v1/reviews',{'id':'review-back','artifacts':[png3['id'],svg3['id']]},status=201)
+                call('PUT','/v1/reviews/review-back',{'artifact':png3['id'],'state':'returned','note':'像素退回'})
+                back=call('PUT','/v1/reviews/review-back',{'artifact':svg3['id'],'state':'returned','note':'几何退回'})
+                assert back['state']=='returned'
+                call('DELETE','/v1/artifacts/'+png3['id']);call('DELETE','/v1/artifacts/'+svg3['id'])
+                call('POST','/v1/proofs',{'id':'proof-legacy','artifact':png1['id']},status=201)
+                assert call('PUT','/v1/proofs/proof-legacy',{'state':'accepted','note':'旧单成品校样流程仍有效'})['state']=='accepted'
+                stop();start()
+                dual=call('GET','/v1/reviews/review-dual')
+                assert dual['state']=='partial'
+                assert call('GET','/v1/reviews/review-pass')['state']=='accepted'
+                assert call('GET','/v1/reviews/review-back')['state']=='returned'
+                call('DELETE','/v1/artifacts/'+png1['id'],status=409)
+                call('DELETE','/v1/artifacts/'+png2['id'],status=409)
+                print(json.dumps({'example':{'artifacts':{'png':png1['id'],'svg':svg1['id']},'review':dual}},ensure_ascii=False))
             elif w in ('bundle','restore'):
                 a=render();sealed,_=call('GET','/v1/plates/amber-plate/bundle',raw=True);payload=json.loads(sealed);assert payload['plate']['revisions'][0]['digest']==a['scene_digest']
                 if w=='bundle':

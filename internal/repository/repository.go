@@ -46,11 +46,32 @@ type Proof struct {
 	State    string `json:"state"`
 	Note     string `json:"note"`
 }
+
+// ReviewSide is one deliverable's conclusion inside a dual-artifact review.
+// Role is derived from the artifact format: pixel for png (authoritative
+// pixels), geometry for svg (editable geometry).
+type ReviewSide struct {
+	Artifact string `json:"artifact"`
+	Role     string `json:"role"`
+	State    string `json:"state"`
+	Note     string `json:"note"`
+}
+
+// Review joins the png and svg of one draft (same plate, same revision) into
+// a single sign-off session. State is the derived verdict of its two sides.
+type Review struct {
+	ID       string       `json:"id"`
+	Plate    string       `json:"plate"`
+	Revision int          `json:"revision"`
+	Sides    []ReviewSide `json:"sides"`
+	State    string       `json:"state"`
+}
 type State struct {
 	Schema    string              `json:"schema"`
 	Plates    map[string]Plate    `json:"plates"`
 	Artifacts map[string]Artifact `json:"artifacts"`
 	Proofs    map[string]Proof    `json:"proofs"`
+	Reviews   map[string]Review   `json:"reviews"`
 }
 type Repo struct {
 	mu    sync.RWMutex
@@ -61,8 +82,42 @@ type Repo struct {
 
 func Hash(b []byte) string              { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
 func SceneHash(d scene.Document) string { b, _ := json.Marshal(d); return Hash(b) }
+
+// RoleFor names the review annotation of a deliverable format: png carries the
+// authoritative pixel result, svg carries geometric editability.
+func RoleFor(format string) string {
+	if format == "svg" {
+		return "geometry"
+	}
+	return "pixel"
+}
+
+// ReviewVerdict derives the session outcome from its side conclusions: any
+// pending side keeps the session open, two accepts pass it, two returns send
+// it back, and a split conclusion is partial.
+func ReviewVerdict(sides []ReviewSide) string {
+	accepted, returned := 0, 0
+	for _, side := range sides {
+		switch side.State {
+		case "accepted":
+			accepted++
+		case "returned":
+			returned++
+		}
+	}
+	if accepted+returned < len(sides) {
+		return "open"
+	}
+	if returned == 0 {
+		return "accepted"
+	}
+	if accepted == 0 {
+		return "returned"
+	}
+	return "partial"
+}
 func Fresh() State {
-	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}}
+	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}, Reviews: map[string]Review{}}
 }
 func Open(root string) (*Repo, error) {
 	if err := os.MkdirAll(root, 0700); err != nil {
@@ -80,6 +135,10 @@ func Open(root string) (*Repo, error) {
 			err = fmt.Errorf("snapshot too large")
 		} else {
 			err = json.Unmarshal(b, &r.state)
+		}
+		if err == nil && r.state.Reviews == nil {
+			// Snapshots written before dual-artifact reviews carry no reviews key.
+			r.state.Reviews = map[string]Review{}
 		}
 		if err == nil {
 			err = Check(r.state)
@@ -119,6 +178,22 @@ func Check(s State) error {
 			return fmt.Errorf("invalid proof lineage")
 		}
 	}
+	for id, r := range s.Reviews {
+		if r.ID != id || len(r.Sides) != 2 || r.Sides[0].Artifact == r.Sides[1].Artifact || r.State != ReviewVerdict(r.Sides) {
+			return fmt.Errorf("invalid review lineage")
+		}
+		first, ok1 := s.Artifacts[r.Sides[0].Artifact]
+		second, ok2 := s.Artifacts[r.Sides[1].Artifact]
+		if !ok1 || !ok2 || first.Format == second.Format || first.Plate != r.Plate || second.Plate != r.Plate || first.Revision != r.Revision || second.Revision != r.Revision {
+			return fmt.Errorf("invalid review lineage")
+		}
+		for _, side := range r.Sides {
+			a := s.Artifacts[side.Artifact]
+			if side.Role != RoleFor(a.Format) || (side.State != "pending" && side.State != "accepted" && side.State != "returned") || len(side.Note) > 1000 {
+				return fmt.Errorf("invalid review lineage")
+			}
+		}
+	}
 	return nil
 }
 func clone(s State) State   { b, _ := json.Marshal(s); var d State; _ = json.Unmarshal(b, &d); return d }
@@ -139,7 +214,7 @@ func (r *Repo) Update(fn func(*State) error) error {
 	if err := Check(next); err != nil {
 		return err
 	}
-	if len(next.Plates) > 128 || len(next.Artifacts) > 256 || len(next.Proofs) > 1024 {
+	if len(next.Plates) > 128 || len(next.Artifacts) > 256 || len(next.Proofs) > 1024 || len(next.Reviews) > 1024 {
 		return fmt.Errorf("snapshot object capacity reached")
 	}
 	b, err := json.Marshal(next)

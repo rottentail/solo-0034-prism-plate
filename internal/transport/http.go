@@ -228,6 +228,47 @@ func (a API) Handler() http.Handler {
 		}
 		jsonOut(w, 200, v)
 	})
+	mux.HandleFunc("POST /v1/reviews", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			ID        string   `json:"id"`
+			Artifacts []string `json:"artifacts"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.OpenReview(q.ID, q.Artifacts)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, v)
+	})
+	mux.HandleFunc("GET /v1/reviews/{id}", func(w http.ResponseWriter, r *http.Request) {
+		v, e := a.Service.Review(r.PathValue("id"))
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("PUT /v1/reviews/{id}", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Artifact string `json:"artifact"`
+			State    string `json:"state"`
+			Note     string `json:"note"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.DecideSide(r.PathValue("id"), q.Artifact, q.State, q.Note)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
 	mux.HandleFunc("GET /v1/plates/{id}/bundle", func(w http.ResponseWriter, r *http.Request) {
 		v, e := a.Service.Export(r.PathValue("id"))
 		if e != nil {
