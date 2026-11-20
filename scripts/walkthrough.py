@@ -52,7 +52,110 @@ def main():
             elif w=='branch':
                 b=call('POST','/v1/plates/amber-plate/branch',{'revision':1,'id':'amber-fork','title':'琥珀新稿'},status=201);assert b['revisions'][0]['digest']==created['revisions'][0]['digest'];call('POST','/v1/plates/amber-plate/branch',{'revision':99,'id':'missing-fork','title':'无效稿'},status=404)
             elif w=='archive':
-                call('POST','/v1/plates/amber-plate/archive');call('PUT','/v1/plates/amber-plate',{'expected_revision':1,'document':seed['document']},status=409);assert render()['revision']==1
+                # Legacy guard: finalization is mandatory, an empty archive body
+                # cannot produce a manifest and the plate stays editable.
+                call('POST','/v1/plates/amber-plate/archive',{},status=409)
+                # No manifest exists before finalization.
+                call('GET','/v1/plates/amber-plate/handover',status=404)
+                # A plate that does not exist is still a genuine 404.
+                call('POST','/v1/plates/no-such-plate/archive',{'revision':1},status=404)
+            elif w=='finalize':
+                # Build a history where the latest revision is NOT the approved
+                # design. Revision 1 gets PNG/SVG and an accepted review; a newer
+                # revision 2 exists but never passes review.
+                rev1_png=render('png',1);rev1_svg=render('svg',1)
+                rev2_doc=copy.deepcopy(seed['document']);rev2_doc['background']['r']=.25
+                call('PUT','/v1/plates/amber-plate',{'expected_revision':1,'document':rev2_doc})
+                rev2_png=render('png',2)  # latest revision, but no accepted proof
+                call('POST','/v1/proofs',{'id':'proof-open','artifact':rev2_png['id']},status=201)
+                call('POST','/v1/proofs',{'id':'proof-ok','artifact':rev1_png['id']},status=201)
+                call('PUT','/v1/proofs/proof-ok',{'state':'accepted','note':'像素承诺与镂空通过'})
+                call('POST','/v1/proofs',{'id':'proof-bad','artifact':rev1_svg['id']},status=201)
+                call('PUT','/v1/proofs/proof-bad',{'state':'rejected','note':'矢量插值差异待核'})
+
+                # Rejecting the wrong-revision artifact: the latest revision must
+                # not be silently treated as the finalized design.
+                bad_pick={'revision':2,'artifacts':[rev1_png['id']],'proofs':['proof-ok']}
+                call('POST','/v1/plates/amber-plate/archive',bad_pick,status=409)
+                # Unknown and revoked artifacts/proofs are hard errors.
+                call('POST','/v1/plates/amber-plate/archive',{'revision':1,'artifacts':['nope']},status=404)
+                call('POST','/v1/plates/amber-plate/archive',{'revision':1,'proofs':['proof-bad']},status=409)
+                call('POST','/v1/plates/amber-plate/archive',{'revision':1,'proofs':['proof-open']},status=409)
+                call('POST','/v1/plates/amber-plate/archive',{'revision':99},status=409)
+                call('POST','/v1/plates/amber-plate/archive',{'revision':1,'on_missing':'bogus'},status=400)
+                # Malformed selections: repeated id (renders of one revision and
+                # format are deterministic and share a stable artifact id).
+                call('POST','/v1/plates/amber-plate/archive',{'revision':1,'artifacts':[rev1_png['id'],rev1_png['id']],'on_missing':'exclude'},status=400)
+                # A revoked deliverable can never be finalized even under exclude.
+                revoke_seed={'id':'revoke-plate','title':'撤销版面','document':copy.deepcopy(seed['document'])}
+                call('POST','/v1/plates',revoke_seed,status=201)
+                revoked_png=call('POST','/v1/plates/revoke-plate/render?revision=1&format=png',status=201)
+                call('DELETE','/v1/artifacts/'+revoked_png['id'])
+                call('POST','/v1/plates/revoke-plate/archive',{'revision':1,'artifacts':[revoked_png['id']],'on_missing':'exclude'},status=409)
+
+                # Default reject policy: a gap (no SVG, no accepted proof) refuses.
+                call('POST','/v1/plates/amber-plate/archive',{'revision':1,'artifacts':[rev1_png['id']]},status=409)
+                # Exclude policy allows archiving with explicit null gaps.
+                gap_seed={'id':'gap-plate','title':'缺口版面','document':copy.deepcopy(seed['document'])}
+                call('POST','/v1/plates',gap_seed,status=201)
+                gap_png=call('POST','/v1/plates/gap-plate/render?revision=1&format=png',status=201)
+                gap_h=call('POST','/v1/plates/gap-plate/archive',{'revision':1,'artifacts':[gap_png['id']],'on_missing':'exclude'})
+                assert gap_h['complete'] is False and gap_h['svg'] is None and gap_h['png']['id']==gap_png['id'] and gap_h['proofs']==[]
+                assert len(gap_h['digest'])==64
+                gap_rep=call('GET','/v1/plates/gap-plate/handover/verify')
+                assert gap_rep['digest_valid'] and gap_rep['lineage_valid'] and gap_rep['png_verified'] and not gap_rep['svg_verified'] and gap_rep['proofs_verified']==0 and not gap_rep['complete']
+
+                # Happy path: explicit revision 1 selection with PNG, SVG and the
+                # accepted proof, even though revision 2 is the latest.
+                pick={'revision':1,'artifacts':[rev1_png['id'],rev1_svg['id']],'proofs':['proof-ok']}
+                h=call('POST','/v1/plates/amber-plate/archive',pick)
+                assert h['revision']==1 and h['complete'] is True and h['on_missing']=='reject'
+                assert h['scene_digest']==created['revisions'][0]['digest']
+                assert h['png']['id']==rev1_png['id'] and h['png']['digest']==rev1_png['digest'] and h['png']['format']=='png'
+                assert h['svg']['id']==rev1_svg['id'] and h['svg']['digest']==rev1_svg['digest'] and h['svg']['format']=='svg'
+                assert len(h['proofs'])==1 and h['proofs'][0]['id']=='proof-ok'
+                assert h['proofs'][0]['artifact']==rev1_png['id'] and h['proofs'][0]['state']=='accepted'
+                # The manifest self-check digest is present and stable.
+                assert isinstance(h['digest'],str) and len(h['digest'])==64
+                assert call('GET','/v1/plates/amber-plate/handover')['digest']==h['digest']
+                # Independent re-check: digest, PNG/SVG bytes and the accepted
+                # review all reconcile against the chosen revision 1 source.
+                rep=call('GET','/v1/plates/amber-plate/handover/verify')
+                assert rep['digest_valid'] and rep['lineage_valid'] and rep['png_verified'] and rep['svg_verified'] and rep['proofs_verified']==1 and rep['complete']
+
+                # After archiving: history stays readable, branching still works,
+                # revision is refused, and finalization cannot be repeated.
+                call('PUT','/v1/plates/amber-plate',{'expected_revision':2,'document':rev2_doc},status=409)
+                call('POST','/v1/plates/amber-plate/archive',pick,status=409)
+                got=call('GET','/v1/plates/amber-plate')
+                assert got['state']=='archived' and len(got['revisions'])==2
+                # Rendering historical revisions still works after finalization.
+                assert render('png',1)['digest']==rev1_png['digest']
+                assert render('png',2)['id']==rev2_png['id']
+                fork=call('POST','/v1/plates/amber-plate/branch',{'revision':1,'id':'amber-after-archive','title':'归档后分支'},status=201)
+                assert fork['revisions'][0]['digest']==h['scene_digest']
+                # The accepted-proof artifact stays protected from revocation.
+                call('DELETE','/v1/artifacts/'+rev1_png['id'],status=409)
+                # The listed SVG has no accepted proof, so it can be revoked after
+                # finalization; the independent verify must then flag that row
+                # instead of continuing to report a clean handover.
+                call('DELETE','/v1/artifacts/'+rev1_svg['id'])
+                stale=call('GET','/v1/plates/amber-plate/handover/verify')
+                assert stale['png_verified'] and not stale['svg_verified'] and not stale['lineage_valid']
+
+                # Restart: the manifest and its full lineage survive recovery and
+                # still cross-check against the persisted revision and bytes. The
+                # revoked-SVG verdict is persisted too, proving verify reads facts
+                # rather than trusting the manifest's self-reported rows.
+                stop();start()
+                h2=call('GET','/v1/plates/amber-plate/handover')
+                assert h2==h
+                raw,hs=call('GET','/v1/artifacts/'+h2['png']['id'],raw=True)
+                assert hashlib.sha256(raw).hexdigest()==h2['png']['digest']
+                assert hs['x-scene-digest']==h2['scene_digest']
+                assert call('GET','/v1/plates/gap-plate/handover')['complete'] is False
+                rep2=call('GET','/v1/plates/amber-plate/handover/verify')
+                assert rep2['digest_valid'] and not rep2['lineage_valid'] and rep2['png_verified'] and not rep2['svg_verified'] and rep2['proofs_verified']==1
             elif w in ('png','svg','artifact'):
                 fmt='svg' if w=='svg' else 'png';a=render(fmt);raw,hs=call('GET','/v1/artifacts/'+a['id'],raw=True);assert hashlib.sha256(raw).hexdigest()==a['digest']
                 if fmt=='png':assert raw[:8]==b'\x89PNG\r\n\x1a\n';assert struct.unpack('>II',raw[16:24])==(192,144)

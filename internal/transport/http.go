@@ -30,6 +30,8 @@ func failure(w http.ResponseWriter, err error) {
 		status = 404
 	case errors.Is(err, repository.ErrConflict), errors.Is(err, repository.ErrState):
 		status = 409
+	case errors.Is(err, repository.ErrInvalid):
+		status = 400
 	case errors.Is(err, exposure.ErrBusy):
 		status = 429
 	case errors.Is(err, context.DeadlineExceeded):
@@ -122,11 +124,33 @@ func (a API) Handler() http.Handler {
 		jsonOut(w, 201, p)
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/archive", func(w http.ResponseWriter, r *http.Request) {
-		if e := a.Service.Archive(r.PathValue("id")); e != nil {
+		var q service.ArchiveRequest
+		if e := decode(w, r, &q); e != nil {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 200, map[string]string{"state": "archived"})
+		v, e := a.Service.Archive(r.PathValue("id"), q)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("GET /v1/plates/{id}/handover", func(w http.ResponseWriter, r *http.Request) {
+		v, e := a.Service.Handover(r.PathValue("id"))
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("GET /v1/plates/{id}/handover/verify", func(w http.ResponseWriter, r *http.Request) {
+		v, e := a.Service.VerifyHandover(r.PathValue("id"))
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)

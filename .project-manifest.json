@@ -115,7 +115,7 @@
     },
     {
       "id": "archive",
-      "name": "归档与历史出图",
+      "name": "归档准入与历史出图",
       "entry": "POST /v1/plates/{id}/archive",
       "module_ids": [
         "transport",
@@ -127,9 +127,29 @@
         "从公开入口解析并获取固定来源",
         "跨职责计算或判定并提交完整结果"
       ],
-      "success": "归档禁止编辑但可出旧图",
-      "failure": "归档修订409",
+      "success": "无定稿选择的归档被拒且不产生清单",
+      "failure": "空归档409、未知版面404、未定稿无清单404",
       "verification": "python3 scripts/walkthrough.py --workflow archive"
+    },
+    {
+      "id": "finalize",
+      "name": "定稿移交清单",
+      "entry": "POST /v1/plates/{id}/archive → GET /v1/plates/{id}/handover[/verify]",
+      "module_ids": [
+        "transport",
+        "service",
+        "repository",
+        "raster",
+        "vector"
+      ],
+      "steps": [
+        "设计人员显式选定定稿稿本及同稿PNG、SVG与accepted校样",
+        "服务跨成品与校样谱系校验后原子归档并生成带自校摘要的清单",
+        "接收方从当前事实独立重算清单摘要与全部引用关系"
+      ],
+      "success": "非最大稿号可定稿，清单逐项核对通过且重启后保持",
+      "failure": "错稿本/未审阅/已撤销选择拒绝，reject缺件409，exclude保留显式缺口",
+      "verification": "python3 scripts/walkthrough.py --workflow finalize"
     },
     {
       "id": "png",

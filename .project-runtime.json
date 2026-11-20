@@ -24,6 +24,10 @@
       "command": "python3 scripts/walkthrough.py --workflow archive"
     },
     {
+      "workflow_id": "finalize",
+      "command": "python3 scripts/walkthrough.py --workflow finalize"
+    },
+    {
       "workflow_id": "png",
       "command": "python3 scripts/walkthrough.py --workflow png"
     },
