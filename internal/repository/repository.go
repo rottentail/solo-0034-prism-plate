@@ -17,12 +17,28 @@ import (
 var ErrConflict = errors.New("revision conflict")
 var ErrMissing = errors.New("not found")
 var ErrState = errors.New("invalid lifecycle state")
+var ErrPreviewStale = errors.New("reframe preview digest does not match the source revision and mode")
+var ErrDetailAck = errors.New("reframe removes detail; acknowledge it explicitly")
 
 type Revision struct {
 	Number   int            `json:"number"`
 	Digest   string         `json:"digest"`
 	Document scene.Document `json:"document"`
 	Created  time.Time      `json:"created"`
+	// Origin is optional editorial provenance. It is never folded into the
+	// scene digest and never changes how the document renders; omitting it
+	// keeps snapshots and bundles written before this field readable.
+	Origin *Origin `json:"origin,omitempty"`
+}
+type Origin struct {
+	Kind           string  `json:"kind"`
+	SourceRevision int     `json:"source_revision"`
+	SourceDigest   string  `json:"source_digest"`
+	Mode           string  `json:"mode"`
+	TargetWidth    int     `json:"target_width"`
+	TargetHeight   int     `json:"target_height"`
+	Scale          float64 `json:"scale"`
+	PreviewDigest  string  `json:"preview_digest"`
 }
 type Plate struct {
 	ID        string     `json:"id"`
@@ -104,6 +120,12 @@ func Check(s State) error {
 		for i, r := range p.Revisions {
 			if r.Number != i+1 || r.Digest != SceneHash(r.Document) {
 				return fmt.Errorf("invalid revision digest")
+			}
+			if r.Origin != nil {
+				o := r.Origin
+				if o.Kind != "reframe" || o.SourceRevision < 1 || o.SourceRevision > i || o.SourceDigest != p.Revisions[o.SourceRevision-1].Digest || (o.Mode != "fit" && o.Mode != "preserve" && o.Mode != "crop") || o.TargetWidth != r.Document.Width || o.TargetHeight != r.Document.Height || o.PreviewDigest != r.Digest {
+					return fmt.Errorf("invalid revision origin")
+				}
 			}
 		}
 	}

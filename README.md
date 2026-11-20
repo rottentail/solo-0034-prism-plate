@@ -39,7 +39,9 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、reframe、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+画布调整（例如横版转方版）先预览再提交：预览返回完整目标document、留白与“哪些细节会被裁掉或完全消失”的清单；提交必须携带预览摘要，并在有细节完全消失时显式确认。原有横版稿本与其已签样成品不受影响，仍可独立重现。
 
 ## 持久化与范围
 

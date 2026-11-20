@@ -28,6 +28,10 @@
       "command": "python3 scripts/walkthrough.py --workflow png"
     },
     {
+      "workflow_id": "reframe",
+      "command": "python3 scripts/walkthrough.py --workflow reframe"
+    },
+    {
       "workflow_id": "svg",
       "command": "python3 scripts/walkthrough.py --workflow svg"
     },

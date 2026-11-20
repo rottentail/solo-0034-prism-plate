@@ -7,6 +7,7 @@ import (
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
+	"prismplate/internal/reframe"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
@@ -53,6 +54,12 @@ func (s *Service) Revise(id string, expected int, d scene.Document) (repository.
 	if _, err := validate.Compile(d); err != nil {
 		return repository.Plate{}, err
 	}
+	return s.append(id, expected, d, nil)
+}
+
+// append commits one revision under the same expected-revision gate used by
+// Revise. origin is optional editorial metadata; it never affects rendering.
+func (s *Service) append(id string, expected int, d scene.Document, origin *repository.Origin) (repository.Plate, error) {
 	var p repository.Plate
 	err := s.Repo.Update(func(st *repository.State) error {
 		var ok bool
@@ -69,7 +76,7 @@ func (s *Service) Revise(id string, expected int, d scene.Document) (repository.
 		if len(p.Revisions) >= 64 {
 			return fmt.Errorf("revision capacity reached")
 		}
-		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()})
+		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC(), Origin: origin})
 		st.Plates[id] = p
 		return nil
 	})
@@ -96,6 +103,60 @@ func (s *Service) Branch(id string, revision int, target, title string) (reposit
 	}
 	return s.Create(target, title, p.Revisions[revision-1].Document)
 }
+
+// ReframePreview computes a reviewable reframe of an existing revision without
+// appending anything. The returned document is exactly what CommitReframe would
+// store, so nobody has to re-apply the geometry to know what will be saved.
+func (s *Service) ReframePreview(id string, revision int, target reframe.Size, mode string) (reframe.Preview, error) {
+	p, err := s.Plate(id)
+	if err != nil {
+		return reframe.Preview{}, err
+	}
+	if revision < 1 || revision > len(p.Revisions) {
+		return reframe.Preview{}, repository.ErrMissing
+	}
+	m, err := reframe.ParseMode(mode)
+	if err != nil {
+		return reframe.Preview{}, err
+	}
+	preview, err := reframe.Apply(p.Revisions[revision-1].Document, target, m)
+	if err != nil {
+		return reframe.Preview{}, err
+	}
+	if _, err = validate.Compile(preview.Document); err != nil {
+		return reframe.Preview{}, fmt.Errorf("reframed document is not admissible: %w", err)
+	}
+	return preview, nil
+}
+
+// CommitReframe appends the reviewed document as the next revision. The caller
+// must supply the exact scene digest from the preview: this refuses to commit a
+// result that differs from what the user reviewed, and it still passes through
+// the normal revision guarantee in append.
+func (s *Service) CommitReframe(id string, expected int, sourceRevision int, target reframe.Size, mode, previewDigest string, acknowledge bool) (repository.Plate, error) {
+	preview, err := s.ReframePreview(id, sourceRevision, target, mode)
+	if err != nil {
+		return repository.Plate{}, err
+	}
+	if previewDigest == "" || previewDigest != preview.Digest {
+		return repository.Plate{}, repository.ErrPreviewStale
+	}
+	if (len(preview.Detail.RemovedShapes) > 0 || len(preview.Detail.RemovedLayers) > 0) && !acknowledge {
+		return repository.Plate{}, repository.ErrDetailAck
+	}
+	origin := &repository.Origin{
+		Kind:           "reframe",
+		SourceRevision: sourceRevision,
+		SourceDigest:   preview.SourceDigest,
+		Mode:           string(preview.Mode),
+		TargetWidth:    target.Width,
+		TargetHeight:   target.Height,
+		Scale:          preview.Placement.Scale,
+		PreviewDigest:  preview.Digest,
+	}
+	return s.append(id, expected, preview.Document, origin)
+}
+
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
 	p, err := s.Plate(id)
 	if err != nil {

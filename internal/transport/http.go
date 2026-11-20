@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"prismplate/internal/exposure"
+	"prismplate/internal/reframe"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
@@ -28,7 +29,7 @@ func failure(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, repository.ErrMissing), errors.Is(err, exposure.ErrMissing):
 		status = 404
-	case errors.Is(err, repository.ErrConflict), errors.Is(err, repository.ErrState):
+	case errors.Is(err, repository.ErrConflict), errors.Is(err, repository.ErrState), errors.Is(err, repository.ErrPreviewStale), errors.Is(err, repository.ErrDetailAck):
 		status = 409
 	case errors.Is(err, exposure.ErrBusy):
 		status = 429
@@ -127,6 +128,38 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 200, map[string]string{"state": "archived"})
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/reframe", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Revision    int    `json:"revision"`
+			Expected    int    `json:"expected_revision"`
+			Width       int    `json:"width"`
+			Height      int    `json:"height"`
+			Mode        string `json:"mode"`
+			Digest      string `json:"preview_digest"`
+			Acknowledge bool   `json:"acknowledge_removed"`
+			Commit      bool   `json:"commit"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		target := reframe.Size{Width: q.Width, Height: q.Height}
+		if q.Commit {
+			p, e := a.Service.CommitReframe(r.PathValue("id"), q.Expected, q.Revision, target, q.Mode, q.Digest, q.Acknowledge)
+			if e != nil {
+				failure(w, e)
+				return
+			}
+			jsonOut(w, 200, p)
+			return
+		}
+		v, e := a.Service.ReframePreview(r.PathValue("id"), q.Revision, target, q.Mode)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)

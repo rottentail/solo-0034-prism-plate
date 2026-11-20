@@ -23,6 +23,11 @@
       "path": "internal/paint"
     },
     {
+      "id": "reframe",
+      "name": "画布调整",
+      "path": "internal/reframe"
+    },
+    {
       "id": "raster",
       "name": "PNG采样",
       "path": "internal/raster"
@@ -151,6 +156,26 @@
       "success": "有完整PNG和稳定摘要",
       "failure": "未知稿本或预算超限拒绝",
       "verification": "python3 scripts/walkthrough.py --workflow png"
+    },
+    {
+      "id": "reframe",
+      "name": "画布调整与裁切预检",
+      "entry": "POST /v1/plates/{id}/reframe",
+      "module_ids": [
+        "transport",
+        "service",
+        "reframe",
+        "validate",
+        "repository",
+        "raster"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "预览报告裁切影响并提交与审阅一致的新稿本",
+      "failure": "陈旧的预览摘要或未确认的细节消失409",
+      "verification": "python3 scripts/walkthrough.py --workflow reframe"
     },
     {
       "id": "svg",
