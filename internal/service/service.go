@@ -8,9 +8,11 @@ import (
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
+	"prismplate/internal/review"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
 	"prismplate/internal/vector"
+	"sort"
 	"strconv"
 	"time"
 )
@@ -189,8 +191,10 @@ func (s *Service) Revoke(id string) error {
 		if !ok {
 			return repository.ErrMissing
 		}
+		// A terminal proof is a review fact: its image and annotated regions must
+		// stay available for later revisions' review sheets.
 		for _, p := range st.Proofs {
-			if p.Artifact == id && p.State == "accepted" {
+			if p.Artifact == id && p.State != "open" {
 				return repository.ErrState
 			}
 		}
@@ -215,6 +219,7 @@ func (s *Service) OpenProof(id, artifact string) (repository.Proof, error) {
 		if a.State != "available" {
 			return repository.ErrState
 		}
+		p.Plate = a.Plate
 		st.Proofs[id] = p
 		return nil
 	})
@@ -264,4 +269,207 @@ func (s *Service) Import(raw []byte) (repository.Plate, error) {
 		return nil
 	})
 	return p, e
+}
+
+// AddAnnotation records a region on the exact image under review. Annotations are
+// only accepted while the proof is open; rejection freezes them with the proof.
+func (s *Service) AddAnnotation(id, proofID string, region repository.Region, comment string) (repository.Annotation, error) {
+	var n repository.Annotation
+	if !validate.ID(id) || len(comment) == 0 || len(comment) > 1000 {
+		return n, fmt.Errorf("invalid annotation identity or comment")
+	}
+	if region.W <= 0 || region.H <= 0 || region.X < 0 || region.Y < 0 {
+		return n, fmt.Errorf("annotation region must be a positive rectangle at non-negative coordinates")
+	}
+	err := s.Repo.Update(func(st *repository.State) error {
+		if _, ok := st.Annotations[id]; ok {
+			return repository.ErrConflict
+		}
+		proof, ok := st.Proofs[proofID]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if proof.State != "open" {
+			return repository.ErrState
+		}
+		art, ok := st.Artifacts[proof.Artifact]
+		if !ok || art.State != "available" {
+			return repository.ErrState
+		}
+		if art.Format != "png" {
+			return fmt.Errorf("regional annotations require a raster proof")
+		}
+		plate, ok := st.Plates[proof.Plate]
+		if !ok || art.Revision > len(plate.Revisions) {
+			return repository.ErrMissing
+		}
+		rev := plate.Revisions[art.Revision-1]
+		doc := rev.Document
+		if region.X+region.W > float64(doc.Width) || region.Y+region.H > float64(doc.Height) {
+			return fmt.Errorf("annotation region exceeds proof canvas")
+		}
+		compiled, err := validate.Compile(doc)
+		if err != nil {
+			return err
+		}
+		n = repository.Annotation{
+			ID: id, Proof: proofID, Plate: proof.Plate, Revision: art.Revision,
+			CanvasWidth: doc.Width, CanvasHeight: doc.Height,
+			Region: region, Anchor: review.PickAnchor(compiled, region),
+			Comment: comment, State: "open", Created: time.Now().UTC(),
+		}
+		st.Annotations[id] = n
+		return nil
+	})
+	return n, err
+}
+
+// HandleAnnotation closes an open annotation against a later revision of the same plate.
+func (s *Service) HandleAnnotation(id, state string, handledBy int) (repository.Annotation, error) {
+	var n repository.Annotation
+	if state != "resolved" && state != "dismissed" {
+		return n, fmt.Errorf("invalid annotation handling state")
+	}
+	err := s.Repo.Update(func(st *repository.State) error {
+		var ok bool
+		n, ok = st.Annotations[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if n.State != "open" {
+			return repository.ErrState
+		}
+		plate, ok := st.Plates[n.Plate]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if handledBy <= n.Revision || handledBy > len(plate.Revisions) {
+			return fmt.Errorf("handling revision must be a later existing revision")
+		}
+		n.State = state
+		n.HandledBy = handledBy
+		st.Annotations[id] = n
+		return nil
+	})
+	return n, err
+}
+
+// AnnotationReview returns open annotations for one plate projected onto targetRevision.
+func (s *Service) AnnotationReview(plateID string, targetRevision int) (map[string]any, error) {
+	st := s.Repo.View()
+	plate, ok := st.Plates[plateID]
+	if !ok {
+		return nil, repository.ErrMissing
+	}
+	if targetRevision < 1 || targetRevision > len(plate.Revisions) {
+		return nil, repository.ErrMissing
+	}
+	target := plate.Revisions[targetRevision-1].Document
+	type source struct {
+		ProofID     string              `json:"proof_id"`
+		ProofState  string              `json:"proof_state"`
+		Revision    int                 `json:"revision"`
+		Projections []review.Projection `json:"projections"`
+	}
+	grouped := map[int]*source{}
+	var order []int
+	var pending int
+	for _, n := range st.Annotations {
+		if n.Plate != plateID || n.State != "open" {
+			continue
+		}
+		pending++
+		g, ok := grouped[n.Revision]
+		if !ok {
+			g = &source{ProofID: n.Proof, Revision: n.Revision, ProofState: st.Proofs[n.Proof].State}
+			grouped[n.Revision] = g
+			order = append(order, n.Revision)
+		}
+		g.Projections = append(g.Projections, review.Project(n, target))
+	}
+	sort.Ints(order)
+	sources := make([]source, 0, len(order))
+	for _, rev := range order {
+		g := grouped[rev]
+		sort.Slice(g.Projections, func(i, j int) bool {
+			return g.Projections[i].Annotation.ID < g.Projections[j].Annotation.ID
+		})
+		sources = append(sources, *g)
+	}
+	return map[string]any{
+		"plate": plateID, "target_revision": targetRevision,
+		"target_canvas":            map[string]int{"width": target.Width, "height": target.Height},
+		"pending_open_annotations": pending,
+		"sources":                  sources,
+	}, nil
+}
+
+// ReviewSheet renders the immutable proof images next to the target draft with
+// projected annotation regions. Both proof and target are rendered synchronously
+// on demand and never replace stored artifacts.
+func (s *Service) ReviewSheet(ctx context.Context, plateID string, targetRevision int) ([]byte, error) {
+	st := s.Repo.View()
+	plate, ok := st.Plates[plateID]
+	if !ok {
+		return nil, repository.ErrMissing
+	}
+	if targetRevision < 1 || targetRevision > len(plate.Revisions) {
+		return nil, repository.ErrMissing
+	}
+	targetRev := plate.Revisions[targetRevision-1]
+	targetCompiled, err := validate.Compile(targetRev.Document)
+	if err != nil {
+		return nil, err
+	}
+	select {
+	case s.slots <- struct{}{}:
+		defer func() { <-s.slots }()
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	default:
+		return nil, exposure.ErrBusy
+	}
+	targetPNG, err := raster.Render(ctx, targetCompiled)
+	if err != nil {
+		return nil, err
+	}
+	type key struct {
+		proof string
+		rev   int
+	}
+	comments := map[string]string{}
+	// Deterministic ordering by proof id, then annotation id.
+	var ids []string
+	for id, n := range st.Annotations {
+		if n.Plate == plateID && n.State == "open" {
+			ids = append(ids, id)
+		}
+	}
+	sort.Strings(ids)
+	groupByKey := map[key]*review.SourceGroup{}
+	var orderedKeys []key
+	for _, id := range ids {
+		n := st.Annotations[id]
+		comments[id] = n.Comment
+		k := key{n.Proof, n.Revision}
+		g, ok := groupByKey[k]
+		if !ok {
+			proof := st.Proofs[n.Proof]
+			art := st.Artifacts[proof.Artifact]
+			g = &review.SourceGroup{Revision: n.Revision, ProofID: n.Proof, Width: n.CanvasWidth, Height: n.CanvasHeight, PNG: art.Data}
+			groupByKey[k] = g
+			orderedKeys = append(orderedKeys, k)
+		}
+		g.Projections = append(g.Projections, review.Project(n, targetRev.Document))
+	}
+	for _, g := range groupByKey {
+		sort.Slice(g.Projections, func(i, j int) bool {
+			return g.Projections[i].Annotation.ID < g.Projections[j].Annotation.ID
+		})
+	}
+	groups := make([]review.SourceGroup, 0, len(orderedKeys))
+	for _, k := range orderedKeys {
+		groups = append(groups, *groupByKey[k])
+	}
+	return review.Sheet(targetRev.Document, targetRevision, targetPNG, groups, comments), nil
 }

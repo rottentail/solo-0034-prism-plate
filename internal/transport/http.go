@@ -228,6 +228,69 @@ func (a API) Handler() http.Handler {
 		}
 		jsonOut(w, 200, v)
 	})
+	mux.HandleFunc("POST /v1/proofs/{id}/annotations", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			ID      string            `json:"id"`
+			Region  repository.Region `json:"region"`
+			Comment string            `json:"comment"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.AddAnnotation(q.ID, r.PathValue("id"), q.Region, q.Comment)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, v)
+	})
+	mux.HandleFunc("PUT /v1/annotations/{id}", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			State        string `json:"state"`
+			HandledByRev int    `json:"handled_by_revision"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.HandleAnnotation(r.PathValue("id"), q.State, q.HandledByRev)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("GET /v1/plates/{id}/annotations", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.AnnotationReview(r.PathValue("id"), n)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("GET /v1/plates/{id}/review-sheet", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		data, e := a.Service.ReviewSheet(ctx, r.PathValue("id"), n)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		w.Header().Set("Content-Type", "image/svg+xml")
+		w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; img-src data:; sandbox")
+		_, _ = w.Write(data)
+	})
 	mux.HandleFunc("GET /v1/plates/{id}/bundle", func(w http.ResponseWriter, r *http.Request) {
 		v, e := a.Service.Export(r.PathValue("id"))
 		if e != nil {

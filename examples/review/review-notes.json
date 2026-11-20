@@ -1,0 +1,292 @@
+{
+  "revision2_projection": {
+    "pending_open_annotations": 3,
+    "plate": "amber-plate",
+    "sources": [
+      {
+        "proof_id": "proof-r1",
+        "proof_state": "rejected",
+        "revision": 1,
+        "projections": [
+          {
+            "annotation": {
+              "id": "note-amber-body",
+              "proof": "proof-r1",
+              "plate": "amber-plate",
+              "revision": 1,
+              "canvas_width": 192,
+              "canvas_height": 144,
+              "region": {
+                "x": 80,
+                "y": 40,
+                "w": 32,
+                "h": 24
+              },
+              "anchor": {
+                "layer": "amber-sheet",
+                "shape": "amber-contour",
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "canvas_width": 192,
+                "canvas_height": 144,
+                "local_region": {
+                  "x": 80,
+                  "y": 40,
+                  "w": 32,
+                  "h": 24
+                }
+              },
+              "comment": "琥珀主形渐变中段偏暗，提亮 8% 左右",
+              "state": "open",
+              "created": "2026-11-20T14:03:31.008976757Z"
+            },
+            "status": "anchored",
+            "unverified": false,
+            "outside_canvas": false,
+            "reason": "anchored to \"amber-contour\"; transform and canvas unchanged",
+            "region": {
+              "x": 80,
+              "y": 40,
+              "w": 32,
+              "h": 24
+            }
+          },
+          {
+            "annotation": {
+              "id": "note-corner",
+              "proof": "proof-r1",
+              "plate": "amber-plate",
+              "revision": 1,
+              "canvas_width": 192,
+              "canvas_height": 144,
+              "region": {
+                "x": 2,
+                "y": 2,
+                "w": 12,
+                "h": 10
+              },
+              "comment": "左上角留白保留为出血位，不要放任何元素",
+              "state": "open",
+              "created": "2026-11-20T14:03:31.016603658Z"
+            },
+            "status": "absolute",
+            "unverified": false,
+            "outside_canvas": false,
+            "reason": "free annotation without shape anchor",
+            "region": {
+              "x": 2,
+              "y": 2,
+              "w": 12,
+              "h": 10
+            }
+          },
+          {
+            "annotation": {
+              "id": "note-cyan-window",
+              "proof": "proof-r1",
+              "plate": "amber-plate",
+              "revision": 1,
+              "canvas_width": 192,
+              "canvas_height": 144,
+              "region": {
+                "x": 56,
+                "y": 56,
+                "w": 16,
+                "h": 14
+              },
+              "anchor": {
+                "layer": "cyan-glaze",
+                "shape": "cyan-window",
+                "transform": [
+                  1,
+                  0.12,
+                  -0.08,
+                  1,
+                  8,
+                  -4
+                ],
+                "canvas_width": 192,
+                "canvas_height": 144,
+                "local_region": {
+                  "x": 53.40729001584786,
+                  "y": 51.82250396196513,
+                  "w": 15.847860538827248,
+                  "h": 15.768621236133107
+                }
+              },
+              "comment": "青色窗口边缘与镂空对齐有偏差，请收紧仿射偏移",
+              "state": "open",
+              "created": "2026-11-20T14:03:31.001847315Z"
+            },
+            "status": "relocated",
+            "unverified": true,
+            "outside_canvas": false,
+            "reason": "shape \"cyan-window\" transform changed; region recomputed from captured local coordinates via the new affine transform",
+            "region": {
+              "x": 53.40729001584786,
+              "y": 50.133122028526145,
+              "w": 35.70206022187004,
+              "h": 15.768621236133114
+            }
+          }
+        ]
+      }
+    ],
+    "target_canvas": {
+      "height": 144,
+      "width": 192
+    },
+    "target_revision": 2
+  },
+  "revision3_projection": {
+    "pending_open_annotations": 3,
+    "plate": "amber-plate",
+    "sources": [
+      {
+        "proof_id": "proof-r1",
+        "proof_state": "rejected",
+        "revision": 1,
+        "projections": [
+          {
+            "annotation": {
+              "id": "note-amber-body",
+              "proof": "proof-r1",
+              "plate": "amber-plate",
+              "revision": 1,
+              "canvas_width": 192,
+              "canvas_height": 144,
+              "region": {
+                "x": 80,
+                "y": 40,
+                "w": 32,
+                "h": 24
+              },
+              "anchor": {
+                "layer": "amber-sheet",
+                "shape": "amber-contour",
+                "transform": [
+                  1,
+                  0,
+                  0,
+                  1,
+                  0,
+                  0
+                ],
+                "canvas_width": 192,
+                "canvas_height": 144,
+                "local_region": {
+                  "x": 80,
+                  "y": 40,
+                  "w": 32,
+                  "h": 24
+                }
+              },
+              "comment": "琥珀主形渐变中段偏暗，提亮 8% 左右",
+              "state": "open",
+              "created": "2026-11-20T14:03:31.008976757Z"
+            },
+            "status": "rescaled",
+            "unverified": true,
+            "outside_canvas": false,
+            "reason": "canvas changed 192x144 -> 200x150; shape transform unchanged, region replayed in its local coordinates",
+            "region": {
+              "x": 80,
+              "y": 40,
+              "w": 32,
+              "h": 24
+            }
+          },
+          {
+            "annotation": {
+              "id": "note-corner",
+              "proof": "proof-r1",
+              "plate": "amber-plate",
+              "revision": 1,
+              "canvas_width": 192,
+              "canvas_height": 144,
+              "region": {
+                "x": 2,
+                "y": 2,
+                "w": 12,
+                "h": 10
+              },
+              "comment": "左上角留白保留为出血位，不要放任何元素",
+              "state": "open",
+              "created": "2026-11-20T14:03:31.016603658Z"
+            },
+            "status": "rescaled",
+            "unverified": true,
+            "outside_canvas": false,
+            "reason": "canvas changed 192x144 -> 200x150; free region scaled proportionally",
+            "region": {
+              "x": 2.0833333333333335,
+              "y": 2.0833333333333335,
+              "w": 12.5,
+              "h": 10.416666666666668
+            }
+          },
+          {
+            "annotation": {
+              "id": "note-cyan-window",
+              "proof": "proof-r1",
+              "plate": "amber-plate",
+              "revision": 1,
+              "canvas_width": 192,
+              "canvas_height": 144,
+              "region": {
+                "x": 56,
+                "y": 56,
+                "w": 16,
+                "h": 14
+              },
+              "anchor": {
+                "layer": "cyan-glaze",
+                "shape": "cyan-window",
+                "transform": [
+                  1,
+                  0.12,
+                  -0.08,
+                  1,
+                  8,
+                  -4
+                ],
+                "canvas_width": 192,
+                "canvas_height": 144,
+                "local_region": {
+                  "x": 53.40729001584786,
+                  "y": 51.82250396196513,
+                  "w": 15.847860538827248,
+                  "h": 15.768621236133107
+                }
+              },
+              "comment": "青色窗口边缘与镂空对齐有偏差，请收紧仿射偏移",
+              "state": "open",
+              "created": "2026-11-20T14:03:31.001847315Z"
+            },
+            "status": "orphaned",
+            "unverified": true,
+            "outside_canvas": false,
+            "reason": "anchored shape \"cyan-window\" in layer \"cyan-glaze\" no longer exists; original region retained without re-attachment",
+            "region": {
+              "x": 56,
+              "y": 56,
+              "w": 16,
+              "h": 14
+            }
+          }
+        ]
+      }
+    ],
+    "target_canvas": {
+      "height": 150,
+      "width": 200
+    },
+    "target_revision": 3
+  }
+}

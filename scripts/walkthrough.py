@@ -2,6 +2,119 @@
 """Run bounded production HTTP journeys against an isolated ephemeral service."""
 import argparse, concurrent.futures, copy, hashlib, json, os, pathlib, signal, socket, struct, subprocess, tempfile, time, urllib.error, urllib.request
 ROOT=pathlib.Path(__file__).resolve().parents[1]
+
+def run_annotation(call, render, seed, base, start, stop):
+    """Rejected proof with region annotations, projection across revisions, handling."""
+    # Revision 1: render the final image, open a proof and record regional feedback.
+    a1 = render('png', 1)
+    call('POST', '/v1/proofs', {'id': 'proof-r1', 'artifact': a1['id']}, status=201)
+    n1 = {'id': 'note-cyan-window', 'region': {'x': 56, 'y': 56, 'w': 16, 'h': 14},
+          'comment': '青色窗口边缘与镂空对齐有偏差，请收紧仿射偏移'}
+    n2 = {'id': 'note-corner', 'region': {'x': 2, 'y': 2, 'w': 12, 'h': 10},
+          'comment': '左上角留白希望保留为出血位'}
+    n3 = {'id': 'note-amber-body', 'region': {'x': 80, 'y': 40, 'w': 32, 'h': 24},
+          'comment': '琥珀主形渐变中段偏暗'}
+    for n in (n1, n2, n3):
+        got = call('POST', '/v1/proofs/proof-r1/annotations', n, status=201)
+        assert got['state'] == 'open' and got['revision'] == 1
+    assert call('POST', '/v1/proofs/proof-r1/annotations', n1, status=409)
+    # Anchor capture: the region over a painted shape pins to that shape and stores
+    # its local coordinates; the corner region has no shape under it.
+    stored = call('POST', '/v1/proofs/proof-r1/annotations',
+                  {'id': 'note-again', 'region': n1['region'], 'comment': 'x'}, status=201)
+    assert stored['anchor'] is not None and stored['anchor']['shape'] == 'cyan-window'
+    # Handling requires a later existing revision; revision 1 cannot close its own notes.
+    call('PUT', '/v1/annotations/note-again', {'state': 'dismissed', 'handled_by_revision': 1}, status=400)
+    call('PUT', '/v1/annotations/missing-note', {'state': 'resolved', 'handled_by_revision': 2}, status=404)
+    # Admission failures.
+    call('POST', '/v1/proofs/proof-r1/annotations',
+         {'id': 'note-bad', 'region': {'x': 0, 'y': 0, 'w': 999, 'h': 9}, 'comment': '越界'}, status=400)
+    call('POST', '/v1/proofs/missing/annotations',
+         {'id': 'note-x', 'region': {'x': 1, 'y': 1, 'w': 2, 'h': 2}, 'comment': 'x'}, status=404)
+    svg = render('svg', 1)
+    call('POST', '/v1/proofs', {'id': 'proof-svg', 'artifact': svg['id']}, status=201)
+    call('POST', '/v1/proofs/proof-svg/annotations',
+         {'id': 'note-svg', 'region': {'x': 1, 'y': 1, 'w': 2, 'h': 2}, 'comment': 'x'}, status=400)
+    # Rejection freezes the proof and its annotations; the terminal image is retained.
+    rejected = call('PUT', '/v1/proofs/proof-r1',
+                    {'state': 'rejected', 'note': '区域批注已记录，按意见修订后重提'}, status=200)
+    assert rejected['state'] == 'rejected'
+    call('POST', '/v1/proofs/proof-r1/annotations',
+         {'id': 'note-late', 'region': {'x': 1, 'y': 1, 'w': 2, 'h': 2}, 'comment': 'x'}, status=409)
+    call('DELETE', '/v1/artifacts/' + a1['id'], status=409)
+    raw1, _ = call('GET', '/v1/artifacts/' + a1['id'], raw=True)
+    assert raw1[:8] == b'\x89PNG\r\n\x1a\n'
+
+    # Revision 2: cyan-window affine changes; its annotation must be recomputed,
+    # never silently pasted by shared id.
+    doc2 = copy.deepcopy(seed['document'])
+    doc2['layers'][1]['shapes'][0]['transform'] = [1, 0.12, -0.08, 1, 24, -10]
+    call('PUT', '/v1/plates/amber-plate', {'expected_revision': 1, 'document': doc2}, status=200)
+    review2 = call('GET', '/v1/plates/amber-plate/annotations?revision=2')
+    assert review2['pending_open_annotations'] == 4, review2
+    statuses = {p['annotation']['id']: p for grp in review2['sources'] for p in grp['projections']}
+    assert statuses['note-cyan-window']['status'] == 'relocated' and statuses['note-cyan-window']['unverified']
+    assert statuses['note-amber-body']['status'] == 'anchored' and not statuses['note-amber-body']['unverified']
+    assert statuses['note-corner']['status'] == 'absolute'
+    assert statuses['note-cyan-window']['region']['x'] != n1['region']['x']
+    sheet2, _ = call('GET', '/v1/plates/amber-plate/review-sheet?revision=2', raw=True)
+    assert b'<svg' in sheet2 and b'relocated' in sheet2 and b'note-cyan-window' in sheet2
+    (base / 'review-sheet-rev2.svg').write_bytes(sheet2)
+
+    # Revision 3: canvas resized and the cyan layer removed. Orphan and rescale
+    # associations must be explicit rather than re-attached by name.
+    doc3 = copy.deepcopy(doc2)
+    doc3['width'], doc3['height'] = 200, 150
+    doc3['layers'] = [doc3['layers'][0]]
+    call('PUT', '/v1/plates/amber-plate', {'expected_revision': 2, 'document': doc3}, status=200)
+    review3 = call('GET', '/v1/plates/amber-plate/annotations?revision=3')
+    statuses = {p['annotation']['id']: p for grp in review3['sources'] for p in grp['projections']}
+    assert statuses['note-cyan-window']['status'] == 'orphaned' and statuses['note-cyan-window']['unverified']
+    assert statuses['note-cyan-window']['region'] == n1['region'], 'orphan keeps original coordinates'
+    assert statuses['note-amber-body']['status'] == 'rescaled' and statuses['note-amber-body']['unverified']
+    assert statuses['note-corner']['status'] == 'rescaled'
+    call('GET', '/v1/plates/amber-plate/annotations?revision=99', status=404)
+    sheet3, _ = call('GET', '/v1/plates/amber-plate/review-sheet?revision=3', raw=True)
+    (base / 'review-sheet-rev3.svg').write_bytes(sheet3)
+    assert b'rescaled' in sheet3 and b'anchored' in sheet3
+
+    # Handle the open feedback against the later revision; immutable comments stay.
+    call('PUT', '/v1/annotations/note-cyan-window',
+         {'state': 'dismissed', 'handled_by_revision': 3}, status=200)
+    call('PUT', '/v1/annotations/note-again',
+         {'state': 'dismissed', 'handled_by_revision': 3}, status=200)
+    call('PUT', '/v1/annotations/note-amber-body',
+         {'state': 'resolved', 'handled_by_revision': 3}, status=200)
+    call('PUT', '/v1/annotations/note-amber-body',
+         {'state': 'resolved', 'handled_by_revision': 3}, status=409)
+    call('PUT', '/v1/annotations/note-corner',
+         {'state': 'resolved', 'handled_by_revision': 99}, status=400)
+    call('PUT', '/v1/annotations/note-corner',
+         {'state': 'resolved', 'handled_by_revision': 3}, status=200)
+    review3b = call('GET', '/v1/plates/amber-plate/annotations?revision=3')
+    assert review3b['pending_open_annotations'] == 0 and review3b['sources'] == []
+    empty_sheet, _ = call('GET', '/v1/plates/amber-plate/review-sheet?revision=3', raw=True)
+    assert empty_sheet[:5] == b'<svg ' and b'<image' in empty_sheet and b'note-' not in empty_sheet
+    # Reopen a fresh proof on revision 3 and record one new note for the recovery check.
+    a3 = render('png', 3)
+    call('POST', '/v1/proofs', {'id': 'proof-r3', 'artifact': a3['id']}, status=201)
+    call('POST', '/v1/proofs/proof-r3/annotations',
+         {'id': 'note-fresh', 'region': {'x': 10, 'y': 10, 'w': 8, 'h': 8}, 'comment': '新稿意见'}, status=201)
+    review3c = call('GET', '/v1/plates/amber-plate/annotations?revision=3')
+    assert review3c['pending_open_annotations'] == 1
+    assert review3c['sources'][0]['projections'][0]['annotation']['id'] == 'note-fresh'
+    # Annotations are part of the durable snapshot and survive process recovery.
+    sheet_before_stop, _ = call('GET', '/v1/plates/amber-plate/review-sheet?revision=3', raw=True)
+    stop(); start()
+    after = call('GET', '/v1/plates/amber-plate/annotations?revision=3')
+    assert after['pending_open_annotations'] == 1
+    kept = after['sources'][0]['projections'][0]['annotation']
+    assert kept['comment'] == '新稿意见' and kept['region'] == {'x': 10, 'y': 10, 'w': 8, 'h': 8}
+    sheet_restart, _ = call('GET', '/v1/plates/amber-plate/review-sheet?revision=3', raw=True)
+    assert sheet_restart[:5] == b'<svg ' and sheet_restart == sheet_before_stop
+    # Original rejected proof image remains bit-identical after recovery.
+    assert call('GET', '/v1/artifacts/' + a1['id'], raw=True)[0] == raw1
+
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--workflow',required=True);args=parser.parse_args()
     seed=json.loads((ROOT/'examples/amber-proof.json').read_text())
@@ -69,8 +182,10 @@ def main():
                 assert job['state'] in (('succeeded','cancelled') if w=='cancel' else ('succeeded',))
                 if job['state']=='succeeded':assert call('GET','/v1/artifacts/'+job['artifact'],raw=True)[0][:8]==b'\x89PNG\r\n\x1a\n'
                 call('DELETE','/v1/exposures/absent',status=404)
-            elif w=='proof':
+            elif w == 'proof':
                 a=render();call('POST','/v1/proofs',{'id':'proof-amber','artifact':a['id']},status=201);assert call('PUT','/v1/proofs/proof-amber',{'state':'accepted','note':'叠色与镂空检查通过'})['state']=='accepted';call('DELETE','/v1/artifacts/'+a['id'],status=409);call('PUT','/v1/proofs/proof-amber',{'state':'rejected','note':'重复裁决'},status=409)
+            elif w == 'annotation':
+                run_annotation(call, render, seed, base, start, stop)
             elif w in ('bundle','restore'):
                 a=render();sealed,_=call('GET','/v1/plates/amber-plate/bundle',raw=True);payload=json.loads(sealed);assert payload['plate']['revisions'][0]['digest']==a['scene_digest']
                 if w=='bundle':
