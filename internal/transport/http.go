@@ -144,6 +144,38 @@ func (a API) Handler() http.Handler {
 		v.Data = nil
 		jsonOut(w, 201, v)
 	})
+	mux.HandleFunc("GET /v1/plates/{id}/compare", func(w http.ResponseWriter, r *http.Request) {
+		base, e := strconv.Atoi(r.URL.Query().Get("base"))
+		cand, e2 := strconv.Atoi(r.URL.Query().Get("candidate"))
+		if e != nil || e2 != nil || base < 1 || cand < 1 {
+			failure(w, fmt.Errorf("positive base and candidate revisions required"))
+			return
+		}
+		format := r.URL.Query().Get("format")
+		if format == "" {
+			format = "report"
+		}
+		if format != "report" && format != "png" {
+			failure(w, fmt.Errorf("format must be report or png"))
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		rep, img, e := a.Service.Compare(ctx, r.PathValue("id"), base, cand)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		if format == "png" {
+			w.Header().Set("Content-Type", "image/png")
+			w.Header().Set("X-Base-Scene-Digest", rep.Base.Digest)
+			w.Header().Set("X-Candidate-Scene-Digest", rep.Candidate.Digest)
+			w.WriteHeader(200)
+			_, _ = w.Write(img)
+			return
+		}
+		jsonOut(w, 200, rep)
+	})
 	mux.HandleFunc("POST /v1/plates/{id}/exposures", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)
 		if e != nil {

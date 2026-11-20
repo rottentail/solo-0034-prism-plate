@@ -12,7 +12,9 @@ import (
 	"prismplate/internal/scene"
 )
 
-func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
+// Image is the canonical sampled proof; Render only encodes it. Comparison
+// workflows reuse Image so every consumer shares one sampling path.
+func Image(ctx context.Context, c scene.Compiled) (*image.NRGBA, error) {
 	d := c.Document
 	img := image.NewNRGBA(image.Rect(0, 0, d.Width, d.Height))
 	for y := 0; y < d.Height; y++ {
@@ -51,7 +53,15 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 			img.SetNRGBA(x, y, color.NRGBA{R: r, G: g, B: b, A: a})
 		}
 	}
+	return img, nil
+}
+
+func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
+	img, err := Image(ctx, c)
+	if err != nil {
+		return nil, err
+	}
 	var out bytes.Buffer
-	err := png.Encode(&out, img)
+	err = png.Encode(&out, img)
 	return out.Bytes(), err
 }

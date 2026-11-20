@@ -78,6 +78,64 @@ def main():
                     stop();os.rename(base/'state',base/'original');start();imported=call('POST','/v1/bundles',sealed,status=201);assert imported['revisions'][0]['digest']==a['scene_digest'];assert render()['digest']==a['digest']
                 else:
                     stop();start();assert call('GET','/v1/artifacts/'+a['id'],raw=True)[0][:8]==b'\x89PNG\r\n\x1a\n';assert render()['digest']==a['digest']
+            elif w=='compare':
+                def cmp(a,b):return call('GET',f'/v1/plates/amber-plate/compare?base={a}&candidate={b}')
+                a1=render();raw,_=call('GET','/v1/artifacts/'+a1['id'],raw=True);assert hashlib.sha256(raw).hexdigest()==a1['digest']
+                # 稿本2：对象改名、轮廓起点轮换与共线边拆分，渲染结果必须完全一致
+                doc2=copy.deepcopy(seed['document'])
+                for l in doc2['layers']:
+                    l['id']=l['id']+'-r2'
+                    for s in l['shapes']:s['id']=s['id']+'-r2'
+                p=doc2['layers'][0]['shapes'][0]['path'];v0=p[0]['points'][0];c=p[1]['points']
+                doc2['layers'][0]['shapes'][0]['path']=[{'kind':'M','points':[c[2]]},{'kind':'L','points':[v0]},{'kind':'C','points':c},{'kind':'Z'}]
+                q=doc2['layers'][1]['shapes'][0]['path'];q.insert(1,{'kind':'L','points':[{'x':93,'y':48}]})
+                r2=call('PUT','/v1/plates/amber-plate',{'expected_revision':1,'document':doc2})
+                c12=cmp(1,2);assert c12['summary']['verdict']=='identical' and c12['summary']['changed_pixels']==0 and c12['summary']['noise_pixels']==0 and c12['regions']==[]
+                assert c12['framing']['noise_floor']==1
+                png12,_=call('GET','/v1/plates/amber-plate/compare?base=1&candidate=2&format=png',raw=True)
+                assert png12[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',png12[16:24])==(192,144)
+                # 稿本3：镂空内边移动2px，细小变化必须独立成区而非被平均掉
+                doc3=copy.deepcopy(doc2);q3=doc3['layers'][1]['shapes'][0]['path']
+                assert q3[6]['points'][0]=={'x':64,'y':64} and q3[9]['points'][0]=={'x':64,'y':104}
+                q3[6]['points'][0]['x']=66;q3[9]['points'][0]['x']=66
+                call('PUT','/v1/plates/amber-plate',{'expected_revision':2,'document':doc3})
+                c23=cmp(2,3);s23=c23['summary']
+                assert s23['verdict']=='design_changes' and 0<s23['changed_fraction']<0.05 and len(c23['regions'])==1
+                reg=c23['regions'][0]
+                assert reg['pixels']<3000 and reg['max_delta']>1 and reg['origin'] in ('added','removed','modified','backdrop')
+                assert any(o['shape']=='cyan-window-r2' for o in reg['objects'])
+                # 稿本4：透明渐变止点不透明度变化，大面积真实变化
+                doc4=copy.deepcopy(doc3);doc4['layers'][0]['shapes'][0]['brush']['stops'][1]['color']['a']=0.8
+                call('PUT','/v1/plates/amber-plate',{'expected_revision':3,'document':doc4})
+                c34=cmp(3,4);assert c34['summary']['verdict']=='design_changes' and c34['summary']['changed_fraction']>0.1
+                assert max(r['pixels'] for r in c34['regions'])>5000
+                # 稿本5：背景1/510级扰动，只能判为量化噪声
+                doc5=copy.deepcopy(doc4);doc5['background']['r']=0.04+1/510
+                call('PUT','/v1/plates/amber-plate',{'expected_revision':4,'document':doc5})
+                c45=cmp(4,5);s45=c45['summary']
+                assert s45['verdict']=='quantization_noise_only' and s45['changed_pixels']==0 and s45['noise_pixels']>1000 and c45['regions']==[]
+                # 稿本6：画布192x144改为160x160，报告必须说明并集坐标与背景语义
+                doc6=copy.deepcopy(doc5);doc6['width']=160;doc6['height']=160
+                call('PUT','/v1/plates/amber-plate',{'expected_revision':5,'document':doc6})
+                c56=cmp(5,6)
+                assert c56['framing']['width']==192 and c56['framing']['height']==160
+                assert c56['base']['canvas']=={'width':192,'height':144} and c56['candidate']['canvas']=={'width':160,'height':160}
+                assert all(c56['framing'][k] for k in ('origin','outside_canvas','background','metric','noise_floor_meaning','legend'))
+                assert c56['summary']['verdict']=='design_changes' and c56['summary']['changed_pixels']>1000 and len(c56['regions'])>=1
+                png56,hs=call('GET','/v1/plates/amber-plate/compare?base=5&candidate=6&format=png',raw=True)
+                assert png56[:8]==b'\x89PNG\r\n\x1a\n' and struct.unpack('>II',png56[16:24])==(192,160)
+                assert hs['x-base-scene-digest']==c56['base']['scene_digest'] and hs['x-candidate-scene-digest']==c56['candidate']['scene_digest']
+                # 比较是只读的：稿本、成品与校样保持不动
+                assert render()['digest']==a1['digest']
+                raw,_=call('GET','/v1/artifacts/'+a1['id'],raw=True);assert hashlib.sha256(raw).hexdigest()==a1['digest']
+                plate=call('GET','/v1/plates/amber-plate');assert len(plate['revisions'])==6
+                assert plate['revisions'][0]['digest']==created['revisions'][0]['digest'] and plate['revisions'][1]['digest']==r2['revisions'][1]['digest']
+                call('POST','/v1/proofs',{'id':'proof-compare','artifact':a1['id']},status=201)
+                assert call('PUT','/v1/proofs/proof-compare',{'state':'accepted','note':'比较流程后成品仍可裁决'})['state']=='accepted'
+                call('GET','/v1/plates/amber-plate/compare?base=1&candidate=99',status=404)
+                call('GET','/v1/plates/amber-plate/compare?base=0&candidate=1',status=400)
+                call('GET','/v1/plates/amber-plate/compare?base=1&candidate=2&format=tiff',status=400)
+                call('GET','/v1/plates/missing-plate/compare?base=1&candidate=2',status=404)
             elif w=='isolation':
                 lockproc=subprocess.run([str(binary),'-listen','127.0.0.1:0','-data',str(base/'state')],capture_output=True,timeout=3);assert lockproc.returncode!=0;assert b'locked' in lockproc.stderr
                 call('POST','/v1/plates',b'{"id":"x"} true',status=400)

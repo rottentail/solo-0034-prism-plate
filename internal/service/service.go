@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"prismplate/internal/bundle"
+	"prismplate/internal/compare"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
@@ -157,6 +158,39 @@ func (s *Service) Render(ctx context.Context, id string, revision int, format st
 		return repository.Artifact{}, err
 	}
 	return s.render(ctx, id, r, format)
+}
+
+// Compare renders two revisions of one plate into a shared frame and reports
+// localized changes. It is read-only: nothing is persisted and no artifact,
+// proof or revision is created or modified.
+func (s *Service) Compare(ctx context.Context, id string, base, candidate int) (compare.Report, []byte, error) {
+	rb, err := s.capture(id, base)
+	if err != nil {
+		return compare.Report{}, nil, err
+	}
+	rc, err := s.capture(id, candidate)
+	if err != nil {
+		return compare.Report{}, nil, err
+	}
+	select {
+	case s.slots <- struct{}{}:
+		defer func() { <-s.slots }()
+	case <-ctx.Done():
+		return compare.Report{}, nil, ctx.Err()
+	default:
+		return compare.Report{}, nil, exposure.ErrBusy
+	}
+	cb, err := validate.Compile(rb.Document)
+	if err != nil {
+		return compare.Report{}, nil, err
+	}
+	cc, err := validate.Compile(rc.Document)
+	if err != nil {
+		return compare.Report{}, nil, err
+	}
+	return compare.Diff(ctx, id,
+		compare.Side{Revision: rb.Number, Digest: rb.Digest, Compiled: cb},
+		compare.Side{Revision: rc.Number, Digest: rc.Digest, Compiled: cc})
 }
 func (s *Service) Submit(id string, revision int, format string) (exposure.Job, error) {
 	r, err := s.capture(id, revision)
