@@ -56,38 +56,123 @@ func path(ops []geom.Op) (geom.Path, error) {
 	}
 	return geom.Flatten(ops), nil
 }
-func brush(b scene.Brush) error {
+
+// minPeriod keeps the tile fold well-conditioned; evaluation cost itself is
+// independent of period, so small tiles cannot expand rendering work.
+const minPeriod = 0.5
+
+func brush(b scene.Brush) ([]scene.CompiledCell, error) {
+	if b.Kind == "solid" || b.Kind == "linear" {
+		if b.Pattern != nil {
+			return nil, fmt.Errorf("pattern definition requires a pattern brush")
+		}
+	}
 	if b.Kind == "solid" {
 		if !Color(b.Color) {
-			return fmt.Errorf("invalid solid color")
+			return nil, fmt.Errorf("invalid solid color")
 		}
-		return nil
+		return nil, nil
+	}
+	if b.Kind == "pattern" {
+		return pattern(b.Pattern)
 	}
 	if b.Kind != "linear" {
-		return fmt.Errorf("unknown brush")
+		return nil, fmt.Errorf("unknown brush")
 	}
 	for _, v := range []float64{b.From.X, b.From.Y, b.To.X, b.To.Y} {
 		if !finite(v) {
-			return fmt.Errorf("invalid gradient axis")
+			return nil, fmt.Errorf("invalid gradient axis")
 		}
 	}
 	if math.Hypot(b.To.X-b.From.X, b.To.Y-b.From.Y) < 1e-6 {
-		return fmt.Errorf("degenerate gradient axis")
+		return nil, fmt.Errorf("degenerate gradient axis")
 	}
 	if len(b.Stops) < 2 || len(b.Stops) > 16 {
-		return fmt.Errorf("gradient requires 2..16 stops")
+		return nil, fmt.Errorf("gradient requires 2..16 stops")
 	}
 	prev := -1.0
 	for _, s := range b.Stops {
 		if !Unit(s.At) || s.At <= prev || !Color(s.Color) {
-			return fmt.Errorf("invalid gradient stops")
+			return nil, fmt.Errorf("invalid gradient stops")
 		}
 		prev = s.At
 	}
 	if b.Stops[0].At != 0 || prev != 1 {
-		return fmt.Errorf("gradient endpoints must be 0 and 1")
+		return nil, fmt.Errorf("gradient endpoints must be 0 and 1")
 	}
-	return nil
+	return nil, nil
+}
+
+// pattern compiles a vector tile. Every cell must fit within one period per
+// axis and bleed past the tile by at most one period, so each point is covered
+// by at most one periodic image of a cell and wrapped copies never overlap.
+func pattern(p *scene.Pattern) ([]scene.CompiledCell, error) {
+	if p == nil {
+		return nil, fmt.Errorf("pattern brush requires a tile definition")
+	}
+	if p.Space != "object" && p.Space != "canvas" {
+		return nil, fmt.Errorf("pattern space must be object or canvas")
+	}
+	if !finite(p.Period.X) || !finite(p.Period.Y) || p.Period.X < minPeriod || p.Period.Y < minPeriod {
+		return nil, fmt.Errorf("pattern period must be finite and at least 0.5")
+	}
+	if !finite(p.Phase.X) || !finite(p.Phase.Y) {
+		return nil, fmt.Errorf("invalid pattern phase")
+	}
+	if len(p.Cells) < 1 || len(p.Cells) > 16 {
+		return nil, fmt.Errorf("pattern requires 1..16 cells")
+	}
+	var out []scene.CompiledCell
+	for _, cell := range p.Cells {
+		if cell.FillRule != "nonzero" && cell.FillRule != "evenodd" {
+			return nil, fmt.Errorf("invalid cell fill rule")
+		}
+		if !Color(cell.Color) {
+			return nil, fmt.Errorf("invalid cell color")
+		}
+		flat, err := path(cell.Path)
+		if err != nil {
+			return nil, err
+		}
+		if len(flat) == 0 {
+			return nil, fmt.Errorf("cell contour is empty")
+		}
+		min, max := flat[0][0], flat[0][0]
+		for _, ring := range flat {
+			for _, v := range ring {
+				min.X, min.Y = math.Min(min.X, v.X), math.Min(min.Y, v.Y)
+				max.X, max.Y = math.Max(max.X, v.X), math.Max(max.Y, v.Y)
+			}
+		}
+		if min.X < -p.Period.X || min.Y < -p.Period.Y || max.X > 2*p.Period.X || max.Y > 2*p.Period.Y {
+			return nil, fmt.Errorf("cell bleed exceeds one period")
+		}
+		if max.X-min.X > p.Period.X || max.Y-min.Y > p.Period.Y {
+			return nil, fmt.Errorf("cell extent exceeds one period")
+		}
+		xs := []float64{0}
+		if min.X < 0 {
+			xs = append(xs, p.Period.X)
+		}
+		if max.X > p.Period.X {
+			xs = append(xs, -p.Period.X)
+		}
+		ys := []float64{0}
+		if min.Y < 0 {
+			ys = append(ys, p.Period.Y)
+		}
+		if max.Y > p.Period.Y {
+			ys = append(ys, -p.Period.Y)
+		}
+		cc := scene.CompiledCell{Cell: cell, Path: flat}
+		for _, sx := range xs {
+			for _, sy := range ys {
+				cc.Shifts = append(cc.Shifts, geom.Point{X: sx, Y: sy})
+			}
+		}
+		out = append(out, cc)
+	}
+	return out, nil
 }
 func Compile(d scene.Document) (scene.Compiled, error) {
 	c := scene.Compiled{Document: d}
@@ -162,11 +247,19 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 			if e != nil {
 				return c, e
 			}
-			if e = brush(s.Brush); e != nil {
+			cells, e := brush(s.Brush)
+			if e != nil {
 				return c, e
 			}
 			count(p)
-			cl.Shapes = append(cl.Shapes, scene.CompiledShape{Shape: s, Path: p, Inverse: inv})
+			for _, cell := range cells {
+				segments := 0
+				for _, ring := range cell.Path {
+					segments += len(ring)
+				}
+				c.Segments += segments * len(cell.Shifts)
+			}
+			cl.Shapes = append(cl.Shapes, scene.CompiledShape{Shape: s, Path: p, Inverse: inv, Cells: cells})
 		}
 		c.Layers = append(c.Layers, cl)
 	}

@@ -13,12 +13,31 @@ type Stop struct {
 	At    float64 `json:"at"`
 	Color Color   `json:"color"`
 }
+
+// Cell is one vector unit inside a repeatable pattern tile. Path is expressed
+// in tile coordinates and may bleed across tile edges by at most one period.
+type Cell struct {
+	Path     []geom.Op `json:"path"`
+	FillRule string    `json:"fill_rule"`
+	Color    Color     `json:"color"`
+}
+
+// Pattern tiles small vector units without external images. Space selects the
+// coordinate system the tile grid is locked to: "object" follows the shape
+// transform, "canvas" stays fixed in plate coordinates.
+type Pattern struct {
+	Space  string     `json:"space"`
+	Period geom.Point `json:"period"`
+	Phase  geom.Point `json:"phase"`
+	Cells  []Cell     `json:"cells"`
+}
 type Brush struct {
-	Kind  string     `json:"kind"`
-	Color Color      `json:"color"`
-	From  geom.Point `json:"from"`
-	To    geom.Point `json:"to"`
-	Stops []Stop     `json:"stops,omitempty"`
+	Kind    string     `json:"kind"`
+	Color   Color      `json:"color"`
+	From    geom.Point `json:"from"`
+	To      geom.Point `json:"to"`
+	Stops   []Stop     `json:"stops,omitempty"`
+	Pattern *Pattern   `json:"pattern,omitempty"`
 }
 type Shape struct {
 	ID        string      `json:"id"`
@@ -41,10 +60,19 @@ type Document struct {
 	Background Color   `json:"background"`
 	Layers     []Layer `json:"layers"`
 }
+
+// CompiledCell is a flattened pattern unit plus the periodic images that can
+// reach into the base tile. Shifts always contains the zero vector.
+type CompiledCell struct {
+	Cell   Cell
+	Path   geom.Path
+	Shifts []geom.Point
+}
 type CompiledShape struct {
 	Shape   Shape
 	Path    geom.Path
 	Inverse geom.Matrix
+	Cells   []CompiledCell
 }
 type CompiledLayer struct {
 	Layer  Layer

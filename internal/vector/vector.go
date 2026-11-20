@@ -50,6 +50,28 @@ func Export(c scene.Compiled) []byte {
 				}
 				b.WriteString(`</linearGradient>`)
 			}
+			if pat := br.Pattern; pat != nil {
+				// Same tile metrics as the raster fold: x/y carry the phase,
+				// width/height the period. Canvas-space tiles add the inverse
+				// shape transform so the grid stays fixed in plate coordinates.
+				fmt.Fprintf(&b, `<pattern id="p%d_%d" patternUnits="userSpaceOnUse" x="%s" y="%s" width="%s" height="%s" overflow="hidden"`, i, j, number(pat.Phase.X), number(pat.Phase.Y), number(pat.Period.X), number(pat.Period.Y))
+				if pat.Space == "canvas" {
+					m := s.Inverse
+					fmt.Fprintf(&b, ` patternTransform="matrix(%s %s %s %s %s %s)"`, number(m[0]), number(m[1]), number(m[2]), number(m[3]), number(m[4]), number(m[5]))
+				}
+				b.WriteString(`>`)
+				for _, cell := range s.Cells {
+					for _, sh := range cell.Shifts {
+						tx, ty := pat.Phase.X+sh.X, pat.Phase.Y+sh.Y
+						fmt.Fprintf(&b, `<path d="%s" fill="%s" fill-opacity="%s" fill-rule="%s"`, path(cell.Path), color(cell.Cell.Color), number(cell.Cell.Color.A), cell.Cell.FillRule)
+						if tx != 0 || ty != 0 {
+							fmt.Fprintf(&b, ` transform="translate(%s %s)"`, number(tx), number(ty))
+						}
+						b.WriteString(`/>`)
+					}
+				}
+				b.WriteString(`</pattern>`)
+			}
 		}
 	}
 	b.WriteString(`</defs>`)
@@ -71,6 +93,10 @@ func Export(c scene.Compiled) []byte {
 			alpha := br.Color.A
 			if br.Kind == "linear" {
 				fill = fmt.Sprintf("url(#b%d_%d)", i, j)
+				alpha = 1
+			}
+			if br.Pattern != nil {
+				fill = fmt.Sprintf("url(#p%d_%d)", i, j)
 				alpha = 1
 			}
 			fmt.Fprintf(&b, `<path d="%s" fill="%s" fill-opacity="%s" fill-rule="%s" transform="matrix(%s %s %s %s %s %s)"/>`, path(s.Path), fill, number(alpha), s.Shape.FillRule, number(m[0]), number(m[1]), number(m[2]), number(m[3]), number(m[4]), number(m[5]))

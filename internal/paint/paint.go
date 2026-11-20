@@ -33,6 +33,37 @@ func (p Pixel) RGBA8() (uint8, uint8, uint8, uint8) {
 	return uint8(math.Round(srgb(p.R/p.A) * 255)), uint8(math.Round(srgb(p.G/p.A) * 255)), uint8(math.Round(srgb(p.B/p.A) * 255)), uint8(math.Round(math.Min(1, p.A) * 255))
 }
 func mix(a, b, t float64) float64 { return a + (b-a)*t }
+
+// wrap folds v into [0, period); period is validated positive.
+func wrap(v, period float64) float64 {
+	v = math.Mod(v, period)
+	if v < 0 {
+		v += period
+	}
+	return v
+}
+
+// SamplePattern evaluates a vector tile at p, already expressed in pattern
+// space. Tiles are never expanded or composited: the point folds into the base
+// tile and each cell contributes once, as the union of its periodic images, so
+// translucent units meeting at tile seams never blend twice.
+func SamplePattern(pat scene.Pattern, cells []scene.CompiledCell, p geom.Point) Pixel {
+	u := geom.Point{X: wrap(p.X-pat.Phase.X, pat.Period.X), Y: wrap(p.Y-pat.Phase.Y, pat.Period.Y)}
+	var px Pixel
+	for _, c := range cells {
+		inside := false
+		for _, s := range c.Shifts {
+			if c.Path.Contains(geom.Point{X: u.X - s.X, Y: u.Y - s.Y}, c.Cell.FillRule) {
+				inside = true
+				break
+			}
+		}
+		if inside {
+			px = Over(px, From(c.Cell.Color), "normal")
+		}
+	}
+	return px
+}
 func Sample(b scene.Brush, p geom.Point) Pixel {
 	if b.Kind == "solid" {
 		return From(b.Color)

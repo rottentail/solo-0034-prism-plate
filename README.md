@@ -22,6 +22,8 @@ curl -X POST 'http://127.0.0.1:7846/v1/plates/amber-plate/render?revision=1&form
 
 examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、裁域、二值蒙版和 screen 叠色。坐标原点在左上，颜色为 0..1 的 sRGB 直通色值，PNG 在内部转换为线性光预乘透明度。M/L/Q/C/Z 路径必须显式闭合，轮廓至少三条端点指令；Q/C 分别固定细分16/24段。图层可选 normal/multiply/screen，组透明度在整层合成后施加，蒙版与裁域处于版面坐标，笔刷与填充轮廓处于形状局部坐标。未提供的数值使用 JSON 的零值；形状必须明确传入可逆 transform。
 
+笔刷另有 pattern 类型：图案由小块矢量单元（cells）在瓷砖坐标中定义，不使用外部图片；examples/twill-dots.json 给出斜纹与圆点两个实例。period 为瓷砖周期（每轴至少0.5），phase 为网格原点；space 为 object 时图案随形状 transform 旋转，为 canvas 时锁定版面坐标。单元外接框每轴不得超过一个周期、出血不得超过一个周期，保证每个周期镜像互不重叠。渲染按点求值：采样点折叠进基准瓷砖，单元的所有周期镜像取并集且只覆盖一次，因此半透明单元在瓷砖交接处不会双重叠色，小周期也不会引起展开式渲染。SVG 用原生 pattern 元素表达同一周期与相位，canvas 空间附加形状逆变换作为 patternTransform，不展开瓷砖。
+
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
 ## 版本及生命周期
@@ -39,7 +41,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、pattern。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。pattern流程校验图案周期与相位在PNG/SVG间一致、瓷砖接缝无双重叠色、object/canvas空间语义、微小周期不展开以及非法单元拒绝。
 
 ## 持久化与范围
 

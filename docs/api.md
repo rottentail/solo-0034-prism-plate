@@ -22,3 +22,5 @@
 | POST /v1/bundles | 原样封包；201导入，重名409 |
 
 成品响应中的data为null，避免重复传输二进制；GET成品获得实际内容。If-None-Match精确匹配强ETag时返回304。成功校样可从持久化快照确认，当前版本没有校样列表/详情接口。GET版面返回完整历史，服务没有全局列表接口。
+
+稿本中的笔刷kind可为solid、linear或pattern。pattern笔刷携带pattern字段：space（object随形状变换，canvas锁定版面）、period（瓷砖周期，每轴≥0.5）、phase（网格原点）、cells（1..16个矢量单元，轮廓规则与形状路径一致）。单元外接框每轴不得超过一个周期，出血不得超过一个周期；不满足时创建与修订返回400。PNG与SVG以相同周期与相位表达同一瓷砖，详见README场景约定。

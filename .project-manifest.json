@@ -314,6 +314,29 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "pattern",
+      "name": "矢量单元图案笔刷",
+      "entry": "POST /v1/plates → render/bundle（斜纹与圆点瓷砖）",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "geom",
+        "paint",
+        "raster",
+        "vector",
+        "bundle",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "PNG逐像素周期与接缝单次叠色；SVG同周期同相位；封包往返出图一致",
+      "failure": "退化周期、超界单元或错误空间400",
+      "verification": "python3 scripts/walkthrough.py --workflow pattern"
     }
   ],
   "complexity": {
