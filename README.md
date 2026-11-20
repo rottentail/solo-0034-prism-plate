@@ -41,6 +41,8 @@ python3 scripts/walkthrough.py --workflow bundle
 
 可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
+发布放行手册见 docs/release-manual.md：以实际成品字节、解码像素矩阵、源稿摘要与矢量校样判定保持原引用、只需重新出图或通知接收方重新验样。涉及渲染、编码、准入或持久化变更的发布前，先跑 `python3 scripts/release_rehearsal.py` 演练三种易误判变化。
+
 ## 持久化与范围
 
 完整状态以临时写入、文件fsync、原子替换提交，失败写入不会成为内存事实。数据根使用排他 writer.lock；干净退出会清除，异常退出后需人工确认没有旧进程再清除。摘要校验保护谱系一致性，不提供恶意篡改认证。启动还会重新编译持久化场景。封包只含版面稿本，不含成品、校样和任务；导入重名拒绝，不合并历史。
