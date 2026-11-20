@@ -84,6 +84,66 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='edits':
+                # Build a plate with two layers and two shapes so a relocation
+                # can leave both layers with at least one shape.
+                doc=copy.deepcopy(seed['document'])
+                s0=copy.deepcopy(doc['layers'][0]['shapes'][0]);s0['id']='amber-twin';s0['transform']=[1,0,0,1,40,12]
+                doc['layers'][0]['shapes'].append(s0)
+                plate={'id':'edit-plate','title':'节点编辑校样','document':doc}
+                call('POST','/v1/plates',plate,status=201)
+                newbrush={'kind':'solid','color':{'r':0.2,'g':0.9,'b':0.4,'a':0.9}}
+                ops=[
+                    {'type':'move','move':{'shape':'amber-contour','delta_x':12.5,'delta_y':-6}},
+                    {'type':'replace_brush','brush':{'shape':'amber-twin','brush':newbrush}},
+                    {'type':'relocate','relocate':{'shape':'amber-twin','layer':'cyan-glaze'}},
+                ]
+                # Previews never persist: revision count stays at one.
+                pv,ph=call('POST','/v1/plates/edit-plate/edits/preview?revision=1&format=png',{'format':'png','operations':ops},status=200,raw=True)
+                assert pv[:8]==b'\x89PNG\r\n\x1a\n'
+                preview_digest=hashlib.sha256(pv).hexdigest();preview_scene=ph['x-scene-digest']
+                assert ph['etag']=='"'+preview_digest+'"'
+                assert len(call('GET','/v1/plates/edit-plate')['revisions'])==1
+                # JSON preview exposes local coordinates, layer clip domains and stacking.
+                jpv=call('POST','/v1/plates/edit-plate/edits/preview?revision=1&format=json',{'format':'json','operations':ops},status=200)
+                assert jpv['scene_digest']==preview_scene
+                cd=jpv['document'];assert len(cd['layers'])==2
+                assert len(cd['layers'][0]['shapes'])==1 and cd['layers'][0]['shapes'][0]['id']=='amber-contour'
+                assert cd['layers'][0]['shapes'][0]['transform'][4:]==[12.5,-6]
+                assert len(cd['layers'][1]['shapes'])==2
+                twin=[x for x in cd['layers'][1]['shapes'] if x['id']=='amber-twin'][0]
+                assert twin['brush']['kind']=='solid' and twin['brush']['color']==newbrush['color']
+                # Relocation moves the shape under the destination layer's screen blend, mask and clip.
+                assert [s['id'] for s in cd['layers'][1]['shapes']]==['cyan-window','amber-twin']
+                assert 'clip' in cd['layers'][0] and 'mask' in cd['layers'][1]
+                # Commit the exact same operation set and prove the final PNG is the preview.
+                committed=call('POST','/v1/plates/edit-plate/edits',{'expected_revision':1,'operations':ops},status=201)
+                assert len(committed['revisions'])==2
+                assert committed['revisions'][1]['digest']==preview_scene
+                final=call('POST','/v1/plates/edit-plate/render?revision=2&format=png',status=201)
+                assert final['scene_digest']==preview_scene and final['digest']==preview_digest
+                fr, _=call('GET','/v1/artifacts/'+final['id'],raw=True)
+                assert hashlib.sha256(fr).hexdigest()==preview_digest and fr==pv
+                # Stale expected_revision and unknown targets conflict/fail without a third revision.
+                call('POST','/v1/plates/edit-plate/edits',{'expected_revision':1,'operations':ops},status=409)
+                bad=copy.deepcopy(ops)
+                bad[2]={'type':'relocate','relocate':{'shape':'amber-twin','layer':'no-such-layer'}}
+                call('POST','/v1/plates/edit-plate/edits',{'expected_revision':2,'operations':bad},status=400)
+                # An invalid brush is admitted nowhere: the whole batch is rejected atomically.
+                badbrush=copy.deepcopy(newbrush);badbrush['kind']='linear'
+                bad=[{'type':'replace_brush','brush':{'shape':'amber-contour','brush':badbrush}}]
+                call('POST','/v1/plates/edit-plate/edits',{'expected_revision':2,'operations':bad},status=400)
+                call('POST','/v1/plates/edit-plate/edits/preview?revision=2&format=png',{'format':'png','operations':bad},status=400)
+                # Empty batches and unknown operation types are contract violations.
+                call('POST','/v1/plates/edit-plate/edits',{'expected_revision':2,'operations':[]},status=400)
+                call('POST','/v1/plates/edit-plate/edits/preview?revision=2&format=png',{'format':'png','operations':[{'type':'warp'}]},status=400)
+                assert len(call('GET','/v1/plates/edit-plate')['revisions'])==2
+                # Missing plate is a 404; an archived plate previews but cannot commit.
+                call('POST','/v1/plates/ghost-plate/edits',{'expected_revision':1,'operations':ops},status=404)
+                call('POST','/v1/plates/edit-plate/archive')
+                arch, _=call('POST','/v1/plates/edit-plate/edits/preview?revision=2&format=png',{'format':'png','operations':ops[:1]},status=200,raw=True)
+                assert arch[:8]==b'\x89PNG\r\n\x1a\n'
+                call('POST','/v1/plates/edit-plate/edits',{'expected_revision':2,'operations':ops[:1]},status=409)
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()

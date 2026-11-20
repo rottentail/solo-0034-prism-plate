@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"prismplate/internal/bundle"
+	"prismplate/internal/edit"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
@@ -75,6 +76,78 @@ func (s *Service) Revise(id string, expected int, d scene.Document) (repository.
 	})
 	return p, err
 }
+
+// Preview is a non-persisted view of an edit batch: the candidate document,
+// its scene digest and rendered bytes. Nothing is written, so previews never
+// consume revision history and stay available even on archived plates.
+type Preview struct {
+	Document    scene.Document
+	SceneDigest string
+	Format      string
+	Data        []byte
+}
+
+// PreviewEdits applies the same operation batch a later commit would, renders
+// it through the shared imaging path, and returns the result without any
+// repository write.
+func (s *Service) PreviewEdits(ctx context.Context, id string, revision int, ops []edit.Op, format string) (Preview, error) {
+	r, err := s.capture(id, revision)
+	if err != nil {
+		return Preview{}, err
+	}
+	candidate, err := edit.Apply(r.Document, ops)
+	if err != nil {
+		return Preview{}, err
+	}
+	digest := repository.SceneHash(candidate)
+	if format == "json" {
+		return Preview{Document: candidate, SceneDigest: digest, Format: "json"}, nil
+	}
+	release, err := s.acquire(ctx)
+	if err != nil {
+		return Preview{}, err
+	}
+	defer release()
+	data, err := imageBytes(ctx, candidate, format)
+	if err != nil {
+		return Preview{}, err
+	}
+	return Preview{Document: candidate, SceneDigest: digest, Format: format, Data: data}, nil
+}
+
+// EditRevision commits one batch of node edits as a single new revision. The
+// expected_revision conflict rule and old-revision immutability are identical
+// to Revise; a rejected batch produces no in-memory or persisted change.
+func (s *Service) EditRevision(id string, expected int, ops []edit.Op) (repository.Plate, error) {
+	if err := edit.Check(ops); err != nil {
+		return repository.Plate{}, err
+	}
+	var p repository.Plate
+	err := s.Repo.Update(func(st *repository.State) error {
+		var ok bool
+		p, ok = st.Plates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if p.State != "active" {
+			return repository.ErrState
+		}
+		if len(p.Revisions) != expected {
+			return repository.ErrConflict
+		}
+		if len(p.Revisions) >= 64 {
+			return fmt.Errorf("revision capacity reached")
+		}
+		d, e := edit.Apply(p.Revisions[expected-1].Document, ops)
+		if e != nil {
+			return e
+		}
+		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()})
+		st.Plates[id] = p
+		return nil
+	})
+	return p, err
+}
 func (s *Service) Archive(id string) error {
 	return s.Repo.Update(func(st *repository.State) error {
 		p, ok := st.Plates[id]
@@ -106,29 +179,44 @@ func (s *Service) capture(id string, revision int) (repository.Revision, error) 
 	}
 	return p.Revisions[revision-1], nil
 }
-func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
-	var a repository.Artifact
+
+// acquire reserves one of the shared compute slots used by synchronous and
+// asynchronous imaging, including edit previews.
+func (s *Service) acquire(ctx context.Context) (func(), error) {
 	select {
 	case s.slots <- struct{}{}:
-		defer func() { <-s.slots }()
+		return func() { <-s.slots }, nil
 	case <-ctx.Done():
-		return a, ctx.Err()
+		return nil, ctx.Err()
 	default:
-		return a, exposure.ErrBusy
+		return nil, exposure.ErrBusy
 	}
-	c, err := validate.Compile(r.Document)
+}
+
+// imageBytes compiles a document and renders it. Previews and committed
+// revisions share this exact path so a preview pixel equals a final pixel.
+func imageBytes(ctx context.Context, d scene.Document, format string) ([]byte, error) {
+	c, err := validate.Compile(d)
+	if err != nil {
+		return nil, err
+	}
+	switch format {
+	case "png":
+		return raster.Render(ctx, c)
+	case "svg":
+		return vector.Export(c), nil
+	default:
+		return nil, fmt.Errorf("format must be png or svg")
+	}
+}
+func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
+	var a repository.Artifact
+	release, err := s.acquire(ctx)
 	if err != nil {
 		return a, err
 	}
-	var data []byte
-	switch format {
-	case "png":
-		data, err = raster.Render(ctx, c)
-	case "svg":
-		data = vector.Export(c)
-	default:
-		return a, fmt.Errorf("format must be png or svg")
-	}
+	defer release()
+	data, err := imageBytes(ctx, r.Document, format)
 	if err != nil {
 		return a, err
 	}

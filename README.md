@@ -32,14 +32,18 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 
 ## 入口
 
-详见 docs/api.md。保存版面、修订、分支、归档、PNG、SVG、异步提交、取消、成品读取/撤销、校样、封包、恢复及写入隔离分别有独立的有界生产流程：
+详见 docs/api.md。保存版面、修订、节点编辑、分支、归档、PNG、SVG、异步提交、取消、成品读取/撤销、校样、封包、恢复及写入隔离分别有独立的有界生产流程：
 
 ```sh
 python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、edits、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+## 节点编辑
+
+整份重传之外，`POST /v1/plates/{id}/edits` 接受一组按序生效的节点操作，一次改稿可同时移动形状（`move` 平移仿射）、替换色刷（`replace_brush`）和调整图层归属（`relocate`），以形状/图层 id 定位。`POST .../edits/preview` 对同一组操作返回不落库的预览：png/svg 直接给出图片，`format=json` 返回候选稿本和摘要，可核对移层后的局部坐标、层裁域/蒙版与叠色顺序。预览与提交共用同一条编译与渲染路径，因此预览PNG摘要等于提交后终稿PNG摘要；任一步非法则整批拒绝，不产生半份稿本。沿用 expected_revision 与旧稿不可变约定，归档版面只能预览不能提交。
 
 ## 持久化与范围
 

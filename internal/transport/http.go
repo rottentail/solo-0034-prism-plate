@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"prismplate/internal/edit"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -127,6 +128,57 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 200, map[string]string{"state": "archived"})
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/edits/preview", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q struct {
+			Format string    `json:"format"`
+			Ops    []edit.Op `json:"operations"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		if q.Format == "" {
+			q.Format = r.URL.Query().Get("format")
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		v, e := a.Service.PreviewEdits(ctx, r.PathValue("id"), n, q.Ops, q.Format)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		if q.Format == "json" {
+			jsonOut(w, 200, map[string]any{"scene_digest": v.SceneDigest, "document": v.Document})
+			return
+		}
+		w.Header().Set("X-Scene-Digest", v.SceneDigest)
+		w.Header().Set("ETag", `"`+repository.Hash(v.Data)+`"`)
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml"}[v.Format])
+		w.WriteHeader(200)
+		_, _ = w.Write(v.Data)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/edits", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Expected int       `json:"expected_revision"`
+			Ops      []edit.Op `json:"operations"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		p, e := a.Service.EditRevision(r.PathValue("id"), q.Expected, q.Ops)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, p)
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)

@@ -18,6 +18,11 @@
       "path": "internal/validate"
     },
     {
+      "id": "edit",
+      "name": "节点编辑批",
+      "path": "internal/edit"
+    },
+    {
       "id": "paint",
       "name": "线性光合成",
       "path": "internal/paint"
@@ -94,6 +99,26 @@
       "success": "同一期望版本恰好一次追加",
       "failure": "陈旧版本409",
       "verification": "python3 scripts/walkthrough.py --workflow revise"
+    },
+    {
+      "id": "edits",
+      "name": "节点编辑批与预览",
+      "entry": "POST /v1/plates/{id}/edits/preview → POST /v1/plates/{id}/edits",
+      "module_ids": [
+        "transport",
+        "service",
+        "edit",
+        "validate",
+        "raster",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "同一组操作的预览PNG与提交终稿PNG字节一致，移层坐标与层裁域变化可预览",
+      "failure": "非法组合整批400且无半份修改，陈旧版本409",
+      "verification": "python3 scripts/walkthrough.py --workflow edits"
     },
     {
       "id": "branch",

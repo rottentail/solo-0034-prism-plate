@@ -16,6 +16,10 @@
       "command": "python3 scripts/walkthrough.py --workflow revise"
     },
     {
+      "workflow_id": "edits",
+      "command": "python3 scripts/walkthrough.py --workflow edits"
+    },
+    {
       "workflow_id": "branch",
       "command": "python3 scripts/walkthrough.py --workflow branch"
     },
