@@ -1,0 +1,19 @@
+{
+  "families": [
+    {
+      "name": "amber",
+      "reference": { "r": 0.95, "g": 0.45, "b": 0.18, "a": 1 },
+      "max_delta_e": 25
+    },
+    {
+      "name": "cyan",
+      "reference": { "r": 0.1, "g": 0.65, "b": 0.84, "a": 1 },
+      "max_delta_e": 25
+    },
+    {
+      "name": "deep-navy",
+      "reference": { "r": 0.04, "g": 0.055, "b": 0.09, "a": 1 },
+      "max_delta_e": 10
+    }
+  ]
+}

@@ -2,9 +2,12 @@
 package service
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"prismplate/internal/bundle"
+	"prismplate/internal/coverage"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
@@ -157,6 +160,104 @@ func (s *Service) Render(ctx context.Context, id string, revision int, format st
 		return repository.Artifact{}, err
 	}
 	return s.render(ctx, id, r, format)
+}
+
+// Coverage computes the explainable visible-area report for one frozen
+// revision and publishes it as a JSON artifact under the same identity,
+// digest and revocation rules as proofs. Families are supplied by the caller
+// and never mutate the immutable scene.
+func (s *Service) Coverage(ctx context.Context, id string, revision int, families []coverage.Family) (repository.Artifact, coverage.Report, error) {
+	r, err := s.capture(id, revision)
+	if err != nil {
+		return repository.Artifact{}, coverage.Report{}, err
+	}
+	select {
+	case s.slots <- struct{}{}:
+		defer func() { <-s.slots }()
+	case <-ctx.Done():
+		return repository.Artifact{}, coverage.Report{}, ctx.Err()
+	default:
+		return repository.Artifact{}, coverage.Report{}, exposure.ErrBusy
+	}
+	c, err := validate.Compile(r.Document)
+	if err != nil {
+		return repository.Artifact{}, coverage.Report{}, err
+	}
+	rep, err := coverage.Measure(ctx, c, families)
+	if err != nil {
+		return repository.Artifact{}, coverage.Report{}, err
+	}
+	data, err := jsonMarshal(rep)
+	if err != nil {
+		return repository.Artifact{}, coverage.Report{}, err
+	}
+	digest := repository.Hash(data)
+	key := repository.Hash([]byte(id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":coverage:" + digest + ":" + familyKey(families)))
+	a := repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: "coverage", Digest: digest, State: "available", Data: data}
+	err = s.Repo.Update(func(st *repository.State) error {
+		if err := ctx.Err(); err != nil {
+			return err
+		}
+		if old, ok := st.Artifacts[key]; ok {
+			if old.State != "available" {
+				return repository.ErrState
+			}
+			a = old
+			return nil
+		}
+		st.Artifacts[key] = a
+		return nil
+	})
+	if err != nil {
+		return repository.Artifact{}, coverage.Report{}, err
+	}
+	return a, rep, nil
+}
+
+// CoverageOverlay renders the localization PNG for a previously computed
+// report. It is derived deterministically from the frozen revision and the
+// requested families, so it is keyed alongside the coverage artifact but is
+// not itself persisted as a separate lineage object.
+func (s *Service) CoverageOverlay(ctx context.Context, id string, revision int, families []coverage.Family) ([]byte, error) {
+	r, err := s.capture(id, revision)
+	if err != nil {
+		return nil, err
+	}
+	select {
+	case s.slots <- struct{}{}:
+		defer func() { <-s.slots }()
+	case <-ctx.Done():
+		return nil, ctx.Err()
+	default:
+		return nil, exposure.ErrBusy
+	}
+	c, err := validate.Compile(r.Document)
+	if err != nil {
+		return nil, err
+	}
+	rep, err := coverage.Measure(ctx, c, families)
+	if err != nil {
+		return nil, err
+	}
+	return coverage.Overlay(c, rep)
+}
+
+// familyKey makes coverage artifact identity depend on the requested
+// families: the same revision with different palettes yields distinct
+// artifacts instead of silently sharing one report.
+func familyKey(families []coverage.Family) string {
+	b, _ := jsonMarshal(families)
+	return repository.Hash(b)
+}
+
+func jsonMarshal(v any) ([]byte, error) {
+	var buf bytes.Buffer
+	enc := json.NewEncoder(&buf)
+	enc.SetEscapeHTML(false)
+	if err := enc.Encode(v); err != nil {
+		return nil, err
+	}
+	return bytes.TrimRight(buf.Bytes(), "\n"), nil
 }
 func (s *Service) Submit(id string, revision int, format string) (exposure.Job, error) {
 	r, err := s.capture(id, revision)

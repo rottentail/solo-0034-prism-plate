@@ -109,7 +109,7 @@ func Check(s State) error {
 	}
 	for id, a := range s.Artifacts {
 		p, ok := s.Plates[a.Plate]
-		if !ok || a.ID != id || a.Revision < 1 || a.Revision > len(p.Revisions) || a.SceneDigest != p.Revisions[a.Revision-1].Digest || Hash(a.Data) != a.Digest || (a.State != "available" && a.State != "revoked") || (a.Format != "png" && a.Format != "svg") {
+		if !ok || a.ID != id || a.Revision < 1 || a.Revision > len(p.Revisions) || a.SceneDigest != p.Revisions[a.Revision-1].Digest || Hash(a.Data) != a.Digest || (a.State != "available" && a.State != "revoked") || (a.Format != "png" && a.Format != "svg" && a.Format != "coverage") {
 			return fmt.Errorf("invalid artifact lineage")
 		}
 	}

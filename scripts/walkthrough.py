@@ -32,6 +32,10 @@ def main():
             if code!=status:raise RuntimeError(f'{method} {path}: expected {status}, observed {code}: {payload[:200]!r}')
             return (payload,hs) if raw else json.loads(payload) if payload else None
         def render(fmt='png',revision=1):return call('POST',f'/v1/plates/amber-plate/render?revision={revision}&format={fmt}',status=201)
+        def cover(families,plate='amber-plate',revision=1,overlay=False,status=None):
+            suffix='/coverage/overlay' if overlay else '/coverage'
+            if status is None:status=200 if overlay else 201
+            return call('POST',f'/v1/plates/{plate}{suffix}?revision={revision}',{'families':families},status=status,raw=overlay)
         try:
             start();created=call('POST','/v1/plates',seed,status=201);assert created['revisions'][0]['number']==1
             w=args.workflow
@@ -84,6 +88,46 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='coverage':
+                fams=[
+                    {'name':'amber','reference':{'r':0.95,'g':0.45,'b':0.18,'a':1},'max_delta_e':25},
+                    {'name':'cyan','reference':{'r':0.10,'g':0.65,'b':0.84,'a':1},'max_delta_e':25},
+                    {'name':'navy','reference':{'r':0.04,'g':0.055,'b':0.09,'a':1},'max_delta_e':10},
+                ]
+                meta=cover(fams);assert meta['format']=='coverage' and meta['revision']==1
+                raw,hs=call('GET','/v1/artifacts/'+meta['id'],raw=True);rep=json.loads(raw)
+                assert hashlib.sha256(raw).hexdigest()==meta['digest']
+                assert rep['basis']=='supersampled_coverage' and rep['sample_pitch']==0.25
+                assert abs(rep['artwork_area']+rep['background_area']-rep['canvas_area'])<1e-9
+                assert len(rep['families'])==3
+                for f in rep['families']:
+                    assert 0<=f['area_min']<=f['area']<=f['area_max']<=rep['canvas_area']
+                    assert f['fraction_min']<=f['fraction']<=f['fraction_max']
+                    assert isinstance(f['regions'],list) and len(f['regions'])<=8
+                    for r in f['regions']:assert 0<=r['x']<rep['canvas_width'] and 0<=r['y']<rep['canvas_height']
+                # Geometric basis must sit beside the sampling basis, not replace it.
+                geo={s['shape_id']:s for s in rep['geometric_shapes']}
+                assert geo['amber-contour']['canvas_area']>0 and geo['cyan-window']['fill_rule']=='evenodd'
+                # multiply/screen attribution stays attributable to named blend layers.
+                for f in rep['families']:
+                    for key in f['blend_attribution']:
+                        assert key.endswith('|normal') or key.endswith('|multiply') or key.endswith('|screen')
+                # Repeated requests are stable; different family sets are distinct.
+                assert cover(fams)['id']==meta['id']
+                other=cover(fams[:1]);assert other['id']!=meta['id']
+                # Overlay is a PNG of identical canvas size with marker blocks.
+                ov,_=cover(fams,overlay=True);assert ov[:8]==b'\x89PNG\r\n\x1a\n'
+                assert struct.unpack('>II',ov[16:24])==(192,144)
+                # Rejection paths: bad family inputs, unknown plate, missing revision.
+                call('POST','/v1/plates/amber-plate/coverage?revision=1',{'families':[]},status=400)
+                call('POST','/v1/plates/amber-plate/coverage?revision=1',{'families':fams,'extra':1},status=400)
+                cover(fams,plate='missing-plate',status=404)
+                call('POST','/v1/plates/amber-plate/coverage?revision=99',{'families':fams},status=404)
+                # Revocation and protection semantics match other artifacts.
+                call('DELETE','/v1/artifacts/'+other['id']);call('GET','/v1/artifacts/'+other['id'],status=409)
+                call('POST','/v1/proofs',{'id':'proof-cov','artifact':meta['id']},status=201)
+                call('PUT','/v1/proofs/proof-cov',{'state':'accepted','note':'覆盖统计校样通过'})
+                call('DELETE','/v1/artifacts/'+meta['id'],status=409)
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()

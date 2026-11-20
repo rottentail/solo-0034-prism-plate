@@ -1,7 +1,10 @@
 // Package geom compiles bounded vector contours and affine coordinate mappings.
 package geom
 
-import "math"
+import (
+	"math"
+	"sort"
+)
 
 type Point struct {
 	X float64 `json:"x"`
@@ -97,4 +100,113 @@ func (path Path) Contains(p Point, rule string) bool {
 		return crossings%2 == 1
 	}
 	return winding != 0
+}
+
+// Bounds is the axis-aligned extent of a path.
+type Bounds struct {
+	MinX, MinY, MaxX, MaxY float64
+}
+
+func (p Path) Bounds() (Bounds, bool) {
+	if len(p) == 0 || len(p[0]) == 0 {
+		return Bounds{}, false
+	}
+	b := Bounds{MinX: p[0][0].X, MinY: p[0][0].Y, MaxX: p[0][0].X, MaxY: p[0][0].Y}
+	for _, r := range p {
+		for _, v := range r {
+			b.MinX = math.Min(b.MinX, v.X)
+			b.MinY = math.Min(b.MinY, v.Y)
+			b.MaxX = math.Max(b.MaxX, v.X)
+			b.MaxY = math.Max(b.MaxY, v.Y)
+		}
+	}
+	return b, true
+}
+
+// TransformPath returns a copy of the path mapped through an affine matrix.
+func TransformPath(p Path, m Matrix) Path {
+	out := make(Path, len(p))
+	for i, r := range p {
+		nr := make(Contour, len(r))
+		for j, v := range r {
+			nr[j] = m.Apply(v)
+		}
+		out[i] = nr
+	}
+	return out
+}
+
+// SignedRingArea keeps contour orientation, which winding-fill area math needs.
+func SignedRingArea(r Contour) float64 {
+	var sum float64
+	for i, a := range r {
+		b := r[(i+1)%len(r)]
+		sum += a.X*b.Y - b.X*a.Y
+	}
+	return sum / 2
+}
+
+// FillArea computes the filled area of a path under the same fill-rule
+// contract used by sampling: nonzero nets the oriented ring areas, while
+// evenodd counts each point by its ring parity. Coordinates are in whatever
+// space the path already occupies; apply the shape transform first when the
+// canvas-space area is required.
+func (p Path) FillArea(rule string) float64 {
+	if rule == "nonzero" {
+		var sum float64
+		for _, r := range p {
+			sum += SignedRingArea(r)
+		}
+		return math.Abs(sum)
+	}
+	// evenodd: area of the symmetric difference of all ring interiors.
+	// Collect oriented edges and sweep their vertical coverage directly on
+	// the flattened contour set; paths are bounded (max 256 verbs on input).
+	return evenOddArea(p)
+}
+
+func evenOddArea(p Path) float64 {
+	type edge struct {
+		x0, y0, x1, y1 float64
+	}
+	var edges []edge
+	ys := map[float64]bool{}
+	for _, r := range p {
+		for i, a := range r {
+			b := r[(i+1)%len(r)]
+			if a.Y != b.Y {
+				edges = append(edges, edge{a.X, a.Y, b.X, b.Y})
+				ys[a.Y] = true
+				ys[b.Y] = true
+			}
+		}
+	}
+	if len(edges) == 0 {
+		return 0
+	}
+	yList := make([]float64, 0, len(ys))
+	for y := range ys {
+		yList = append(yList, y)
+	}
+	sort.Float64s(yList)
+	var area float64
+	for k := 0; k+1 < len(yList); k++ {
+		lo, hi := yList[k], yList[k+1]
+		if hi <= lo {
+			continue
+		}
+		mid := (lo + hi) / 2
+		var xs []float64
+		for _, e := range edges {
+			if (e.y0 <= mid && e.y1 > mid) || (e.y1 <= mid && e.y0 > mid) {
+				t := (mid - e.y0) / (e.y1 - e.y0)
+				xs = append(xs, e.x0+t*(e.x1-e.x0))
+			}
+		}
+		sort.Float64s(xs)
+		for i := 0; i+1 < len(xs); i += 2 {
+			area += (xs[i+1] - xs[i]) * (hi - lo)
+		}
+	}
+	return area
 }

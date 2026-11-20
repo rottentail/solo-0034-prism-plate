@@ -36,10 +36,29 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 
 ```sh
 python3 scripts/walkthrough.py --workflow png
+python3 scripts/walkthrough.py --workflow coverage
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、coverage、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+## 覆盖统计
+
+打样人员可对冻结稿本提交指定色系（1..16个，CIE76 ΔE容差），取得每个色系实际可见的画布面积、误差包络与占比：
+
+```sh
+curl -H 'Content-Type: application/json' --data-binary @examples/coverage-families.json \
+  'http://127.0.0.1:7846/v1/plates/amber-plate/coverage?revision=1'
+```
+
+统计与权威PNG共用同一条逐样本成像链：被上层遮住、落在图层裁域/蒙版外、或 alpha 低于 1/255 可见阈值的部分不会按完整形状面积计入；multiply/screen 的混合结果按 `图层ID|blend` 明确归属。报告同时给出几何（多边形）依据与0.25步长超采样依据，并以独立的1.0步长网格检测分辨率翻转；细小镂空等小于定位块的特征产生 `tiny_feature` 警告而不是静默翻转结论。主要贡献区以8×8区块坐标列出，overlay 接口返回在PNG上勾画这些区块的定位图：
+
+```sh
+curl -H 'Content-Type: application/json' --data-binary @examples/coverage-families.json \
+  'http://127.0.0.1:7846/v1/plates/amber-plate/coverage/overlay?revision=1' -o overlay.png
+```
+
+覆盖统计是 format=coverage 的成品，遵守既有摘要、撤销与校样保护规则；字段语义见 docs/api.md。
 
 ## 持久化与范围
 

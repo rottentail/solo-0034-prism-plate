@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"prismplate/internal/coverage"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -144,6 +145,53 @@ func (a API) Handler() http.Handler {
 		v.Data = nil
 		jsonOut(w, 201, v)
 	})
+	mux.HandleFunc("POST /v1/plates/{id}/coverage", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q struct {
+			Families []coverage.Family `json:"families"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		art, _, e := a.Service.Coverage(ctx, r.PathValue("id"), n, q.Families)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		art.Data = nil
+		jsonOut(w, 201, art)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/coverage/overlay", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q struct {
+			Families []coverage.Family `json:"families"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		data, e := a.Service.CoverageOverlay(ctx, r.PathValue("id"), n, q.Families)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		w.Header().Set("Content-Type", "image/png")
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		_, _ = w.Write(data)
+	})
 	mux.HandleFunc("POST /v1/plates/{id}/exposures", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)
 		if e != nil {
@@ -182,7 +230,7 @@ func (a API) Handler() http.Handler {
 		w.Header().Set("ETag", `"`+v.Digest+`"`)
 		w.Header().Set("X-Scene-Digest", v.SceneDigest)
 		w.Header().Set("Content-Security-Policy", "default-src 'none'; style-src 'unsafe-inline'; sandbox")
-		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml"}[v.Format])
+		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml", "coverage": "application/json; charset=utf-8"}[v.Format])
 		if r.Header.Get("If-None-Match") == `"`+v.Digest+`"` {
 			w.WriteHeader(304)
 			return

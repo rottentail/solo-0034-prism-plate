@@ -50,6 +50,43 @@ func Sample(b scene.Brush, p geom.Point) Pixel {
 	}
 	return From(b.Stops[len(b.Stops)-1].Color)
 }
+
+// Evaluate runs the canonical per-sample compositing chain and additionally
+// returns the premultiplied layer source each layer contributes to the
+// running result. Raster sampling and coverage measurement must consume the
+// same evaluation so coverage never drifts from the authoritative PNG rules.
+// LayerResult.Src is zero where clip, mask or empty fills remove the layer.
+func Evaluate(background scene.Color, layers []scene.CompiledLayer, p geom.Point) (Pixel, []LayerResult) {
+	dst := From(background)
+	results := make([]LayerResult, len(layers))
+	for i, l := range layers {
+		if len(l.Clip) > 0 && !l.Clip.Contains(p, "nonzero") {
+			continue
+		}
+		if len(l.Mask) > 0 && !l.Mask.Contains(p, "nonzero") {
+			continue
+		}
+		src := Pixel{}
+		for _, s := range l.Shapes {
+			q := s.Inverse.Apply(p)
+			if s.Path.Contains(q, s.Shape.FillRule) {
+				src = Over(src, Sample(s.Shape.Brush, q), "normal")
+			}
+		}
+		scaled := src.Scale(l.Layer.Opacity)
+		results[i] = LayerResult{Src: scaled, Blend: l.Layer.Blend, ID: l.Layer.ID}
+		dst = Over(dst, scaled, l.Layer.Blend)
+	}
+	return dst, results
+}
+
+// LayerResult records one layer's group-scaled source at an evaluated point.
+type LayerResult struct {
+	ID    string
+	Blend string
+	Src   Pixel
+}
+
 func Over(dst, src Pixel, mode string) Pixel {
 	blend := func(d, s float64) float64 {
 		if mode == "normal" || src.A == 0 || dst.A == 0 {
