@@ -1,0 +1,1125 @@
+{
+  "generated_by": "manual/tools/rendercases",
+  "cases": [
+    {
+      "id": "c01-baseline",
+      "title": "案例01 基准：实色方块与二值蒙版都在源稿位置",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "蒙版内、方块内，应为实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "蒙版内、方块内，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "蒙版内、方块外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c01-baseline.png",
+        "sha256": "5e92c7b3ea776ba81b0b7e4ec8140f0939b87ec6d0cdc0d5f1e7979729d17736",
+        "bytes": 180
+      },
+      "svg": {
+        "file": "outputs/svg/c01-baseline.svg",
+        "sha256": "015650ede9ac9ec6aefe7e7f1ae107d73171ab726edc8e728f78426fb0956716",
+        "bytes": 530
+      }
+    },
+    {
+      "id": "c01-mask-shift",
+      "title": "案例01 错误乙：形状未动，二值蒙版被右移16（蒙版错放）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "形状在但蒙版移走，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "形状与蒙版新位的交集带[32,40]内，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "蒙版新位内但形状只到x=40，背景——这是区分点：形状错放稿此处是实色",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版新位内、形状外，背景（证明形状仍在原处）",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c01-mask-shift.png",
+        "sha256": "608e993ae4cf8df59878bf3951769c95caebbd6231dec92fc652b2210b4e6d6a",
+        "bytes": 180
+      },
+      "svg": {
+        "file": "outputs/svg/c01-mask-shift.svg",
+        "sha256": "7865b5435547555b93d0d9da4436b2a16db930d7abec455036bcb7ec4c8c2fd1",
+        "bytes": 530
+      }
+    },
+    {
+      "id": "c01-shape-shift",
+      "title": "案例01 错误甲：形状被右移16，蒙版未跟随（图案错放）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "形状移走，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "形状新落点与蒙版交集，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "仍在交集带内，实色——这是区分点：蒙版错放稿此处是背景",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "形状在但蒙版外，背景（证明蒙版仍在原处）",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c01-shape-shift.png",
+        "sha256": "db2d16745e1658c74aadcbaaf16e8bc90290ae5f6a885d805318731c9bf36645",
+        "bytes": 180
+      },
+      "svg": {
+        "file": "outputs/svg/c01-shape-shift.svg",
+        "sha256": "f5504f939c779235682f48a82e40d2550553381d5ac14fa112c58415e19c695c",
+        "bytes": 531
+      }
+    },
+    {
+      "id": "c02-baseline",
+      "title": "案例02 基准：线性渐变方块与二值蒙版都在源稿位置",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "渐变 t=0.125，偏暖端",
+          "rgba8": [
+            239,
+            171,
+            111,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "渐变 t=0.625，偏冷端",
+          "rgba8": [
+            163,
+            142,
+            201,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "方块外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c02-baseline.png",
+        "sha256": "21411669770fa42d6d7bc3879594c4bf4cbfefafe15331e0d0c301088570bb16",
+        "bytes": 226
+      },
+      "svg": {
+        "file": "outputs/svg/c02-baseline.svg",
+        "sha256": "7a5941ec9dcb3dabc56dc391cc9ef7a993d4afd1c49fbbe931eb24026e37394d",
+        "bytes": 759
+      }
+    },
+    {
+      "id": "c02-mask-shift",
+      "title": "案例02 错误乙：方块与渐变轴未动，蒙版被右移16（蒙版错放）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "方块在但蒙版移走，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "t=0.625 的冷色（渐变轴没动）——区分点：形状错放稿此处是暖色",
+          "rgba8": [
+            163,
+            142,
+            201,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "蒙版新位内但方块外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版新位内、方块外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c02-mask-shift.png",
+        "sha256": "49a4833a80b531b995d697728be7678a10e331e853107a4b2c09ef15c2efd269",
+        "bytes": 196
+      },
+      "svg": {
+        "file": "outputs/svg/c02-mask-shift.svg",
+        "sha256": "728effb9f3467a5d5b52198c18351fa30b0a0570c8c5d73072c0db4fcc11380a",
+        "bytes": 759
+      }
+    },
+    {
+      "id": "c02-shape-shift",
+      "title": "案例02 错误甲：渐变方块被右移16，渐变轴跟随（图案与跟随对象一起偏）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "方块移走，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "新落点上 t=0.125 的暖色——区分点：蒙版错放稿此处是冷色",
+          "rgba8": [
+            239,
+            171,
+            111,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "新落点上 t=0.375 的中间色；蒙版错放稿此处是背景",
+          "rgba8": [
+            205,
+            158,
+            164,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c02-shape-shift.png",
+        "sha256": "d62d23a9dddf751c9aa81db5339daf2e9dfe0bd970de4a9e21d150fb3740d898",
+        "bytes": 217
+      },
+      "svg": {
+        "file": "outputs/svg/c02-shape-shift.svg",
+        "sha256": "8b22b368b462b61b15aa882f4ec08ae3c10d6e0032868430eaa46ad40857039e",
+        "bytes": 760
+      }
+    },
+    {
+      "id": "c03-hole-edge320",
+      "title": "案例03 甲：镂空左缘正好压在 x=32 像素网格线上",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 34
+          },
+          "expect": "外环内，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 31,
+            "y": 34
+          },
+          "expect": "镂空左侧最后一个实心像素列，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 32,
+            "y": 34
+          },
+          "expect": "镂空内第一列，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 33,
+            "y": 34
+          },
+          "expect": "镂空内，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c03-hole-edge320.png",
+        "sha256": "6e7a7d3b6dd5e47ddebfb840f41efea5754831638a007fa255b25a57ed55a22a",
+        "bytes": 209
+      },
+      "svg": {
+        "file": "outputs/svg/c03-hole-edge320.svg",
+        "sha256": "cb5cb0f0fa2ce776c0c5c489345ef349478da874ec4de2e2c779a84f6230d012",
+        "bytes": 437
+      }
+    },
+    {
+      "id": "c03-hole-edge321",
+      "title": "案例03 乙：镂空左缘在 x=32.1，与甲的PNG逐像素相同",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 34
+          },
+          "expect": "外环内，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 31,
+            "y": 34
+          },
+          "expect": "实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 32,
+            "y": 34
+          },
+          "expect": "背景（0.1的边界移动落不进任何采样点）",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 33,
+            "y": 34
+          },
+          "expect": "背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c03-hole-edge321.png",
+        "sha256": "6e7a7d3b6dd5e47ddebfb840f41efea5754831638a007fa255b25a57ed55a22a",
+        "bytes": 209
+      },
+      "svg": {
+        "file": "outputs/svg/c03-hole-edge321.svg",
+        "sha256": "2b3cf5bbe8598e82bf3641521bd8aeaf4f13ad832b7f444450d2a23ce939df72",
+        "bytes": 441
+      }
+    },
+    {
+      "id": "c03-hole-edge325",
+      "title": "案例03 丙（对照）：镂空左缘在 x=32.5，压在像素中线上产生半覆盖",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 34
+          },
+          "expect": "外环内，实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 31,
+            "y": 34
+          },
+          "expect": "实色",
+          "rgba8": [
+            242,
+            115,
+            31,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 32,
+            "y": 34
+          },
+          "expect": "两个采样点在镂空内、两个在外，得到半透明混合色",
+          "rgba8": [
+            178,
+            83,
+            27,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 33,
+            "y": 34
+          },
+          "expect": "背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c03-hole-edge325.png",
+        "sha256": "c4e3186b1d459f864705b881769e910ffafb1ca7d6572985657e9bda3140c5f2",
+        "bytes": 228
+      },
+      "svg": {
+        "file": "outputs/svg/c03-hole-edge325.svg",
+        "sha256": "d17c21ac0fc973a93c341c041c5cf2c0226daca967bf2b9ea070e1ab70557dab",
+        "bytes": 441
+      }
+    },
+    {
+      "id": "c04-baseline",
+      "title": "案例04 基准：形状已绕 x=32 水平镜像，裁域留在画布原处",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 8,
+            "y": 32
+          },
+          "expect": "裁域外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 18,
+            "y": 32
+          },
+          "expect": "镜像后形状左半，取原右侧冷色",
+          "rgba8": [
+            83,
+            121,
+            234,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 32,
+            "y": 32
+          },
+          "expect": "镜像形状中缝，渐变中段",
+          "rgba8": [
+            191,
+            152,
+            179,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 46,
+            "y": 32
+          },
+          "expect": "镜像后形状右半，取原左侧暖色",
+          "rgba8": [
+            250,
+            176,
+            80,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 58,
+            "y": 32
+          },
+          "expect": "裁域外，背景（证明裁域未跟随镜像）",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c04-baseline.png",
+        "sha256": "e848b8c3e0b3559973dda4b16fa2dc3a775456f0aeb51184ca7ff2382855ccc1",
+        "bytes": 245
+      },
+      "svg": {
+        "file": "outputs/svg/c04-baseline.svg",
+        "sha256": "13004f10dd17f67162f0886d222d9c47d3d04eb8aa076f82d316b919f611fb98",
+        "bytes": 759
+      }
+    },
+    {
+      "id": "c04-clip-mirrored",
+      "title": "案例04 错误丙：形状镜像正确，但裁域也被一起镜像（裁域本应留在画布原处）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 10,
+            "y": 32
+          },
+          "expect": "基准在裁域内（仅形状不覆盖），本稿在裁域外；PNG同为背景，SVG几何不同",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 18,
+            "y": 32
+          },
+          "expect": "形状覆盖且两版裁域都覆盖，与基准逐字节相同",
+          "rgba8": [
+            83,
+            121,
+            234,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 46,
+            "y": 32
+          },
+          "expect": "形状覆盖且两版裁域都覆盖，与基准逐字节相同",
+          "rgba8": [
+            250,
+            176,
+            80,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "基准在裁域外、本稿在裁域内；因形状只到x=48，PNG仍同为背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c04-clip-mirrored.png",
+        "sha256": "e848b8c3e0b3559973dda4b16fa2dc3a775456f0aeb51184ca7ff2382855ccc1",
+        "bytes": 245
+      },
+      "svg": {
+        "file": "outputs/svg/c04-clip-mirrored.svg",
+        "sha256": "d1649c0e0a9e036c2618ec87770be06b0659c5e6365fca1821634c3bedd79080",
+        "bytes": 761
+      }
+    },
+    {
+      "id": "c04-no-mirror",
+      "title": "案例04 错误甲：漏加镜像矩阵，形状与渐变都留在原朝向",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 18,
+            "y": 32
+          },
+          "expect": "未镜像形状的左半，暖色（基准此处是冷色）",
+          "rgba8": [
+            246,
+            175,
+            92,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 46,
+            "y": 32
+          },
+          "expect": "未镜像形状的右半，冷色（基准此处是暖色）",
+          "rgba8": [
+            67,
+            119,
+            237,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 58,
+            "y": 32
+          },
+          "expect": "裁域外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c04-no-mirror.png",
+        "sha256": "edd41fb0792df81feb8117f555c70fa8558103e0a55b395f3b5b7cddce2f87f8",
+        "bytes": 246
+      },
+      "svg": {
+        "file": "outputs/svg/c04-no-mirror.svg",
+        "sha256": "8ef96f54d05c556e906560e7c2ba72953430db0002fbf057a7d8b5c0844cc44c",
+        "bytes": 757
+      }
+    },
+    {
+      "id": "c04-stops-reversed",
+      "title": "案例04 错误乙：镜像矩阵正确，但渐变停点被手工对调，渐变朝向被二次反转",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 18,
+            "y": 32
+          },
+          "expect": "几何已镜像却读出暖色（基准此处是冷色）",
+          "rgba8": [
+            246,
+            175,
+            92,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 32,
+            "y": 32
+          },
+          "expect": "渐变中段，与基准相近",
+          "rgba8": [
+            186,
+            150,
+            184,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 46,
+            "y": 32
+          },
+          "expect": "冷色（基准此处是暖色）",
+          "rgba8": [
+            67,
+            119,
+            237,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 58,
+            "y": 32
+          },
+          "expect": "裁域外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c04-stops-reversed.png",
+        "sha256": "edd41fb0792df81feb8117f555c70fa8558103e0a55b395f3b5b7cddce2f87f8",
+        "bytes": 246
+      },
+      "svg": {
+        "file": "outputs/svg/c04-stops-reversed.svg",
+        "sha256": "3dc8706a824f83b14240dfbd05346e5fe571fa1e3bd841ffa77274d99d7661ce",
+        "bytes": 759
+      }
+    },
+    {
+      "id": "c05-blend-baseline",
+      "title": "案例05 基准：screen叠色层、72%透明度、蒙版与方块同位",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "screen叠色后的青蓝",
+          "rgba8": [
+            24,
+            131,
+            170,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "方块内，screen叠色",
+          "rgba8": [
+            24,
+            131,
+            170,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "方块外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c05-blend-baseline.png",
+        "sha256": "550e9b20814d7e9558583837c566864274dcecf2a8e066228c55e7a040a807a6",
+        "bytes": 180
+      },
+      "svg": {
+        "file": "outputs/svg/c05-blend-baseline.svg",
+        "sha256": "3f7f305693d2db829957ae1bc3bf164faeede4a66656b3cc5ef97a0620609bfc",
+        "bytes": 536
+      }
+    },
+    {
+      "id": "c05-mask-shift",
+      "title": "案例05 错误乙：screen方块未动，蒙版右移16（蒙版错放）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "方块在但蒙版移走，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "交集带[32,40]内，screen叠色",
+          "rgba8": [
+            24,
+            131,
+            170,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "蒙版新位内但方块只到x=40，背景——区分点：形状错放稿此处有叠色",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版新位内、方块外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c05-mask-shift.png",
+        "sha256": "28e661294108360f109377fdf56210bf03efefe466249d1f1a8e0e7e2ce09c44",
+        "bytes": 180
+      },
+      "svg": {
+        "file": "outputs/svg/c05-mask-shift.svg",
+        "sha256": "dfdabb68ea7d5a3fabd6f3a5cf4b8e8635ecfd91464fb7cf264366f3fef7cb7b",
+        "bytes": 536
+      }
+    },
+    {
+      "id": "c05-shape-shift",
+      "title": "案例05 错误甲：screen方块右移16，蒙版留原处（图案错放）",
+      "width": 64,
+      "height": 64,
+      "probes": [
+        {
+          "point": {
+            "x": 20,
+            "y": 32
+          },
+          "expect": "方块移走，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 36,
+            "y": 32
+          },
+          "expect": "交集带内，screen叠色",
+          "rgba8": [
+            24,
+            131,
+            170,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 44,
+            "y": 32
+          },
+          "expect": "仍在交集带内，screen叠色——区分点：蒙版错放稿此处是背景",
+          "rgba8": [
+            24,
+            131,
+            170,
+            255
+          ]
+        },
+        {
+          "point": {
+            "x": 54,
+            "y": 32
+          },
+          "expect": "蒙版外，背景",
+          "rgba8": [
+            10,
+            14,
+            23,
+            255
+          ]
+        }
+      ],
+      "png": {
+        "file": "outputs/png/c05-shape-shift.png",
+        "sha256": "bab84574be07e32ca75712befdd2da12e690bc12ec3319dfd5ab93fe86412fc0",
+        "bytes": 180
+      },
+      "svg": {
+        "file": "outputs/svg/c05-shape-shift.svg",
+        "sha256": "d912bbf5adee198013ab8ae4252f4bb45e1d2875e00a72c8f35739cea62a3707",
+        "bytes": 537
+      }
+    }
+  ]
+}

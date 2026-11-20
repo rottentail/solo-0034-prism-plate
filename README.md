@@ -48,3 +48,7 @@ python3 scripts/walkthrough.py --workflow bundle
 上线容量：128版面，每版64稿本，256成品，1024校样，状态快照128MiB，HTTP输入8MiB，单稿本4倍采样预计边遍历不超过1.6亿。容量达到时需要运维规划，不会自动淘汰被校样引用的数据。完整快照复制意味着吞吐适用于小规模打样服务。
 
 自动化测试套件按初始化边界延后，本仓库不含测试命令。已提供构建、静态检查与真实生产流程演示；后续质量保障任务可以建立独立测试体系。Dockerfile提供容器构建路径，容器跨架构和生产部署不在本机Go构建的验证结论内。
+
+## 坐标排错手册
+
+制稿人员处理镜像后图案、跟随渐变、画布坐标裁域/蒙版的偏位归因时，使用 `manual/` 下的配套材料：16 个 64×64 可重跑小稿（源稿在 `manual/sources/`，PNG/SVG 对照与摘要清单在 `manual/outputs/`），覆盖两类错误在单张 PNG 上不可分、换观察点或看 SVG 几何可分、镂空压像素边缘无法由 PNG 反推边界等情形。手册正文与逐案例观察点表格见 `manual/README.md`；重跑渲染用 `go run ./manual/tools/rendercases ./manual`，纯标准库校验用 `python3 manual/tools/check_manual.py --rerender`。

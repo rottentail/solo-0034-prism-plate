@@ -1,0 +1,42 @@
+{
+  "id": "c03-hole-edge321",
+  "title": "案例03 乙：镂空左缘在 x=32.1，与甲的PNG逐像素相同",
+  "probes": [
+    {"point": {"x": 20, "y": 34}, "expect": "外环内，实色"},
+    {"point": {"x": 31, "y": 34}, "expect": "实色"},
+    {"point": {"x": 32, "y": 34}, "expect": "背景（0.1的边界移动落不进任何采样点）"},
+    {"point": {"x": 33, "y": 34}, "expect": "背景"}
+  ],
+  "document": {
+    "width": 64,
+    "height": 64,
+    "background": {"r": 0.04, "g": 0.055, "b": 0.09, "a": 1},
+    "layers": [
+      {
+        "id": "sheet",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "plate-with-hole",
+            "fill_rule": "evenodd",
+            "path": [
+              {"kind": "M", "points": [{"x": 12, "y": 12}]},
+              {"kind": "L", "points": [{"x": 52, "y": 12}]},
+              {"kind": "L", "points": [{"x": 52, "y": 52}]},
+              {"kind": "L", "points": [{"x": 12, "y": 52}]},
+              {"kind": "Z"},
+              {"kind": "M", "points": [{"x": 32.1, "y": 24}]},
+              {"kind": "L", "points": [{"x": 48, "y": 24}]},
+              {"kind": "L", "points": [{"x": 48, "y": 44}]},
+              {"kind": "L", "points": [{"x": 32.1, "y": 44}]},
+              {"kind": "Z"}
+            ],
+            "transform": [1, 0, 0, 1, 0, 0],
+            "brush": {"kind": "solid", "color": {"r": 0.95, "g": 0.45, "b": 0.12, "a": 1}}
+          }
+        ]
+      }
+    ]
+  }
+}
