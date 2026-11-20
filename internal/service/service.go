@@ -16,13 +16,14 @@ import (
 )
 
 type Service struct {
-	Repo  *repository.Repo
-	Pool  *exposure.Pool
-	slots chan struct{}
+	Repo      *repository.Repo
+	Pool      *exposure.Pool
+	proposals *proposalStore
+	slots     chan struct{}
 }
 
 func New(r *repository.Repo) *Service {
-	return &Service{Repo: r, Pool: exposure.New(2, 8), slots: make(chan struct{}, 2)}
+	return &Service{Repo: r, Pool: exposure.New(2, 8), proposals: newProposalStore(), slots: make(chan struct{}, 2)}
 }
 func (s *Service) Close() { s.Pool.Close() }
 func (s *Service) Create(id, title string, d scene.Document) (repository.Plate, error) {

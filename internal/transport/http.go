@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"prismplate/internal/corridor"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -28,9 +29,9 @@ func failure(w http.ResponseWriter, err error) {
 	switch {
 	case errors.Is(err, repository.ErrMissing), errors.Is(err, exposure.ErrMissing):
 		status = 404
-	case errors.Is(err, repository.ErrConflict), errors.Is(err, repository.ErrState):
+	case errors.Is(err, repository.ErrConflict), errors.Is(err, repository.ErrState), errors.Is(err, service.ErrProposalRecheck):
 		status = 409
-	case errors.Is(err, exposure.ErrBusy):
+	case errors.Is(err, exposure.ErrBusy), errors.Is(err, service.ErrBusy):
 		status = 429
 	case errors.Is(err, context.DeadlineExceeded):
 		status = 504
@@ -38,6 +39,12 @@ func failure(w http.ResponseWriter, err error) {
 		status = 408
 	}
 	jsonOut(w, status, map[string]string{"error": err.Error()})
+}
+
+// withoutArtifactData is retained as a no-op sanitizer hook: proposal previews
+// already omit binary payloads through the Preview.Data json:"-" tag.
+func withoutArtifactData(rec service.ProposalRecord) service.ProposalRecord {
+	return rec
 }
 func decode(w http.ResponseWriter, r *http.Request, v any) error {
 	r.Body = http.MaxBytesReader(w, r.Body, 8<<20)
@@ -250,6 +257,66 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 201, v)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/corridor-proposals", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Revision int                `json:"revision"`
+			Moves    []corridor.Move    `json:"moves"`
+			Channels []corridor.Channel `json:"channels"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		v, e := a.Service.ProposeChannel(ctx, r.PathValue("id"), q.Revision, q.Moves, q.Channels)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, withoutArtifactData(v))
+	})
+	mux.HandleFunc("GET /v1/corridor-proposals/{pid}", func(w http.ResponseWriter, r *http.Request) {
+		v, e := a.Service.GetProposal(r.PathValue("pid"))
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, withoutArtifactData(v))
+	})
+	mux.HandleFunc("GET /v1/corridor-proposals/{pid}/previews/{candidate}", func(w http.ResponseWriter, r *http.Request) {
+		idx, e := strconv.Atoi(r.PathValue("candidate"))
+		if e != nil || idx < 0 {
+			failure(w, fmt.Errorf("non-negative candidate index required"))
+			return
+		}
+		format := r.URL.Query().Get("format")
+		preview, e := a.Service.PreviewBytes(r.PathValue("pid"), idx, format)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		w.Header().Set("ETag", `"`+preview.Digest+`"`)
+		w.Header().Set("X-Content-Type-Options", "nosniff")
+		w.Header().Set("Content-Security-Policy", "default-src 'none'; sandbox")
+		w.Header().Set("Content-Type", map[string]string{"png": "image/png", "svg": "image/svg+xml"}[format])
+		_, _ = w.Write(preview.Data)
+	})
+	mux.HandleFunc("POST /v1/corridor-proposals/{pid}/accept", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Candidate int `json:"candidate"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		plate, _, e := a.Service.AcceptProposal(r.PathValue("pid"), q.Candidate)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, plate)
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")

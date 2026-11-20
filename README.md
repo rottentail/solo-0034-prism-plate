@@ -39,7 +39,22 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、corridor。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+## 受保护负空间通道
+
+改徽记轮廓时，设计师可在原稿上用画布坐标折线标出需要留空的负空间通道（允许弯曲）
+及其最小画布宽度，并提交曲线节点拖动意图。服务端在与渲染、SVG 相同的 `Flatten` 几何
+上，沿整条中线按弧长采样做圆盘扫掠断言：每个采样点既做可见填充占位检查，又计算到形状
+轮廓（含仿射变换）、图层裁域/蒙版与画布四边的最短距离，因此中段被封住、被局部变换放大
+或由同层轮廓与画布共同围成的收口都能检出，不依赖两点距离或 PNG 连通。
+
+求解以单一插值因子参数化整体拖动，先过固定网格再二分细化可行边界，返回至多5个经断言
+复核的候选及每个节点偏离原拖动意图的百分比；完整意图不可行时保留原稿、报告限制通道与
+限制边界，不产生可接受的挤没稿。候选预览与接受后提交的新稿渲染同一份文档，摘要逐字节
+一致；接受前再次复核通道与期望稿本号。契约、几何误差与支持范围见
+[docs/corridor.md](docs/corridor.md)，HTTP 入口见 [docs/api.md](docs/api.md)。
+
 
 ## 持久化与范围
 

@@ -84,6 +84,53 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='corridor':
+                def rect(x0,y0,x1,y1):
+                    return [{'kind':'M','points':[{'x':x0,'y':y0}]},{'kind':'L','points':[{'x':x1,'y':y0}]},
+                            {'kind':'L','points':[{'x':x1,'y':y1}]},{'kind':'L','points':[{'x':x0,'y':y1}]},{'kind':'Z'}]
+                solid={'kind':'solid','color':{'r':.1,'g':.1,'b':.1,'a':1}}
+                gapdoc={'width':100,'height':100,'background':{'r':1,'g':1,'b':1,'a':1},'layers':[
+                    {'id':'sheet','opacity':1,'blend':'normal','shapes':[
+                        {'id':'left','path':rect(10,10,40,90),'fill_rule':'nonzero','brush':solid,'transform':[1,0,0,1,0,0]},
+                        {'id':'right','path':rect(60,10,90,90),'fill_rule':'nonzero','brush':solid,'transform':[1,0,0,1,0,0]}]}]}
+                call('POST','/v1/plates',{'id':'gap-plate','title':'通道保护板','document':gapdoc},status=201)
+                chan={'id':'gap','min_width':10,'centerline':[{'x':50,'y':15},{'x':50,'y':85}]}
+                small=[{'shape_id':'left','from':{'x':40,'y':10},'to':{'x':44,'y':10}},
+                       {'shape_id':'left','from':{'x':40,'y':90},'to':{'x':44,'y':90}}]
+                prop=call('POST','/v1/plates/gap-plate/corridor-proposals',{'revision':1,'moves':small,'channels':[chan]},status=201)
+                assert prop['feasible'] is True and prop['boundary_alpha']==1 and len(prop['candidates'])==5
+                base=prop['baseline'];assert base['passes'] and abs(base['channels'][0]['min_clearance']-10)<1e-9
+                last=prop['candidates'][-1];assert last['alpha']==1 and last['report']['passes']
+                assert abs(last['node_deviations'][0]['ratio']-1)<1e-9
+                png,hs=call('GET',f"/v1/corridor-proposals/{prop['id']}/previews/4?format=png",raw=True)
+                assert png[:8]==b'\x89PNG\r\n\x1a\n' and hashlib.sha256(png).hexdigest()==last['preview_png']['digest']
+                svg,_=call('GET',f"/v1/corridor-proposals/{prop['id']}/previews/4?format=svg",raw=True);assert b'<svg' in svg
+                assert call('GET','/v1/corridor-proposals/'+prop['id'])['id']==prop['id']
+                accepted=call('POST',f"/v1/corridor-proposals/{prop['id']}/accept",{'candidate':4},status=201)
+                assert len(accepted['revisions'])==2 and accepted['revisions'][1]['digest']==last['scene_digest']
+                committed=call('POST','/v1/plates/gap-plate/render?revision=2&format=png',status=201)
+                assert committed['digest']==last['preview_png']['digest']
+                # Full drag intent closes the gap: feasible must be false, history unchanged.
+                closing=[{'shape_id':'left','from':{'x':40,'y':10},'to':{'x':70,'y':10}},
+                         {'shape_id':'left','from':{'x':40,'y':90},'to':{'x':70,'y':90}}]
+                blocked=call('POST','/v1/plates/gap-plate/corridor-proposals',{'revision':1,'moves':closing,'channels':[chan]},status=201)
+                assert blocked['feasible'] is False and blocked['limit'] is not None and blocked['limit']['passes'] is False
+                assert blocked['boundary_alpha']<1 and all(c['report']['passes'] for c in blocked['candidates'])
+                limit_ch=blocked['limit']['channels'][0];assert not limit_ch['passes'] and limit_ch['narrowest']['wall'].startswith('layer')
+                assert len(call('GET','/v1/plates/gap-plate')['revisions'])==2
+                # A boundary candidate is still committable; committed render matches its preview.
+                edge=blocked['candidates'][-1];acc2=call('POST',f"/v1/corridor-proposals/{blocked['id']}/accept",{'candidate':4},status=201)
+                assert acc2['revisions'][-1]['digest']==edge['scene_digest']
+                assert call('POST','/v1/plates/gap-plate/render?revision=3&format=png',status=201)['digest']==edge['preview_png']['digest']
+                # Original already violates an over-wide marker: 400, no proposal stored.
+                wide=dict(chan,min_width=40)
+                call('POST','/v1/plates/gap-plate/corridor-proposals',{'revision':1,'moves':small,'channels':[wide]},status=400)
+                # Stale expected revision after a normal revise: acceptance is 409.
+                stale=call('POST','/v1/plates/gap-plate/corridor-proposals',{'revision':1,'moves':small,'channels':[chan]},status=201)
+                call('PUT','/v1/plates/gap-plate',{'expected_revision':3,'document':gapdoc},status=200)
+                call('POST',f"/v1/corridor-proposals/{stale['id']}/accept",{'candidate':0},status=409)
+                call('GET','/v1/corridor-proposals/cp-missing',status=404)
+                call('POST','/v1/corridor-proposals/cp-missing/accept',{'candidate':0},status=404)
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()
