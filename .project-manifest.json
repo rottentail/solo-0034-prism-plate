@@ -48,6 +48,11 @@
       "path": "internal/bundle"
     },
     {
+      "id": "register",
+      "name": "套准拟合与重映射",
+      "path": "internal/register"
+    },
+    {
       "id": "service",
       "name": "版本与校样用例",
       "path": "internal/service"
@@ -314,6 +319,27 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "register",
+      "name": "套准导入",
+      "entry": "POST /v1/plates/{id}/registration/preview → POST /v1/plates/{id}/registration/commit",
+      "module_ids": [
+        "transport",
+        "service",
+        "register",
+        "bundle",
+        "validate",
+        "geom",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "预览与提交摘要一致；外来图层按拟合变换落版且双方原稿不变",
+      "failure": "标记不足、退化拟合、版本冲突或非法合并拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow register"
     }
   ],
   "complexity": {

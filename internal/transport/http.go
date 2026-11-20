@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"prismplate/internal/exposure"
+	"prismplate/internal/register"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
@@ -250,6 +251,45 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 201, v)
+	})
+	registration := func(w http.ResponseWriter, r *http.Request, commit bool) {
+		var q struct {
+			Expected        int             `json:"expected_revision"`
+			Bundle          json.RawMessage `json:"bundle"`
+			SourceRevision  int             `json:"source_revision"`
+			AllowReflection bool            `json:"allow_reflection"`
+			Pairs           []register.Pair `json:"pairs"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		if len(q.Bundle) == 0 {
+			failure(w, fmt.Errorf("bundle is required"))
+			return
+		}
+		id := r.PathValue("id")
+		if commit {
+			v, e := a.Service.CommitRegistration(id, q.Expected, q.Bundle, q.SourceRevision, q.AllowReflection, q.Pairs)
+			if e != nil {
+				failure(w, e)
+				return
+			}
+			jsonOut(w, 201, v)
+			return
+		}
+		v, e := a.Service.PlanRegistration(id, q.Bundle, q.SourceRevision, q.AllowReflection, q.Pairs)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	}
+	mux.HandleFunc("POST /v1/plates/{id}/registration/preview", func(w http.ResponseWriter, r *http.Request) {
+		registration(w, r, false)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/registration/commit", func(w http.ResponseWriter, r *http.Request) {
+		registration(w, r, true)
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")

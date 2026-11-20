@@ -30,6 +30,10 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 
 取消是请求，已进入成品提交点的任务仍可成功；成功任务的事实不会变为取消。取消或失败不得提交半张图片。成品按版面、稿本、格式、内容摘要产生稳定标识；撤销后不允许再次悄悄激活。校样只有 open→accepted/rejected；通过的校样禁止撤销其成品。
 
+## 套准导入
+
+外来封包可以不落地、按标记套准后并入当前版面：POST /v1/plates/{id}/registration/preview 用至少三对对应标记最小二乘拟合相似变换（可选镜像），返回残差、可信度分档与合并后的完整稿本；确认偏差后 POST /v1/plates/{id}/registration/commit 以 expected_revision 把同一稿本追加为新稿本，两者摘要一致。形状轮廓与渐变轴留在局部坐标，裁域与蒙版按拟合矩阵重写；外来背景明确丢弃并回报。拟合模型、可信度规则与无法靠一次平面变换消除的偏差见 docs/api.md。
+
 ## 入口
 
 详见 docs/api.md。保存版面、修订、分支、归档、PNG、SVG、异步提交、取消、成品读取/撤销、校样、封包、恢复及写入隔离分别有独立的有界生产流程：
@@ -39,7 +43,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、register。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 

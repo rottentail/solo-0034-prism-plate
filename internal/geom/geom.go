@@ -22,6 +22,18 @@ func (m Matrix) Inverse() (Matrix, bool) {
 	return Matrix{m[3] / d, -m[1] / d, -m[2] / d, m[0] / d, (m[2]*m[5] - m[3]*m[4]) / d, (m[1]*m[4] - m[0]*m[5]) / d}, true
 }
 
+// Mul composes affine maps: Mul(a, b) applies b first, then a.
+func Mul(a, b Matrix) Matrix {
+	return Matrix{
+		a[0]*b[0] + a[2]*b[1],
+		a[1]*b[0] + a[3]*b[1],
+		a[0]*b[2] + a[2]*b[3],
+		a[1]*b[2] + a[3]*b[3],
+		a[0]*b[4] + a[2]*b[5] + a[4],
+		a[1]*b[4] + a[3]*b[5] + a[5],
+	}
+}
+
 type Op struct {
 	Kind   string  `json:"kind"`
 	Points []Point `json:"points,omitempty"`

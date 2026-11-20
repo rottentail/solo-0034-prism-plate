@@ -7,6 +7,7 @@ import (
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
+	"prismplate/internal/register"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
@@ -250,6 +251,117 @@ func (s *Service) Export(id string) ([]byte, error) {
 		return nil, e
 	}
 	return bundle.Seal(p)
+}
+
+// Registration is the shared preview/commit report. Both endpoints are
+// served by PlanRegistration, so a committed merge reproduces the previewed
+// document digest exactly.
+type Registration struct {
+	Plate        string            `json:"plate"`
+	BaseRevision int               `json:"base_revision"`
+	Committed    int               `json:"committed,omitempty"`
+	Digest       string            `json:"document_digest"`
+	Document     scene.Document    `json:"document"`
+	Fit          register.Fit      `json:"fit"`
+	Foreign      ForeignSummary    `json:"foreign"`
+	Originals    map[string]string `json:"originals"`
+}
+type ForeignSummary struct {
+	Plate      string               `json:"plate"`
+	Revision   int                  `json:"revision"`
+	Layers     []register.Placement `json:"layers_placed"`
+	Background BackgroundFate       `json:"background"`
+}
+
+// BackgroundFate records the explicit disposition of the foreign canvas
+// background: merged layers sit on the local background, never on a blend of
+// the two.
+type BackgroundFate struct {
+	scene.Color
+	Disposition string `json:"disposition"`
+}
+
+// PlanRegistration fits the foreign bundle's selected revision onto the
+// plate's latest revision and returns the merged document without
+// persisting anything. The foreign bundle is verified in memory only.
+func (s *Service) PlanRegistration(id string, raw []byte, sourceRevision int, allowReflection bool, pairs []register.Pair) (Registration, error) {
+	var reg Registration
+	foreign, err := bundle.Open(raw)
+	if err != nil {
+		return reg, err
+	}
+	if sourceRevision < 0 || sourceRevision > len(foreign.Revisions) {
+		return reg, fmt.Errorf("unknown foreign revision")
+	}
+	if sourceRevision == 0 {
+		sourceRevision = len(foreign.Revisions)
+	}
+	p, err := s.Plate(id)
+	if err != nil {
+		return reg, err
+	}
+	base := p.Revisions[len(p.Revisions)-1]
+	fit, err := register.FitTransform(pairs, allowReflection, base.Document.Width, base.Document.Height)
+	if err != nil {
+		return reg, err
+	}
+	merged, placements := register.Merge(base.Document, foreign.Revisions[sourceRevision-1].Document, fit.Transform, foreign.ID)
+	if _, err = validate.Compile(merged); err != nil {
+		return reg, err
+	}
+	return Registration{
+		Plate:        id,
+		BaseRevision: base.Number,
+		Digest:       repository.SceneHash(merged),
+		Document:     merged,
+		Fit:          fit,
+		Foreign: ForeignSummary{
+			Plate:      foreign.ID,
+			Revision:   sourceRevision,
+			Layers:     placements,
+			Background: BackgroundFate{Color: foreign.Revisions[sourceRevision-1].Document.Background, Disposition: "discarded: merged layers sit on the local canvas background"},
+		},
+		Originals: map[string]string{
+			"foreign": "bundle verified in memory only; not imported and not modified",
+			"local":   "existing revisions are immutable; the merge appends a new revision",
+		},
+	}, nil
+}
+
+// CommitRegistration appends the planned merge as a new revision. The base
+// revision must still be the latest, so a stale preview cannot silently
+// merge onto a moved plate.
+func (s *Service) CommitRegistration(id string, expected int, raw []byte, sourceRevision int, allowReflection bool, pairs []register.Pair) (Registration, error) {
+	reg, err := s.PlanRegistration(id, raw, sourceRevision, allowReflection, pairs)
+	if err != nil {
+		return reg, err
+	}
+	if reg.BaseRevision != expected {
+		return reg, repository.ErrConflict
+	}
+	err = s.Repo.Update(func(st *repository.State) error {
+		p, ok := st.Plates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if p.State != "active" {
+			return repository.ErrState
+		}
+		if len(p.Revisions) != expected {
+			return repository.ErrConflict
+		}
+		if len(p.Revisions) >= 64 {
+			return fmt.Errorf("revision capacity reached")
+		}
+		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: reg.Digest, Document: reg.Document, Created: time.Now().UTC()})
+		st.Plates[id] = p
+		return nil
+	})
+	if err != nil {
+		return reg, err
+	}
+	reg.Committed = expected + 1
+	return reg, nil
 }
 func (s *Service) Import(raw []byte) (repository.Plate, error) {
 	p, e := bundle.Open(raw)

@@ -84,6 +84,64 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='register':
+                def apply(m,p):return(m[0]*p[0]+m[2]*p[1]+m[4],m[1]*p[0]+m[3]*p[1]+m[5])
+                def mul(a,b):return[a[0]*b[0]+a[2]*b[1],a[1]*b[0]+a[3]*b[1],a[0]*b[2]+a[2]*b[3],a[1]*b[2]+a[3]*b[3],a[0]*b[4]+a[2]*b[5]+a[4],a[1]*b[4]+a[3]*b[5]+a[5]]
+                def ops(verts):return[{'kind':'M','points':[{'x':verts[0][0],'y':verts[0][1]}]}]+[{'kind':'L','points':[{'x':x,'y':y}]} for x,y in verts[1:]]+[{'kind':'Z'}]
+                def verts(o):return[(op['points'][0]['x'],op['points'][0]['y']) for op in o if op['kind']!='Z']
+                foreign={'id':'handoff-plate','title':'外来移交稿','document':{'width':120,'height':90,'background':{'r':.95,'g':.9,'b':.8,'a':1},'layers':[{'id':'ink','opacity':.9,'blend':'multiply','clip':ops([(2,2),(118,2),(118,88),(2,88)]),'mask':ops([(4,4),(116,4),(116,86),(4,86)]),'shapes':[{'id':'glyph','fill_rule':'nonzero','path':ops([(10,10),(50,14),(44,60),(12,52)]),'transform':[.5,0,0,.5,3,-2],'brush':{'kind':'linear','from':{'x':0,'y':0},'to':{'x':40,'y':30},'color':{'r':0,'g':0,'b':0,'a':0},'stops':[{'at':0,'color':{'r':.2,'g':.3,'b':.9,'a':.9}},{'at':1,'color':{'r':.8,'g':.2,'b':.5,'a':.6}}]}}]}]}}
+                call('POST','/v1/plates',foreign,status=201)
+                sealed,_=call('GET','/v1/plates/handoff-plate/bundle',raw=True);pack=json.loads(sealed)
+                mtrue=[0,1,-1,0,150,10];src=[(0,0),(120,0),(120,90),(0,90),(60,45)]
+                noise=[(.2,-.2),(-.3,.4),(.3,-.4),(-.2,.2),(.1,-.1)]
+                pairs=[{'source':{'x':p[0],'y':p[1]},'target':{'x':apply(mtrue,p)[0]+d[0],'y':apply(mtrue,p)[1]+d[1]}} for p,d in zip(src,noise)]
+                prev=call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':pack,'pairs':pairs})
+                fit=prev['fit']
+                assert prev['base_revision']==1 and 'committed' not in prev and not fit['reflected']
+                assert abs(fit['scale']-1)<.01 and abs(fit['rotation_degrees']-90)<.5 and fit['rms_error']<1
+                assert fit['confidence']=='high' and fit['degrees_of_freedom']==6 and len(fit['residuals'])==5
+                doc=prev['document']
+                assert doc['width']==192 and doc['height']==144 and doc['background']==seed['document']['background']
+                assert [l['id'] for l in doc['layers']]==['amber-sheet','cyan-glaze','handoff-plate-ink']
+                fl=doc['layers'][2];fL=foreign['document']['layers'][0]
+                assert fl['opacity']==.9 and fl['blend']=='multiply'
+                for key in ('clip','mask'):
+                    for p,q in zip(verts(fL[key]),verts(fl[key])):
+                        e=apply(fit['transform'],p);assert abs(e[0]-q[0])<1e-6 and abs(e[1]-q[1])<1e-6
+                fsh,gsh=fL['shapes'][0],fl['shapes'][0]
+                assert gsh['id']=='handoff-plate-glyph' and gsh['path']==fsh['path'] and gsh['brush']==fsh['brush']
+                for a,b in zip(mul(fit['transform'],fsh['transform']),gsh['transform']):assert abs(a-b)<1e-9
+                assert prev['foreign']['background']['disposition'].startswith('discarded') and prev['foreign']['background']['r']==.95
+                assert prev['foreign']['layers_placed']==[{'source':'ink','placed':'handoff-plate-ink'}]
+                again=call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':pack,'pairs':pairs})
+                assert again['document_digest']==prev['document_digest']
+                call('POST','/v1/plates/amber-plate/registration/commit',{'expected_revision':7,'bundle':pack,'pairs':pairs},status=409)
+                done=call('POST','/v1/plates/amber-plate/registration/commit',{'expected_revision':1,'bundle':pack,'pairs':pairs},status=201)
+                assert done['committed']==2 and done['document_digest']==prev['document_digest'] and done['document']==doc
+                plate=call('GET','/v1/plates/amber-plate')
+                assert len(plate['revisions'])==2 and plate['revisions'][0]['document']==created['revisions'][0]['document'] and plate['revisions'][1]['digest']==prev['document_digest']
+                a=render('png',2);raw,_=call('GET','/v1/artifacts/'+a['id'],raw=True);assert raw[:8]==b'\x89PNG\r\n\x1a\n'
+                assert render('png',2)['digest']==a['digest'] and render('svg',2)['revision']==2
+                assert len(call('GET','/v1/plates/handoff-plate')['revisions'])==1
+                call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':pack,'pairs':pairs[:2]},status=400)
+                tampered=dict(pack);tampered['digest']='0'*64
+                call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':tampered,'pairs':pairs},status=400)
+                call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':pack,'pairs':pairs,'source_revision':99},status=400)
+                call('POST','/v1/plates/missing-plate/registration/preview',{'bundle':pack,'pairs':pairs},status=404)
+                collinear=[{'source':{'x':x,'y':10},'target':{'x':150-x,'y':10}} for x in (10,20,30)]
+                col=call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':pack,'pairs':collinear})
+                assert col['fit']['confidence'] in ('medium','low') and 'collinear' in json.dumps(col['fit']['diagnostics'])
+                mirror={'id':'cyan','title':'镜像稿','document':{'width':120,'height':90,'background':{'r':1,'g':1,'b':1,'a':1},'layers':[{'id':'glaze','opacity':1,'blend':'normal','shapes':[{'id':'mark','fill_rule':'nonzero','path':ops([(5,5),(60,8),(30,70)]),'transform':[1,0,0,1,0,0],'brush':{'kind':'solid','color':{'r':.4,'g':.2,'b':.6,'a':.8}}}]}]}}
+                call('POST','/v1/plates',mirror,status=201)
+                msealed,_=call('GET','/v1/plates/cyan/bundle',raw=True);mpack=json.loads(msealed)
+                mm=[-1,0,0,1,150,10]
+                mpairs=[{'source':{'x':p[0],'y':p[1]},'target':{'x':apply(mm,p)[0],'y':apply(mm,p)[1]}} for p in src]
+                no=call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':mpack,'pairs':mpairs})
+                assert no['fit']['confidence']=='low' and 'reflection' in json.dumps(no['fit']['diagnostics'])
+                yes=call('POST','/v1/plates/amber-plate/registration/preview',{'bundle':mpack,'pairs':mpairs,'allow_reflection':True})
+                assert yes['fit']['reflected'] and yes['fit']['rms_error']<.5 and yes['document']['layers'][3]['id']=='cyan-glaze-2'
+                call('POST','/v1/plates/amber-plate/archive')
+                call('POST','/v1/plates/amber-plate/registration/commit',{'expected_revision':2,'bundle':pack,'pairs':pairs},status=409)
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()
