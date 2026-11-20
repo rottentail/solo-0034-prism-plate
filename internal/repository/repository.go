@@ -35,10 +35,14 @@ type Artifact struct {
 	Plate       string `json:"plate"`
 	Revision    int    `json:"revision"`
 	SceneDigest string `json:"scene_digest"`
-	Format      string `json:"format"`
-	Digest      string `json:"digest"`
-	State       string `json:"state"`
-	Data        []byte `json:"data"`
+	// Format is png, svg, spotplate (one ink coverage PNG), spotsep (separation
+	// manifest JSON) or spotproof (recomposited PNG from the plates).
+	Format string `json:"format"`
+	// Ink names the spot ink id for spotplate artifacts; empty otherwise.
+	Ink    string `json:"ink,omitempty"`
+	Digest string `json:"digest"`
+	State  string `json:"state"`
+	Data   []byte `json:"data"`
 }
 type Proof struct {
 	ID       string `json:"id"`
@@ -61,6 +65,14 @@ type Repo struct {
 
 func Hash(b []byte) string              { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
 func SceneHash(d scene.Document) string { b, _ := json.Marshal(d); return Hash(b) }
+
+func validFormat(f string) bool {
+	switch f {
+	case "png", "svg", "spotplate", "spotsep", "spotproof":
+		return true
+	}
+	return false
+}
 func Fresh() State {
 	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}}
 }
@@ -109,8 +121,14 @@ func Check(s State) error {
 	}
 	for id, a := range s.Artifacts {
 		p, ok := s.Plates[a.Plate]
-		if !ok || a.ID != id || a.Revision < 1 || a.Revision > len(p.Revisions) || a.SceneDigest != p.Revisions[a.Revision-1].Digest || Hash(a.Data) != a.Digest || (a.State != "available" && a.State != "revoked") || (a.Format != "png" && a.Format != "svg") {
+		if !ok || a.ID != id || a.Revision < 1 || a.Revision > len(p.Revisions) || a.SceneDigest != p.Revisions[a.Revision-1].Digest || Hash(a.Data) != a.Digest || (a.State != "available" && a.State != "revoked") || !validFormat(a.Format) {
 			return fmt.Errorf("invalid artifact lineage")
+		}
+		if a.Format == "spotplate" && a.Ink == "" {
+			return fmt.Errorf("spot plate artifact requires ink identity")
+		}
+		if a.Format != "spotplate" && a.Ink != "" {
+			return fmt.Errorf("ink identity only valid on spot plates")
 		}
 	}
 	for id, p := range s.Proofs {

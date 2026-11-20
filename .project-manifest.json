@@ -28,6 +28,11 @@
       "path": "internal/raster"
     },
     {
+      "id": "sep",
+      "name": "专色分版与重新叠合",
+      "path": "internal/sep"
+    },
+    {
       "id": "vector",
       "name": "SVG安全输出",
       "path": "internal/vector"
@@ -171,6 +176,28 @@
       "success": "输出有固定资源引用的SVG",
       "failure": "未知稿本拒绝",
       "verification": "python3 scripts/walkthrough.py --workflow svg"
+    },
+    {
+      "id": "spotsep",
+      "name": "专色丝网分版",
+      "entry": "POST /v1/plates/{id}/render?format=spotsep",
+      "module_ids": [
+        "transport",
+        "service",
+        "validate",
+        "geom",
+        "paint",
+        "raster",
+        "sep",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "每专色一张几何覆盖版、重新叠合PNG与含叠印语义的移交清单原子发布",
+      "failure": "无专色声明、未声明引用或非normal专色图层拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow spotsep"
     },
     {
       "id": "exposure",

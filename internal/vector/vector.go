@@ -28,6 +28,14 @@ func color(c scene.Color) string {
 	return fmt.Sprintf("rgb(%s%%,%s%%,%s%%)", number(c.R*100), number(c.G*100), number(c.B*100))
 }
 
+// spotColor resolves the shared proof color of a named spot ink.
+func spotColor(c scene.Compiled, id string) scene.Color {
+	if col, ok := c.SpotColors[id]; ok {
+		return col
+	}
+	return scene.Color{}
+}
+
 // SVG uses the same flattened geometry. Browser gradient alpha interpolation and
 // pixel coverage may differ from the canonical PNG renderer; SVG is a vector proof.
 func Export(c scene.Compiled) []byte {
@@ -45,8 +53,17 @@ func Export(c scene.Compiled) []byte {
 			br := s.Shape.Brush
 			if br.Kind == "linear" {
 				fmt.Fprintf(&b, `<linearGradient id="b%d_%d" gradientUnits="userSpaceOnUse" x1="%s" y1="%s" x2="%s" y2="%s">`, i, j, number(br.From.X), number(br.From.Y), number(br.To.X), number(br.To.Y))
+				proof := br.Color
+				if br.Spot != "" {
+					proof = spotColor(c, br.Spot)
+				}
 				for _, stop := range br.Stops {
-					fmt.Fprintf(&b, `<stop offset="%s" stop-color="%s" stop-opacity="%s"/>`, number(stop.At), color(stop.Color), number(stop.Color.A))
+					sc := stop.Color
+					if br.Spot != "" {
+						// Spot gradients carry only alpha; hue stays the shared ink color.
+						sc = scene.Color{R: proof.R, G: proof.G, B: proof.B, A: stop.Color.A}
+					}
+					fmt.Fprintf(&b, `<stop offset="%s" stop-color="%s" stop-opacity="%s"/>`, number(stop.At), color(sc), number(sc.A))
 				}
 				b.WriteString(`</linearGradient>`)
 			}
@@ -69,11 +86,18 @@ func Export(c scene.Compiled) []byte {
 			br := s.Shape.Brush
 			fill := color(br.Color)
 			alpha := br.Color.A
+			if br.Spot != "" {
+				fill = color(spotColor(c, br.Spot))
+			}
 			if br.Kind == "linear" {
 				fill = fmt.Sprintf("url(#b%d_%d)", i, j)
 				alpha = 1
 			}
-			fmt.Fprintf(&b, `<path d="%s" fill="%s" fill-opacity="%s" fill-rule="%s" transform="matrix(%s %s %s %s %s %s)"/>`, path(s.Path), fill, number(alpha), s.Shape.FillRule, number(m[0]), number(m[1]), number(m[2]), number(m[3]), number(m[4]), number(m[5]))
+			spotAttr := ""
+			if br.Spot != "" {
+				spotAttr = fmt.Sprintf(` data-spot-ink="%s" data-overprint="%t"`, br.Spot, s.Shape.Overprint || l.Layer.Overprint)
+			}
+			fmt.Fprintf(&b, `<path d="%s" fill="%s" fill-opacity="%s" fill-rule="%s" transform="matrix(%s %s %s %s %s %s)"%s/>`, path(s.Path), fill, number(alpha), s.Shape.FillRule, number(m[0]), number(m[1]), number(m[2]), number(m[3]), number(m[4]), number(m[5]), spotAttr)
 		}
 		b.WriteString(`</g></g>`)
 	}

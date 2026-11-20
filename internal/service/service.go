@@ -3,17 +3,23 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
+	"prismplate/internal/sep"
 	"prismplate/internal/validate"
 	"prismplate/internal/vector"
 	"strconv"
 	"time"
 )
+
+func jsonMarshalIndent(v any) ([]byte, error) {
+	return json.MarshalIndent(v, "", "  ")
+}
 
 type Service struct {
 	Repo  *repository.Repo
@@ -116,6 +122,9 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	default:
 		return a, exposure.ErrBusy
 	}
+	if format == "spotsep" {
+		return s.separate(ctx, id, r)
+	}
 	c, err := validate.Compile(r.Document)
 	if err != nil {
 		return a, err
@@ -127,18 +136,22 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	case "svg":
 		data = vector.Export(c)
 	default:
-		return a, fmt.Errorf("format must be png or svg")
+		return a, fmt.Errorf("format must be png, svg or spotsep")
 	}
 	if err != nil {
 		return a, err
 	}
+	return s.commitArtifact(id, r, format, "", data)
+}
+
+// commitArtifact stores one fully computed artifact with the stable identity
+// derived from plate, revision, scene digest, format, optional ink and content.
+func (s *Service) commitArtifact(id string, r repository.Revision, format, ink string, data []byte) (repository.Artifact, error) {
 	digest := repository.Hash(data)
-	key := repository.Hash([]byte(id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + digest))
-	a = repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Digest: digest, State: "available", Data: data}
-	err = s.Repo.Update(func(st *repository.State) error {
-		if err := ctx.Err(); err != nil {
-			return err
-		}
+	keyMaterial := id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + ink + ":" + digest
+	key := repository.Hash([]byte(keyMaterial))
+	a := repository.Artifact{ID: key, Plate: id, Revision: r.Number, SceneDigest: r.Digest, Format: format, Ink: ink, Digest: digest, State: "available", Data: data}
+	err := s.Repo.Update(func(st *repository.State) error {
 		if old, ok := st.Artifacts[key]; ok {
 			if old.State != "available" {
 				return repository.ErrState
@@ -150,6 +163,97 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 		return nil
 	})
 	return a, err
+}
+
+// separate computes the reference composite, every per-ink coverage plate, the
+// press-order recomposite and the handover manifest, then publishes all of them
+// in one atomic snapshot update: a failed computation leaves no partial plates.
+func (s *Service) separate(ctx context.Context, id string, r repository.Revision) (repository.Artifact, error) {
+	var manifest repository.Artifact
+	c, err := validate.Compile(r.Document)
+	if err != nil {
+		return manifest, err
+	}
+	if len(r.Document.Spots) == 0 {
+		return manifest, fmt.Errorf("spot separation requires declared spot inks")
+	}
+	referencePNG, err := raster.Render(ctx, c)
+	if err != nil {
+		return manifest, err
+	}
+	result, err := sep.Render(ctx, c, id, r.Number, r.Digest, referencePNG)
+	if err != nil {
+		return manifest, err
+	}
+	// Precompute every artifact before the commit point.
+	pending := []repository.Artifact{}
+	refs := []sep.ArtifactRef{}
+	ref, err := s.buildArtifact(id, r, "png", "", result.Reference)
+	if err != nil {
+		return manifest, err
+	}
+	pending = append(pending, ref)
+	refs = append(refs, sep.ArtifactRef{Format: "png", ID: ref.ID, Digest: ref.Digest})
+	for _, p := range result.Plates {
+		a, e := s.buildArtifact(id, r, "spotplate", p.Ink, p.Data)
+		if e != nil {
+			return manifest, e
+		}
+		pending = append(pending, a)
+		refs = append(refs, sep.ArtifactRef{Ink: p.Ink, Format: "spotplate", ID: a.ID, Digest: a.Digest})
+	}
+	proof, err := s.buildArtifact(id, r, "spotproof", "", result.Recomposited)
+	if err != nil {
+		return manifest, err
+	}
+	pending = append(pending, proof)
+	refs = append(refs, sep.ArtifactRef{Format: "spotproof", ID: proof.ID, Digest: proof.Digest})
+	// Artifact ids are content-addressed and deterministic, so the manifest can
+	// reference them before persistence without weakening its own digest.
+	result.Manifest.Artifacts = refs
+	manifestBytes, err := jsonMarshalIndent(result.Manifest)
+	if err != nil {
+		return manifest, err
+	}
+	manifest, err = s.buildArtifact(id, r, "spotsep", "", manifestBytes)
+	if err != nil {
+		return manifest, err
+	}
+	pending = append(pending, manifest)
+	err = s.Repo.Update(func(st *repository.State) error {
+		if e := ctx.Err(); e != nil {
+			return e
+		}
+		for _, a := range pending {
+			if old, ok := st.Artifacts[a.ID]; ok {
+				if old.State != "available" {
+					return repository.ErrState
+				}
+				continue
+			}
+			st.Artifacts[a.ID] = a
+		}
+		return nil
+	})
+	if err != nil {
+		return manifest, err
+	}
+	if got, ok := s.Repo.View().Artifacts[manifest.ID]; ok {
+		manifest = got
+	}
+	manifest.Data = nil
+	return manifest, nil
+}
+
+// buildArtifact assembles an artifact without persisting it.
+func (s *Service) buildArtifact(id string, r repository.Revision, format, ink string, data []byte) (repository.Artifact, error) {
+	digest := repository.Hash(data)
+	keyMaterial := id + ":" + strconv.Itoa(r.Number) + ":" + r.Digest + ":" + format + ":" + ink + ":" + digest
+	return repository.Artifact{
+		ID: repository.Hash([]byte(keyMaterial)), Plate: id, Revision: r.Number,
+		SceneDigest: r.Digest, Format: format, Ink: ink, Digest: digest,
+		State: "available", Data: data,
+	}, nil
 }
 func (s *Service) Render(ctx context.Context, id string, revision int, format string) (repository.Artifact, error) {
 	r, err := s.capture(id, revision)
@@ -163,7 +267,7 @@ func (s *Service) Submit(id string, revision int, format string) (exposure.Job, 
 	if err != nil {
 		return exposure.Job{}, err
 	}
-	if format != "png" && format != "svg" {
+	if format != "png" && format != "svg" && format != "spotsep" {
 		return exposure.Job{}, fmt.Errorf("unknown format")
 	}
 	return s.Pool.Submit(func(ctx context.Context) (string, error) {
@@ -183,14 +287,40 @@ func (s *Service) Artifact(id string) (repository.Artifact, error) {
 	}
 	return a, nil
 }
+
+// separationGroup returns every artifact id belonging to the same spot
+// separation run as the target: the manifests of the same plate, revision and
+// scene digest list their own reference, plates and recomposite explicitly.
+func separationGroup(st *repository.State, target repository.Artifact) map[string]bool {
+	group := map[string]bool{target.ID: true}
+	for _, a := range st.Artifacts {
+		if a.Format != "spotsep" || a.Plate != target.Plate || a.Revision != target.Revision ||
+			a.SceneDigest != target.SceneDigest || a.State != "available" {
+			continue
+		}
+		var m sep.Manifest
+		if err := json.Unmarshal(a.Data, &m); err != nil {
+			continue
+		}
+		for _, ref := range m.Artifacts {
+			group[ref.ID] = true
+		}
+		group[a.ID] = true
+	}
+	return group
+}
+
 func (s *Service) Revoke(id string) error {
 	return s.Repo.Update(func(st *repository.State) error {
 		a, ok := st.Artifacts[id]
 		if !ok {
 			return repository.ErrMissing
 		}
+		// A separation is an atomic group: an accepted proof on any member
+		// (manifest, reference, coverage plate or recomposite) protects them all.
+		group := separationGroup(st, a)
 		for _, p := range st.Proofs {
-			if p.Artifact == id && p.State == "accepted" {
+			if p.State == "accepted" && group[p.Artifact] {
 				return repository.ErrState
 			}
 		}

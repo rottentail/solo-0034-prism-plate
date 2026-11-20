@@ -57,6 +57,9 @@ func path(ops []geom.Op) (geom.Path, error) {
 	return geom.Flatten(ops), nil
 }
 func brush(b scene.Brush) error {
+	if b.Spot != "" && !ID(b.Spot) {
+		return fmt.Errorf("invalid spot ink reference")
+	}
 	if b.Kind == "solid" {
 		if !Color(b.Color) {
 			return fmt.Errorf("invalid solid color")
@@ -97,6 +100,23 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 	if len(d.Layers) < 1 || len(d.Layers) > 16 {
 		return c, fmt.Errorf("requires 1..16 layers")
 	}
+	if len(d.Spots) > 8 {
+		return c, fmt.Errorf("at most 8 spot inks per document")
+	}
+	spots := map[string]scene.Spot{}
+	for _, sp := range d.Spots {
+		if !ID(sp.ID) || len(sp.Name) == 0 || len(sp.Name) > 80 {
+			return c, fmt.Errorf("invalid spot ink declaration")
+		}
+		if _, dup := spots[sp.ID]; dup {
+			return c, fmt.Errorf("duplicate spot ink id %q", sp.ID)
+		}
+		if !Color(sp.ProofColor) {
+			return c, fmt.Errorf("invalid spot proof color")
+		}
+		spots[sp.ID] = sp
+	}
+	usesSpot := false
 	ids := map[string]bool{}
 	add := func(id string) error {
 		if !ID(id) || ids[id] {
@@ -165,10 +185,28 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 			if e = brush(s.Brush); e != nil {
 				return c, e
 			}
+			if s.Brush.Spot != "" {
+				if _, ok := spots[s.Brush.Spot]; !ok {
+					return c, fmt.Errorf("brush references undeclared spot ink %q", s.Brush.Spot)
+				}
+				usesSpot = true
+				// Spot inks model physical ink films; non-normal blend modes have no
+				// defined meaning for coverage plates and are rejected at admission.
+				if l.Blend != "normal" {
+					return c, fmt.Errorf("spot-ink layers require normal blend")
+				}
+			}
 			count(p)
 			cl.Shapes = append(cl.Shapes, scene.CompiledShape{Shape: s, Path: p, Inverse: inv})
 		}
 		c.Layers = append(c.Layers, cl)
+	}
+	if usesSpot && len(d.Spots) == 0 {
+		return c, fmt.Errorf("spot ink used without declaration")
+	}
+	c.SpotColors = make(map[string]scene.Color, len(d.Spots))
+	for _, sp := range d.Spots {
+		c.SpotColors[sp.ID] = sp.ProofColor
 	}
 	// Four samples per pixel; every fill is bounded even under adversarial input.
 	if int64(c.Segments)*int64(d.Width)*int64(d.Height)*4 > 160_000_000 {

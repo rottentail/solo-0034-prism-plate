@@ -1,0 +1,133 @@
+{
+  "id": "spot-registration",
+  "title": "丝网专色分版注册校样（镂空+重叠）",
+  "document": {
+    "width": 192,
+    "height": 144,
+    "background": {
+      "r": 0.96,
+      "g": 0.95,
+      "b": 0.92,
+      "a": 1
+    },
+    "spots": [
+      {
+        "id": "inkPMS185",
+        "name": "PANTONE 185 C 红",
+        "proof_color": {
+          "r": 0.87,
+          "g": 0.08,
+          "b": 0.16,
+          "a": 1
+        }
+      },
+      {
+        "id": "inkPMS299",
+        "name": "PANTONE 2995 C 蓝",
+        "proof_color": {
+          "r": 0.0,
+          "g": 0.45,
+          "b": 0.85,
+          "a": 1
+        }
+      },
+      {
+        "id": "inkPMS123",
+        "name": "PANTONE 1235 C 金",
+        "proof_color": {
+          "r": 0.95,
+          "g": 0.72,
+          "b": 0.18,
+          "a": 1
+        }
+      }
+    ],
+    "layers": [
+      {
+        "id": "red-base",
+        "opacity": 1,
+        "blend": "normal",
+        "overprint": false,
+        "shapes": [
+          {
+            "id": "red-ring",
+            "fill_rule": "evenodd",
+            "path": [
+              { "kind": "M", "points": [{ "x": 16, "y": 24 }] },
+              { "kind": "L", "points": [{ "x": 104, "y": 24 }] },
+              { "kind": "L", "points": [{ "x": 104, "y": 120 }] },
+              { "kind": "L", "points": [{ "x": 16, "y": 120 }] },
+              { "kind": "Z", "points": [] },
+              { "kind": "M", "points": [{ "x": 44, "y": 56 }] },
+              { "kind": "L", "points": [{ "x": 72, "y": 56 }] },
+              { "kind": "L", "points": [{ "x": 72, "y": 84 }] },
+              { "kind": "L", "points": [{ "x": 44, "y": 84 }] },
+              { "kind": "Z", "points": [] }
+            ],
+            "transform": [1, 0, 0, 1, 0, 0],
+            "brush": {
+              "kind": "solid",
+              "spot": "inkPMS185",
+              "color": { "r": 0, "g": 0, "b": 0, "a": 1 }
+            }
+          }
+        ]
+      },
+      {
+        "id": "blue-knock",
+        "opacity": 1,
+        "blend": "normal",
+        "overprint": false,
+        "shapes": [
+          {
+            "id": "blue-ring",
+            "fill_rule": "evenodd",
+            "path": [
+              { "kind": "M", "points": [{ "x": 72, "y": 32 }] },
+              { "kind": "L", "points": [{ "x": 152, "y": 32 }] },
+              { "kind": "L", "points": [{ "x": 152, "y": 112 }] },
+              { "kind": "L", "points": [{ "x": 72, "y": 112 }] },
+              { "kind": "Z", "points": [] },
+              { "kind": "M", "points": [{ "x": 100, "y": 56 }] },
+              { "kind": "L", "points": [{ "x": 124, "y": 56 }] },
+              { "kind": "L", "points": [{ "x": 124, "y": 80 }] },
+              { "kind": "L", "points": [{ "x": 100, "y": 80 }] },
+              { "kind": "Z", "points": [] }
+            ],
+            "transform": [1, 0, 0, 1, 0, 0],
+            "brush": {
+              "kind": "solid",
+              "spot": "inkPMS299",
+              "color": { "r": 0, "g": 0, "b": 0, "a": 1 }
+            }
+          }
+        ]
+      },
+      {
+        "id": "gold-overprint",
+        "opacity": 1,
+        "blend": "normal",
+        "overprint": true,
+        "shapes": [
+          {
+            "id": "gold-glaze",
+            "fill_rule": "nonzero",
+            "path": [
+              { "kind": "M", "points": [{ "x": 40, "y": 88 }] },
+              { "kind": "L", "points": [{ "x": 168, "y": 88 }] },
+              { "kind": "L", "points": [{ "x": 168, "y": 128 }] },
+              { "kind": "L", "points": [{ "x": 40, "y": 128 }] },
+              { "kind": "Z", "points": [] }
+            ],
+            "transform": [1, 0, 0, 1, 0, 0],
+            "brush": {
+              "kind": "solid",
+              "spot": "inkPMS123",
+              "color": { "r": 0, "g": 0, "b": 0, "a": 0.55 }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
