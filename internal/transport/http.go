@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
+	"prismplate/internal/retrieve"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
 	"strconv"
@@ -227,6 +228,39 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/restore/preview", func(w http.ResponseWriter, r *http.Request) {
+		var q retrieve.Request
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		p, e := a.Service.PreviewRestore(r.PathValue("id"), q)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, p)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/restore", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			ExpectedRevision int              `json:"expected_revision"`
+			PlanDigest       string           `json:"plan_digest"`
+			Request          retrieve.Request `json:"request"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		p, plan, e := a.Service.Restore(r.PathValue("id"), q.ExpectedRevision, q.PlanDigest, q.Request)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, struct {
+			Plate repository.Plate `json:"plate"`
+			Plan  retrieve.Plan    `json:"plan"`
+		}{p, plan})
 	})
 	mux.HandleFunc("GET /v1/plates/{id}/bundle", func(w http.ResponseWriter, r *http.Request) {
 		v, e := a.Service.Export(r.PathValue("id"))

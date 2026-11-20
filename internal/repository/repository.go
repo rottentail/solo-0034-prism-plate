@@ -18,11 +18,26 @@ var ErrConflict = errors.New("revision conflict")
 var ErrMissing = errors.New("not found")
 var ErrState = errors.New("invalid lifecycle state")
 
+// RestoredShape records which historical shape became which current shape.
+// Provenance is informational: the new revision remains an ordinary scene.
+type RestoredShape struct {
+	Source   string `json:"source"`
+	Restored string `json:"restored"`
+	Action   string `json:"action"`
+}
+type Restore struct {
+	SourcePlate    string          `json:"source_plate"`
+	SourceRevision int             `json:"source_revision"`
+	SourceDigest   string          `json:"source_digest"`
+	Mode           string          `json:"mode"`
+	Shapes         []RestoredShape `json:"shapes"`
+}
 type Revision struct {
 	Number   int            `json:"number"`
 	Digest   string         `json:"digest"`
 	Document scene.Document `json:"document"`
 	Created  time.Time      `json:"created"`
+	Restored *Restore       `json:"restored,omitempty"`
 }
 type Plate struct {
 	ID        string     `json:"id"`
@@ -105,6 +120,11 @@ func Check(s State) error {
 			if r.Number != i+1 || r.Digest != SceneHash(r.Document) {
 				return fmt.Errorf("invalid revision digest")
 			}
+			if r.Restored != nil {
+				if err := checkRestore(*r.Restored, r, p); err != nil {
+					return err
+				}
+			}
 		}
 	}
 	for id, a := range s.Artifacts {
@@ -121,6 +141,33 @@ func Check(s State) error {
 	}
 	return nil
 }
+
+// checkRestore keeps provenance internally consistent without trusting the
+// producing service. Restored is descriptive; the document remains authoritative.
+func checkRestore(r Restore, rev Revision, plate Plate) error {
+	if r.SourcePlate != plate.ID || r.SourceRevision < 1 || r.SourceRevision > len(plate.Revisions) || r.SourceDigest != plate.Revisions[r.SourceRevision-1].Digest || (r.Mode != "destination" && r.Mode != "source") || len(r.Shapes) == 0 || len(r.Shapes) > 64 {
+		return fmt.Errorf("invalid restore provenance")
+	}
+	if r.SourceRevision >= rev.Number {
+		return fmt.Errorf("restore source must precede the restored revision")
+	}
+	present := map[string]bool{}
+	for _, l := range rev.Document.Layers {
+		for _, s := range l.Shapes {
+			present[s.ID] = true
+		}
+	}
+	for _, s := range r.Shapes {
+		if s.Source == "" || !present[s.Restored] || !validRestoreAction(s.Action) {
+			return fmt.Errorf("invalid restore provenance")
+		}
+	}
+	return nil
+}
+func validRestoreAction(action string) bool {
+	return action == "appended" || action == "inserted" || action == "replaced" || action == "created-layer"
+}
+
 func clone(s State) State   { b, _ := json.Marshal(s); var d State; _ = json.Unmarshal(b, &d); return d }
 func (r *Repo) View() State { r.mu.RLock(); defer r.mu.RUnlock(); return clone(r.state) }
 

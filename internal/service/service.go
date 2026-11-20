@@ -8,6 +8,7 @@ import (
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
+	"prismplate/internal/retrieve"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
 	"prismplate/internal/vector"
@@ -96,6 +97,95 @@ func (s *Service) Branch(id string, revision int, target, title string) (reposit
 	}
 	return s.Create(target, title, p.Revisions[revision-1].Document)
 }
+
+// PreviewRestore resolves a selective restore against immutable revisions and
+// returns the full scope, the context that cannot be preserved, and a digest
+// pinning exactly what the caller is about to create.
+func (s *Service) PreviewRestore(id string, req retrieve.Request) (retrieve.Plan, error) {
+	p, err := s.Plate(id)
+	if err != nil {
+		return retrieve.Plan{}, err
+	}
+	if req.BaseRevision < 1 || req.BaseRevision > len(p.Revisions) || req.SourceRevision < 1 || req.SourceRevision > len(p.Revisions) {
+		return retrieve.Plan{}, repository.ErrMissing
+	}
+	// A preview on an archived plate, or against a draft that is no longer
+	// current, would be a plan nobody can commit.
+	if p.State != "active" {
+		return retrieve.Plan{}, repository.ErrState
+	}
+	if req.BaseRevision != len(p.Revisions) {
+		return retrieve.Plan{}, repository.ErrConflict
+	}
+	base, source := p.Revisions[req.BaseRevision-1], p.Revisions[req.SourceRevision-1]
+	return retrieve.Build(retrieve.Input{
+		Plate: id, BaseRevision: req.BaseRevision, Base: base.Document, BaseDigest: base.Digest,
+		SourceRevision: req.SourceRevision, Source: source.Document, SourceDigest: source.Digest,
+		Request: req,
+	})
+}
+
+// Restore commits the reviewed plan as an ordinary new revision. The base must
+// still be current and the plan digest must match, so unreviewed scope cannot
+// slip in between preview and commit.
+func (s *Service) Restore(id string, expected int, planDigest string, req retrieve.Request) (repository.Plate, retrieve.Plan, error) {
+	if planDigest == "" {
+		return repository.Plate{}, retrieve.Plan{}, fmt.Errorf("reviewed plan_digest is required")
+	}
+	if req.BaseRevision != expected {
+		return repository.Plate{}, retrieve.Plan{}, repository.ErrConflict
+	}
+	var p repository.Plate
+	var plan retrieve.Plan
+	err := s.Repo.Update(func(st *repository.State) error {
+		var ok bool
+		p, ok = st.Plates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if p.State != "active" {
+			return repository.ErrState
+		}
+		if len(p.Revisions) != expected {
+			return repository.ErrConflict
+		}
+		if len(p.Revisions) >= 64 {
+			return fmt.Errorf("revision capacity reached")
+		}
+		if req.SourceRevision < 1 || req.SourceRevision > len(p.Revisions) {
+			return repository.ErrMissing
+		}
+		base, source := p.Revisions[expected-1], p.Revisions[req.SourceRevision-1]
+		var err error
+		plan, err = retrieve.Build(retrieve.Input{
+			Plate: id, BaseRevision: expected, Base: base.Document, BaseDigest: base.Digest,
+			SourceRevision: req.SourceRevision, Source: source.Document, SourceDigest: source.Digest,
+			Request: req,
+		})
+		if err != nil {
+			return err
+		}
+		if plan.PlanDigest != planDigest {
+			return fmt.Errorf("%w: reviewed plan no longer matches this selection", repository.ErrConflict)
+		}
+		document := plan.Candidate()
+		if digest := repository.SceneHash(document); digest != plan.ResultDigest {
+			return fmt.Errorf("restore plan produced an unexpected document")
+		}
+		provenance := &repository.Restore{SourcePlate: id, SourceRevision: req.SourceRevision, SourceDigest: source.Digest, Mode: req.Context}
+		for _, item := range plan.Items {
+			provenance.Shapes = append(provenance.Shapes, repository.RestoredShape{Source: item.Shape, Restored: item.Shape, Action: item.Action})
+		}
+		p.Revisions = append(p.Revisions, repository.Revision{
+			Number: expected + 1, Digest: plan.ResultDigest,
+			Document: document, Created: time.Now().UTC(), Restored: provenance,
+		})
+		st.Plates[id] = p
+		return nil
+	})
+	return p, plan, err
+}
+
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
 	p, err := s.Plate(id)
 	if err != nil {

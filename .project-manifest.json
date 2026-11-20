@@ -56,6 +56,11 @@
       "id": "transport",
       "name": "HTTP契约",
       "path": "internal/transport"
+    },
+    {
+      "id": "retrieve",
+      "name": "选对象取回范围",
+      "path": "internal/retrieve"
     }
   ],
   "workflows": [
@@ -314,6 +319,25 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "selective-restore",
+      "name": "选对象恢复",
+      "entry": "POST /v1/plates/{id}/restore/preview → POST /v1/plates/{id}/restore",
+      "module_ids": [
+        "transport",
+        "service",
+        "retrieve",
+        "validate",
+        "repository"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "审阅范围内恢复几何，未选内容与当前稿保留，不可保持的上下文明确列出",
+      "failure": "陈旧基础稿、旧稿缺失或未审阅计划409/404/400拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow selective-restore"
     }
   ],
   "complexity": {

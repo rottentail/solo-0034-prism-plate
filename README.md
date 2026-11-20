@@ -32,14 +32,17 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 
 ## 入口
 
-详见 docs/api.md。保存版面、修订、分支、归档、PNG、SVG、异步提交、取消、成品读取/撤销、校样、封包、恢复及写入隔离分别有独立的有界生产流程：
+详见 docs/api.md。保存版面、修订、分支、归档、PNG、SVG、异步提交、取消、成品读取/撤销、校样、封包、重启恢复、选对象恢复及写入隔离分别有独立的有界生产流程：
 
 ```sh
 python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
+python3 scripts/walkthrough.py --workflow selective-restore
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+选择性恢复只从旧稿取回所选形状的几何，并列出当前稿无法保持的层透明度、裁域、蒙版、背景和堆叠位置；调用方先审阅预览再提交新稿。`scripts/restore-case.py --out <目录>` 用重叠与镂空案例生成前后PNG和像素断言。
+
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、selective-restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 
