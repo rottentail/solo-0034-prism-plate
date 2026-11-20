@@ -24,6 +24,12 @@ examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、
 
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
+### 线性渐变的锚定
+
+线性渐变笔刷可选 `anchor`：`object`（默认，随形状变换走，即旧稿唯一语义）或 `canvas`（渐变轴固定在画布坐标，形状变换不改变轴）。缺省或空字符串一律按 object 解释，因此旧稿本无需迁移，渲染结果不变；封包与快照中的 `anchor` 字段随稿本持久化。
+
+`POST /v1/plates/{id}/anchor` 对指定形状的线性渐变在两种锚定间转换，并把结果作为普通新稿本追加（旧稿本不修改，仍可独立渲染）。转换不搬色标：对可逆仿射 M，渐变参数 t 是点的仿射标量场，服务以逆转置 M⁻ᵀ 重建新轴的线性式并保留原轴归一化分母，使转换瞬间的标量场逐点相同，PNG 像素保持字节一致；仅浮点舍入（约1e-15量级）是理论误差。响应中的保真报告同时给出若直接拖动端点（朴素变换）会产生的偏差：非等比缩放且轴不在特征方向上时 `naive_endpoint_move_exact=false`，并以 `naive_max_t_error`（形状包围区17×17采样的最大参数偏差）和 `naive_axis_drift_degrees` 量化；平移、旋转、等比缩放、纯镜像（以及轴恰在特征方向上的非等比情况）朴素法即精确。镜像以 `transform_reflected` 标注，镜像本身不产生误差。SVG 对画布锚定使用 `userSpaceOnUse` 加形状逆矩阵 `gradientTransform`，与 PNG 同一数学式；标记与 object 形式不同，但几何与色标一致。详见 docs/anchor.md。
+
 ## 版本及生命周期
 
 新建版面的初始稿本为1。PUT 传 expected_revision，只有当前最新版本相符才追加；旧版本不修改。归档禁止后续修订，仍可渲染历史及从历史分支。异步任务提交即捕获指定稿本；稍后修订不会改变它。任务只在当前进程内保留，重启后以已持久化成品为事实，不支持任务续跑；256条任务记录用尽后拒绝新任务。两名工作者、8条等待队列，所有渲染共用2个计算名额，同步或异步均可能在拥挤时得到拒绝。
@@ -39,7 +45,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、anchor。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 

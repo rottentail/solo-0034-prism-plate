@@ -1,0 +1,294 @@
+{
+  "id": "anchor-plate",
+  "title": "渐变锚定转换校样",
+  "document": {
+    "width": 160,
+    "height": 120,
+    "background": {
+      "r": 0.05,
+      "g": 0.06,
+      "b": 0.1,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "anchor-sheet",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "uniform-blade",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 10,
+                    "y": 10
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 70,
+                    "y": 10
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 70,
+                    "y": 50
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 10,
+                    "y": 50
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              8,
+              6
+            ],
+            "brush": {
+              "kind": "linear",
+              "anchor": "object",
+              "from": {
+                "x": 10,
+                "y": 10
+              },
+              "to": {
+                "x": 70,
+                "y": 50
+              },
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 0
+              },
+              "stops": [
+                {
+                  "at": 0,
+                  "color": {
+                    "r": 0.15,
+                    "g": 0.8,
+                    "b": 0.95,
+                    "a": 1
+                  }
+                },
+                {
+                  "at": 1,
+                  "color": {
+                    "r": 0.85,
+                    "g": 0.2,
+                    "b": 0.55,
+                    "a": 1
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "anisotropic-blade",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 40,
+                    "y": 0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 40,
+                    "y": 30
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 30
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              2.4,
+              0.15,
+              -0.1,
+              0.55,
+              12,
+              66
+            ],
+            "brush": {
+              "kind": "linear",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 40,
+                "y": 30
+              },
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 0
+              },
+              "stops": [
+                {
+                  "at": 0,
+                  "color": {
+                    "r": 1,
+                    "g": 0.75,
+                    "b": 0.1,
+                    "a": 1
+                  }
+                },
+                {
+                  "at": 1,
+                  "color": {
+                    "r": 0.35,
+                    "g": 0.15,
+                    "b": 0.9,
+                    "a": 1
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "id": "mirror-blade",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 36,
+                    "y": 0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 36,
+                    "y": 28
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 0,
+                    "y": 28
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              -1,
+              0,
+              0,
+              1,
+              150,
+              10
+            ],
+            "brush": {
+              "kind": "linear",
+              "from": {
+                "x": 0,
+                "y": 0
+              },
+              "to": {
+                "x": 36,
+                "y": 28
+              },
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 0
+              },
+              "stops": [
+                {
+                  "at": 0,
+                  "color": {
+                    "r": 0.9,
+                    "g": 0.95,
+                    "b": 0.6,
+                    "a": 1
+                  }
+                },
+                {
+                  "at": 1,
+                  "color": {
+                    "r": 0.1,
+                    "g": 0.45,
+                    "b": 0.8,
+                    "a": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

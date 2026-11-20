@@ -13,13 +13,32 @@ type Stop struct {
 	At    float64 `json:"at"`
 	Color Color   `json:"color"`
 }
+
+// Anchor modes decide which coordinate space a linear gradient axis lives in.
+// The zero value ("") means object-anchored, so documents written before the
+// anchor field existed keep their original meaning without any migration.
+const (
+	AnchorObject = "object"
+	AnchorCanvas = "canvas"
+)
+
 type Brush struct {
-	Kind  string     `json:"kind"`
-	Color Color      `json:"color"`
-	From  geom.Point `json:"from"`
-	To    geom.Point `json:"to"`
-	Stops []Stop     `json:"stops,omitempty"`
+	Kind   string     `json:"kind"`
+	Color  Color      `json:"color"`
+	From   geom.Point `json:"from"`
+	To     geom.Point `json:"to"`
+	Stops  []Stop     `json:"stops,omitempty"`
+	Anchor string     `json:"anchor,omitempty"`
 }
+
+// EffectiveAnchor resolves the historical zero value to object anchoring.
+func (b Brush) EffectiveAnchor() string {
+	if b.Anchor == AnchorCanvas {
+		return AnchorCanvas
+	}
+	return AnchorObject
+}
+
 type Shape struct {
 	ID        string      `json:"id"`
 	Path      []geom.Op   `json:"path"`

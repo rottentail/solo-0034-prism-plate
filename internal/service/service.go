@@ -3,7 +3,9 @@ package service
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"prismplate/internal/anchor"
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
@@ -75,6 +77,73 @@ func (s *Service) Revise(id string, expected int, d scene.Document) (repository.
 	})
 	return p, err
 }
+
+// AnchorConversion is the response of an anchor-mode conversion: the appended
+// plate history plus a per-shape fidelity report for the edited gradient.
+type AnchorConversion struct {
+	Plate  repository.Plate `json:"plate"`
+	Report anchor.Report    `json:"report"`
+}
+
+// ConvertAnchor rewrites one linear brush between object and canvas anchoring
+// and commits the result as an ordinary new revision. The old revision stays
+// untouched, so both anchorings remain independently renderable.
+func (s *Service) ConvertAnchor(id string, expected int, layerID, shapeID, target string) (AnchorConversion, error) {
+	var out AnchorConversion
+	if target != scene.AnchorObject && target != scene.AnchorCanvas {
+		return out, fmt.Errorf("target anchor must be object or canvas")
+	}
+	p, err := s.Plate(id)
+	if err != nil {
+		return out, err
+	}
+	if expected < 1 || expected > len(p.Revisions) {
+		return out, repository.ErrMissing
+	}
+	doc := p.Revisions[expected-1].Document
+	var raw []byte
+	raw, err = json.Marshal(doc)
+	if err != nil {
+		return out, err
+	}
+	var next scene.Document
+	if err = json.Unmarshal(raw, &next); err != nil {
+		return out, err
+	}
+	li, si := -1, -1
+	for i, l := range next.Layers {
+		if l.ID == layerID {
+			for j, sh := range l.Shapes {
+				if sh.ID == shapeID {
+					li, si = i, j
+					break
+				}
+			}
+			break
+		}
+	}
+	if li < 0 {
+		return out, fmt.Errorf("layer or shape not found in revision %d", expected)
+	}
+	shape := next.Layers[li].Shapes[si]
+	res, err := anchor.Convert(shape.Brush, shape.Transform, shape.Path, layerID, shapeID, target)
+	if err != nil {
+		return out, err
+	}
+	next.Layers[li].Shapes[si].Brush = res.Brush
+	// Every admission path, including anchor edits, goes through Compile.
+	if _, err = validate.Compile(next); err != nil {
+		return out, err
+	}
+	p, err = s.Revise(id, expected, next)
+	if err != nil {
+		return out, err
+	}
+	out.Plate = p
+	out.Report = res.Report
+	return out, nil
+}
+
 func (s *Service) Archive(id string) error {
 	return s.Repo.Update(func(st *repository.State) error {
 		p, ok := st.Plates[id]

@@ -104,6 +104,24 @@ func (a API) Handler() http.Handler {
 		}
 		jsonOut(w, 200, p)
 	})
+	mux.HandleFunc("POST /v1/plates/{id}/anchor", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Expected int    `json:"expected_revision"`
+			Layer    string `json:"layer_id"`
+			Shape    string `json:"shape_id"`
+			Anchor   string `json:"anchor"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, e := a.Service.ConvertAnchor(r.PathValue("id"), q.Expected, q.Layer, q.Shape, q.Anchor)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, v)
+	})
 	mux.HandleFunc("POST /v1/plates/{id}/branch", func(w http.ResponseWriter, r *http.Request) {
 		var q struct {
 			Revision int    `json:"revision"`

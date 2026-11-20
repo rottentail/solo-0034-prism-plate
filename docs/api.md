@@ -8,6 +8,7 @@
 | POST /v1/plates | id,title,document →201版面 |
 | GET /v1/plates/{id} | 完整稿本历史 |
 | PUT /v1/plates/{id} | expected_revision,document →追加稿本 |
+| POST /v1/plates/{id}/anchor | expected_revision,layer_id,shape_id,anchor（object或canvas）→201含新稿本与保真报告的锚定转换 |
 | POST /v1/plates/{id}/branch | revision,id,title →201独立版面 |
 | POST /v1/plates/{id}/archive | 禁止修订；历史仍可读取 |
 | POST /v1/plates/{id}/render?revision=1&format=png | 201成品元数据；format也可为svg |

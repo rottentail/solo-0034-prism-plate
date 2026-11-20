@@ -44,7 +44,16 @@ func Export(c scene.Compiled) []byte {
 		for j, s := range l.Shapes {
 			br := s.Shape.Brush
 			if br.Kind == "linear" {
-				fmt.Fprintf(&b, `<linearGradient id="b%d_%d" gradientUnits="userSpaceOnUse" x1="%s" y1="%s" x2="%s" y2="%s">`, i, j, number(br.From.X), number(br.From.Y), number(br.To.X), number(br.To.Y))
+				if br.EffectiveAnchor() == scene.AnchorCanvas {
+					// Canvas-anchored axes are document coordinates. The path
+					// itself carries M, so the gradient gets M^-1 to map
+					// document axis points into the transformed user space;
+					// composition reproduces the canvas field exactly.
+					inv := s.Inverse
+					fmt.Fprintf(&b, `<linearGradient id="b%d_%d" gradientUnits="userSpaceOnUse" gradientTransform="matrix(%s %s %s %s %s %s)" x1="%s" y1="%s" x2="%s" y2="%s">`, i, j, number(inv[0]), number(inv[1]), number(inv[2]), number(inv[3]), number(inv[4]), number(inv[5]), number(br.From.X), number(br.From.Y), number(br.To.X), number(br.To.Y))
+				} else {
+					fmt.Fprintf(&b, `<linearGradient id="b%d_%d" gradientUnits="userSpaceOnUse" x1="%s" y1="%s" x2="%s" y2="%s">`, i, j, number(br.From.X), number(br.From.Y), number(br.To.X), number(br.To.Y))
+				}
 				for _, stop := range br.Stops {
 					fmt.Fprintf(&b, `<stop offset="%s" stop-color="%s" stop-opacity="%s"/>`, number(stop.At), color(stop.Color), number(stop.Color.A))
 				}

@@ -61,10 +61,16 @@ func brush(b scene.Brush) error {
 		if !Color(b.Color) {
 			return fmt.Errorf("invalid solid color")
 		}
+		if b.Anchor != "" && b.Anchor != scene.AnchorObject && b.Anchor != scene.AnchorCanvas {
+			return fmt.Errorf("solid brushes accept only object or canvas anchor")
+		}
 		return nil
 	}
 	if b.Kind != "linear" {
 		return fmt.Errorf("unknown brush")
+	}
+	if b.Anchor != "" && b.Anchor != scene.AnchorObject && b.Anchor != scene.AnchorCanvas {
+		return fmt.Errorf("gradient anchor must be object or canvas")
 	}
 	for _, v := range []float64{b.From.X, b.From.Y, b.To.X, b.To.Y} {
 		if !finite(v) {

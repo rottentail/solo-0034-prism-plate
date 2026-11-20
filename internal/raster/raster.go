@@ -36,7 +36,7 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 						for _, s := range l.Shapes {
 							q := s.Inverse.Apply(p)
 							if s.Path.Contains(q, s.Shape.FillRule) {
-								src = paint.Over(src, paint.Sample(s.Shape.Brush, q), "normal")
+								src = paint.Over(src, paint.Sample(s.Shape.Brush, q, p), "normal")
 							}
 						}
 						dst = paint.Over(dst, src.Scale(l.Layer.Opacity), l.Layer.Blend)

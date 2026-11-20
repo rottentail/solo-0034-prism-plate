@@ -31,7 +31,7 @@ def main():
             except urllib.error.HTTPError as e:code=e.code;payload=e.read();hs={k.lower():v for k,v in e.headers.items()}
             if code!=status:raise RuntimeError(f'{method} {path}: expected {status}, observed {code}: {payload[:200]!r}')
             return (payload,hs) if raw else json.loads(payload) if payload else None
-        def render(fmt='png',revision=1):return call('POST',f'/v1/plates/amber-plate/render?revision={revision}&format={fmt}',status=201)
+        def render(fmt='png',revision=1,plate='amber-plate'):return call('POST',f'/v1/plates/{plate}/render?revision={revision}&format={fmt}',status=201)
         try:
             start();created=call('POST','/v1/plates',seed,status=201);assert created['revisions'][0]['number']==1
             w=args.workflow
@@ -78,6 +78,81 @@ def main():
                     stop();os.rename(base/'state',base/'original');start();imported=call('POST','/v1/bundles',sealed,status=201);assert imported['revisions'][0]['digest']==a['scene_digest'];assert render()['digest']==a['digest']
                 else:
                     stop();start();assert call('GET','/v1/artifacts/'+a['id'],raw=True)[0][:8]==b'\x89PNG\r\n\x1a\n';assert render()['digest']==a['digest']
+            elif w=='anchor':
+                anchor_seed=json.loads((ROOT/'examples/anchor-proof.json').read_text())
+                call('POST','/v1/plates',anchor_seed,status=201)
+                def anchor_call(rev,layer,shape,target,status=201):
+                    return call('POST','/v1/plates/anchor-plate/anchor',{'expected_revision':rev,'layer_id':layer,'shape_id':shape,'anchor':target},status=status)
+                def brush(rev,shape_id):
+                    plate=call('GET','/v1/plates/anchor-plate')
+                    doc=plate['revisions'][rev-1]['document']
+                    return next(sh['brush'] for l in doc['layers'] for sh in l['shapes'] if sh['id']==shape_id)
+                def digest(rev,fmt):
+                    return render(fmt,rev,'anchor-plate')['digest']
+                # Rev 1: object-anchored baseline. Conversion creates normal revisions.
+                png1=digest(1,'png');svg1=digest(1,'svg')
+                r2=anchor_call(1,'anchor-sheet','uniform-blade','canvas')
+                assert r2['report']['exact_field_preserved'] and r2['report']['naive_endpoint_move_exact']
+                assert r2['report']['from_anchor']=='object' and r2['report']['to_anchor']=='canvas'
+                assert brush(2,'uniform-blade')['anchor']=='canvas'
+                # Appearance at the conversion instant is identical in PNG pixels.
+                assert digest(2,'png')==png1
+                # SVG keeps the same flattened geometry and gains an inverse gradientTransform.
+                svg2=call('GET','/v1/artifacts/'+render('svg',2,'anchor-plate')['id'],raw=True)[0]
+                assert b'gradientTransform="matrix(' in svg2 and b'userSpaceOnUse' in svg2
+                assert digest(2,'svg')!=svg1
+                # Round trip canvas -> object restores the original axis numerically.
+                r3=anchor_call(2,'anchor-sheet','uniform-blade','object')
+                b0,b3=brush(1,'uniform-blade'),brush(3,'uniform-blade')
+                for key in ('from','to'):
+                    for axis in ('x','y'):
+                        assert abs(b0[key][axis]-b3[key][axis])<1e-9
+                assert digest(3,'png')==png1
+                # Non-uniform scale: exact field preserved, naive endpoint move would drift.
+                r4=anchor_call(3,'anchor-sheet','anisotropic-blade','canvas')
+                rep=r4['report']
+                assert rep['exact_field_preserved'] and not rep['naive_endpoint_move_exact']
+                assert rep['naive_max_t_error']>0.01 and rep['naive_axis_drift_degrees']>1
+                assert rep['conformal_ratio']>1+1e-9
+                assert digest(4,'png')==png1
+                # Pure mirror: direct endpoint move is already exact; reflected flag set.
+                r5=anchor_call(4,'anchor-sheet','mirror-blade','canvas')
+                rep=r5['report']
+                assert rep['transform_reflected'] and rep['naive_endpoint_move_exact']
+                assert rep['naive_max_t_error']<=1e-9
+                assert digest(5,'png')==png1
+                # Reject paths: same anchor, unknown target, missing node, bad expected, solid brush.
+                anchor_call(5,'anchor-sheet','mirror-blade','canvas',status=400)
+                anchor_call(5,'anchor-sheet','mirror-blade','diagonal',status=400)
+                anchor_call(5,'anchor-sheet','no-such-shape','canvas',status=400)
+                anchor_call(99,'anchor-sheet','mirror-blade','object',status=404)
+                bad=copy.deepcopy(anchor_seed);bad['id']='solid-anchor'
+                bad['document']['layers'][0]['shapes']=[{
+                    'id':'solid-one','fill_rule':'nonzero',
+                    'path':anchor_seed['document']['layers'][0]['shapes'][0]['path'],
+                    'transform':[1,0,0,1,0,0],
+                    'brush':{'kind':'solid','color':{'r':1,'g':0,'b':0,'a':1}}}]
+                call('POST','/v1/plates',bad,status=201)
+                call('POST','/v1/plates/solid-anchor/anchor',{'expected_revision':1,'layer_id':'anchor-sheet','shape_id':'solid-one','anchor':'canvas'},status=400)
+                # Old documents without an anchor field keep object semantics and render unchanged.
+                legacy=copy.deepcopy(seed);legacy['id']='legacy-plate'
+                call('POST','/v1/plates',legacy,status=201)
+                legacy_png=render('png',1,'legacy-plate')['digest']
+                assert 'anchor' not in json.dumps(call('GET','/v1/plates/legacy-plate')['revisions'][0]['document'])
+                assert legacy_png==render('png',1,'legacy-plate')['digest']
+                # The historical revision remains renderable with its original digest.
+                assert digest(1,'png')==png1 and digest(1,'svg')==svg1
+                # Anchor documents survive restart: snapshot reload and recompile, same bytes.
+                rev5_png=digest(5,'png')
+                stop();start()
+                assert digest(5,'png')==rev5_png
+                sealed=call('GET','/v1/plates/anchor-plate/bundle',raw=True)[0]
+                assert b'"anchor":"canvas"' in sealed
+                # Envelope import re-admits anchored revisions through the same Compile gate.
+                stop();os.rename(base/'state',base/'original');start()
+                imported=call('POST','/v1/bundles',sealed,status=201)
+                assert len(imported['revisions'])==5
+                assert digest(5,'png')==rev5_png
             elif w=='isolation':
                 lockproc=subprocess.run([str(binary),'-listen','127.0.0.1:0','-data',str(base/'state')],capture_output=True,timeout=3);assert lockproc.returncode!=0;assert b'locked' in lockproc.stderr
                 call('POST','/v1/plates',b'{"id":"x"} true',status=400)

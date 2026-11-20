@@ -33,9 +33,17 @@ func (p Pixel) RGBA8() (uint8, uint8, uint8, uint8) {
 	return uint8(math.Round(srgb(p.R/p.A) * 255)), uint8(math.Round(srgb(p.G/p.A) * 255)), uint8(math.Round(srgb(p.B/p.A) * 255)), uint8(math.Round(math.Min(1, p.A) * 255))
 }
 func mix(a, b, t float64) float64 { return a + (b-a)*t }
-func Sample(b scene.Brush, p geom.Point) Pixel {
+
+// Sample evaluates a brush. local is the point in shape coordinates and canvas
+// the same point in document coordinates; object-anchored gradients use local
+// (the historical behavior) while canvas-anchored gradients use canvas.
+func Sample(b scene.Brush, local, canvas geom.Point) Pixel {
 	if b.Kind == "solid" {
 		return From(b.Color)
+	}
+	p := local
+	if b.EffectiveAnchor() == scene.AnchorCanvas {
+		p = canvas
 	}
 	dx, dy := b.To.X-b.From.X, b.To.Y-b.From.Y
 	t := ((p.X-b.From.X)*dx + (p.Y-b.From.Y)*dy) / (dx*dx + dy*dy)
