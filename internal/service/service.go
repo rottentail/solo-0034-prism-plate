@@ -42,6 +42,24 @@ func (s *Service) Create(id, title string, d scene.Document) (repository.Plate, 
 	})
 	return p, err
 }
+
+// plateEnvelope adds the contour provenance summary alongside the stored
+// plate. It is response-only metadata: revisions, digests and documents remain
+// exactly what the snapshot holds.
+type plateEnvelope struct {
+	repository.Plate
+	PathSources []scene.PathSummary `json:"path_sources"`
+}
+
+// Summarize wraps a stored plate with the per-contour representation summary
+// for every revision it contains.
+func (s *Service) Summarize(p repository.Plate) plateEnvelope {
+	env := plateEnvelope{Plate: p}
+	for _, r := range p.Revisions {
+		env.PathSources = append(env.PathSources, scene.ContourSummary(r.Document)...)
+	}
+	return env
+}
 func (s *Service) Plate(id string) (repository.Plate, error) {
 	p, ok := s.Repo.View().Plates[id]
 	if !ok {

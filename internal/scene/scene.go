@@ -22,18 +22,18 @@ type Brush struct {
 }
 type Shape struct {
 	ID        string      `json:"id"`
-	Path      []geom.Op   `json:"path"`
+	Path      PathRef     `json:"-"`
 	FillRule  string      `json:"fill_rule"`
 	Brush     Brush       `json:"brush"`
 	Transform geom.Matrix `json:"transform"`
 }
 type Layer struct {
-	ID      string    `json:"id"`
-	Opacity float64   `json:"opacity"`
-	Blend   string    `json:"blend"`
-	Clip    []geom.Op `json:"clip,omitempty"`
-	Mask    []geom.Op `json:"mask,omitempty"`
-	Shapes  []Shape   `json:"shapes"`
+	ID      string   `json:"id"`
+	Opacity float64  `json:"opacity"`
+	Blend   string   `json:"blend"`
+	Clip    *PathRef `json:"-"`
+	Mask    *PathRef `json:"-"`
+	Shapes  []Shape  `json:"shapes"`
 }
 type Document struct {
 	Width      int     `json:"width"`

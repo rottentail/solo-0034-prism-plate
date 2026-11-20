@@ -15,7 +15,11 @@ func ID(s string) bool         { return identifier.MatchString(s) }
 func finite(x float64) bool    { return !math.IsNaN(x) && !math.IsInf(x, 0) && math.Abs(x) <= 1e6 }
 func Unit(x float64) bool      { return finite(x) && x >= 0 && x <= 1 }
 func Color(c scene.Color) bool { return Unit(c.R) && Unit(c.G) && Unit(c.B) && Unit(c.A) }
-func path(ops []geom.Op) (geom.Path, error) {
+
+// contour enforces the historical closed-contour contract on the normalized
+// operation sequence. Both wire representations (legacy op arrays and
+// svg-path-1 text) land here, so admission cannot diverge by source.
+func contour(ops []geom.Op) (geom.Path, error) {
 	if len(ops) == 0 || len(ops) > 256 {
 		return nil, fmt.Errorf("contour operation count must be 1..256")
 	}
@@ -55,6 +59,24 @@ func path(ops []geom.Op) (geom.Path, error) {
 		return nil, fmt.Errorf("contour must terminate with Z")
 	}
 	return geom.Flatten(ops), nil
+}
+
+// contourRef attributes admission errors to their source representation.
+// svg-path-1 syntax failures already carry a byte/column ParseError; structural
+// and numeric failures get the source label (and node role) prepended so a
+// rejected request can be traced to the exact field that fed the compiler.
+func contourRef(where string, ref scene.PathRef) (geom.Path, error) {
+	if len(ref.Ops) == 0 && ref.Source != scene.PathFormatSVG {
+		return nil, fmt.Errorf("%s: contour requires path (legacy op array) or path_format/path_text (svg-path-1)", where)
+	}
+	p, err := contour(ref.Ops)
+	if err != nil {
+		if ref.Source == scene.PathFormatSVG {
+			return nil, fmt.Errorf("%s (%s): %w", where, scene.PathFormatSVG, err)
+		}
+		return nil, fmt.Errorf("%s (%s): %w", where, scene.PathSourceLegacy, err)
+	}
+	return p, nil
 }
 func brush(b scene.Brush) error {
 	if b.Kind == "solid" {
@@ -121,16 +143,16 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 			return c, fmt.Errorf("requires 1..32 shapes per layer")
 		}
 		cl := scene.CompiledLayer{Layer: l}
-		if len(l.Clip) > 0 {
-			p, e := path(l.Clip)
+		if l.Clip != nil {
+			p, e := contourRef("layer "+l.ID+" clip", *l.Clip)
 			if e != nil {
 				return c, e
 			}
 			cl.Clip = p
 			count(p)
 		}
-		if len(l.Mask) > 0 {
-			p, e := path(l.Mask)
+		if l.Mask != nil {
+			p, e := contourRef("layer "+l.ID+" mask", *l.Mask)
 			if e != nil {
 				return c, e
 			}
@@ -158,7 +180,7 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 					return c, fmt.Errorf("ill-conditioned transform")
 				}
 			}
-			p, e := path(s.Path)
+			p, e := contourRef("shape "+s.ID+" path", s.Path)
 			if e != nil {
 				return c, e
 			}

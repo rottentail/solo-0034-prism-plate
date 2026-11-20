@@ -78,7 +78,7 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 201, p)
+		jsonOut(w, 201, a.Service.Summarize(p))
 	})
 	mux.HandleFunc("GET /v1/plates/{id}", func(w http.ResponseWriter, r *http.Request) {
 		p, e := a.Service.Plate(r.PathValue("id"))
@@ -86,7 +86,7 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 200, p)
+		jsonOut(w, 200, a.Service.Summarize(p))
 	})
 	mux.HandleFunc("PUT /v1/plates/{id}", func(w http.ResponseWriter, r *http.Request) {
 		var q struct {
@@ -102,7 +102,7 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 200, p)
+		jsonOut(w, 200, a.Service.Summarize(p))
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/branch", func(w http.ResponseWriter, r *http.Request) {
 		var q struct {
@@ -119,7 +119,7 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 201, p)
+		jsonOut(w, 201, a.Service.Summarize(p))
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/archive", func(w http.ResponseWriter, r *http.Request) {
 		if e := a.Service.Archive(r.PathValue("id")); e != nil {
@@ -249,7 +249,7 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
-		jsonOut(w, 201, v)
+		jsonOut(w, 201, a.Service.Summarize(v))
 	})
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("X-Content-Type-Options", "nosniff")

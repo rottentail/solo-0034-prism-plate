@@ -59,8 +59,58 @@ type Repo struct {
 	lock  *os.File
 }
 
-func Hash(b []byte) string              { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
-func SceneHash(d scene.Document) string { b, _ := json.Marshal(d); return Hash(b) }
+func Hash(b []byte) string { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
+
+// SceneHash is the representation-independent content digest: every PathRef is
+// normalized to its absolute op array before hashing, so an svg-path-1 text
+// revision and the equivalent legacy op-array revision share one digest. The
+// on-disk spelling (which representation was submitted) is retained verbatim
+// in the document; only the digest abstracts over it.
+func SceneHash(d scene.Document) string {
+	clone := normalizeDocument(d)
+	b, _ := json.Marshal(clone)
+	return Hash(b)
+}
+
+// NormalizedDocument returns a deep copy with every contour forced onto the
+// legacy op-array spelling; used by representation-independent digests.
+func NormalizedDocument(d scene.Document) scene.Document {
+	return normalizeDocument(d)
+}
+
+// normalizeDocument deep-copies a document forcing every contour onto the
+// legacy op-array spelling. The input document is never mutated; in particular
+// clip/mask pointers are rebuilt rather than shared.
+func normalizeDocument(d scene.Document) scene.Document {
+	out := d
+	layers := make([]scene.Layer, len(d.Layers))
+	for i, l := range d.Layers {
+		nl := l
+		if l.Clip != nil {
+			c := legacyRef(*l.Clip)
+			nl.Clip = &c
+		}
+		if l.Mask != nil {
+			m := legacyRef(*l.Mask)
+			nl.Mask = &m
+		}
+		if l.Shapes != nil {
+			nl.Shapes = make([]scene.Shape, len(l.Shapes))
+			for j, s := range l.Shapes {
+				ns := s
+				ns.Path = legacyRef(s.Path)
+				nl.Shapes[j] = ns
+			}
+		}
+		layers[i] = nl
+	}
+	out.Layers = layers
+	return out
+}
+
+func legacyRef(ref scene.PathRef) scene.PathRef {
+	return scene.PathRef{Source: scene.PathSourceLegacy, Ops: ref.Ops}
+}
 func Fresh() State {
 	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}}
 }
