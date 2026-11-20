@@ -33,6 +33,11 @@
       "path": "internal/vector"
     },
     {
+      "id": "render",
+      "name": "出图后端与计算",
+      "path": "internal/render"
+    },
+    {
       "id": "repository",
       "name": "原子快照谱系",
       "path": "internal/repository"
@@ -142,7 +147,8 @@
         "geom",
         "paint",
         "raster",
-        "repository"
+        "repository",
+        "render"
       ],
       "steps": [
         "从公开入口解析并获取固定来源",
@@ -162,7 +168,8 @@
         "validate",
         "geom",
         "vector",
-        "repository"
+        "repository",
+        "render"
       ],
       "steps": [
         "从公开入口解析并获取固定来源",
@@ -314,6 +321,27 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "boundary",
+      "name": "出图与发布边界",
+      "entry": "POST render png/svg → exposure → DELETE",
+      "module_ids": [
+        "transport",
+        "service",
+        "render",
+        "raster",
+        "vector",
+        "repository",
+        "exposure"
+      ],
+      "steps": [
+        "从公开入口解析并获取固定来源",
+        "跨职责计算或判定并提交完整结果"
+      ],
+      "success": "双格式成品一致可读；先后取消只在该发生的位置失败",
+      "failure": "未提交的字节不成为成品，已提交的成功不被取消改写",
+      "verification": "python3 scripts/walkthrough.py --workflow boundary"
     }
   ],
   "complexity": {

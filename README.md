@@ -24,6 +24,12 @@ examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、
 
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
+## 出图与发布
+
+出图计算与成品发布是两层职责。`internal/render` 的后端只接受已编译场景并返回完整字节，不持有仓库、不分配成品身份，因此无需打开数据根就能用同一合法编译稿产出 PNG 和 SVG。`service` 负责稿本捕获、成品身份（版面、稿本、稿本摘要、格式与当次字节摘要共同决定）、原子提交与终局状态；同步渲染和后台任务都经过这一条发布流水线。
+
+提交点是唯一分界：字节完整但尚未提交时不产生成品；提交前观察到取消则不发布；一旦提交完成，成功即为权威事实，晚到的取消不会把它改写为取消。后端若对同一稿返回不同字节，两次交付各自形成成品，已签样校样仍指向当次实际提交的那一份，可重现的等价画面不会替换旧成品。
+
 ## 版本及生命周期
 
 新建版面的初始稿本为1。PUT 传 expected_revision，只有当前最新版本相符才追加；旧版本不修改。归档禁止后续修订，仍可渲染历史及从历史分支。异步任务提交即捕获指定稿本；稍后修订不会改变它。任务只在当前进程内保留，重启后以已持久化成品为事实，不支持任务续跑；256条任务记录用尽后拒绝新任务。两名工作者、8条等待队列，所有渲染共用2个计算名额，同步或异步均可能在拥挤时得到拒绝。
@@ -37,9 +43,10 @@ PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大5
 ```sh
 python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
+python3 scripts/walkthrough.py --workflow boundary
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、boundary。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。`boundary` 用真实PNG与SVG字节复核出图计算和发布成品的边界，并观察取消请求落在提交点前后两种结局。
 
 ## 持久化与范围
 
@@ -48,3 +55,5 @@ python3 scripts/walkthrough.py --workflow bundle
 上线容量：128版面，每版64稿本，256成品，1024校样，状态快照128MiB，HTTP输入8MiB，单稿本4倍采样预计边遍历不超过1.6亿。容量达到时需要运维规划，不会自动淘汰被校样引用的数据。完整快照复制意味着吞吐适用于小规模打样服务。
 
 自动化测试套件按初始化边界延后，本仓库不含测试命令。已提供构建、静态检查与真实生产流程演示；后续质量保障任务可以建立独立测试体系。Dockerfile提供容器构建路径，容器跨架构和生产部署不在本机Go构建的验证结论内。
+
+`internal/render` 与 `internal/service` 中的少量验证测试用于固定出图/发布边界，可用 `go test ./internal/render ./internal/service` 复核；它们不改变上述“初始化不承诺完整测试体系”的范围声明。

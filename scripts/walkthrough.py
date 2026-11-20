@@ -84,6 +84,55 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='boundary':
+                # Two real output formats from one published revision, each read
+                # back by its own ETag; repeated sync renders reuse one identity.
+                committed={}
+                for fmt in ('png','svg'):
+                    a=render(fmt);raw,hs=call('GET','/v1/artifacts/'+a['id'],raw=True)
+                    assert hashlib.sha256(raw).hexdigest()==a['digest']==hs['etag'].strip('"')
+                    again=render(fmt);assert again['id']==a['id'] and again['digest']==a['digest']
+                    committed[fmt]=(a,raw)
+                assert committed['png'][1][:8]==b'\x89PNG\r\n\x1a\n'
+                assert committed['svg'][1].lstrip().startswith(b'<svg')
+                assert committed['png'][0]['scene_digest']==committed['svg'][0]['scene_digest']
+                # Case A: the caller cancels only after the image is committed.
+                # The committed success is authoritative: the artifact stays
+                # readable and the request cannot rewrite it to cancelled.
+                job=call('POST','/v1/plates/amber-plate/exposures?revision=1&format=png',status=202)
+                for _ in range(400):
+                    job=call('GET','/v1/exposures/'+job['id'])
+                    if job['state'] in ('succeeded','failed','cancelled'):break
+                    time.sleep(.01)
+                assert job['state']=='succeeded' and job.get('artifact'),job
+                call('DELETE','/v1/exposures/'+job['id'],status=202)
+                after=call('GET','/v1/exposures/'+job['id'])
+                assert after['state']=='succeeded' and after['artifact']==job['artifact'],after
+                committed_raw,_=call('GET','/v1/artifacts/'+job['artifact'],raw=True)
+                assert committed_raw[:8]==b'\x89PNG\r\n\x1a\n'
+                assert hashlib.sha256(committed_raw).hexdigest()==committed['png'][0]['digest']
+                # Case B: cancel immediately, before the publish point. Only a
+                # truly cancelled job may lack an artifact; a succeeded job must
+                # expose complete readable bytes.
+                stopped=published=0
+                for _ in range(4):
+                    job=call('POST','/v1/plates/amber-plate/exposures?revision=1&format=png',status=202)
+                    call('DELETE','/v1/exposures/'+job['id'],status=202)
+                    for _ in range(400):
+                        job=call('GET','/v1/exposures/'+job['id'])
+                        if job['state'] in ('succeeded','failed','cancelled'):break
+                        time.sleep(.01)
+                    if job['state']=='succeeded':
+                        published+=1;assert job.get('artifact')
+                        raw,_=call('GET','/v1/artifacts/'+job['artifact'],raw=True)
+                        assert raw[:8]==b'\x89PNG\r\n\x1a\n' and hashlib.sha256(raw).hexdigest()==committed['png'][0]['digest']
+                    else:
+                        assert job['state']=='cancelled' and not job.get('artifact'),job
+                        stopped+=1
+                # Neither outcome disturbed the two already published artifacts.
+                for fmt,(a,_) in committed.items():
+                    assert render(fmt)['id']==a['id']
+                print(json.dumps({'committed_before_cancel':'succeeded','early_cancel_stopped':stopped,'early_cancel_published':published},ensure_ascii=False))
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()
