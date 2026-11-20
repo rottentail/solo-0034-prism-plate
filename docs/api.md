@@ -9,6 +9,7 @@
 | GET /v1/plates/{id} | 完整稿本历史 |
 | PUT /v1/plates/{id} | expected_revision,document →追加稿本 |
 | POST /v1/plates/{id}/branch | revision,id,title →201独立版面 |
+| POST /v1/plates/{id}/morph | from_revision,from_shape,to_revision,to_shape,steps,expected_revision →201版面与形变报告；过渡稿原子追加为普通稿本 |
 | POST /v1/plates/{id}/archive | 禁止修订；历史仍可读取 |
 | POST /v1/plates/{id}/render?revision=1&format=png | 201成品元数据；format也可为svg |
 | POST /v1/plates/{id}/exposures?revision=1&format=png | 202瞬态任务 |
@@ -22,3 +23,5 @@
 | POST /v1/bundles | 原样封包；201导入，重名409 |
 
 成品响应中的data为null，避免重复传输二进制；GET成品获得实际内容。If-None-Match精确匹配强ETag时返回304。成功校样可从持久化快照确认，当前版本没有校样列表/详情接口。GET版面返回完整历史，服务没有全局列表接口。
+
+形变入口在两枚已命名形状之间生成过渡稿：steps为1..16，过渡帧经同一编译准入后在单次提交中全部追加；对应不可信（外边界或镂空数量不一致、轮廓退化、源稿或中间帧自交、镂空逃逸）时返回400说明且不写入任何稿本。方法与质量判断见 docs/morph.md。

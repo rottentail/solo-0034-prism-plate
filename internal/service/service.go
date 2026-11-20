@@ -6,6 +6,8 @@ import (
 	"fmt"
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
+	"prismplate/internal/geom"
+	"prismplate/internal/morph"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -85,6 +87,121 @@ func (s *Service) Archive(id string) error {
 		st.Plates[id] = p
 		return nil
 	})
+}
+func findShape(d scene.Document, id string) (scene.Shape, bool) {
+	for _, l := range d.Layers {
+		for _, sh := range l.Shapes {
+			if sh.ID == id {
+				return sh, true
+			}
+		}
+	}
+	return scene.Shape{}, false
+}
+func lerpColor(a, b scene.Color, t float64) scene.Color {
+	mix := func(x, y float64) float64 { return x + (y-x)*t }
+	return scene.Color{R: mix(a.R, b.R), G: mix(a.G, b.G), B: mix(a.B, b.B), A: mix(a.A, b.A)}
+}
+
+// frameDoc derives one transition draft from the source document: the morphed
+// shape carries plate-coordinate geometry under an identity transform, and a
+// solid brush is blended when both endpoints are solid.
+func frameDoc(doc scene.Document, id string, ops []geom.Op, from, to scene.Shape, t float64) scene.Document {
+	d := doc
+	d.Layers = make([]scene.Layer, len(doc.Layers))
+	for li, l := range doc.Layers {
+		nl := l
+		nl.Shapes = make([]scene.Shape, len(l.Shapes))
+		copy(nl.Shapes, l.Shapes)
+		for si, sh := range nl.Shapes {
+			if sh.ID != id {
+				continue
+			}
+			sh.Path = ops
+			sh.FillRule = "nonzero"
+			sh.Transform = geom.Identity
+			if sh.Brush.Kind == "solid" && to.Brush.Kind == "solid" {
+				sh.Brush.Color = lerpColor(from.Brush.Color, to.Brush.Color, t)
+			}
+			nl.Shapes[si] = sh
+		}
+		d.Layers[li] = nl
+	}
+	return d
+}
+
+// Morph appends steps transition drafts between two shapes in one atomic
+// commit. Any correspondence or credibility failure appends nothing.
+func (s *Service) Morph(id string, fromRev int, fromShape string, toRev int, toShape string, steps int, expected int) (repository.Plate, morph.Report, error) {
+	var rep morph.Report
+	if steps < 1 || steps > 16 {
+		return repository.Plate{}, rep, fmt.Errorf("morph steps must be 1..16")
+	}
+	p, err := s.Plate(id)
+	if err != nil {
+		return repository.Plate{}, rep, err
+	}
+	if p.State != "active" {
+		return repository.Plate{}, rep, repository.ErrState
+	}
+	if len(p.Revisions) != expected {
+		return repository.Plate{}, rep, repository.ErrConflict
+	}
+	if len(p.Revisions)+steps > 64 {
+		return repository.Plate{}, rep, fmt.Errorf("revision capacity reached")
+	}
+	if fromRev < 1 || fromRev > len(p.Revisions) || toRev < 1 || toRev > len(p.Revisions) {
+		return repository.Plate{}, rep, repository.ErrMissing
+	}
+	fromDoc := p.Revisions[fromRev-1].Document
+	fs, ok := findShape(fromDoc, fromShape)
+	if !ok {
+		return repository.Plate{}, rep, repository.ErrMissing
+	}
+	ts, ok := findShape(p.Revisions[toRev-1].Document, toShape)
+	if !ok {
+		return repository.Plate{}, rep, repository.ErrMissing
+	}
+	frames, rep, err := morph.Frames(fs, ts, steps)
+	if err != nil {
+		return repository.Plate{}, rep, err
+	}
+	docs := make([]scene.Document, len(frames))
+	for i, ops := range frames {
+		d := frameDoc(fromDoc, fromShape, ops, fs, ts, float64(i+1)/float64(steps+1))
+		if _, err = validate.Compile(d); err != nil {
+			return repository.Plate{}, rep, err
+		}
+		docs[i] = d
+	}
+	err = s.Repo.Update(func(st *repository.State) error {
+		cur, ok := st.Plates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if cur.State != "active" {
+			return repository.ErrState
+		}
+		if len(cur.Revisions) != expected {
+			return repository.ErrConflict
+		}
+		if len(cur.Revisions)+steps > 64 {
+			return fmt.Errorf("revision capacity reached")
+		}
+		for i, d := range docs {
+			cur.Revisions = append(cur.Revisions, repository.Revision{Number: expected + i + 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()})
+		}
+		st.Plates[id] = cur
+		p = cur
+		return nil
+	})
+	if err != nil {
+		return repository.Plate{}, rep, err
+	}
+	for i := range rep.Frames {
+		rep.Frames[i].Revision = expected + i + 1
+	}
+	return p, rep, nil
 }
 func (s *Service) Branch(id string, revision int, target, title string) (repository.Plate, error) {
 	p, err := s.Plate(id)

@@ -128,6 +128,26 @@ func (a API) Handler() http.Handler {
 		}
 		jsonOut(w, 200, map[string]string{"state": "archived"})
 	})
+	mux.HandleFunc("POST /v1/plates/{id}/morph", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			FromRevision int    `json:"from_revision"`
+			FromShape    string `json:"from_shape"`
+			ToRevision   int    `json:"to_revision"`
+			ToShape      string `json:"to_shape"`
+			Steps        int    `json:"steps"`
+			Expected     int    `json:"expected_revision"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		p, rep, e := a.Service.Morph(r.PathValue("id"), q.FromRevision, q.FromShape, q.ToRevision, q.ToShape, q.Steps, q.Expected)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 201, map[string]any{"plate": p, "morph": rep})
+	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)
 		if e != nil {

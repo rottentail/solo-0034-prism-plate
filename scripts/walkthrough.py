@@ -84,6 +84,33 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='morph':
+                lobe=json.loads((ROOT/'examples/morph-lobe.json').read_text());rev2=json.loads((ROOT/'examples/morph-lobe-rev2.json').read_text())
+                call('POST','/v1/plates',lobe,status=201);call('PUT','/v1/plates/morph-lobe',rev2)
+                req={'from_revision':1,'from_shape':'lobe-a','to_revision':2,'to_shape':'lobe-a','steps':4,'expected_revision':2}
+                stale=dict(req);stale['expected_revision']=1;call('POST','/v1/plates/morph-lobe/morph',stale,status=409)
+                missing=dict(req);missing['from_shape']='absent';call('POST','/v1/plates/morph-lobe/morph',missing,status=404)
+                result=call('POST','/v1/plates/morph-lobe/morph',req,status=201);plate=result['plate'];report=result['morph']
+                assert len(plate['revisions'])==6;assert [f['revision'] for f in report['frames']]==[3,4,5,6]
+                assert all(f['self_intersections']==0 and f['holes_contained'] for f in report['frames'])
+                assert [r['role'] for r in report['rings']]==['outer','hole'] and report['rings'][1]['parent']==0
+                areas=[f['area'] for f in report['frames']];assert all(a>0 for a in areas) and max(areas)<min(areas)*1.5
+                a=call('POST','/v1/plates/morph-lobe/render?revision=4&format=png',status=201)
+                raw,_=call('GET','/v1/artifacts/'+a['id'],raw=True);assert raw[:8]==b'\x89PNG\r\n\x1a\n'
+                assert call('POST','/v1/plates/morph-lobe/render?revision=4&format=png',status=201)['digest']==a['digest']
+                svg=call('POST','/v1/plates/morph-lobe/render?revision=4&format=svg',status=201)
+                sraw,_=call('GET','/v1/artifacts/'+svg['id'],raw=True);assert b'ZM' in sraw
+                edit=copy.deepcopy(plate['revisions'][3]['document']);edit['background']['r']=0.2
+                call('PUT','/v1/plates/morph-lobe',{'expected_revision':6,'document':edit});assert len(call('GET','/v1/plates/morph-lobe')['revisions'])==7
+                replay=copy.deepcopy(lobe);replay['id']='morph-replay';call('POST','/v1/plates',replay,status=201);call('PUT','/v1/plates/morph-replay',rev2)
+                again=call('POST','/v1/plates/morph-replay/morph',req,status=201)
+                assert [r['digest'] for r in again['plate']['revisions'][2:]]==[r['digest'] for r in plate['revisions'][2:6]]
+                broken=copy.deepcopy(lobe);broken['id']='morph-broken';call('POST','/v1/plates',broken,status=201)
+                b2=copy.deepcopy(rev2);hole2=[{'kind':'M','points':[{'x':120,'y':40}]},{'kind':'L','points':[{'x':132,'y':40}]},{'kind':'L','points':[{'x':132,'y':52}]},{'kind':'L','points':[{'x':120,'y':52}]},{'kind':'Z'}]
+                b2['document']['layers'][0]['shapes'][0]['path'].extend(hole2);call('PUT','/v1/plates/morph-broken',b2)
+                req2={'from_revision':1,'from_shape':'lobe-a','to_revision':2,'to_shape':'lobe-a','steps':2,'expected_revision':2}
+                refusal=call('POST','/v1/plates/morph-broken/morph',req2,status=400);assert 'hole' in refusal['error']
+                assert len(call('GET','/v1/plates/morph-broken')['revisions'])==2
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()
