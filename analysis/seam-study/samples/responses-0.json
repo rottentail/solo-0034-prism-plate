@@ -1,0 +1,33 @@
+{
+  "offset": 0.0,
+  "with_hole": {
+    "plate": "seam-0",
+    "png": {
+      "artifact": "59f9777f2a634f9bb6c9eaec72a621fb3339f6699251e701028d35a35ad17fc7",
+      "digest": "14ca9e75c2b8e486957c3b9c65b862f93f9dfcb2d9f98b5f11e916f5452e2241",
+      "scene_digest": "18af778a418b3967f7b2743d31f060c8d446ccf492fd00c8d7f583623afc7592",
+      "bytes": 378
+    },
+    "svg": {
+      "artifact": "b66c7b210162ac615f0df3318a177685456c96d6d595a67c650b756bdd1a5b86",
+      "digest": "dbf56e44a44495d7084fd09d2c30108c803ef99cf2750c9865ce12bfb112f31b",
+      "scene_digest": "18af778a418b3967f7b2743d31f060c8d446ccf492fd00c8d7f583623afc7592",
+      "bytes": 1240
+    }
+  },
+  "no_hole_control": {
+    "plate": "seam-nohole-0",
+    "png": {
+      "artifact": "0dee8623ec39878c27b768635f7439ef6e8297b597d178a8f35ddbe81d1362a9",
+      "digest": "dbfda6b7e4989dfe7ee68f0453159eb4e8ff399054d742fbca67f3074f06aa9f",
+      "scene_digest": "6e40ba1bcb6a65e284282489bb08cf8ed24d197f614977234a08360852a742a8",
+      "bytes": 322
+    },
+    "svg": {
+      "artifact": "26be34d58286d3b4a36d7a92be900b80dbe6e16fd21cdd72b0acfde8133d9483",
+      "digest": "394091dab5bf669a67b8b10f935de836de89361f2e856172f131d37ed146ddab",
+      "scene_digest": "6e40ba1bcb6a65e284282489bb08cf8ed24d197f614977234a08360852a742a8",
+      "bytes": 1207
+    }
+  }
+}

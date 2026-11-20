@@ -1,0 +1,400 @@
+{
+  "step": 0.05,
+  "offsets": [
+    {
+      "offset": 0.0,
+      "png_digest": "14ca9e75c2b8e486957c3b9c65b862f93f9dfcb2d9f98b5f11e916f5452e2241",
+      "scene_digest": "18af778a418b3967f7b2743d31f060c8d446ccf492fd00c8d7f583623afc7592",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.05,
+      "png_digest": "a3888b7626ab5bdb035ff38302f6f24a9c7e3a7ad1e2ba5f711ac173178f3080",
+      "scene_digest": "70d6405c5b9361985d261029fb8aa5ad44826f7d4a21d781b77c71fbdea853bd",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.1,
+      "png_digest": "f3a734922df6bb53177a753861b5f7d961a8dd251ae1fc05f464edd0390fd3ec",
+      "scene_digest": "028b5151dfc2e800611e984441a0d0b91da85650504e25ae1645c481e31013eb",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.15,
+      "png_digest": "a736090385a5ec3f63959426edad1a77bce1416d6a8c9fa1f9e0bd6b3080f6d1",
+      "scene_digest": "fd4963512e0a6abf361f32a076bf8ee458f1731341e8809cc87b9c66c6cb0076",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.2,
+      "png_digest": "3bdf29d39589d6f05e495cc60dfa8aa0d98f0f678ec4d84e004955c437e9d765",
+      "scene_digest": "fc93bce7b2ceb66e20762f5575bf660e79afc55a440dcb3cd26f63d74ac17b83",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.25,
+      "png_digest": "7474744ec86daf2a9157d90f9b59a0054006a9ff374ef32f162524d1f22889a7",
+      "scene_digest": "8a552a369b8a011667974fed056793e325d33121bca4591f0a6e5bacae6f018b",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.3,
+      "png_digest": "bce7e1a7cc5cb7302aa3b4a16148222c0a737d71e772325f1a4739e07fa0c4b5",
+      "scene_digest": "15503f5112adc1d1331ebd266fc8a19692a156e017c4949e7ceb9d6d59efc9b2",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.35,
+      "png_digest": "ed2c2d809699ede05ae249b28a71544bacf7c8a60dc41ab5248a2a8c076fc16f",
+      "scene_digest": "3b8bf2a1acb63d5037ad83f443455b4fd6596ec6a6390c27642d960a28fe90c3",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.4,
+      "png_digest": "d16eec3eb1799e822de2ab7354ef5ba278ced7c76485157b568b3466ba2f4344",
+      "scene_digest": "1cf50e0424e1487ddfac3c0306b485676bbf3ae8340deebee2148fd0d4e4a680",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.45,
+      "png_digest": "5e7a96989de6850a7e53d8172fec69284c9984faeefd4d204bafd2c8e59da863",
+      "scene_digest": "95ea8c2dc2633e8d9ba6a27d27e390d9b4234560b10ff7b22fc88ee6547262bb",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.5,
+      "png_digest": "45d78bc823f5739129efb292b200b688f046fb09061fe8897482b7349650ad1b",
+      "scene_digest": "dcfabc568d4ca34882d691caf144cfcaae85d4d3d9d8717463406213f10a66b3",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.55,
+      "png_digest": "b29bced458c50c7ab663ca76ab8131a03a475841ed24491da1c598c5afd0b8a1",
+      "scene_digest": "ceb286f26eba57bfd96e1c48aeb58c1f0b6a0b731a15be8afb418e61d6e61e93",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.6,
+      "png_digest": "7e8076de201831175da323d8ac0c08347263a90859f44b7e62d1adf91adc5334",
+      "scene_digest": "d9425f57792fa25fb531a2826f3285dd1f3583ad1ed322e1a7fc7f50e4f347f4",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.65,
+      "png_digest": "f532f8ad7107f73ba7bc6e3688f4c2be1196440a9b899c1100e642f702ba0279",
+      "scene_digest": "eda6c0253a4da116fad2f43248b44db06cb6ca146b38dd2241a85940fdaa7999",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        22
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.7,
+      "png_digest": "54509932bd439bf2137666320fa4d42db0a833354d2671f749bb449944b8708b",
+      "scene_digest": "a98fa32b923132efc55a36e141557738a6fd47b16e1a1a2c545b99a68305b78f",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.75,
+      "png_digest": "58dcb05761bfb27acb5046e550a042a263d3d96e15f71b9d370ed0fe0161b67d",
+      "scene_digest": "c4a3d286edf468cd56c0faaa99f243b8c1c20f1a2e4b8ec210c90394f799269c",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.8,
+      "png_digest": "78db22b196f44eb6d340e7cd19d0c649d6a07c3565c7c6c382d4cb0d3219b69d",
+      "scene_digest": "697e72db9459eadf25135fad464fe367c45a502b73471daee1ae666efcbfc183",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.85,
+      "png_digest": "d344a27116c0f54b848e50ededf768505f67cd3baa807ef34fe6e82013464c5a",
+      "scene_digest": "73bf0c6b12a97e8287f676f4a985a90611b1dadf13f7f6ebc5eada46569da17e",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 0,
+      "hole_columns": [],
+      "hole_alphas": [],
+      "png_equals_no_hole_control": true,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.9,
+      "png_digest": "8192318f563295528ec9f18dd7d64e98e3911078dedf5edff232aacf8751f135",
+      "scene_digest": "a8de0eb1a2bf3f0f34ff8cc01eb5003d78c4ce2f4d033c2b74f53a29df3241de",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        23
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    },
+    {
+      "offset": 0.95,
+      "png_digest": "df64f50fe2e17e21426b4eb2c5a75943fd07ba9b05537c34b51b5697928d1636",
+      "scene_digest": "83f8c43d2f84188e74001a474180ab1f7c1faadf01ef5e57a11e4390c988d2cd",
+      "png_size": [
+        48,
+        48
+      ],
+      "png_matches_mirror": true,
+      "observed_hole_pixels": 24,
+      "hole_columns": [
+        23
+      ],
+      "hole_alphas": [
+        128
+      ],
+      "png_equals_no_hole_control": false,
+      "svg_keeps_inner_contour": true,
+      "svg_has_expected_transform": true
+    }
+  ],
+  "transitions": [
+    {
+      "visible": true,
+      "from": 0.0,
+      "to": 0.15
+    },
+    {
+      "visible": false,
+      "from": 0.2,
+      "to": 0.35
+    },
+    {
+      "visible": true,
+      "from": 0.4,
+      "to": 0.65
+    },
+    {
+      "visible": false,
+      "from": 0.7,
+      "to": 0.85
+    },
+    {
+      "visible": true,
+      "from": 0.9,
+      "to": 0.95
+    }
+  ]
+}

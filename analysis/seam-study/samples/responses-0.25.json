@@ -1,0 +1,33 @@
+{
+  "offset": 0.25,
+  "with_hole": {
+    "plate": "seam-1",
+    "png": {
+      "artifact": "f9e6f48b7b4957dd3d71016f6c5c457ad042fd70cd0eae1f9d7ff24289814e1f",
+      "digest": "7474744ec86daf2a9157d90f9b59a0054006a9ff374ef32f162524d1f22889a7",
+      "scene_digest": "8a552a369b8a011667974fed056793e325d33121bca4591f0a6e5bacae6f018b",
+      "bytes": 290
+    },
+    "svg": {
+      "artifact": "400f44b756835a0752602c01126bf7dc2a6a8adab7f05dd047838e47a8194d69",
+      "digest": "f215e852a6883b67fec72d251027f1c1402f77db6053f680c0a3ee3acb5f6653",
+      "scene_digest": "8a552a369b8a011667974fed056793e325d33121bca4591f0a6e5bacae6f018b",
+      "bytes": 1243
+    }
+  },
+  "no_hole_control": {
+    "plate": "seam-nohole-1",
+    "png": {
+      "artifact": "ecf998cbc6db05d11eeb7444a37804401d66a290aab7e0afef16c08bdb91fde8",
+      "digest": "7474744ec86daf2a9157d90f9b59a0054006a9ff374ef32f162524d1f22889a7",
+      "scene_digest": "0235cf6ccbdd27f98a5030eefed05340f483a13b8d88addaebea1ed334ca0703",
+      "bytes": 290
+    },
+    "svg": {
+      "artifact": "f5a5a26208425cac5b905faad3a3b6fa7f4397aa44826bb77c7beeddf1048e5e",
+      "digest": "0568fe413fcabff078bf8278a41a43daad2f7318699f5526a5ebf25f9e88b7a9",
+      "scene_digest": "0235cf6ccbdd27f98a5030eefed05340f483a13b8d88addaebea1ed334ca0703",
+      "bytes": 1210
+    }
+  }
+}
