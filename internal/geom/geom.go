@@ -29,6 +29,62 @@ type Op struct {
 type Contour []Point
 type Path []Contour
 
+// BBox is an axis-aligned bound in document coordinates. Filled contours never
+// leave the union bbox of their flattened vertices, so a bbox disjoint from the
+// sampled canvas proves the geometry contributes no visible coverage.
+type BBox struct {
+	MinX, MinY, MaxX, MaxY float64
+}
+
+// Bounds is the union box over every flattened vertex, including inner (hole)
+// rings. Holes therefore never shrink the box and can never be rough-clipped.
+func (path Path) Bounds() (BBox, bool) {
+	if len(path) == 0 {
+		return BBox{}, false
+	}
+	b := BBox{MinX: math.Inf(1), MinY: math.Inf(1), MaxX: math.Inf(-1), MaxY: math.Inf(-1)}
+	for _, ring := range path {
+		for _, p := range ring {
+			b.MinX = math.Min(b.MinX, p.X)
+			b.MinY = math.Min(b.MinY, p.Y)
+			b.MaxX = math.Max(b.MaxX, p.X)
+			b.MaxY = math.Max(b.MaxY, p.Y)
+		}
+	}
+	return b, true
+}
+
+// TransformBounds maps a box through the affine matrix. Convex corners map to
+// convex corners under an affine map, so transforming the four corners and
+// taking their envelope is exact, including shear and rotation.
+func (m Matrix) TransformBounds(b BBox) BBox {
+	corners := [4]Point{
+		m.Apply(Point{b.MinX, b.MinY}),
+		m.Apply(Point{b.MaxX, b.MinY}),
+		m.Apply(Point{b.MaxX, b.MaxY}),
+		m.Apply(Point{b.MinX, b.MaxY}),
+	}
+	out := BBox{MinX: corners[0].X, MinY: corners[0].Y, MaxX: corners[0].X, MaxY: corners[0].Y}
+	for _, p := range corners[1:] {
+		out.MinX = math.Min(out.MinX, p.X)
+		out.MinY = math.Min(out.MinY, p.Y)
+		out.MaxX = math.Max(out.MaxX, p.X)
+		out.MaxY = math.Max(out.MaxY, p.Y)
+	}
+	return out
+}
+
+// OutsideView reports a provably invisible box. The box is enlarged by pad and
+// the canvas is enlarged by the same pad, so geometry touching or merely
+// grazing the frame is never culled; only strict separation on one axis wins.
+// The padding absorbs finite-precision rounding of the affine mapping.
+func (b BBox) OutsideView(width, height int, pad float64) bool {
+	return b.MaxX+pad < -pad ||
+		b.MinX-pad > float64(width)+pad ||
+		b.MaxY+pad < -pad ||
+		b.MinY-pad > float64(height)+pad
+}
+
 // Flatten uses a fixed subdivision contract shared by raster and SVG export.
 func Flatten(ops []Op) Path {
 	var out Path

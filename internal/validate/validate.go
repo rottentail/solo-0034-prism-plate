@@ -89,6 +89,36 @@ func brush(b scene.Brush) error {
 	}
 	return nil
 }
+
+// maxRenderEdgeTests keeps the per-pixel-sample edge traversal bounded: four
+// coverage samples per pixel, only over edges that can reach a sample. The
+// limit is unchanged, so any admitted scene still has the same worst-case
+// rendering work as before.
+const maxRenderEdgeTests = 160_000_000
+
+// maxFlattenedSegments bounds one-time geometry work (flatten, SVG export and
+// persistence) that provably invisible contours still incur. Structural limits
+// allow at most 16 layers x (32 shapes + clip + mask) = 544 paths, each built
+// from at most 256 verbs where a cubic contributes 24 edges; the cap sits above
+// the structural maximum so it never rejects an otherwise admissible scene.
+const maxFlattenedSegments = 3_500_000
+
+// viewPad is the conservative separation margin for a canvas-vs-bbox test.
+// Coordinates are bounded by finite() at 1e6; at that scale a 1e-12 relative
+// margin still dwarfs float64 rounding of the affine map, while remaining
+// sub-pixel at normal canvas coordinates. Geometry touching the frame can
+// therefore never be mistaken for off-canvas geometry.
+func viewPad(b geom.BBox) float64 {
+	s := math.Max(math.Abs(b.MinX), math.Max(math.Abs(b.MinY), math.Max(math.Abs(b.MaxX), math.Abs(b.MaxY))))
+	return 1e-9 + 1e-12*s
+}
+func pathLen(p geom.Path) int {
+	n := 0
+	for _, r := range p {
+		n += len(r)
+	}
+	return n
+}
 func Compile(d scene.Document) (scene.Compiled, error) {
 	c := scene.Compiled{Document: d}
 	if d.Width < 1 || d.Height < 1 || d.Width > 512 || d.Height > 512 || !Color(d.Background) {
@@ -105,10 +135,10 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 		ids[id] = true
 		return nil
 	}
+	// Segments counts all flattened edges (one-time work); visible counting is
+	// layered on top once each bbox can be tested against the canvas.
 	count := func(p geom.Path) {
-		for _, r := range p {
-			c.Segments += len(r)
-		}
+		c.Segments += pathLen(p)
 	}
 	for _, l := range d.Layers {
 		if err := add(l.ID); err != nil {
@@ -120,7 +150,11 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 		if len(l.Shapes) < 1 || len(l.Shapes) > 32 {
 			return c, fmt.Errorf("requires 1..32 shapes per layer")
 		}
-		cl := scene.CompiledLayer{Layer: l}
+		cl := scene.CompiledLayer{Layer: l, Visible: true}
+		// Clip and mask live in document coordinates and gate every sample. A
+		// bbox strictly outside the canvas makes every per-sample containment
+		// test false, so the whole layer is provably invisible.
+		gatesVisible := true
 		if len(l.Clip) > 0 {
 			p, e := path(l.Clip)
 			if e != nil {
@@ -128,6 +162,9 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 			}
 			cl.Clip = p
 			count(p)
+			if b, ok := p.Bounds(); ok && b.OutsideView(d.Width, d.Height, viewPad(b)) {
+				gatesVisible = false
+			}
 		}
 		if len(l.Mask) > 0 {
 			p, e := path(l.Mask)
@@ -136,7 +173,11 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 			}
 			cl.Mask = p
 			count(p)
+			if b, ok := p.Bounds(); ok && b.OutsideView(d.Width, d.Height, viewPad(b)) {
+				gatesVisible = false
+			}
 		}
+		anyShapeVisible := false
 		for _, s := range l.Shapes {
 			if err := add(s.ID); err != nil {
 				return c, err
@@ -166,13 +207,39 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 				return c, e
 			}
 			count(p)
-			cl.Shapes = append(cl.Shapes, scene.CompiledShape{Shape: s, Path: p, Inverse: inv})
+			// The fill is contained in the local vertex bbox; mapping its four
+			// corners through the declared affine transform gives an exact
+			// transformed bound. A layer already hidden by its gates hides
+			// every shape regardless of its own box.
+			visible := false
+			if gatesVisible {
+				if b, ok := p.Bounds(); ok {
+					tb := s.Transform.TransformBounds(b)
+					visible = !tb.OutsideView(d.Width, d.Height, viewPad(tb))
+				}
+			}
+			if visible {
+				anyShapeVisible = true
+				c.VisibleSegments += pathLen(p)
+			}
+			cl.Shapes = append(cl.Shapes, scene.CompiledShape{Shape: s, Path: p, Inverse: inv, Visible: visible})
+		}
+		// The rasterizer only traverses gate edges when a layer can actually show.
+		cl.Visible = gatesVisible && anyShapeVisible
+		if cl.Visible {
+			c.VisibleSegments += pathLen(cl.Clip) + pathLen(cl.Mask)
 		}
 		c.Layers = append(c.Layers, cl)
 	}
-	// Four samples per pixel; every fill is bounded even under adversarial input.
-	if int64(c.Segments)*int64(d.Width)*int64(d.Height)*4 > 160_000_000 {
+	// Four samples per pixel; only provably visible fills are traversed, so
+	// off-canvas geometry no longer consumes the same budget as visible
+	// contours while a single canvas-spanning complex curve still pays in full.
+	if int64(c.VisibleSegments)*int64(d.Width)*int64(d.Height)*4 > maxRenderEdgeTests {
 		return c, fmt.Errorf("scene exceeds bounded rendering work")
+	}
+	// One-time flatten/export work stays bounded even when nothing is visible.
+	if c.Segments > maxFlattenedSegments {
+		return c, fmt.Errorf("scene exceeds bounded geometry work")
 	}
 	return c, nil
 }

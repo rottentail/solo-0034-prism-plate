@@ -26,6 +26,12 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 					p := geom.Point{X: float64(x) + (float64(sx)+0.5)/2, Y: float64(y) + (float64(sy)+0.5)/2}
 					dst := paint.From(d.Background)
 					for _, l := range c.Layers {
+						// Same visibility decision validate.Compile made: a layer
+						// hidden by an off-canvas clip/mask, or one with no
+						// visible shape, has no sample-side edge work to do.
+						if !l.Visible {
+							continue
+						}
 						if len(l.Clip) > 0 && !l.Clip.Contains(p, "nonzero") {
 							continue
 						}
@@ -34,6 +40,9 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 						}
 						src := paint.Pixel{}
 						for _, s := range l.Shapes {
+							if !s.Visible {
+								continue
+							}
 							q := s.Inverse.Apply(p)
 							if s.Path.Contains(q, s.Shape.FillRule) {
 								src = paint.Over(src, paint.Sample(s.Shape.Brush, q), "normal")

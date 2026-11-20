@@ -2,6 +2,20 @@
 """Run bounded production HTTP journeys against an isolated ephemeral service."""
 import argparse, concurrent.futures, copy, hashlib, json, os, pathlib, signal, socket, struct, subprocess, tempfile, time, urllib.error, urllib.request
 ROOT=pathlib.Path(__file__).resolve().parents[1]
+def cubic_ring(ox,oy,k):
+    """One closed contour of k cubic verbs; every vertex stays near (ox, oy)."""
+    ops=[{'kind':'M','points':[{'x':ox,'y':oy}]}]
+    for i in range(k):
+        ops.append({'kind':'C','points':[
+            {'x':ox+5,'y':oy+7},{'x':ox+9,'y':oy+3},
+            {'x':ox+(i%7),'y':oy+2}]})
+    ops.append({'kind':'L','points':[{'x':ox,'y':oy}]})
+    ops.append({'kind':'Z'})
+    return ops
+def hidden_shape(sid,ox,oy,k=100):
+    return {'id':sid,'path':cubic_ring(ox,oy,k),'fill_rule':'nonzero',
+            'transform':[1,0,0,1,0,0],
+            'brush':{'kind':'solid','color':{'r':0.7,'g':0.2,'b':0.2,'a':1}}}
 def main():
     parser=argparse.ArgumentParser();parser.add_argument('--workflow',required=True);args=parser.parse_args()
     seed=json.loads((ROOT/'examples/amber-proof.json').read_text())
@@ -84,6 +98,88 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='visibility':
+                W=H=512
+                def plate(pid,document):
+                    return {'id':pid,'title':'可见性预算'+pid,'document':document}
+                def layer(shapes,clip=None,mask=None,lid='sheet'):
+                    l={'id':lid,'opacity':1,'blend':'normal','shapes':shapes}
+                    if clip is not None:l['clip']=clip
+                    if mask is not None:l['mask']=mask
+                    return l
+                bg={'r':0.04,'g':0.05,'b':0.09,'a':1}
+                def document(layers):return {'width':W,'height':H,'background':bg,'layers':layers}
+                def draw(pid,fmt='png',status=201):
+                    return call('POST',f'/v1/plates/{pid}/render?revision=1&format={fmt}',status=status)
+                # 1) Thousands of fully off-canvas edges: rejected under the old
+                #    total-segment rule (2402*512*512*4 > 1.6e8), admitted now
+                #    because the visible budget is zero.
+                hidden=plate('hidden-heavy',document([layer([
+                    hidden_shape('far-a',9000,9000,100),hidden_shape('far-b',-9000,-9000,100)])]))
+                call('POST','/v1/plates',hidden,status=201)
+                t0=time.monotonic();a_hidden=draw('hidden-heavy');dt=time.monotonic()-t0
+                assert dt<5,f'invisible geometry must stay bounded, took {dt:.2f}s'
+                raw_hidden,_=call('GET','/v1/artifacts/'+a_hidden['id'],raw=True)
+                assert struct.unpack('>II',raw_hidden[16:24])==(W,H)
+                # 2) The same edge count crossing the whole canvas still fails
+                #    the same 160M per-sample budget.
+                spanner=plate('spanner',document([layer([hidden_shape('span',1,1,100)])]))
+                call('POST','/v1/plates',spanner,status=400)
+                call('GET','/v1/plates/spanner',status=404)
+                # 3) Invisible contours cannot change a single visible pixel.
+                visible={'id':'square','path':[
+                    {'kind':'M','points':[{'x':40,'y':40}]},
+                    {'kind':'L','points':[{'x':200,'y':40}]},
+                    {'kind':'L','points':[{'x':200,'y':200}]},
+                    {'kind':'L','points':[{'x':40,'y':200}]},{'kind':'Z'}],
+                    'fill_rule':'nonzero','transform':[1,0,0,1,0,0],
+                    'brush':{'kind':'solid','color':{'r':0.9,'g':0.7,'b':0.2,'a':1}}}
+                plain=plate('plain',document([layer([copy.deepcopy(visible)])]))
+                mixed=plate('mixed',document([layer([copy.deepcopy(visible),
+                    hidden_shape('far-c',8000,8000,100)])]))
+                call('POST','/v1/plates',plain,status=201);call('POST','/v1/plates',mixed,status=201)
+                a_plain=draw('plain');a_mixed=draw('mixed')
+                raw_plain,_=call('GET','/v1/artifacts/'+a_plain['id'],raw=True)
+                raw_mixed,_=call('GET','/v1/artifacts/'+a_mixed['id'],raw=True)
+                assert raw_plain==raw_mixed,'off-canvas geometry altered visible pixels'
+                # 4) Holes (an off-canvas inner ring) and boundary-grazing
+                #    geometry are never rough-clipped: the plates remain
+                #    admissible and render identical content. A ring inside a
+                #    partially visible path stays fully charged because the fill
+                #    rule evaluates every ring per sample; only whole disjoint
+                #    paths/shapes are provably invisible, so the hole ring is
+                #    kept small rather than hidden behind a budget shortcut.
+                holed=copy.deepcopy(visible);holed['id']='holed';holed['fill_rule']='evenodd'
+                holed['path']+=cubic_ring(5000,5000,4)
+                holed_doc=plate('holed-plate',document([layer([holed])]))
+                call('POST','/v1/plates',holed_doc,status=201)
+                assert draw('holed-plate')['digest']==a_plain['digest']
+                grazing=copy.deepcopy(visible);grazing['id']='grazing'
+                grazing['transform']=[1,0,0,1,-39.999999999,0]
+                call('POST','/v1/plates',plate('grazing-plate',document([layer([grazing])])),status=201)
+                # A clearly separated translation is still admissible but renders
+                # only the background, and an off-canvas clip hides its layer.
+                far=copy.deepcopy(visible);far['id']='far';far['transform']=[1,0,0,1,-400,0]
+                call('POST','/v1/plates',plate('far-plate',document([layer([far])])),status=201)
+                a_far=draw('far-plate')
+                assert call('GET','/v1/artifacts/'+a_far['id'],raw=True)[0]==raw_hidden
+                clipped=plate('clipped',document([layer([copy.deepcopy(visible)],
+                    clip=[{'kind':'M','points':[{'x':900,'y':900}]},
+                          {'kind':'L','points':[{'x':940,'y':900}]},
+                          {'kind':'L','points':[{'x':940,'y':940}]},
+                          {'kind':'L','points':[{'x':900,'y':940}]},{'kind':'Z'}])]))
+                call('POST','/v1/plates',clipped,status=201)
+                assert draw('clipped')['digest']==a_far['digest']
+                # 5) SVG export shares the compiled geometry and stays deterministic.
+                svg=draw('hidden-heavy',fmt='svg');assert svg['digest']==draw('hidden-heavy',fmt='svg')['digest']
+                # 6) Envelope import and restart recovery recompile through the
+                #    same admission and reproduce identical output.
+                sealed,_=call('GET','/v1/plates/hidden-heavy/bundle',raw=True)
+                stop();os.rename(base/'state',base/'original');start()
+                call('POST','/v1/bundles',sealed,status=201)
+                assert draw('hidden-heavy')['digest']==a_hidden['digest']
+                stop();start()
+                assert draw('hidden-heavy')['digest']==a_hidden['digest']
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()
