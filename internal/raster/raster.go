@@ -12,6 +12,14 @@ import (
 	"prismplate/internal/scene"
 )
 
+// Render reads a compiled draft and produces the canonical PNG proof. The draft
+// is treated as immutable shared state: the raster backend only reads it, and
+// each reader may hold the same draft while another backend exports it.
+//
+// Coordinate semantics: every sample point is a canvas coordinate. Layer clip
+// and mask contours are tested directly in that space; a shape contour is
+// tested after mapping the sample through the shape's inverse transform, so
+// gradients and paths stay in shape-local coordinates.
 func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 	d := c.Document
 	img := image.NewNRGBA(image.Rect(0, 0, d.Width, d.Height))

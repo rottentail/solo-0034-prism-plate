@@ -29,6 +29,33 @@ type Op struct {
 type Contour []Point
 type Path []Contour
 
+// CloneOps returns a deep copy so a compiled draft never aliases caller-owned input.
+func CloneOps(ops []Op) []Op {
+	if ops == nil {
+		return nil
+	}
+	out := make([]Op, len(ops))
+	for i, o := range ops {
+		out[i] = Op{Kind: o.Kind}
+		if o.Points != nil {
+			out[i].Points = append([]Point(nil), o.Points...)
+		}
+	}
+	return out
+}
+
+// Clone is a deep copy of an expanded contour.
+func (p Path) Clone() Path {
+	if p == nil {
+		return nil
+	}
+	out := make(Path, len(p))
+	for i, ring := range p {
+		out[i] = append(Contour(nil), ring...)
+	}
+	return out
+}
+
 // Flatten uses a fixed subdivision contract shared by raster and SVG export.
 func Flatten(ops []Op) Path {
 	var out Path

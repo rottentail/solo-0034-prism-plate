@@ -28,8 +28,15 @@ func color(c scene.Color) string {
 	return fmt.Sprintf("rgb(%s%%,%s%%,%s%%)", number(c.R*100), number(c.G*100), number(c.B*100))
 }
 
-// SVG uses the same flattened geometry. Browser gradient alpha interpolation and
-// pixel coverage may differ from the canonical PNG renderer; SVG is a vector proof.
+// Export reads the same compiled draft as the raster backend and emits the
+// expanded contours plus the original affine matrices. The draft is immutable
+// shared state, so a PNG proof and an SVG proof of one revision may read it
+// concurrently.
+//
+// Coordinate semantics: sampled geometry is already frozen in shape-local
+// space, so each SVG path keeps its own transform attribute while clip and mask
+// paths stay in canvas space. Browser coverage and gradient alpha interpolation
+// may differ from the canonical raster renderer.
 func Export(c scene.Compiled) []byte {
 	var b bytes.Buffer
 	d := c.Document

@@ -13,6 +13,11 @@
       "path": "internal/geom"
     },
     {
+      "id": "compile",
+      "name": "编译稿边界",
+      "path": "internal/compile"
+    },
+    {
       "id": "validate",
       "name": "准入与预算",
       "path": "internal/validate"
@@ -314,6 +319,28 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "compiled",
+      "name": "编译稿复用与冻结",
+      "entry": "POST /v1/plates/{id}/render → PUT /v1/plates/{id} → GET /v1/compile-stats",
+      "module_ids": [
+        "transport",
+        "service",
+        "compile",
+        "validate",
+        "geom",
+        "raster",
+        "vector",
+        "repository"
+      ],
+      "steps": [
+        "捕获稿本后编译一次并为两个格式共用固定展开结果",
+        "编辑源稿后复核旧稿成品字节不变"
+      ],
+      "success": "PNG与SVG共用同一编译稿，交错编辑与出图后旧成品摘要不变",
+      "failure": "非法稿本或超出计算名额拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow compiled"
     }
   ],
   "complexity": {

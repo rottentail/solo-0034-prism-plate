@@ -39,7 +39,11 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、compiled、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+
+## 编译稿边界
+
+`internal/compile` 定义源稿到编译稿的边界。捕获稿本后，几何只展开一次；PNG 与 SVG 读取同一份编译稿，各自保留坐标语义：PNG 在画布坐标采样并用形状逆变换取得局部坐标，SVG 输出展开轮廓并保留原仿射矩阵。编译稿是不可变值，键为稿件字节摘要与展开算法版本，因此编辑路径、渐变停止点或画布裁域都会产生新键，不会命中旧编译稿；进程内缓存有界且按最近使用淘汰，失败展开不缓存。缓存只由稿本摘要决定，调用方标签不参与选键。`GET /v1/compile-stats` 显示命中与驻留数量，用于复核两个格式确实共用展开结果；这些计数是进程诊断，不进入持久化、封包或成品。
 
 ## 持久化与范围
 

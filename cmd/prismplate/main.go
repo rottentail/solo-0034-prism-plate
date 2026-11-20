@@ -7,10 +7,10 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"prismplate/internal/compile"
 	"prismplate/internal/repository"
 	"prismplate/internal/service"
 	"prismplate/internal/transport"
-	"prismplate/internal/validate"
 	"syscall"
 	"time"
 )
@@ -30,10 +30,11 @@ func run() error {
 		return err
 	}
 	defer repo.Close()
-	// A checksum proves identity, not semantic validity. Recompile recovered scenes.
+	// A checksum proves identity, not semantic validity. Recompile every recovered
+	// scene through the same admission boundary the live paths use.
 	for _, p := range repo.View().Plates {
 		for _, r := range p.Revisions {
-			if _, err = validate.Compile(r.Document); err != nil {
+			if _, err = compile.CompileSource(compile.Source{Number: r.Number, Digest: r.Digest, Document: r.Document}); err != nil {
 				return err
 			}
 		}

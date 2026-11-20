@@ -40,6 +40,20 @@ type Artifact struct {
 	State       string `json:"state"`
 	Data        []byte `json:"data"`
 }
+
+// Clone returns a plate whose revision documents share no slices with p, so a
+// caller cannot mutate a stored document through an alias.
+func (p Plate) Clone() Plate {
+	out := Plate{ID: p.ID, Title: p.Title, State: p.State}
+	if p.Revisions != nil {
+		out.Revisions = make([]Revision, len(p.Revisions))
+		for i, r := range p.Revisions {
+			out.Revisions[i] = Revision{Number: r.Number, Digest: r.Digest, Document: r.Document.Clone(), Created: r.Created}
+		}
+	}
+	return out
+}
+
 type Proof struct {
 	ID       string `json:"id"`
 	Artifact string `json:"artifact"`
@@ -60,7 +74,7 @@ type Repo struct {
 }
 
 func Hash(b []byte) string              { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
-func SceneHash(d scene.Document) string { b, _ := json.Marshal(d); return Hash(b) }
+func SceneHash(d scene.Document) string { return d.Digest() }
 func Fresh() State {
 	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}}
 }
@@ -123,6 +137,24 @@ func Check(s State) error {
 }
 func clone(s State) State   { b, _ := json.Marshal(s); var d State; _ = json.Unmarshal(b, &d); return d }
 func (r *Repo) View() State { r.mu.RLock(); defer r.mu.RUnlock(); return clone(r.state) }
+
+// Revision returns a captured revision whose document is independent of the
+// stored snapshot: a caller may hold and read it while another writer appends,
+// and may not alias remaining revision history.
+func (r *Repo) Revision(id string, number int) (Revision, error) {
+	r.mu.RLock()
+	defer r.mu.RUnlock()
+	p, ok := r.state.Plates[id]
+	if !ok {
+		return Revision{}, ErrMissing
+	}
+	if number < 1 || number > len(p.Revisions) {
+		return Revision{}, ErrMissing
+	}
+	rev := p.Revisions[number-1]
+	rev.Document = rev.Document.Clone()
+	return rev, nil
+}
 
 // Update keeps failed persistence invisible. Rename is the commit point; directory
 // sync is best-effort because failure after rename cannot be represented as rollback.

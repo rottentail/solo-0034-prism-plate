@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"prismplate/internal/bundle"
+	"prismplate/internal/compile"
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
@@ -15,24 +16,40 @@ import (
 	"time"
 )
 
+// Draft cache limits. Drafts are shared across formats and repeated proofs of the
+// same revision; eviction never touches in-flight readers because every reader
+// holds an immutable value. The byte budget is below the 128MiB snapshot bound
+// so expanded contours cannot dominate process memory.
+const (
+	cacheCapacity  = 16
+	cacheByteLimit = 16 << 20
+)
+
 type Service struct {
 	Repo  *repository.Repo
 	Pool  *exposure.Pool
+	Draft *compile.Cache
 	slots chan struct{}
 }
 
 func New(r *repository.Repo) *Service {
-	return &Service{Repo: r, Pool: exposure.New(2, 8), slots: make(chan struct{}, 2)}
+	return &Service{Repo: r, Pool: exposure.New(2, 8), Draft: compile.NewCache(cacheCapacity, cacheByteLimit), slots: make(chan struct{}, 2)}
 }
 func (s *Service) Close() { s.Pool.Close() }
+
+// CompileStats reports bounded compiled-draft reuse for diagnostics. It is
+// process-scoped and never becomes part of persisted state or exported content.
+func (s *Service) CompileStats() compile.Stats { return s.Draft.Stats() }
 func (s *Service) Create(id, title string, d scene.Document) (repository.Plate, error) {
 	if !validate.ID(id) || len(title) == 0 || len(title) > 160 {
 		return repository.Plate{}, fmt.Errorf("invalid plate identity")
 	}
-	if _, err := validate.Compile(d); err != nil {
+	if _, err := compile.Compile(d); err != nil {
 		return repository.Plate{}, err
 	}
-	p := repository.Plate{ID: id, Title: title, State: "active", Revisions: []repository.Revision{{Number: 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()}}}
+	// The revision owns its document value. The caller keeps its own copy and may
+	// edit it freely; persistence takes another independent snapshot.
+	p := repository.Plate{ID: id, Title: title, State: "active", Revisions: []repository.Revision{{Number: 1, Digest: repository.SceneHash(d), Document: d.Clone(), Created: time.Now().UTC()}}}
 	err := s.Repo.Update(func(st *repository.State) error {
 		if _, ok := st.Plates[id]; ok {
 			return repository.ErrConflict
@@ -50,7 +67,7 @@ func (s *Service) Plate(id string) (repository.Plate, error) {
 	return p, nil
 }
 func (s *Service) Revise(id string, expected int, d scene.Document) (repository.Plate, error) {
-	if _, err := validate.Compile(d); err != nil {
+	if _, err := compile.Compile(d); err != nil {
 		return repository.Plate{}, err
 	}
 	var p repository.Plate
@@ -69,7 +86,7 @@ func (s *Service) Revise(id string, expected int, d scene.Document) (repository.
 		if len(p.Revisions) >= 64 {
 			return fmt.Errorf("revision capacity reached")
 		}
-		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()})
+		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.SceneHash(d), Document: d.Clone(), Created: time.Now().UTC()})
 		st.Plates[id] = p
 		return nil
 	})
@@ -96,15 +113,12 @@ func (s *Service) Branch(id string, revision int, target, title string) (reposit
 	}
 	return s.Create(target, title, p.Revisions[revision-1].Document)
 }
+
+// capture freezes one revision before rendering. The returned document is an
+// independent value, so a concurrent Revise appending a later revision cannot
+// change what this render will compile.
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
-	p, err := s.Plate(id)
-	if err != nil {
-		return repository.Revision{}, err
-	}
-	if revision < 1 || revision > len(p.Revisions) {
-		return repository.Revision{}, repository.ErrMissing
-	}
-	return p.Revisions[revision-1], nil
+	return s.Repo.Revision(id, revision)
 }
 func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
 	var a repository.Artifact
@@ -116,16 +130,20 @@ func (s *Service) render(ctx context.Context, id string, r repository.Revision, 
 	default:
 		return a, exposure.ErrBusy
 	}
-	c, err := validate.Compile(r.Document)
+	// The revision was captured before the compute slot was taken; editing the
+	// plate afterwards cannot change which document this draft is built from.
+	draft, err := compile.Resolve(s.Draft, compile.Source{Number: r.Number, Digest: r.Digest, Document: r.Document})
 	if err != nil {
 		return a, err
 	}
 	var data []byte
 	switch format {
 	case "png":
-		data, err = raster.Render(ctx, c)
+		// Raster reads the shared draft by value and samples canvas coordinates.
+		data, err = raster.Render(ctx, draft)
 	case "svg":
-		data = vector.Export(c)
+		// Vector reads the same expanded contours and keeps its own transform.
+		data = vector.Export(draft)
 	default:
 		return a, fmt.Errorf("format must be png or svg")
 	}
@@ -260,7 +278,7 @@ func (s *Service) Import(raw []byte) (repository.Plate, error) {
 		if _, ok := st.Plates[p.ID]; ok {
 			return repository.ErrConflict
 		}
-		st.Plates[p.ID] = p
+		st.Plates[p.ID] = p.Clone()
 		return nil
 	})
 	return p, e

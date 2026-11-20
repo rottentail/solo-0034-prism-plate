@@ -5,6 +5,7 @@
 | 方法与路径 | 输入及结果 |
 |---|---|
 | GET /healthz | ready |
+| GET /v1/compile-stats | 进程内编译稿缓存容量、驻留、命中与展开次数 |
 | POST /v1/plates | id,title,document →201版面 |
 | GET /v1/plates/{id} | 完整稿本历史 |
 | PUT /v1/plates/{id} | expected_revision,document →追加稿本 |

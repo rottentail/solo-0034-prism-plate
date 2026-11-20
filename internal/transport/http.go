@@ -63,6 +63,11 @@ func (a API) Handler() http.Handler {
 	mux.HandleFunc("GET /healthz", func(w http.ResponseWriter, r *http.Request) {
 		jsonOut(w, 200, map[string]string{"service": "prism-plate", "state": "ready"})
 	})
+	// Compiled-draft reuse is observable for operators and check harnesses. The
+	// counters are process-scoped diagnostics, not document or proof content.
+	mux.HandleFunc("GET /v1/compile-stats", func(w http.ResponseWriter, r *http.Request) {
+		jsonOut(w, 200, a.Service.CompileStats())
+	})
 	mux.HandleFunc("POST /v1/plates", func(w http.ResponseWriter, r *http.Request) {
 		var q struct {
 			ID       string         `json:"id"`

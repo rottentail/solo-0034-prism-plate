@@ -6,6 +6,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"prismplate/internal/compile"
 	"prismplate/internal/repository"
 	"prismplate/internal/validate"
 )
@@ -21,7 +22,7 @@ func Seal(p repository.Plate) ([]byte, error) {
 	if err != nil {
 		return nil, err
 	}
-	return json.Marshal(Envelope{Schema: "prism-plate-bundle-v1", Digest: repository.Hash(b), Plate: p})
+	return json.Marshal(Envelope{Schema: "prism-plate-bundle-v1", Digest: repository.Hash(b), Plate: p.Clone()})
 }
 func Open(raw []byte) (repository.Plate, error) {
 	var e Envelope
@@ -44,7 +45,7 @@ func Open(raw []byte) (repository.Plate, error) {
 		return e.Plate, fmt.Errorf("bundle digest mismatch")
 	}
 	s := repository.Fresh()
-	s.Plates[e.Plate.ID] = e.Plate
+	s.Plates[e.Plate.ID] = e.Plate.Clone()
 	if err = repository.Check(s); err != nil {
 		return e.Plate, err
 	}
@@ -52,9 +53,9 @@ func Open(raw []byte) (repository.Plate, error) {
 		return e.Plate, fmt.Errorf("invalid plate metadata")
 	}
 	for _, r := range e.Plate.Revisions {
-		if _, err = validate.Compile(r.Document); err != nil {
+		if _, err = compile.Compile(r.Document); err != nil {
 			return e.Plate, err
 		}
 	}
-	return e.Plate, nil
+	return e.Plate.Clone(), nil
 }
