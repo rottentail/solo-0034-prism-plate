@@ -1,0 +1,52 @@
+{
+  "multiply": {
+    "worst_delta": 7.43,
+    "worst_case": {
+      "backdrop": 62,
+      "source": 62,
+      "alpha": 1.0,
+      "linear": 7.645200509736419,
+      "srgb": 15.074509803921568
+    },
+    "share_within": {
+      "8": 1.0,
+      "16": 1.0,
+      "32": 1.0
+    },
+    "pairs": 65536
+  },
+  "screen": {
+    "worst_delta": 26.73,
+    "worst_case": {
+      "backdrop": 101,
+      "source": 101,
+      "alpha": 1.0,
+      "linear": 135.2703808294346,
+      "srgb": 161.99607843137252
+    },
+    "share_within": {
+      "8": 0.4142,
+      "16": 0.6932,
+      "32": 1.0
+    },
+    "pairs": 65536
+  },
+  "over": {
+    "worst_delta": 73.21,
+    "worst_case": {
+      "backdrop": 0,
+      "source": 255,
+      "alpha": 0.25,
+      "linear": 137,
+      "srgb": 64
+    },
+    "share_within": {
+      "8": 0.5195,
+      "16": 0.687,
+      "32": 0.861
+    },
+    "pairs": 65536
+  },
+  "threshold": 8,
+  "reading": "multiply 的固有差在整个色域内不超过阈值；screen 与半透明 over 的固有差明显超过阈值，只有颜色恰好接近时才可能通过，不能作为可依赖的性质。"
+}

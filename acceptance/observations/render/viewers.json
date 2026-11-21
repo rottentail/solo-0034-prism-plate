@@ -1,0 +1,110 @@
+{
+  "generated_at": "2026-11-21T05:15:03.474Z",
+  "node": "v22.23.4",
+  "backgrounds": {
+    "page": {
+      "white": "#ffffff",
+      "black": "#000000",
+      "green": "#00ff00"
+    },
+    "alpha": "omitBackground / transparent canvas"
+  },
+  "viewers": [
+    {
+      "name": "librsvg",
+      "version": "2.63.2 (sharp 8.18.7 / 1.18.6)",
+      "dir": "librsvg",
+      "ok": true,
+      "backgrounds": [
+        "white",
+        "black",
+        "green"
+      ],
+      "alpha": true
+    },
+    {
+      "name": "resvg",
+      "version": "2.6.2 (native ?)",
+      "dir": "resvg",
+      "ok": true,
+      "js": "2.6.2",
+      "backgrounds": [
+        "white",
+        "black",
+        "green"
+      ],
+      "alpha": true
+    },
+    {
+      "name": "cairosvg",
+      "version": "python cairosvg 2.9.1",
+      "dir": "cairosvg",
+      "ok": true,
+      "backgrounds": [
+        "white",
+        "black",
+        "green"
+      ],
+      "alpha": true
+    },
+    {
+      "name": "imagemagick",
+      "version": "Version: ImageMagick 6.9.11-60 Q16 aarch64 2021-01-25 https://imagemagick.org",
+      "dir": "imagemagick",
+      "ok": true,
+      "backgrounds": [
+        "white",
+        "black",
+        "green"
+      ],
+      "alpha": true
+    },
+    {
+      "name": "chromium",
+      "version": "playwright 1.55.0",
+      "dir": "chromium",
+      "ok": true,
+      "backgrounds": [
+        "white",
+        "black",
+        "green"
+      ],
+      "embed_modes": [
+        "inline",
+        "img",
+        "doc"
+      ],
+      "alpha": true,
+      "alpha_error": ""
+    },
+    {
+      "name": "firefox",
+      "version": "playwright 1.55.0",
+      "dir": "firefox",
+      "ok": true,
+      "backgrounds": [
+        "white",
+        "black",
+        "green"
+      ],
+      "embed_modes": [
+        "inline",
+        "img",
+        "doc"
+      ],
+      "alpha": false,
+      "alpha_error": "page.screenshot: Not implemented"
+    },
+    {
+      "name": "webkit",
+      "version": "playwright 1.55.0",
+      "dir": "webkit",
+      "ok": false,
+      "error": "browserType.launch: \n╔══════════════════════════════════════════════════════╗\n║ Host system is missing dependencies to run browsers. ║\n║ Missing libraries:                                   ║\n║     libGLESv2.so.2                                   ║\n║     libx264.so                                       ║\n╚══════════════════════════════════════════════════════╝",
+      "missing_libraries": [
+        "libGLESv2.so.2",
+        "libx264.so"
+      ]
+    }
+  ]
+}

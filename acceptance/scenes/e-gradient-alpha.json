@@ -1,0 +1,113 @@
+{
+  "id": "e-gradient-alpha",
+  "title": "透明渐变插值：预乘透明度",
+  "document": {
+    "width": 64,
+    "height": 64,
+    "background": {
+      "r": 0.0,
+      "g": 0.0,
+      "b": 0.0,
+      "a": 0.0
+    },
+    "layers": [
+      {
+        "id": "grad",
+        "opacity": 1.0,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "alpha-band",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 60,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 60,
+                    "y": 60
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 60
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "linear",
+              "from": {
+                "x": 4,
+                "y": 32
+              },
+              "to": {
+                "x": 60,
+                "y": 32
+              },
+              "color": {
+                "r": 0,
+                "g": 0,
+                "b": 0,
+                "a": 0
+              },
+              "stops": [
+                {
+                  "at": 0.0,
+                  "color": {
+                    "r": 1,
+                    "g": 0,
+                    "b": 1,
+                    "a": 1
+                  }
+                },
+                {
+                  "at": 1.0,
+                  "color": {
+                    "r": 0,
+                    "g": 1,
+                    "b": 0,
+                    "a": 0
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

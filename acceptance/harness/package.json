@@ -1,0 +1,14 @@
+{
+  "name": "prism-plate-acceptance-harness",
+  "private": true,
+  "scripts": {
+    "run": "./run.sh"
+  },
+  "type": "module",
+  "description": "Viewer comparison harness for Prism Plate SVG acceptance. Not part of the Go service.",
+  "dependencies": {
+    "@resvg/resvg-js": "2.6.2",
+    "playwright": "1.55.0",
+    "sharp": "0.35.5"
+  }
+}

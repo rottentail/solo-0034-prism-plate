@@ -1,0 +1,59 @@
+{
+  "generated_at": "2026-11-21T05:15:03.499Z",
+  "browsers": {
+    "chromium": {
+      "available": true
+    },
+    "firefox": {
+      "available": true
+    }
+  },
+  "files": {
+    "chromium": {
+      "gradient": {
+        "shipped": "acceptance/observations/format_experiment/chromium.gradient.shipped.png",
+        "root_sRGB": "acceptance/observations/format_experiment/chromium.gradient.root_sRGB.png",
+        "root_removed": "acceptance/observations/format_experiment/chromium.gradient.root_removed.png",
+        "gradient_linear": "acceptance/observations/format_experiment/chromium.gradient.gradient_linear.png",
+        "gradient_sRGB": "acceptance/observations/format_experiment/chromium.gradient.gradient_sRGB.png"
+      },
+      "multiply": {
+        "shipped": "acceptance/observations/format_experiment/chromium.multiply.shipped.png",
+        "root_sRGB": "acceptance/observations/format_experiment/chromium.multiply.root_sRGB.png",
+        "root_removed": "acceptance/observations/format_experiment/chromium.multiply.root_removed.png",
+        "gradient_linear": "acceptance/observations/format_experiment/chromium.multiply.gradient_linear.png",
+        "gradient_sRGB": "acceptance/observations/format_experiment/chromium.multiply.gradient_sRGB.png"
+      },
+      "screen": {
+        "shipped": "acceptance/observations/format_experiment/chromium.screen.shipped.png",
+        "root_sRGB": "acceptance/observations/format_experiment/chromium.screen.root_sRGB.png",
+        "root_removed": "acceptance/observations/format_experiment/chromium.screen.root_removed.png",
+        "gradient_linear": "acceptance/observations/format_experiment/chromium.screen.gradient_linear.png",
+        "gradient_sRGB": "acceptance/observations/format_experiment/chromium.screen.gradient_sRGB.png"
+      }
+    },
+    "firefox": {
+      "gradient": {
+        "shipped": "acceptance/observations/format_experiment/firefox.gradient.shipped.png",
+        "root_sRGB": "acceptance/observations/format_experiment/firefox.gradient.root_sRGB.png",
+        "root_removed": "acceptance/observations/format_experiment/firefox.gradient.root_removed.png",
+        "gradient_linear": "acceptance/observations/format_experiment/firefox.gradient.gradient_linear.png",
+        "gradient_sRGB": "acceptance/observations/format_experiment/firefox.gradient.gradient_sRGB.png"
+      },
+      "multiply": {
+        "shipped": "acceptance/observations/format_experiment/firefox.multiply.shipped.png",
+        "root_sRGB": "acceptance/observations/format_experiment/firefox.multiply.root_sRGB.png",
+        "root_removed": "acceptance/observations/format_experiment/firefox.multiply.root_removed.png",
+        "gradient_linear": "acceptance/observations/format_experiment/firefox.multiply.gradient_linear.png",
+        "gradient_sRGB": "acceptance/observations/format_experiment/firefox.multiply.gradient_sRGB.png"
+      },
+      "screen": {
+        "shipped": "acceptance/observations/format_experiment/firefox.screen.shipped.png",
+        "root_sRGB": "acceptance/observations/format_experiment/firefox.screen.root_sRGB.png",
+        "root_removed": "acceptance/observations/format_experiment/firefox.screen.root_removed.png",
+        "gradient_linear": "acceptance/observations/format_experiment/firefox.screen.gradient_linear.png",
+        "gradient_sRGB": "acceptance/observations/format_experiment/firefox.screen.gradient_sRGB.png"
+      }
+    }
+  }
+}

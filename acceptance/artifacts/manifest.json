@@ -1,0 +1,226 @@
+{
+  "service": {
+    "url": "http://127.0.0.1:44917",
+    "go": "go version go1.25.1 linux/arm64",
+    "data_root": "/tmp/prism-accept-3nl4dvv0"
+  },
+  "scenes": {
+    "a-solid-control": {
+      "title": "对照：实色与仿射变换",
+      "scene_file": "acceptance/scenes/a-solid-control.json",
+      "plate_id": "a-solid-control",
+      "revision": 1,
+      "scene_digest": "f8bdc49d4645d1273226435f4485cedf6c4dc07b775e198046c449d2f158e1e7",
+      "renders": {
+        "png": {
+          "artifact_id": "42ba6b156759b6cd540328e5d160a79b2b8bf22ad7993e5ed0c266cbbe5dc0b7",
+          "digest": "1ebe3bb00c3a49df4953eb344111db9a4294e1bf2e4eac94f0dfa9681e543da6",
+          "file": "acceptance/artifacts/a-solid-control.png",
+          "bytes": 646,
+          "etag": "\"1ebe3bb00c3a49df4953eb344111db9a4294e1bf2e4eac94f0dfa9681e543da6\"",
+          "x_scene_digest": "f8bdc49d4645d1273226435f4485cedf6c4dc07b775e198046c449d2f158e1e7",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "aad8a6ad5af64833eba716e0c05c9d2819cdfb0fa67402dc48440234f644754b",
+          "digest": "b42030e02c9779b324053bda18fc975a1540d8a6b139056eec1679691bc1fc13",
+          "file": "acceptance/artifacts/a-solid-control.svg",
+          "bytes": 598,
+          "etag": "\"b42030e02c9779b324053bda18fc975a1540d8a6b139056eec1679691bc1fc13\"",
+          "x_scene_digest": "f8bdc49d4645d1273226435f4485cedf6c4dc07b775e198046c449d2f158e1e7",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    },
+    "b-backdrop-blend": {
+      "title": "背景参与：multiply/screen 对文档底色与已合成图层",
+      "scene_file": "acceptance/scenes/b-backdrop-blend.json",
+      "plate_id": "b-backdrop-blend",
+      "revision": 1,
+      "scene_digest": "08cdacbe0e2e1fea6b2bc34a5c634f4d339b381f9ac84b2d75e748ae615e9659",
+      "renders": {
+        "png": {
+          "artifact_id": "b523fe65a16e6fc90c31da2aaa353092b143a442e3590c760dc0cc483534b199",
+          "digest": "7669dcd2f06736966b34a5ab2360ab76224c8be2c5c5d028f2789a6749a7d41b",
+          "file": "acceptance/artifacts/b-backdrop-blend.png",
+          "bytes": 249,
+          "etag": "\"7669dcd2f06736966b34a5ab2360ab76224c8be2c5c5d028f2789a6749a7d41b\"",
+          "x_scene_digest": "08cdacbe0e2e1fea6b2bc34a5c634f4d339b381f9ac84b2d75e748ae615e9659",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "087548ee22656c82534e97431a27ebc67bc351938e5284407215110928536df0",
+          "digest": "236097f95de9d9c295a7af59ba53ca05436f37fc0d4a19c57a193030a6c960e4",
+          "file": "acceptance/artifacts/b-backdrop-blend.svg",
+          "bytes": 815,
+          "etag": "\"236097f95de9d9c295a7af59ba53ca05436f37fc0d4a19c57a193030a6c960e4\"",
+          "x_scene_digest": "08cdacbe0e2e1fea6b2bc34a5c634f4d339b381f9ac84b2d75e748ae615e9659",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    },
+    "c-group-isolation": {
+      "title": "组隔离与组透明度：重叠区只能混合一次",
+      "scene_file": "acceptance/scenes/c-group-isolation.json",
+      "plate_id": "c-group-isolation",
+      "revision": 1,
+      "scene_digest": "928e103f5eace4f75bbabf574342a64990c00b070274fe8dad01b937d8d273b2",
+      "renders": {
+        "png": {
+          "artifact_id": "051d3ab15a729797fbb2fb18c89dd5726ba79e8808c9346c77ca2ecc0a9fabe8",
+          "digest": "84b2af40ddc81005f15bf10c36d34996abc657b126b95f644e7ae7db4774ff5d",
+          "file": "acceptance/artifacts/c-group-isolation.png",
+          "bytes": 374,
+          "etag": "\"84b2af40ddc81005f15bf10c36d34996abc657b126b95f644e7ae7db4774ff5d\"",
+          "x_scene_digest": "928e103f5eace4f75bbabf574342a64990c00b070274fe8dad01b937d8d273b2",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "d744a48aee394997f47da9183117c22db672ea0a85ae8f089b3475ae5c291c20",
+          "digest": "0d544e7eb2a01d2ea0693c20490e931f205063e185d10b70677d4622b479189b",
+          "file": "acceptance/artifacts/c-group-isolation.svg",
+          "bytes": 1417,
+          "etag": "\"0d544e7eb2a01d2ea0693c20490e931f205063e185d10b70677d4622b479189b\"",
+          "x_scene_digest": "928e103f5eace4f75bbabf574342a64990c00b070274fe8dad01b937d8d273b2",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    },
+    "d-gradient-opaque": {
+      "title": "不透明渐变插值：线性光 vs sRGB",
+      "scene_file": "acceptance/scenes/d-gradient-opaque.json",
+      "plate_id": "d-gradient-opaque",
+      "revision": 1,
+      "scene_digest": "2f6efb5bfa5067941d3b54aff2957e196855332a87a669e3eee8a5c06105a0f4",
+      "renders": {
+        "png": {
+          "artifact_id": "c66ad540c7c637cbf952c58905f56884f6cb27249792a86829931cd19153d622",
+          "digest": "19fe2e9677bfebc77992d0f6f13376da444c1d356a973cbce61518d721acb897",
+          "file": "acceptance/artifacts/d-gradient-opaque.png",
+          "bytes": 298,
+          "etag": "\"19fe2e9677bfebc77992d0f6f13376da444c1d356a973cbce61518d721acb897\"",
+          "x_scene_digest": "2f6efb5bfa5067941d3b54aff2957e196855332a87a669e3eee8a5c06105a0f4",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "207d81094532f42df2da07f9ecea064978947bb5497c80e95a1a1891c5c52691",
+          "digest": "d94f0e15138dfdf823da6948c18c1e2b797602ea0d328d8b14ed754c27246f23",
+          "file": "acceptance/artifacts/d-gradient-opaque.svg",
+          "bytes": 699,
+          "etag": "\"d94f0e15138dfdf823da6948c18c1e2b797602ea0d328d8b14ed754c27246f23\"",
+          "x_scene_digest": "2f6efb5bfa5067941d3b54aff2957e196855332a87a669e3eee8a5c06105a0f4",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    },
+    "e-gradient-alpha": {
+      "title": "透明渐变插值：预乘透明度",
+      "scene_file": "acceptance/scenes/e-gradient-alpha.json",
+      "plate_id": "e-gradient-alpha",
+      "revision": 1,
+      "scene_digest": "e5b0025db559d1411458b37293679b7b6ce78ee30196fe50253fd9c23a6460d3",
+      "renders": {
+        "png": {
+          "artifact_id": "989e378bf71c34a97ed5e535698d89b67848cff5a878cbf7448c5c877f5e083e",
+          "digest": "910a740f7caf67ba3c1c586c024358b1387053bb8fe9d68e22b5ff62de5ad7a7",
+          "file": "acceptance/artifacts/e-gradient-alpha.png",
+          "bytes": 240,
+          "etag": "\"910a740f7caf67ba3c1c586c024358b1387053bb8fe9d68e22b5ff62de5ad7a7\"",
+          "x_scene_digest": "e5b0025db559d1411458b37293679b7b6ce78ee30196fe50253fd9c23a6460d3",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "8c9822fe037783e84df5f06f5f2e4ec39f51b50ec080fd00f0973492879fd7cd",
+          "digest": "ec1c1018592b4a3264b98d45b2301a2f6c106fced3825fb8a575f005c44aeb17",
+          "file": "acceptance/artifacts/e-gradient-alpha.svg",
+          "bytes": 635,
+          "etag": "\"ec1c1018592b4a3264b98d45b2301a2f6c106fced3825fb8a575f005c44aeb17\"",
+          "x_scene_digest": "e5b0025db559d1411458b37293679b7b6ce78ee30196fe50253fd9c23a6460d3",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    },
+    "f-transparent-backdrop": {
+      "title": "透明文档底：混合是否穿透到查看器底色",
+      "scene_file": "acceptance/scenes/f-transparent-backdrop.json",
+      "plate_id": "f-transparent-backdrop",
+      "revision": 1,
+      "scene_digest": "52721948c5a1d98b1eb5977fdb6d8ad30a47c60e987ec3782951f9b305fd0a6f",
+      "renders": {
+        "png": {
+          "artifact_id": "e2dbcaf74a42872da9fa423fdde1d31d1fc9405860bc6c46872c9b69200d24c1",
+          "digest": "06250bfc1b74db11abccb002b29090cd532c2ad5fda25f9bb4e86e635c8c58c8",
+          "file": "acceptance/artifacts/f-transparent-backdrop.png",
+          "bytes": 284,
+          "etag": "\"06250bfc1b74db11abccb002b29090cd532c2ad5fda25f9bb4e86e635c8c58c8\"",
+          "x_scene_digest": "52721948c5a1d98b1eb5977fdb6d8ad30a47c60e987ec3782951f9b305fd0a6f",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "4af05e3c2a9eac80e311f1686817d559b4d34d1dbf10651d05e6cbbfade0cde0",
+          "digest": "080c6c6e13ab0aee1962de538738906d4fcfd174fec4f423289974e6bc32ded7",
+          "file": "acceptance/artifacts/f-transparent-backdrop.svg",
+          "bytes": 812,
+          "etag": "\"080c6c6e13ab0aee1962de538738906d4fcfd174fec4f423289974e6bc32ded7\"",
+          "x_scene_digest": "52721948c5a1d98b1eb5977fdb6d8ad30a47c60e987ec3782951f9b305fd0a6f",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    },
+    "g-knockout-edge": {
+      "title": "镂空边缘：evenodd、二值裁域与二值蒙版",
+      "scene_file": "acceptance/scenes/g-knockout-edge.json",
+      "plate_id": "g-knockout-edge",
+      "revision": 1,
+      "scene_digest": "cffc3b224c4e6fba29c0552317775308a9dc8f609b48181210f3b4c52dbd138b",
+      "renders": {
+        "png": {
+          "artifact_id": "8e1e7294d58849baabb80b9e7c916da7cc0f58b382b9dd27c143fb3ba48ca3ce",
+          "digest": "b86fb786cc3ea32e26f7ae50494c34f6d164b9a46ac4f69edbb722979fb702e3",
+          "file": "acceptance/artifacts/g-knockout-edge.png",
+          "bytes": 1138,
+          "etag": "\"b86fb786cc3ea32e26f7ae50494c34f6d164b9a46ac4f69edbb722979fb702e3\"",
+          "x_scene_digest": "cffc3b224c4e6fba29c0552317775308a9dc8f609b48181210f3b4c52dbd138b",
+          "content_type": "image/png",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        },
+        "svg": {
+          "artifact_id": "c3bdacd87cd5399b55e9f90d9dc2b52e69b7a1451468e8966fccd489135e2122",
+          "digest": "c1dc1ce25b7ae6166f905f3141118641a47e2a80720fcc53c0d718e8359f4a7f",
+          "file": "acceptance/artifacts/g-knockout-edge.svg",
+          "bytes": 1131,
+          "etag": "\"c1dc1ce25b7ae6166f905f3141118641a47e2a80720fcc53c0d718e8359f4a7f\"",
+          "x_scene_digest": "cffc3b224c4e6fba29c0552317775308a9dc8f609b48181210f3b4c52dbd138b",
+          "content_type": "image/svg+xml",
+          "content_security_policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+          "repeat_digest_equal": true
+        }
+      }
+    }
+  }
+}

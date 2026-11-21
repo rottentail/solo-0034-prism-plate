@@ -1,0 +1,422 @@
+{
+  "id": "g-knockout-edge",
+  "title": "镂空边缘：evenodd、二值裁域与二值蒙版",
+  "document": {
+    "width": 96,
+    "height": 64,
+    "background": {
+      "r": 0.85,
+      "g": 0.85,
+      "b": 0.85,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "shape-ring",
+        "opacity": 1.0,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "ring-fill",
+            "fill_rule": "evenodd",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 16,
+                    "y": 14
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 30,
+                    "y": 32
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 16,
+                    "y": 50
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 2,
+                    "y": 32
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              },
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 16,
+                    "y": 24
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 22,
+                    "y": 32
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 16,
+                    "y": 40
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 10,
+                    "y": 32
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.85,
+                "g": 0.2,
+                "b": 0.15,
+                "a": 1
+              }
+            }
+          }
+        ]
+      },
+      {
+        "id": "clip-ring",
+        "opacity": 1.0,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "clip-fill",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 36,
+                    "y": 14
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 60,
+                    "y": 14
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 60,
+                    "y": 50
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 36,
+                    "y": 50
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.2,
+                "g": 0.7,
+                "b": 0.3,
+                "a": 1
+              }
+            }
+          }
+        ],
+        "clip": [
+          {
+            "kind": "M",
+            "points": [
+              {
+                "x": 36,
+                "y": 14
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 60,
+                "y": 14
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 60,
+                "y": 50
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 36,
+                "y": 50
+              }
+            ]
+          },
+          {
+            "kind": "Z"
+          },
+          {
+            "kind": "M",
+            "points": [
+              {
+                "x": 41,
+                "y": 32
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 48,
+                "y": 41
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 55,
+                "y": 32
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 48,
+                "y": 23
+              }
+            ]
+          },
+          {
+            "kind": "Z"
+          }
+        ]
+      },
+      {
+        "id": "mask-ring",
+        "opacity": 1.0,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "mask-fill",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 80,
+                    "y": 14
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 94,
+                    "y": 32
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 80,
+                    "y": 50
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 66,
+                    "y": 32
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.7,
+                "g": 0.3,
+                "b": 0.8,
+                "a": 1
+              }
+            }
+          }
+        ],
+        "mask": [
+          {
+            "kind": "M",
+            "points": [
+              {
+                "x": 80,
+                "y": 14
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 94,
+                "y": 32
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 80,
+                "y": 50
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 66,
+                "y": 32
+              }
+            ]
+          },
+          {
+            "kind": "Z"
+          },
+          {
+            "kind": "M",
+            "points": [
+              {
+                "x": 76,
+                "y": 36
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 84,
+                "y": 36
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 84,
+                "y": 28
+              }
+            ]
+          },
+          {
+            "kind": "L",
+            "points": [
+              {
+                "x": 76,
+                "y": 28
+              }
+            ]
+          },
+          {
+            "kind": "Z"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,685 @@
+{
+  "model": "linear-light, premultiplied, 2x2 coverage, layer-flattened groups",
+  "scenes": {
+    "a-solid-control": {
+      "probes": {
+        "bg": {
+          "model": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "png": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "delta": 0,
+          "question": "文档底色"
+        },
+        "blue": {
+          "model": [
+            51,
+            102,
+            204,
+            255
+          ],
+          "png": [
+            51,
+            102,
+            204,
+            255
+          ],
+          "delta": 0,
+          "question": "实色填充"
+        },
+        "red-tilt": {
+          "model": [
+            230,
+            51,
+            26,
+            255
+          ],
+          "png": [
+            230,
+            51,
+            26,
+            255
+          ],
+          "delta": 0,
+          "question": "旋转后的实色填充"
+        },
+        "bg-right": {
+          "model": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "png": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "delta": 0,
+          "question": "两个形状之外的底色"
+        }
+      },
+      "max_delta": 0
+    },
+    "b-backdrop-blend": {
+      "probes": {
+        "bg": {
+          "model": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "png": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "delta": 0,
+          "question": "文档底色"
+        },
+        "base-only": {
+          "model": [
+            178,
+            140,
+            76,
+            255
+          ],
+          "png": [
+            179,
+            140,
+            76,
+            255
+          ],
+          "delta": 1,
+          "question": "只有 normal 图层"
+        },
+        "base-mul-overlap": {
+          "model": [
+            143,
+            112,
+            61,
+            255
+          ],
+          "png": [
+            142,
+            111,
+            59,
+            255
+          ],
+          "delta": 2,
+          "question": "multiply 对上已合成的 normal 图层"
+        },
+        "mul-over-bg": {
+          "model": [
+            102,
+            102,
+            102,
+            255
+          ],
+          "png": [
+            101,
+            101,
+            101,
+            255
+          ],
+          "delta": 1,
+          "question": "multiply 直接对文档底色"
+        },
+        "screen-over-bg": {
+          "model": [
+            153,
+            172,
+            204,
+            255
+          ],
+          "png": [
+            134,
+            147,
+            181,
+            255
+          ],
+          "delta": 25,
+          "question": "screen 直接对文档底色"
+        }
+      },
+      "max_delta": 25
+    },
+    "c-group-isolation": {
+      "probes": {
+        "base": {
+          "model": [
+            102,
+            128,
+            153,
+            255
+          ],
+          "png": [
+            102,
+            128,
+            153,
+            255
+          ],
+          "delta": 0,
+          "question": "两个测试图层之间的底色"
+        },
+        "mul-overlap": {
+          "model": [
+            83,
+            104,
+            125,
+            255
+          ],
+          "png": [
+            83,
+            104,
+            126,
+            255
+          ],
+          "delta": 1,
+          "question": "两个 multiply 形状重叠处：组内混合一次，再对底混合一次"
+        },
+        "mul-a-only": {
+          "model": [
+            78,
+            97,
+            116,
+            255
+          ],
+          "png": [
+            79,
+            100,
+            120,
+            255
+          ],
+          "delta": 4,
+          "question": "靠下的 multiply 形状单独存在"
+        },
+        "mul-b-only": {
+          "model": [
+            93,
+            116,
+            139,
+            255
+          ],
+          "png": [
+            93,
+            116,
+            139,
+            255
+          ],
+          "delta": 0,
+          "question": "靠上的 multiply 形状单独存在"
+        },
+        "same-overlap": {
+          "model": [
+            166,
+            102,
+            102,
+            255
+          ],
+          "png": [
+            181,
+            106,
+            116,
+            255
+          ],
+          "delta": 15,
+          "question": "两个同色不透明形状重叠、组不透明度 0.5：必须等于单形状区"
+        },
+        "same-c-only": {
+          "model": [
+            166,
+            102,
+            102,
+            255
+          ],
+          "png": [
+            181,
+            106,
+            116,
+            255
+          ],
+          "delta": 15,
+          "question": "同色组中靠下的形状单独存在"
+        },
+        "same-d-only": {
+          "model": [
+            166,
+            102,
+            102,
+            255
+          ],
+          "png": [
+            181,
+            106,
+            116,
+            255
+          ],
+          "delta": 15,
+          "question": "同色组中靠上的形状单独存在"
+        },
+        "op-overlap": {
+          "model": [
+            105,
+            128,
+            159,
+            255
+          ],
+          "png": [
+            121,
+            130,
+            170,
+            255
+          ],
+          "delta": 16,
+          "question": "两个半透明形状重叠、组不透明度 0.5"
+        },
+        "op-c-only": {
+          "model": [
+            134,
+            115,
+            127,
+            255
+          ],
+          "png": [
+            148,
+            117,
+            136,
+            255
+          ],
+          "delta": 14,
+          "question": "半透明组中靠下的形状单独存在"
+        },
+        "op-d-only": {
+          "model": [
+            89,
+            134,
+            172,
+            255
+          ],
+          "png": [
+            92,
+            134,
+            176,
+            255
+          ],
+          "delta": 4,
+          "question": "半透明组中靠上的形状单独存在"
+        }
+      },
+      "max_delta": 16
+    },
+    "d-gradient-opaque": {
+      "probes": {
+        "t0": {
+          "model": [
+            250,
+            5,
+            0,
+            255
+          ],
+          "png": [
+            253,
+            36,
+            0,
+            255
+          ],
+          "delta": 31,
+          "question": "首个色标，红"
+        },
+        "t025": {
+          "model": [
+            123,
+            132,
+            0,
+            255
+          ],
+          "png": [
+            184,
+            190,
+            0,
+            255
+          ],
+          "delta": 61,
+          "question": "线性光中点约 188；sRGB 中点约 128"
+        },
+        "t05": {
+          "model": [
+            0,
+            250,
+            5,
+            255
+          ],
+          "png": [
+            0,
+            253,
+            36,
+            255
+          ],
+          "delta": 31,
+          "question": "中间色标，绿"
+        },
+        "t075": {
+          "model": [
+            0,
+            123,
+            132,
+            255
+          ],
+          "png": [
+            0,
+            184,
+            190,
+            255
+          ],
+          "delta": 61,
+          "question": "线性光绿/蓝中点约 188；sRGB 中点约 128"
+        },
+        "t1": {
+          "model": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "png": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "delta": 0,
+          "question": "末个色标，蓝"
+        }
+      },
+      "max_delta": 61
+    },
+    "e-gradient-alpha": {
+      "probes": {
+        "t0": {
+          "model": [
+            255,
+            0,
+            255,
+            253
+          ],
+          "png": [
+            255,
+            0,
+            255,
+            253
+          ],
+          "delta": 0,
+          "question": "不透明洋红"
+        },
+        "t025": {
+          "model": [
+            255,
+            0,
+            255,
+            189
+          ],
+          "png": [
+            255,
+            0,
+            255,
+            189
+          ],
+          "delta": 0,
+          "question": "预乘：洋红，alpha 约 0.75"
+        },
+        "t05": {
+          "model": [
+            255,
+            0,
+            255,
+            125
+          ],
+          "png": [
+            255,
+            0,
+            255,
+            125
+          ],
+          "delta": 0,
+          "question": "预乘：洋红 alpha 0.5；独立插值会变灰绿"
+        },
+        "t075": {
+          "model": [
+            255,
+            0,
+            255,
+            61
+          ],
+          "png": [
+            255,
+            0,
+            255,
+            61
+          ],
+          "delta": 0,
+          "question": "预乘：洋红 alpha 约 0.25"
+        },
+        "t1": {
+          "model": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "png": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "delta": 0,
+          "question": "透明端点"
+        }
+      },
+      "max_delta": 0
+    },
+    "f-transparent-backdrop": {
+      "probes": {
+        "base": {
+          "model": [
+            230,
+            153,
+            51,
+            255
+          ],
+          "png": [
+            230,
+            153,
+            51,
+            255
+          ],
+          "delta": 0,
+          "question": "不透明 normal 图层"
+        },
+        "base-mul": {
+          "model": [
+            115,
+            76,
+            26,
+            255
+          ],
+          "png": [
+            114,
+            74,
+            20,
+            255
+          ],
+          "delta": 6,
+          "question": "multiply 对上不透明图层"
+        },
+        "mul-over-transparent": {
+          "model": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "png": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "delta": 0,
+          "question": "multiply 对透明底，应等于源色"
+        },
+        "screen-over-transparent": {
+          "model": [
+            102,
+            51,
+            204,
+            255
+          ],
+          "png": [
+            102,
+            51,
+            204,
+            255
+          ],
+          "delta": 0,
+          "question": "screen 对透明底，应等于源色"
+        },
+        "transparent-bg": {
+          "model": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "png": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "delta": 0,
+          "question": "文档底色全透明"
+        }
+      },
+      "max_delta": 6
+    },
+    "g-knockout-edge": {
+      "probes": {
+        "fill-hole": {
+          "model": [
+            217,
+            217,
+            217,
+            255
+          ],
+          "png": [
+            217,
+            217,
+            217,
+            255
+          ],
+          "delta": 0,
+          "question": "evenodd 孔洞内部"
+        },
+        "clip-hole": {
+          "model": [
+            217,
+            217,
+            217,
+            255
+          ],
+          "png": [
+            217,
+            217,
+            217,
+            255
+          ],
+          "delta": 0,
+          "question": "裁域孔洞内部"
+        },
+        "mask-hole": {
+          "model": [
+            217,
+            217,
+            217,
+            255
+          ],
+          "png": [
+            217,
+            217,
+            217,
+            255
+          ],
+          "delta": 0,
+          "question": "蒙版孔洞内部"
+        },
+        "fill-body": {
+          "model": [
+            217,
+            51,
+            38,
+            255
+          ],
+          "png": [
+            217,
+            51,
+            38,
+            255
+          ],
+          "delta": 0,
+          "question": "evenodd 环体，与覆盖率无关"
+        },
+        "clip-body": {
+          "model": [
+            51,
+            178,
+            76,
+            255
+          ],
+          "png": [
+            51,
+            179,
+            76,
+            255
+          ],
+          "delta": 1,
+          "question": "裁域环体，与覆盖率无关"
+        },
+        "mask-body": {
+          "model": [
+            178,
+            76,
+            204,
+            255
+          ],
+          "png": [
+            179,
+            76,
+            204,
+            255
+          ],
+          "delta": 1,
+          "question": "蒙版环体，与覆盖率无关"
+        }
+      },
+      "max_delta": 1
+    }
+  },
+  "max_delta_all": 61,
+  "space": "srgb",
+  "tolerance": 2,
+  "verdict": "CONTROL: sRGB-canvas model differs by 61, as expected",
+  "role": "format-gap control (expected to differ)"
+}

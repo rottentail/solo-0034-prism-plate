@@ -1,0 +1,283 @@
+{
+  "probes": {
+    "a-solid-control": [
+      {
+        "name": "bg",
+        "x": 4,
+        "y": 4,
+        "question": "文档底色"
+      },
+      {
+        "name": "blue",
+        "x": 20,
+        "y": 32,
+        "question": "实色填充"
+      },
+      {
+        "name": "red-tilt",
+        "x": 46,
+        "y": 32,
+        "question": "旋转后的实色填充"
+      },
+      {
+        "name": "bg-right",
+        "x": 60,
+        "y": 60,
+        "question": "两个形状之外的底色"
+      }
+    ],
+    "b-backdrop-blend": [
+      {
+        "name": "bg",
+        "x": 2,
+        "y": 2,
+        "question": "文档底色"
+      },
+      {
+        "name": "base-only",
+        "x": 32,
+        "y": 10,
+        "question": "只有 normal 图层"
+      },
+      {
+        "name": "base-mul-overlap",
+        "x": 32,
+        "y": 22,
+        "question": "multiply 对上已合成的 normal 图层"
+      },
+      {
+        "name": "mul-over-bg",
+        "x": 32,
+        "y": 38,
+        "question": "multiply 直接对文档底色"
+      },
+      {
+        "name": "screen-over-bg",
+        "x": 32,
+        "y": 55,
+        "question": "screen 直接对文档底色"
+      }
+    ],
+    "c-group-isolation": [
+      {
+        "name": "base",
+        "x": 32,
+        "y": 35,
+        "question": "两个测试图层之间的底色"
+      },
+      {
+        "name": "mul-overlap",
+        "x": 32,
+        "y": 18,
+        "question": "两个 multiply 形状重叠处：组内混合一次，再对底混合一次"
+      },
+      {
+        "name": "mul-a-only",
+        "x": 10,
+        "y": 8,
+        "question": "靠下的 multiply 形状单独存在"
+      },
+      {
+        "name": "mul-b-only",
+        "x": 52,
+        "y": 28,
+        "question": "靠上的 multiply 形状单独存在"
+      },
+      {
+        "name": "same-overlap",
+        "x": 32,
+        "y": 52,
+        "question": "两个同色不透明形状重叠、组不透明度 0.5：必须等于单形状区"
+      },
+      {
+        "name": "same-c-only",
+        "x": 10,
+        "y": 42,
+        "question": "同色组中靠下的形状单独存在"
+      },
+      {
+        "name": "same-d-only",
+        "x": 52,
+        "y": 64,
+        "question": "同色组中靠上的形状单独存在"
+      },
+      {
+        "name": "op-overlap",
+        "x": 32,
+        "y": 85,
+        "question": "两个半透明形状重叠、组不透明度 0.5"
+      },
+      {
+        "name": "op-c-only",
+        "x": 10,
+        "y": 76,
+        "question": "半透明组中靠下的形状单独存在"
+      },
+      {
+        "name": "op-d-only",
+        "x": 52,
+        "y": 90,
+        "question": "半透明组中靠上的形状单独存在"
+      }
+    ],
+    "d-gradient-opaque": [
+      {
+        "name": "t0",
+        "x": 4,
+        "y": 32,
+        "question": "首个色标，红"
+      },
+      {
+        "name": "t025",
+        "x": 18,
+        "y": 32,
+        "question": "线性光中点约 188；sRGB 中点约 128"
+      },
+      {
+        "name": "t05",
+        "x": 32,
+        "y": 32,
+        "question": "中间色标，绿"
+      },
+      {
+        "name": "t075",
+        "x": 46,
+        "y": 32,
+        "question": "线性光绿/蓝中点约 188；sRGB 中点约 128"
+      },
+      {
+        "name": "t1",
+        "x": 60,
+        "y": 32,
+        "question": "末个色标，蓝"
+      }
+    ],
+    "e-gradient-alpha": [
+      {
+        "name": "t0",
+        "x": 4,
+        "y": 32,
+        "question": "不透明洋红"
+      },
+      {
+        "name": "t025",
+        "x": 18,
+        "y": 32,
+        "question": "预乘：洋红，alpha 约 0.75"
+      },
+      {
+        "name": "t05",
+        "x": 32,
+        "y": 32,
+        "question": "预乘：洋红 alpha 0.5；独立插值会变灰绿"
+      },
+      {
+        "name": "t075",
+        "x": 46,
+        "y": 32,
+        "question": "预乘：洋红 alpha 约 0.25"
+      },
+      {
+        "name": "t1",
+        "x": 60,
+        "y": 32,
+        "question": "透明端点"
+      }
+    ],
+    "f-transparent-backdrop": [
+      {
+        "name": "base",
+        "x": 32,
+        "y": 10,
+        "question": "不透明 normal 图层"
+      },
+      {
+        "name": "base-mul",
+        "x": 32,
+        "y": 22,
+        "question": "multiply 对上不透明图层"
+      },
+      {
+        "name": "mul-over-transparent",
+        "x": 32,
+        "y": 38,
+        "question": "multiply 对透明底，应等于源色"
+      },
+      {
+        "name": "screen-over-transparent",
+        "x": 32,
+        "y": 55,
+        "question": "screen 对透明底，应等于源色"
+      },
+      {
+        "name": "transparent-bg",
+        "x": 2,
+        "y": 2,
+        "question": "文档底色全透明"
+      }
+    ],
+    "g-knockout-edge": [
+      {
+        "name": "fill-hole",
+        "x": 16,
+        "y": 32,
+        "question": "evenodd 孔洞内部"
+      },
+      {
+        "name": "clip-hole",
+        "x": 48,
+        "y": 32,
+        "question": "裁域孔洞内部"
+      },
+      {
+        "name": "mask-hole",
+        "x": 80,
+        "y": 32,
+        "question": "蒙版孔洞内部"
+      },
+      {
+        "name": "fill-body",
+        "x": 16,
+        "y": 20,
+        "question": "evenodd 环体，与覆盖率无关"
+      },
+      {
+        "name": "clip-body",
+        "x": 48,
+        "y": 16,
+        "question": "裁域环体，与覆盖率无关"
+      },
+      {
+        "name": "mask-body",
+        "x": 80,
+        "y": 20,
+        "question": "蒙版环体，与覆盖率无关"
+      }
+    ]
+  },
+  "edge_scans": {
+    "g-knockout-edge": [
+      {
+        "name": "fill-inner-left",
+        "y": 30,
+        "x0": 7,
+        "x1": 15,
+        "question": "evenodd 孔洞左侧 45 度边"
+      },
+      {
+        "name": "clip-inner-left",
+        "y": 30,
+        "x0": 39,
+        "x1": 47,
+        "question": "裁域孔洞左侧 45 度边"
+      },
+      {
+        "name": "mask-inner-left",
+        "y": 30,
+        "x0": 72,
+        "x1": 80,
+        "question": "蒙版孔洞左侧竖直边"
+      }
+    ]
+  }
+}
