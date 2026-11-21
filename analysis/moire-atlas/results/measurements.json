@@ -1,0 +1,428 @@
+[
+  {
+    "case": "A1-single-fine",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 110592,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 73728,
+      "max_code_value_delta": 255,
+      "mismatch_fraction": 0.666667
+    },
+    "measured": {
+      "axis": "x (grating normal)",
+      "measured_png_carrier": {
+        "f": 0.33333,
+        "period_px": 3.0
+      },
+      "measured_folded_carrier": {
+        "f": 0.33333,
+        "period_px": 3.0
+      }
+    },
+    "predicted": {
+      "continuous_f": 0.6666667,
+      "folded_f": -0.3333333,
+      "alias_period_px": 3.0,
+      "alias_sign_reversed": true,
+      "true_structure_present_in_png": false,
+      "note": "基频 0.667 超过 Nyquist 0.5，连续图形在 PNG 中不可能保留；折叠为 -0.333，出现 3px 粗纹且走向相位与原条纹相反。SVG 仍画出 0.75px 细线——细线存在于 SVG 不构成 PNG 可信的证据。"
+    }
+  },
+  {
+    "case": "B1-parallel-coarse",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 110592,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 0,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "measured": {
+      "axis": "x (grating normal)",
+      "measured_png_carrier": {
+        "f": 0.41667,
+        "period_px": 2.4
+      },
+      "measured_png_beat": {
+        "f": 0.01562,
+        "period_px": 64.0
+      },
+      "measured_oversampled_beat": {
+        "f": 0.01562,
+        "period_px": 64.0
+      },
+      "measured_folded_carrier": {
+        "f": 0.41667,
+        "period_px": 2.4
+      }
+    },
+    "predicted": {
+      "f1": 0.0833333,
+      "f2": 0.1,
+      "below_nyquist": true,
+      "beat_f": 0.0166667,
+      "beat_period_px": 60.0,
+      "beat_orientation": "竖直暗带（差频波向量沿 x）",
+      "alias_present": false
+    }
+  },
+  {
+    "case": "B2-parallel-coarse-shift",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 110592,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 0,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "measured": {
+      "axis": "x (grating normal)",
+      "measured_png_carrier": {
+        "f": 0.41667,
+        "period_px": 2.4
+      },
+      "measured_png_beat": {
+        "f": 0.01562,
+        "period_px": 64.0
+      },
+      "measured_oversampled_beat": {
+        "f": 0.01562,
+        "period_px": 64.0
+      },
+      "measured_folded_carrier": {
+        "f": 0.41667,
+        "period_px": 2.4
+      },
+      "measured_beat_displacement_px": 6.108,
+      "carrier_phase_response_px": -0.463,
+      "folded_phase_response_px": -0.463
+    },
+    "predicted": {
+      "beat_period_px": 60.0,
+      "expected_beat_displacement_px": 4.8,
+      "magnification": 6.0,
+      "note": "仅 0.8px 的输入平移应使粗拍频条纹移动 4.8px（放大 6 倍）；这是真实拍频的相位判据。"
+    }
+  },
+  {
+    "case": "C1-angled-coarse",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 196608,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 0,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "measured": {
+      "theory_km_axis_deg": 96.0,
+      "scanned_peak_axis_deg": 12,
+      "axis_error_deg": 84.0,
+      "measured_beat_f_on_theory_axis": 0.01569,
+      "measured_beat_period_px": 63.75,
+      "measured_png_carrier": {
+        "axis_deg": 0,
+        "f": 0.5,
+        "period_px": 2.0
+      },
+      "measured_oversampled_beat": {
+        "f": 0.01569,
+        "period_px": 63.75
+      },
+      "measured_folded_carrier": {
+        "axis_deg": 0,
+        "f": 0.5,
+        "period_px": 2.0
+      }
+    },
+    "predicted": {
+      "f": 0.0714286,
+      "beat_period_px": 67.0,
+      "beat_angle_deg": 84.0,
+      "beat_orientation": "km 方向角 (0+12)/2+90=96°，即拍频暗带走向 6°（近似水平），垂直于两纹夹角平分线",
+      "alias_present": false
+    }
+  },
+  {
+    "case": "C2-angled-coarse-shift",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 196608,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 0,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "measured": {
+      "theory_km_axis_deg": 96.0,
+      "scanned_peak_axis_deg": 12,
+      "axis_error_deg": 84.0,
+      "measured_beat_f_on_theory_axis": 0.01569,
+      "measured_beat_period_px": 63.75,
+      "measured_png_carrier": {
+        "axis_deg": 0,
+        "f": 0.5,
+        "period_px": 2.0
+      },
+      "measured_oversampled_beat": {
+        "f": 0.01569,
+        "period_px": 63.75
+      },
+      "measured_folded_carrier": {
+        "axis_deg": 0,
+        "f": 0.5,
+        "period_px": 2.0
+      },
+      "measured_beat_displacement_px": 4.486
+    },
+    "predicted": {
+      "beat_period_px": 67.0,
+      "beat_phase_shift_fraction": 0.0714286,
+      "beat_displacement_along_km_px": 4.786,
+      "note": "相位变化 Δφ=2π·shift/p=2π/14，拍频条纹沿 km 方向移动 Δφ/(2π|km|)=1/(14|km|)≈4.79px。"
+    }
+  },
+  {
+    "case": "D1-fine-parallel-mixed",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 110592,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 42624,
+      "max_code_value_delta": 255,
+      "mismatch_fraction": 0.385417
+    },
+    "measured": {
+      "axis": "x (grating normal)",
+      "measured_png_carrier": {
+        "f": 0.45312,
+        "period_px": 2.207
+      },
+      "measured_png_beat": {
+        "f": 0.13542,
+        "period_px": 7.385
+      },
+      "measured_oversampled_beat": {
+        "f": 0.13542,
+        "period_px": 7.385
+      },
+      "measured_folded_carrier": {
+        "f": 0.41146,
+        "period_px": 2.43
+      }
+    },
+    "predicted": {
+      "f1": 0.4545455,
+      "f2": 0.5882353,
+      "folded_f1": 0.4545455,
+      "folded_f2": -0.4117647,
+      "g2_alias_period_px": 2.4285714,
+      "g2_alias_sign_reversed": true,
+      "true_beat_f": 0.1336898,
+      "true_beat_period_px": 7.48,
+      "alias_alias_beat_f": 0.1336898,
+      "note": "G1 基频在 Nyquist 内被保留；G2 基频混叠为反向 -0.4118（2.43px 反相粗纹，采样伪影）。两者差频 0.1337 低于 Nyquist，7.48px 真实拍频在 PNG 中存活；混叠分量间的差频恰好等于真实差频，故粗拍纹同时承载真实与伪影解释——必须用平移与高分辨率参照拆分。"
+    }
+  },
+  {
+    "case": "D2-fine-parallel-mixed-shift",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 110592,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 39744,
+      "max_code_value_delta": 188,
+      "mismatch_fraction": 0.359375
+    },
+    "measured": {
+      "axis": "x (grating normal)",
+      "measured_png_carrier": {
+        "f": 0.45312,
+        "period_px": 2.207
+      },
+      "measured_png_beat": {
+        "f": 0.13542,
+        "period_px": 7.385
+      },
+      "measured_oversampled_beat": {
+        "f": 0.13542,
+        "period_px": 7.385
+      },
+      "measured_folded_carrier": {
+        "f": 0.41146,
+        "period_px": 2.43
+      },
+      "measured_beat_displacement_px": 1.539,
+      "carrier_phase_response_px": -0.002,
+      "folded_phase_response_px": -0.492
+    },
+    "predicted": {
+      "true_beat_displacement_px": 1.496,
+      "magnification": 4.4,
+      "alias_g2_displacement_sign": "符号反转：G2 采样像反向移动，像素相位变化与连续几何相反",
+      "note": "真实拍频按 +1.50px 放大移动；混叠条纹因折叠符号反转给出反向相位。同一粗纹中的两种机制对平移的响应方向/幅度不同，借此排除错误解释。"
+    }
+  },
+  {
+    "case": "E1-fine-angled-mixed",
+    "contract_agreement": {
+      "mismatched_components": 1953,
+      "total_components": 110592,
+      "max_code_value_delta": 188,
+      "mismatch_fraction": 0.01766
+    },
+    "folded_agreement": {
+      "mismatched_components": 80412,
+      "max_code_value_delta": 255,
+      "mismatch_fraction": 0.727105
+    },
+    "measured": {
+      "theory_km_axis_deg": 97.5,
+      "scanned_peak_axis_deg": 98,
+      "axis_error_deg": 0.5,
+      "measured_beat_f_on_theory_axis": 0.13684,
+      "measured_beat_period_px": 7.308,
+      "measured_png_carrier": {
+        "axis_deg": 0,
+        "f": 0.47396,
+        "period_px": 2.11
+      },
+      "measured_oversampled_beat": {
+        "f": 0.13684,
+        "period_px": 7.308
+      },
+      "measured_folded_carrier": {
+        "axis_deg": 0,
+        "f": 0.47396,
+        "period_px": 2.11
+      }
+    },
+    "predicted": {
+      "f": 0.5263158,
+      "true_beat_f": 0.137396,
+      "true_beat_period_px": 7.278,
+      "true_beat_km_angle_deg": -82.5,
+      "true_beat_orientation": "km 方向角 -82.5°（等价 97.5°），拍频暗带走向约 7.5°，垂直于两纹夹角平分线",
+      "folded_k1_xy": [
+        -0.4736842,
+        0.0
+      ],
+      "folded_k2_xy": [
+        -0.491618,
+        0.1362205
+      ],
+      "alias_g1_period_px": 2.111,
+      "alias_g2_period_px": 1.96,
+      "alias_g2_orientation_deg": 164.5,
+      "note": "两组基频 0.5263 均超 Nyquist 0.5 被二维折叠：G1 折叠为 -0.4737（2.11px 反相伪影），G2 折叠为 (-0.4916,0.1362)（1.96px、取向 164.5° 的伪影）。真实差频 |km|=0.1374（7.28px）低于 Nyquist 而存活——同一张 PNG 中真实拍频与采样伪影并存。"
+    }
+  },
+  {
+    "case": "E2-fine-angled-mixed-shift",
+    "contract_agreement": {
+      "mismatched_components": 1956,
+      "total_components": 110592,
+      "max_code_value_delta": 188,
+      "mismatch_fraction": 0.017687
+    },
+    "folded_agreement": {
+      "mismatched_components": 79146,
+      "max_code_value_delta": 255,
+      "mismatch_fraction": 0.715658
+    },
+    "measured": {
+      "theory_km_axis_deg": 97.5,
+      "scanned_peak_axis_deg": 98,
+      "axis_error_deg": 0.5,
+      "measured_beat_f_on_theory_axis": 0.13684,
+      "measured_beat_period_px": 7.308,
+      "measured_png_carrier": {
+        "axis_deg": 0,
+        "f": 0.47396,
+        "period_px": 2.11
+      },
+      "measured_oversampled_beat": {
+        "f": 0.13684,
+        "period_px": 7.308
+      },
+      "measured_folded_carrier": {
+        "axis_deg": 0,
+        "f": 0.47396,
+        "period_px": 2.11
+      },
+      "measured_beat_displacement_px": 1.454
+    },
+    "predicted": {
+      "beat_phase_fraction": 0.2,
+      "true_beat_displacement_along_km_px": 1.456,
+      "note": "Δφ=2π·0.38/1.9=0.4π；真实拍频沿 km 移动 0.2/|km|≈1.46px；二维混叠分量的位移由折叠后向量点乘决定，不遵守该连续放大律，平移后与真实拍频错位。"
+    }
+  },
+  {
+    "case": "F1-fine-2x-observation",
+    "contract_agreement": {
+      "mismatched_components": 0,
+      "total_components": 110592,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "folded_agreement": {
+      "mismatched_components": 0,
+      "max_code_value_delta": 0,
+      "mismatch_fraction": 0.0
+    },
+    "measured": {
+      "theory_km_axis_deg": 97.5,
+      "scanned_peak_axis_deg": 98,
+      "axis_error_deg": 0.5,
+      "measured_beat_f_on_theory_axis": 0.06842,
+      "measured_beat_period_px": 14.615,
+      "measured_png_carrier": {
+        "axis_deg": 0,
+        "f": 0.47396,
+        "period_px": 2.11
+      },
+      "measured_oversampled_beat": {
+        "f": 0.06842,
+        "period_px": 14.615
+      },
+      "measured_folded_carrier": {
+        "axis_deg": 0,
+        "f": 0.47396,
+        "period_px": 2.11
+      }
+    },
+    "predicted": {
+      "f": 0.2631579,
+      "below_nyquist": true,
+      "beat_f": 0.068698,
+      "beat_period_px": 14.556,
+      "alias_present": false,
+      "note": "所有几何量乘 2：频率 0.2632 落入 Nyquist 内，两组基频与折叠预测均不触发混叠；真实拍频周期精确加倍为 14.56px。真实结构随尺度线性缩放、伪影随采样条件消失——观察尺度判据。"
+    }
+  }
+]

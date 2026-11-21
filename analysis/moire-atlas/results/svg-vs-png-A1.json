@@ -1,0 +1,11 @@
+{
+  "svg_subpixel_bar_widths": [
+    0.75
+  ],
+  "svg_bar_spacing_periods": [
+    1.5
+  ],
+  "png_measured_visible_period_px": 3.0,
+  "continuous_design_period_px": 1.5,
+  "conclusion": "SVG 保留 0.75px 线宽/1.5px 周期的连续几何；同稿本 PNG 因 0.667 周/px 超 Nyquist 折叠为 3px 反相粗纹，细结构不可恢复。"
+}

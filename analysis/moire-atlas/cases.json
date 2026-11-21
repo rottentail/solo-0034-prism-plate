@@ -1,0 +1,192 @@
+{
+  "schema": "prismplate-moire-atlas/v1",
+  "note": "所有条纹均为闭合矩形多边形（M/L/Z），经现有 prismplate HTTP 服务渲染；未新增任何渲染功能。条纹局部坐标为竖直条带矩形，经 shape 的可逆仿射 transform 旋转/平移。",
+  "conventions": {
+    "frequency": "空间频率 f=1/p（单位 周/像素），波向量 k=(kx,ky)，单位向量 n=(cos α, sin α) 为光栅法线方向；竖直条纹 α=0。",
+    "beat_formula": "两组光栅波向量 k1,k2 的差频 km=k1-k2；真实拍频周期 pm=1/|km|，拍频条纹垂直于 km。平行情形 pm=p1*p2/|p1-p2|；等周期 p、夹角 θ 时 pm=p/(2 sin(θ/2))，取向在夹角平分方向。",
+    "phase_shift": "平行光栅相对平移 Δx（沿法线）引起拍频条纹位移 Δx_beat=Δx*p1/|p1-p2|（放大因子 p1/|p1-p2|）。连续图形的真实拍频与画布像素无关，平移遵循该放大律。",
+    "alias_formula": "像素采样格间距 1px，Nyquist 频率 0.5。波向量分量折叠 fa=fold(f)=f-round(f)，fold(f)∈[-0.5,0.5)；2D 各分量独立折叠。混叠是采样格产物：其周期以像素为单位，且折叠引入符号反转。",
+    "renderer": "internal/raster：每像素 2x2 四点（偏移 0.25/0.75）点在多边形内覆盖；线性光 multiply 混合；PNG 经 sRGB 量化为 8bit。",
+    "duty": "所有条带占空比 0.5（条宽=周期/2），黑条 (0,0,0,1)，白底 (1,1,1,1)，两光栅分别在两个 normal/multiply 不透明图层。"
+  },
+  "cases": [
+    {
+      "id": "A1-single-fine",
+      "title": "A1 单组细密竖纹（1D 纯混叠对照）",
+      "kind": "single",
+      "size": 192,
+      "gratings": [
+        {"period": 1.5, "angle_deg": 0, "shift": 0.0}
+      ],
+      "predictions": {
+        "continuous_f": 0.6666667,
+        "folded_f": -0.3333333,
+        "alias_period_px": 3.0,
+        "alias_sign_reversed": true,
+        "true_structure_present_in_png": false,
+        "note": "基频 0.667 超过 Nyquist 0.5，连续图形在 PNG 中不可能保留；折叠为 -0.333，出现 3px 粗纹且走向相位与原条纹相反。SVG 仍画出 0.75px 细线——细线存在于 SVG 不构成 PNG 可信的证据。"
+      }
+    },
+    {
+      "id": "B1-parallel-coarse",
+      "title": "B1 两组平行粗纹（纯真实拍频锚点）",
+      "kind": "parallel",
+      "size": 192,
+      "gratings": [
+        {"period": 12.0, "angle_deg": 0, "shift": 0.0},
+        {"period": 10.0, "angle_deg": 0, "shift": 0.0}
+      ],
+      "predictions": {
+        "f1": 0.0833333, "f2": 0.1,
+        "below_nyquist": true,
+        "beat_f": 0.0166667,
+        "beat_period_px": 60.0,
+        "beat_orientation": "竖直暗带（差频波向量沿 x）",
+        "alias_present": false
+      }
+    },
+    {
+      "id": "B2-parallel-coarse-shift",
+      "title": "B2 B1 的第二组平移 +0.8px（相位放大检验）",
+      "kind": "parallel",
+      "size": 192,
+      "gratings": [
+        {"period": 12.0, "angle_deg": 0, "shift": 0.0},
+        {"period": 10.0, "angle_deg": 0, "shift": 0.8}
+      ],
+      "predictions": {
+        "beat_period_px": 60.0,
+        "expected_beat_displacement_px": 4.8,
+        "magnification": 6.0,
+        "note": "仅 0.8px 的输入平移应使粗拍频条纹移动 4.8px（放大 6 倍）；这是真实拍频的相位判据。"
+      }
+    },
+    {
+      "id": "C1-angled-coarse",
+      "title": "C1 等周期斜交 12°（二维真实拍频）",
+      "kind": "angled",
+      "size": 256,
+      "gratings": [
+        {"period": 14.0, "angle_deg": 0, "shift": 0.0},
+        {"period": 14.0, "angle_deg": 12, "shift": 0.0}
+      ],
+      "predictions": {
+        "f": 0.0714286,
+        "beat_period_px": 67.0,
+        "beat_angle_deg": 84.0,
+        "beat_orientation": "km 方向角 (0+12)/2+90=96°，即拍频暗带走向 6°（近似水平），垂直于两纹夹角平分线",
+        "alias_present": false
+      }
+    },
+    {
+      "id": "C2-angled-coarse-shift",
+      "title": "C2 C1 第二组沿自身法线平移 1.0px",
+      "kind": "angled",
+      "size": 256,
+      "gratings": [
+        {"period": 14.0, "angle_deg": 0, "shift": 0.0},
+        {"period": 14.0, "angle_deg": 12, "shift": 1.0}
+      ],
+      "predictions": {
+        "beat_period_px": 67.0,
+        "beat_phase_shift_fraction": 0.0714286,
+        "beat_displacement_along_km_px": 4.786,
+        "note": "相位变化 Δφ=2π·shift/p=2π/14，拍频条纹沿 km 方向移动 Δφ/(2π|km|)=1/(14|km|)≈4.79px。"
+      }
+    },
+    {
+      "id": "D1-fine-parallel-mixed",
+      "title": "D1 两组平行细纹（真实拍频 + 1D 采样伪影并存）",
+      "kind": "parallel",
+      "size": 192,
+      "gratings": [
+        {"period": 2.2, "angle_deg": 0, "shift": 0.0},
+        {"period": 1.7, "angle_deg": 0, "shift": 0.0}
+      ],
+      "predictions": {
+        "f1": 0.4545455, "f2": 0.5882353,
+        "folded_f1": 0.4545455, "folded_f2": -0.4117647,
+        "g2_alias_period_px": 2.4285714,
+        "g2_alias_sign_reversed": true,
+        "true_beat_f": 0.1336898,
+        "true_beat_period_px": 7.48,
+        "alias_alias_beat_f": 0.1336898,
+        "note": "G1 基频在 Nyquist 内被保留；G2 基频混叠为反向 -0.4118（2.43px 反相粗纹，采样伪影）。两者差频 0.1337 低于 Nyquist，7.48px 真实拍频在 PNG 中存活；混叠分量间的差频恰好等于真实差频，故粗拍纹同时承载真实与伪影解释——必须用平移与高分辨率参照拆分。"
+      }
+    },
+    {
+      "id": "D2-fine-parallel-mixed-shift",
+      "title": "D2 D1 第二组平移 +0.34px（=p2/5，真伪分流检验）",
+      "kind": "parallel",
+      "size": 192,
+      "gratings": [
+        {"period": 2.2, "angle_deg": 0, "shift": 0.0},
+        {"period": 1.7, "angle_deg": 0, "shift": 0.34}
+      ],
+      "predictions": {
+        "true_beat_displacement_px": 1.496,
+        "magnification": 4.4,
+        "alias_g2_displacement_sign": "符号反转：G2 采样像反向移动，像素相位变化与连续几何相反",
+        "note": "真实拍频按 +1.50px 放大移动；混叠条纹因折叠符号反转给出反向相位。同一粗纹中的两种机制对平移的响应方向/幅度不同，借此排除错误解释。"
+      }
+    },
+    {
+      "id": "E1-fine-angled-mixed",
+      "title": "E1 两组等周期细纹斜交 15°（二维真伪并存）",
+      "kind": "angled",
+      "size": 192,
+      "gratings": [
+        {"period": 1.9, "angle_deg": 0, "shift": 0.0},
+        {"period": 1.9, "angle_deg": 15, "shift": 0.0}
+      ],
+      "predictions": {
+        "f": 0.5263158,
+        "true_beat_f": 0.1373960,
+        "true_beat_period_px": 7.278,
+        "true_beat_km_angle_deg": -82.5,
+        "true_beat_orientation": "km 方向角 -82.5°（等价 97.5°），拍频暗带走向约 7.5°，垂直于两纹夹角平分线",
+        "folded_k1_xy": [-0.4736842, 0.0],
+        "folded_k2_xy": [-0.4916180, 0.1362205],
+        "alias_g1_period_px": 2.111,
+        "alias_g2_period_px": 1.960,
+        "alias_g2_orientation_deg": 164.5,
+        "note": "两组基频 0.5263 均超 Nyquist 0.5 被二维折叠：G1 折叠为 -0.4737（2.11px 反相伪影），G2 折叠为 (-0.4916,0.1362)（1.96px、取向 164.5° 的伪影）。真实差频 |km|=0.1374（7.28px）低于 Nyquist 而存活——同一张 PNG 中真实拍频与采样伪影并存。"
+      }
+    },
+    {
+      "id": "E2-fine-angled-mixed-shift",
+      "title": "E2 E1 第二组沿自身法线平移 0.38px（=p/5）",
+      "kind": "angled",
+      "size": 192,
+      "gratings": [
+        {"period": 1.9, "angle_deg": 0, "shift": 0.0},
+        {"period": 1.9, "angle_deg": 15, "shift": 0.38}
+      ],
+      "shift_overlay_of": "E1-fine-angled-mixed",
+      "predictions": {
+        "beat_phase_fraction": 0.2,
+        "true_beat_displacement_along_km_px": 1.456,
+        "note": "Δφ=2π·0.38/1.9=0.4π；真实拍频沿 km 移动 0.2/|km|≈1.46px；二维混叠分量的位移由折叠后向量点乘决定，不遵守该连续放大律，平移后与真实拍频错位。"
+      }
+    },
+    {
+      "id": "F1-fine-2x-observation",
+      "title": "F1 E1 同几何 2 倍观察尺度（同 192 画布，周期 1.9→3.8）",
+      "kind": "angled",
+      "size": 192,
+      "scale_factor": 2,
+      "gratings": [
+        {"period": 3.8, "angle_deg": 0, "shift": 0.0},
+        {"period": 3.8, "angle_deg": 15, "shift": 0.0}
+      ],
+      "predictions": {
+        "f": 0.2631579,
+        "below_nyquist": true,
+        "beat_f": 0.0686980,
+        "beat_period_px": 14.556,
+        "alias_present": false,
+        "note": "所有几何量乘 2：频率 0.2632 落入 Nyquist 内，两组基频与折叠预测均不触发混叠；真实拍频周期精确加倍为 14.56px。真实结构随尺度线性缩放、伪影随采样条件消失——观察尺度判据。"
+      }
+    }
+  ]
+}

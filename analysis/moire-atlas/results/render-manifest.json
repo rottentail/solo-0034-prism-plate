@@ -1,0 +1,202 @@
+[
+  {
+    "case": "A1-single-fine",
+    "plate": "moire-a1-single-fine",
+    "scene_digest": "6a7e5857a7894a4e0e45fbed595317427733239bf3d00106f554052dcac598b9",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "f7ebec606554ca732f75b575a483203462591fe36adc43f32d30aff4caa6368f",
+        "digest": "0f330405d59da5b834d40a867984d1d5805634a25dfdc740b5b07023283c1224",
+        "bytes": 555,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "21973347cc130f6ae6a9d30f83ead3e10470726c5f07bfb583a3ab270f40145f",
+        "digest": "50ec3b01e1b3781473ea7d2a7d26f9d5770ca213cf765239b0e15c170fa86fa3",
+        "bytes": 5678
+      }
+    }
+  },
+  {
+    "case": "B1-parallel-coarse",
+    "plate": "moire-b1-parallel-coarse",
+    "scene_digest": "1598870a5a9dbb87c4d8be346f0be28edc81b357a592d51e9240e192aedafa13",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "ecd558728e2d13a5a140ffa119b1c6f24b26c8201205c29ee370c1a74270c10c",
+        "digest": "5b086df58c0f1ded906d6699841cbead4fa36ac410b94e5af02a735b5736386b",
+        "bytes": 580,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "a8f02dbc133a4b31c5394a2e204c5ff2087891c3e4edf20692ceafc710c47a76",
+        "digest": "ab2209d0932cdeee2f122b244025ea4abe02748f50fd133a5fc337126436991c",
+        "bytes": 1736
+      }
+    }
+  },
+  {
+    "case": "B2-parallel-coarse-shift",
+    "plate": "moire-b2-parallel-coarse-shift",
+    "scene_digest": "feb5b2853fa157263bc756dfdb0586ce3afb39490095fa88f362c348b9a1f8bb",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "6501f3a71a9ef370d7f54d4e42c9a03524a71e07c87750dd51949dbb3473d49f",
+        "digest": "b80b67416cde7bcf978ab85471855d005b4e675807ff7549a5f0097133bee967",
+        "bytes": 585,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "6eb40b66e0aa307d6048d0d8fa276f9b2f7fb223828652b617d5a986edcf68fb",
+        "digest": "0a7a6c0cbdc4afc374cc51170c0749f43217a70e138e2aaf042e7c7750659a85",
+        "bytes": 1900
+      }
+    }
+  },
+  {
+    "case": "C1-angled-coarse",
+    "plate": "moire-c1-angled-coarse",
+    "scene_digest": "f04b551e97e814160b552145bc33e264781212a54fb2c9d2ef4103020b6039f5",
+    "size": 256,
+    "artifacts": {
+      "png": {
+        "id": "6207292cee60442d9a288011df5ca0e4343715fde2afe03dd9d31c8b1e9cc72b",
+        "digest": "45f7f779c03ac280594c1caccdd616bd4553df3bae3863bee2eae1988d2712b0",
+        "bytes": 4655,
+        "width": 256,
+        "height": 256
+      },
+      "svg": {
+        "id": "ee0975762fb8f1a811edc492b084ced5b5f8def2abb32e2cc73b2a4808d1cadb",
+        "digest": "2a527c1191edd748c88563825fe2a05dd846bb717d5c5381fcf51c92e4763966",
+        "bytes": 2760
+      }
+    }
+  },
+  {
+    "case": "C2-angled-coarse-shift",
+    "plate": "moire-c2-angled-coarse-shift",
+    "scene_digest": "8b3ec997a9110ad41e29729676caa10a341c81f6d750dfbab708365f7b9cc0ee",
+    "size": 256,
+    "artifacts": {
+      "png": {
+        "id": "344b5581a824ec628f3e184a9ad26c43998a236f5330c4bd333c46993e4136b0",
+        "digest": "e783068cbc676f9535abb653b9c43c7b1a32c3918d2bc31e823ea2ab4a0d52d6",
+        "bytes": 4537,
+        "width": 256,
+        "height": 256
+      },
+      "svg": {
+        "id": "4a8b8d3d22c9bdb01961a81585a2b5c00f738bf64d6779d0da145d457ad6329d",
+        "digest": "b4974fb0378d3a8460437186af28a66c94820cf6d02200e3165e01a25d7d06a0",
+        "bytes": 2760
+      }
+    }
+  },
+  {
+    "case": "D1-fine-parallel-mixed",
+    "plate": "moire-d1-fine-parallel-mixed",
+    "scene_digest": "66109f918f86aa2f3fe139ed1f310933bdc12784e5e5e5341787d77273b11c59",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "2cafc9f31b6229b9b8c5be1e01137ab99867845e85dc0e22ede54a54dd3aa9d6",
+        "digest": "977ec170ab8d6210fd2b2bdd96c3d3c6fc3826e493e7fb7aae9fc1e0b6afdf6e",
+        "bytes": 617,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "6de59924285618d52b489481d922d7a663d2fa17dec70d143313d6e05e5bca9f",
+        "digest": "109585f37ba639fd0544f40c88d708a05572edb913233aec8fa443ee24af92cd",
+        "bytes": 9035
+      }
+    }
+  },
+  {
+    "case": "D2-fine-parallel-mixed-shift",
+    "plate": "moire-d2-fine-parallel-mixed-shift",
+    "scene_digest": "e93bef2df3214b7505cef00be9ffe09b5e199d70a36fac70ff1f856b3be308ba",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "b1b5aa9535d4c7795e885bcdb0a730f7ae65d8b3ead5d55c6eb95ee061e29b54",
+        "digest": "46f5c8976e7237d72a599bc3ec1e32d5e231dc6f3b4e6825e9b67d93dd0a6299",
+        "bytes": 616,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "5ab71f8fd8a43c057cfb5fa5a98c5043022f42e17c5d9ae41694ec83802d98aa",
+        "digest": "f0386a585960b57f84c7310cb647ca88707e136bee4b3b1782f1a5cb34a520f1",
+        "bytes": 9311
+      }
+    }
+  },
+  {
+    "case": "E1-fine-angled-mixed",
+    "plate": "moire-e1-fine-angled-mixed",
+    "scene_digest": "59b05a68b99707c39bbdc6521450406d9a0f5c482dd7efddbb78dff1b959d9ae",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "66035c72e52bf15648723eb32cb25c19f0d42e0bb6e0801a933585c60cedef77",
+        "digest": "f862ddbe97437d8ae6f1c7b4a7b1d61acfe9e48284592c46bdbe01927c2479e2",
+        "bytes": 3696,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "3c151c9c06f387e497108b3a01d749096cdb39f3b6cdce8e6ba95ab7d2cdf0ac",
+        "digest": "d0530ab25a516c4aba12b0a540eee9f14e52907e88c6f94b5d16483caa7c4e58",
+        "bytes": 14525
+      }
+    }
+  },
+  {
+    "case": "E2-fine-angled-mixed-shift",
+    "plate": "moire-e2-fine-angled-mixed-shift",
+    "scene_digest": "b5bc4fbe18ed9a5946b84aac893e0b615bdbc9d7247025ca7faf500772053b01",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "dabf77b487283d859a9a729edd8fc7e1233c2ea6c2b006d03fc889e36ec60f1d",
+        "digest": "3ffaa88e5c03da8e9bba6c36991213879c83c49d7f5e5dc47583a598e7a0d7c6",
+        "bytes": 3514,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "881e80f8552fb67ca7e395ee4e4b0e959c39d1daf0e77c96f82fe95ba1f47487",
+        "digest": "c8203e7ade04ee071d7988caa4aa612bdb06d1a5d8da2c204f637987464b2929",
+        "bytes": 14833
+      }
+    }
+  },
+  {
+    "case": "F1-fine-2x-observation",
+    "plate": "moire-f1-fine-2x-observation",
+    "scene_digest": "685ffa6bdc40502576ba966dac06a45fd0c3c1f8a421bc69fd5ffcb9eebb95ea",
+    "size": 192,
+    "artifacts": {
+      "png": {
+        "id": "5e7ee705d19ee85b89705edc9d67ee4214da65d82378e0b270fef55a69efcc57",
+        "digest": "fee6e5c771a40613a6f82b335d355443f96afd26b80ebdfcf138312d35f2552f",
+        "bytes": 2540,
+        "width": 192,
+        "height": 192
+      },
+      "svg": {
+        "id": "adac41c4736b01e92c72c1bdfa0ec8284879ce8dde00d86be2cb276a83ada6e0",
+        "digest": "05f3280716e98a2f962c1c945a19afb054fc539b27f7ea800e43424c58320e70",
+        "bytes": 7365
+      }
+    }
+  }
+]

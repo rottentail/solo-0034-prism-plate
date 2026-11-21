@@ -1,0 +1,282 @@
+{
+  "ledger": "prismplate moire atlas reconciliation",
+  "tolerance_note": "Period checks use a 15% tolerance to absorb finite-DFT bin resolution; displacement checks use 30%. Renderer agreement is a separate pixel-level gate.",
+  "rows": [
+    {
+      "case": "A1-single-fine",
+      "title": "A1 单组细密竖纹（1D 纯混叠对照）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "alias_carrier_period",
+          "measured": 3.0,
+          "predicted": 3.0,
+          "relative_error_pct": 0.0,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "B1-parallel-coarse",
+      "title": "B1 两组平行粗纹（纯真实拍频锚点）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_period",
+          "measured": 64.0,
+          "predicted": 60.0,
+          "relative_error_pct": 6.67,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "B2-parallel-coarse-shift",
+      "title": "B2 B1 的第二组平移 +0.8px（相位放大检验）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_period",
+          "measured": 64.0,
+          "predicted": 60.0,
+          "relative_error_pct": 6.67,
+          "pass": true
+        },
+        {
+          "check": "beat_displacement",
+          "measured": 6.108,
+          "predicted": 4.8,
+          "relative_error_pct": 27.25,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "C1-angled-coarse",
+      "title": "C1 等周期斜交 12°（二维真实拍频）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_period",
+          "measured": 63.75,
+          "predicted": 67.0,
+          "relative_error_pct": -4.85,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "C2-angled-coarse-shift",
+      "title": "C2 C1 第二组沿自身法线平移 1.0px",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_period",
+          "measured": 63.75,
+          "predicted": 67.0,
+          "relative_error_pct": -4.85,
+          "pass": true
+        },
+        {
+          "check": "beat_displacement_along_km",
+          "measured": 4.486,
+          "predicted": 4.786,
+          "relative_error_pct": -6.27,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "D1-fine-parallel-mixed",
+      "title": "D1 两组平行细纹（真实拍频 + 1D 采样伪影并存）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "g2_folded_alias_period",
+          "measured": 2.43,
+          "predicted": 2.4285714,
+          "relative_error_pct": 0.06,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "D2-fine-parallel-mixed-shift",
+      "title": "D2 D1 第二组平移 +0.34px（=p2/5，真伪分流检验）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_displacement",
+          "measured": 1.539,
+          "predicted": 1.496,
+          "relative_error_pct": 2.87,
+          "pass": true
+        },
+        {
+          "check": "true_carrier_sensitivity_near_zero",
+          "measured_px": -0.002,
+          "pass": true
+        },
+        {
+          "check": "folded_alias_moves_oppositely",
+          "measured_px": -0.492,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "E1-fine-angled-mixed",
+      "title": "E1 两组等周期细纹斜交 15°（二维真伪并存）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.01766,
+          "max_code_value_delta": 188,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_period",
+          "measured": 7.308,
+          "predicted": 7.278,
+          "relative_error_pct": 0.41,
+          "pass": true
+        },
+        {
+          "check": "g1_folded_alias_period",
+          "measured": 2.11,
+          "predicted": 2.111,
+          "relative_error_pct": -0.05,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "E2-fine-angled-mixed-shift",
+      "title": "E2 E1 第二组沿自身法线平移 0.38px（=p/5）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.017687,
+          "max_code_value_delta": 188,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "beat_displacement_along_km",
+          "measured": 1.454,
+          "predicted": 1.456,
+          "relative_error_pct": -0.14,
+          "pass": true
+        }
+      ]
+    },
+    {
+      "case": "F1-fine-2x-observation",
+      "title": "F1 E1 同几何 2 倍观察尺度（同 192 画布，周期 1.9→3.8）",
+      "checks": [
+        {
+          "check": "independent_contract_renderer_matches_service_png",
+          "mismatch_fraction": 0.0,
+          "max_code_value_delta": 0,
+          "pass": true
+        },
+        {
+          "check": "png_and_svg_digests_verified_over_http",
+          "pass": true
+        },
+        {
+          "check": "true_beat_period",
+          "measured": 14.615,
+          "predicted": 14.556,
+          "relative_error_pct": 0.41,
+          "pass": true
+        },
+        {
+          "check": "scaled_beat_period",
+          "measured": 14.615,
+          "predicted": 14.556,
+          "relative_error_pct": 0.41,
+          "pass": true
+        },
+        {
+          "check": "beat_period_doubles_at_2x_observation_scale",
+          "measured_ratio": 1.9999,
+          "predicted_ratio": 2.0,
+          "relative_error_pct": -0.01,
+          "pass": true
+        }
+      ]
+    }
+  ],
+  "all_pass": true
+}
