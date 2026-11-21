@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"prismplate/internal/exposure"
 	"prismplate/internal/repository"
+	"prismplate/internal/restructure"
 	"prismplate/internal/scene"
 	"prismplate/internal/service"
 	"strconv"
@@ -127,6 +128,49 @@ func (a API) Handler() http.Handler {
 			return
 		}
 		jsonOut(w, 200, map[string]string{"state": "archived"})
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/restructure", func(w http.ResponseWriter, r *http.Request) {
+		n, e := revision(r)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		var q restructure.Request
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		v, e := a.Service.RestructurePreview(ctx, r.PathValue("id"), n, q)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, v)
+	})
+	mux.HandleFunc("POST /v1/plates/{id}/restructure/apply", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Expected int `json:"expected_revision"`
+			restructure.Request
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		ctx, cancel := context.WithTimeout(r.Context(), 30*time.Second)
+		defer cancel()
+		p, plan, e := a.Service.RestructureApply(ctx, r.PathValue("id"), q.Expected, q.Request)
+		if e != nil {
+			var ref restructure.Refusal
+			if errors.As(e, &ref) {
+				jsonOut(w, 400, map[string]any{"error": ref.Error(), "restructure": ref.Plan})
+				return
+			}
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, map[string]any{"plate": p, "restructure": plan})
 	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)

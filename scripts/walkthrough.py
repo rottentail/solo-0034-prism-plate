@@ -84,6 +84,92 @@ def main():
             elif w=='rejection':
                 bad=copy.deepcopy(seed);bad['id']='oversize';bad['document']['width']=513;call('POST','/v1/plates',bad,status=400);call('GET','/v1/plates/oversize',status=404)
                 bad=copy.deepcopy(seed);bad['id']='invalid-brush';bad['document']['layers'][0]['shapes'][0]['brush']['stops'][1]['at']=0;call('POST','/v1/plates',bad,status=400);assert render()['revision']==1
+            elif w=='restructure':
+                def rect(sid,x0,y0,x1,y1,color):
+                    return {'id':sid,'fill_rule':'nonzero','transform':[1,0,0,1,0,0],'brush':{'kind':'solid','color':color},
+                            'path':[{'kind':'M','points':[{'x':x0,'y':y0}]},{'kind':'L','points':[{'x':x1,'y':y0}]},{'kind':'L','points':[{'x':x1,'y':y1}]},{'kind':'L','points':[{'x':x0,'y':y1}]},{'kind':'Z'}]}
+                def layer(lid,shapes,opacity=1,blend='normal'):return {'id':lid,'opacity':opacity,'blend':blend,'shapes':shapes}
+                def plate_doc(layers):return {'width':64,'height':64,'background':{'r':0.08,'g':0.09,'b':0.12,'a':1},'layers':layers}
+                def make(pid,title,doc):return call('POST','/v1/plates',{'id':pid,'title':title,'document':doc},status=201)
+                def png_digest(pid,rev):return call('POST',f'/v1/plates/{pid}/render?revision={rev}&format=png',status=201)['digest']
+                def preview(pid,rev,body):return call('POST',f'/v1/plates/{pid}/restructure?revision={rev}',body)
+                def apply(pid,expected,op,tolerance=0,status=200):return call('POST',f'/v1/plates/{pid}/restructure/apply',{'expected_revision':expected,'op':op,'tolerance':tolerance},status=status)
+                # discovery on the amber seed: the only adjacent pair is refused and explained, no candidate is invented
+                disc=preview('amber-plate',1,{})['discovery']
+                assert (disc['candidates'] or [])==[];rejected=disc['rejected'];assert len(rejected)==1 and rejected[0]['class']=='refused' and rejected[0]['reasons']
+                bad=apply('amber-plate',1,{'kind':'merge','layers':['amber-sheet','cyan-glaze']},status=400);assert bad['restructure']['class']=='refused' and bad['restructure']['reasons']
+                # fully opaque overlapping normal layers merge exactly; the new draft renders the same PNG
+                make('merge-lab','拆并合并实验',plate_doc([
+                    layer('base',[rect('ground',0,0,64,64,{'r':0.9,'g':0.88,'b':0.84,'a':1})]),
+                    layer('low',[rect('red-box',8,8,40,40,{'r':0.85,'g':0.2,'b':0.2,'a':1}),rect('blue-box',24,24,56,56,{'r':0.2,'g':0.4,'b':0.85,'a':1})]),
+                    layer('high',[rect('green-box',16,16,48,48,{'r':0.25,'g':0.8,'b':0.35,'a':1})])]))
+                d1=png_digest('merge-lab',1)
+                disc=preview('merge-lab',1,{})['discovery'];cands=disc['candidates'] or []
+                assert len(cands)==2 and all(c['class']=='exact' for c in cands) and all('document' not in c for c in cands)
+                plan=preview('merge-lab',1,{'op':{'kind':'merge','layers':['low','high']}})['plan']
+                assert plan['class']=='exact' and plan['background_independent'] and plan['measured_max_delta']==0
+                assert plan['document']['layers'][1]['id']=='low' and len(plan['document']['layers'][1]['shapes'])==3
+                far=preview('merge-lab',1,{'op':{'kind':'merge','layers':['base','high']}})['plan']
+                assert far['class']=='refused' and any('adjacent' in r for r in far['reasons'])
+                done=apply('merge-lab',1,{'kind':'merge','layers':['low','high']})
+                assert done['restructure']['class']=='exact' and len(done['plate']['revisions'])==2
+                assert png_digest('merge-lab',2)==d1 and png_digest('merge-lab',1)==d1
+                history=call('GET','/v1/plates/merge-lab')['revisions']
+                assert history[0]['document']['layers'][1]['id']=='low' and len(history[0]['document']['layers'])==3
+                # transparency is not blanket-rejected: disjoint translucent shapes under group opacity merge exactly
+                make('alpha-lab','透明不相交合并',plate_doc([
+                    layer('left',[rect('ghost-red',4,4,28,28,{'r':0.9,'g':0.3,'b':0.3,'a':0.7})],opacity=0.6),
+                    layer('right',[rect('ghost-blue',36,36,60,60,{'r':0.3,'g':0.5,'b':0.9,'a':0.5})],opacity=0.6)]))
+                a1=png_digest('alpha-lab',1)
+                plan=preview('alpha-lab',1,{'op':{'kind':'merge','layers':['left','right']}})['plan']
+                assert plan['class']=='exact' and plan['measured_max_delta']==0
+                apply('alpha-lab',1,{'kind':'merge','layers':['left','right']});assert png_digest('alpha-lab',2)==a1
+                # differing group opacity folds into brush alpha and stays exact while coverage is disjoint
+                make('fold-lab','组透明度折入',plate_doc([
+                    layer('solid-low',[rect('warm',4,4,28,28,{'r':0.9,'g':0.6,'b':0.2,'a':0.9})]),
+                    layer('veil-high',[rect('cool',36,36,60,60,{'r':0.2,'g':0.6,'b':0.9,'a':0.4})],opacity=0.5)]))
+                f1=png_digest('fold-lab',1)
+                plan=preview('fold-lab',1,{'op':{'kind':'merge','layers':['solid-low','veil-high']}})['plan']
+                assert plan['class']=='exact' and any('fold' in r for r in plan['reasons'])
+                done=apply('fold-lab',1,{'kind':'merge','layers':['solid-low','veil-high']})
+                assert png_digest('fold-lab',2)==f1
+                merged=done['plate']['revisions'][1]['document']['layers'][0]
+                assert merged['opacity']==1 and abs(merged['shapes'][1]['brush']['color']['a']-0.2)<1e-9
+                # overlapping translucent shapes under group opacity: refused at zero tolerance, bounded within tolerance
+                make('overlap-lab','有界近似核对',plate_doc([
+                    layer('veil-a',[rect('warm-x',8,8,40,40,{'r':0.85,'g':0.3,'b':0.3,'a':0.8})],opacity=0.5),
+                    layer('veil-b',[rect('cool-x',24,24,56,56,{'r':0.3,'g':0.5,'b':0.85,'a':0.8})],opacity=0.5)]))
+                o1=png_digest('overlap-lab',1)
+                strict=preview('overlap-lab',1,{'op':{'kind':'merge','layers':['veil-a','veil-b']}})['plan']
+                assert strict['class']=='refused' and strict['measured_max_delta']>0
+                loose=preview('overlap-lab',1,{'op':{'kind':'merge','layers':['veil-a','veil-b']},'tolerance':255})['plan']
+                assert loose['class']=='bounded' and not loose['background_independent'] and loose['measured_max_delta']==strict['measured_max_delta']
+                bad=apply('overlap-lab',1,{'kind':'merge','layers':['veil-a','veil-b']},status=400);assert bad['restructure']['class']=='refused'
+                done=apply('overlap-lab',1,{'kind':'merge','layers':['veil-a','veil-b']},tolerance=255)
+                assert done['restructure']['class']=='bounded' and png_digest('overlap-lab',2)!=o1
+                # splitting a translucent disjoint group out of an attributed layer is exact
+                make('split-lab','形状拆出实验',plate_doc([
+                    layer('duo',[rect('low-box',4,4,28,28,{'r':0.9,'g':0.4,'b':0.3,'a':0.6}),rect('top-box',36,36,60,60,{'r':0.3,'g':0.7,'b':0.9,'a':0.9})],opacity=0.8),
+                    layer('plain',[rect('p-low',4,32,28,60,{'r':0.7,'g':0.7,'b':0.2,'a':0.5}),rect('p-top',36,4,60,28,{'r':0.2,'g':0.7,'b':0.7,'a':0.5})])]))
+                s1=png_digest('split-lab',1)
+                plan=preview('split-lab',1,{'op':{'kind':'split','layer':'duo','shapes':['top-box'],'position':'above'}})['plan']
+                assert plan['class']=='exact' and plan['measured_max_delta']==0
+                plan=preview('split-lab',1,{'op':{'kind':'split','layer':'plain','shapes':['p-low'],'position':'above'}})['plan']
+                assert plan['class']=='exact'
+                done=apply('split-lab',1,{'kind':'split','layer':'duo','shapes':['top-box'],'position':'above'})
+                assert png_digest('split-lab',2)==s1
+                newdoc=done['plate']['revisions'][1]['document']
+                assert [l['id'] for l in newdoc['layers']]==['duo','duo-x1','plain']
+                assert newdoc['layers'][1]['opacity']==0.8 and len(newdoc['layers'][0]['shapes'])==1
+                # overlapping translucent shapes under group opacity cannot split exactly at zero tolerance
+                make('tangle-lab','重叠透明拆出拒绝',plate_doc([
+                    layer('tangle',[rect('one',8,8,40,40,{'r':0.8,'g':0.3,'b':0.3,'a':0.7}),rect('two',24,24,56,56,{'r':0.3,'g':0.4,'b':0.8,'a':0.7})],opacity=0.6)]))
+                plan=preview('tangle-lab',1,{'op':{'kind':'split','layer':'tangle','shapes':['one'],'position':'below'}})['plan']
+                assert plan['class']=='refused' and plan['measured_max_delta']>0
+                # contract rejections: bad tolerance, unknown kind, stale expected revision
+                call('POST','/v1/plates/split-lab/restructure?revision=1',{'op':{'kind':'split','layer':'duo','shapes':['top-box']},'tolerance':300},status=400)
+                call('POST','/v1/plates/split-lab/restructure?revision=1',{'op':{'kind':'rotate'}},status=400)
+                call('POST','/v1/plates/split-lab/restructure/apply',{'expected_revision':9,'op':{'kind':'split','layer':'duo','shapes':['top-box']}},status=409)
             else:raise RuntimeError('unknown workflow '+w)
             print(json.dumps({'workflow':w,'result':'passed','entry':'HTTP','port':port},ensure_ascii=False))
         finally:stop();log.close()

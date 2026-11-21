@@ -24,6 +24,14 @@ examples/amber-proof.json 提供曲线、线性渐变、仿射变换、镂空、
 
 PNG 是像素校样的权威结果：每像素四点覆盖采样，画布最大512×512。SVG 是复用展开几何的矢量校样；浏览器在覆盖率与透明渐变插值方面可能产生差异，不承诺逐像素相同。所有数值和引用均由服务生成，SVG不接受任意标记、脚本或外链。
 
+## 拆并与等价分级
+
+整理稿件时可以把相邻几层合成一层，或把一层里的部分形状拆成新层。POST /v1/plates/{id}/restructure?revision=N 对指定稿本做只读分析：body 带 op 时评估一次具体合并（{"op":{"kind":"merge","layers":["low","high"]}}）或拆出（{"op":{"kind":"split","layer":"duo","shapes":["top-box"],"position":"above"}}）；省略 op 时枚举全部相邻层合并与按覆盖连通分组得到的拆出候选。tolerance 是逐通道容差（RGBA8 空间 0..255，缺省 0）。
+
+每个候选分为三级。exact：合成恒等式对任意底色与上下文层成立——normal 且组透明度为 1 的结合律情形（允许形状重叠，全不透明层自然包含在内），或覆盖互不相交使组透明度与 multiply/screen 可交换的情形；含透明度但互不相交的稿件同样可得 exact，不会被一律拒绝。bounded：在当前底色与画布上整图重渲染差异不超过容差，换底色或改动上下文层后可能失效，响应给出实测最大通道差。refused：附 reasons 说明不成立之处（混合方式或裁域不同、层不相邻、形状超容量、实测差异超容差等）。exact 与 bounded 的响应都附带完整可编辑形状场景，不以整图位图取代。
+
+POST /v1/plates/{id}/restructure/apply 以 expected_revision 重新核对最新稿本，仅接受 exact 或 bounded，然后把新场景作为新稿本追加；refused 返回 400 与计划详情，历史稿本不变。
+
 ## 版本及生命周期
 
 新建版面的初始稿本为1。PUT 传 expected_revision，只有当前最新版本相符才追加；旧版本不修改。归档禁止后续修订，仍可渲染历史及从历史分支。异步任务提交即捕获指定稿本；稍后修订不会改变它。任务只在当前进程内保留，重启后以已持久化成品为事实，不支持任务续跑；256条任务记录用尽后拒绝新任务。两名工作者、8条等待队列，所有渲染共用2个计算名额，同步或异步均可能在拥挤时得到拒绝。
@@ -39,7 +47,7 @@ python3 scripts/walkthrough.py --workflow png
 python3 scripts/walkthrough.py --workflow bundle
 ```
 
-可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
+可选workflow值：create、revise、branch、archive、png、svg、exposure、cancel、artifact、proof、bundle、restore、isolation、rejection、restructure。每个流程在临时数据根启动实际HTTP服务，完成后正常关停，不占用长期端口、不修改演示输入。
 
 ## 持久化与范围
 

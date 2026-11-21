@@ -8,6 +8,7 @@ import (
 	"prismplate/internal/exposure"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
+	"prismplate/internal/restructure"
 	"prismplate/internal/scene"
 	"prismplate/internal/validate"
 	"prismplate/internal/vector"
@@ -106,16 +107,25 @@ func (s *Service) capture(id string, revision int) (repository.Revision, error) 
 	}
 	return p.Revisions[revision-1], nil
 }
-func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
-	var a repository.Artifact
+
+// acquire takes one shared compute slot or reports the service as busy.
+func (s *Service) acquire(ctx context.Context) (func(), error) {
 	select {
 	case s.slots <- struct{}{}:
-		defer func() { <-s.slots }()
+		return func() { <-s.slots }, nil
 	case <-ctx.Done():
-		return a, ctx.Err()
+		return nil, ctx.Err()
 	default:
-		return a, exposure.ErrBusy
+		return nil, exposure.ErrBusy
 	}
+}
+func (s *Service) render(ctx context.Context, id string, r repository.Revision, format string) (repository.Artifact, error) {
+	var a repository.Artifact
+	release, err := s.acquire(ctx)
+	if err != nil {
+		return a, err
+	}
+	defer release()
 	c, err := validate.Compile(r.Document)
 	if err != nil {
 		return a, err
@@ -250,6 +260,77 @@ func (s *Service) Export(id string) ([]byte, error) {
 		return nil, e
 	}
 	return bundle.Seal(p)
+}
+
+// RestructureResult is the read-only outcome of a restructure preview: either
+// the graded plan for one requested op, or the discovered candidates.
+type RestructureResult struct {
+	Revision    int                    `json:"revision"`
+	SceneDigest string                 `json:"scene_digest"`
+	Plan        *restructure.Plan      `json:"plan,omitempty"`
+	Discovery   *restructure.Discovery `json:"discovery,omitempty"`
+}
+
+func (s *Service) RestructurePreview(ctx context.Context, id string, revision int, req restructure.Request) (RestructureResult, error) {
+	r, err := s.capture(id, revision)
+	if err != nil {
+		return RestructureResult{}, err
+	}
+	release, err := s.acquire(ctx)
+	if err != nil {
+		return RestructureResult{}, err
+	}
+	defer release()
+	res := RestructureResult{Revision: r.Number, SceneDigest: r.Digest}
+	if req.Op == nil {
+		d, err := restructure.Discover(ctx, r.Document, req.Tolerance)
+		if err != nil {
+			return res, err
+		}
+		res.Discovery = &d
+		return res, nil
+	}
+	p, err := restructure.Evaluate(ctx, r.Document, *req.Op, req.Tolerance)
+	if err != nil {
+		return res, err
+	}
+	res.Plan = &p
+	return res, nil
+}
+
+// RestructureApply re-evaluates the op against the latest revision and, when
+// the plan is exact or bounded within tolerance, appends the restructured
+// document as a new revision through the normal revise path.
+func (s *Service) RestructureApply(ctx context.Context, id string, expected int, req restructure.Request) (repository.Plate, restructure.Plan, error) {
+	if req.Op == nil {
+		return repository.Plate{}, restructure.Plan{}, fmt.Errorf("restructure apply requires an op")
+	}
+	p, err := s.Plate(id)
+	if err != nil {
+		return p, restructure.Plan{}, err
+	}
+	if p.State != "active" {
+		return p, restructure.Plan{}, repository.ErrState
+	}
+	if len(p.Revisions) != expected {
+		return p, restructure.Plan{}, repository.ErrConflict
+	}
+	release, err := s.acquire(ctx)
+	if err != nil {
+		return p, restructure.Plan{}, err
+	}
+	plan, err := restructure.Evaluate(ctx, p.Revisions[len(p.Revisions)-1].Document, *req.Op, req.Tolerance)
+	release()
+	if err != nil {
+		return p, plan, err
+	}
+	if plan.Class == restructure.Refused {
+		return p, plan, restructure.Refusal{Plan: plan}
+	}
+	doc := *plan.Document
+	plan.Document = nil
+	p, err = s.Revise(id, expected, doc)
+	return p, plan, err
 }
 func (s *Service) Import(raw []byte) (repository.Plate, error) {
 	p, e := bundle.Open(raw)
