@@ -1,0 +1,482 @@
+{
+  "cases": [
+    {
+      "id": "case-a1-bowtie",
+      "title": "A1 领结自交：有向面积 5760，两块实心",
+      "file": "case-a1-bowtie.json",
+      "group": "A",
+      "question": "有向面积的正负/大小能否说明孔数",
+      "claim": "单环自交成两瓣，绕向相反：有向面积 7680-1920，填充 7680+1920；两瓣只在交点相接",
+      "pairs": [
+        "case-a2-nested-opposite",
+        "case-a4-zero-bowtie",
+        "case-b1-same-orientation"
+      ],
+      "family": "self-intersection",
+      "degenerate": true
+    },
+    {
+      "id": "case-a2-nested-opposite",
+      "title": "A2 内环反向且完全包含：有向面积 5760，一个孔",
+      "file": "case-a2-nested-opposite.json",
+      "group": "A",
+      "question": "反向内环是否一定成孔",
+      "claim": "外环 7680、内环 -1920；有向面积等于填充面积 5760，孔洞恰好 1 个",
+      "pairs": [
+        "case-a1-bowtie",
+        "case-b1-same-orientation"
+      ],
+      "family": "orientation",
+      "degenerate": false
+    },
+    {
+      "id": "case-a3-crossing-opposite",
+      "title": "A3 反向内环穿出外环：有向面积 5760，孔消失",
+      "file": "case-a3-crossing-opposite.json",
+      "group": "A",
+      "question": "同样的两环，平移是否改变孔数",
+      "claim": "内环左边越出外环；有向面积仍 5760，填充 7040，孔与连通块随接触约定改变",
+      "pairs": [
+        "case-a2-nested-opposite"
+      ],
+      "family": "orientation",
+      "degenerate": true
+    },
+    {
+      "id": "case-a4-zero-bowtie",
+      "title": "A4 对称领结：有向面积 0，填充 6144",
+      "file": "case-a4-zero-bowtie.json",
+      "group": "A",
+      "question": "有向面积为 0 是否等于没有填充",
+      "claim": "两瓣等面积、反向绕，有向面积严格为 0；两瓣各 3072，只在交点相接",
+      "pairs": [
+        "case-a1-bowtie",
+        "case-a5-zero-disjoint",
+        "case-e13-cancelling-rings"
+      ],
+      "family": "zero-area",
+      "degenerate": true
+    },
+    {
+      "id": "case-a5-zero-disjoint",
+      "title": "A5 两个反向分离形状：有向面积 0，两块实心",
+      "file": "case-a5-zero-disjoint.json",
+      "group": "A",
+      "question": "有向面积 0 能否说明是空图",
+      "claim": "两块各 3200、绕向相反，和严格为 0；两块分离，孔 0",
+      "pairs": [
+        "case-a4-zero-bowtie",
+        "case-e13-cancelling-rings"
+      ],
+      "family": "zero-area",
+      "degenerate": false
+    },
+    {
+      "id": "case-b1-same-orientation",
+      "title": "B1 内环同向且包含：有向面积 5760，零孔",
+      "file": "case-b1-same-orientation.json",
+      "group": "B",
+      "question": "有向面积相同是否等于拓扑相同",
+      "claim": "与 A2 同为 5760；同向内环不挖孔，填充 4800",
+      "pairs": [
+        "case-a2-nested-opposite"
+      ],
+      "family": "orientation",
+      "degenerate": false
+    },
+    {
+      "id": "case-b2-mirror-disjoint",
+      "title": "B2 镜像 + 外侧小环：有向面积 -3840，两块实心",
+      "file": "case-b2-mirror-disjoint.json",
+      "group": "B",
+      "question": "镜像是否改变拓扑",
+      "claim": "镜像行列式 -1，画布有向面积 -3840；两环分离，连通块 2、孔 0",
+      "pairs": [
+        "case-b3-mirror-nested",
+        "case-b4-direct-nested"
+      ],
+      "family": "mirror",
+      "degenerate": false
+    },
+    {
+      "id": "case-b3-mirror-nested",
+      "title": "B3 镜像 + 内环包含：有向面积 -3840，一个孔",
+      "file": "case-b3-mirror-nested.json",
+      "group": "B",
+      "question": "同有向面积是否同孔数",
+      "claim": "与 B2 同为 -3840；内环被包含，连通块 1、孔 1、填充 3840",
+      "pairs": [
+        "case-b2-mirror-disjoint",
+        "case-b4-direct-nested"
+      ],
+      "family": "mirror",
+      "degenerate": false
+    },
+    {
+      "id": "case-b4-direct-nested",
+      "title": "B4 同稿不镜像：有向面积 +3840，一个孔",
+      "file": "case-b4-direct-nested.json",
+      "group": "B",
+      "question": "镜像是否只改符号",
+      "claim": "与 B3 同一本地轮廓；镜像只把有向面积翻成 -3840，连通块与孔数不变",
+      "pairs": [
+        "case-b3-mirror-nested"
+      ],
+      "family": "mirror",
+      "degenerate": false
+    },
+    {
+      "id": "case-b5-two-shapes",
+      "title": "B5 两个独立形状：和 +4800，两块实心",
+      "file": "case-b5-two-shapes.json",
+      "group": "B",
+      "question": "多形状的有向面积能否相加后判断孔数",
+      "claim": "逐形状有向面积 2400+2400=4800；两块分离，连通块 2、孔 0",
+      "pairs": [
+        "case-b6-one-shape"
+      ],
+      "family": "union",
+      "degenerate": false
+    },
+    {
+      "id": "case-b6-one-shape",
+      "title": "B6 单个形状：有向面积 +4800，一块实心",
+      "file": "case-b6-one-shape.json",
+      "group": "B",
+      "question": "同有向面积是否同连通块数",
+      "claim": "与 B5 同为 4800；这里一块实心，连通块 1、孔 0",
+      "pairs": [
+        "case-b5-two-shapes"
+      ],
+      "family": "union",
+      "degenerate": false
+    },
+    {
+      "id": "case-c1-oval-nested",
+      "title": "C1 曲线复合轮廓：精确有向面积 17520，一个孔",
+      "file": "case-c1-oval-nested.json",
+      "group": "C",
+      "question": "曲线稿的有向面积怎样算才不依赖像素",
+      "claim": "三次曲线精确积分 17520（外 20160、内 -2640）；16/24 折线拓扑一致但面积略小",
+      "pairs": [
+        "case-c2-oval-crossing",
+        "case-c4-oval-pair",
+        "case-c5-oval-mirror"
+      ],
+      "family": "curve",
+      "degenerate": false
+    },
+    {
+      "id": "case-c2-oval-crossing",
+      "title": "C2 曲线内环穿出外环：有向面积 17520，两次横穿",
+      "file": "case-c2-oval-crossing.json",
+      "group": "C",
+      "question": "曲线平移后面积是否变",
+      "claim": "精确有向面积仍 17520；两环横向相交，填充集合随接触约定变化",
+      "pairs": [
+        "case-c1-oval-nested",
+        "case-c3-oval-near-tangent"
+      ],
+      "family": "curve",
+      "degenerate": true
+    },
+    {
+      "id": "case-c6-oval-shallow-cross",
+      "title": "C6 曲线浅交：重叠 1e-4，有向面积 17520",
+      "file": "case-c6-oval-shallow-cross.json",
+      "group": "C",
+      "question": "浅交与近切是否可判",
+      "claim": "两曲线真实相交，交叠深度约 1e-4，小于折线误差界 b；证书无法在 b 内确认绕数翻转",
+      "pairs": [
+        "case-c2-oval-crossing",
+        "case-c3-oval-near-tangent"
+      ],
+      "family": "curve",
+      "degenerate": true
+    },
+    {
+      "id": "case-c3-oval-near-tangent",
+      "title": "C3 曲线近切：间隙 1e-4，有向面积 17520",
+      "file": "case-c3-oval-near-tangent.json",
+      "group": "C",
+      "question": "曲线要近似到什么程度才够判定拓扑",
+      "claim": "两曲线右端间隙约 1e-4，远小于 16/24 折线误差界；折线会造出交点，真实拓扑不能由折线判定",
+      "pairs": [
+        "case-c1-oval-nested",
+        "case-c2-oval-crossing"
+      ],
+      "family": "curve",
+      "degenerate": true
+    },
+    {
+      "id": "case-c4-oval-pair",
+      "title": "C4 两枚分离椭圆：有向面积 17520，两块实心、零孔",
+      "file": "case-c4-oval-pair.json",
+      "group": "C",
+      "question": "有向面积与填充面积都相同是否拓扑相同",
+      "claim": "精确面积 6720+10800=17520，填充同为 17520；与 C1 相比是 2 块、0 孔",
+      "pairs": [
+        "case-c1-oval-nested",
+        "case-c5-oval-mirror"
+      ],
+      "family": "curve",
+      "degenerate": false
+    },
+    {
+      "id": "case-c5-oval-mirror",
+      "title": "C5 曲线稿镜像：有向面积 -17520，一个孔",
+      "file": "case-c5-oval-mirror.json",
+      "group": "C",
+      "question": "镜像曲线是否改变孔数",
+      "claim": "与 C1 同一本地稿；有向面积变号 -17520，拓扑仍是 1 块 1 孔",
+      "pairs": [
+        "case-c1-oval-nested"
+      ],
+      "family": "curve",
+      "degenerate": false
+    },
+    {
+      "id": "case-d1-star-nonzero",
+      "title": "D1 五角星 nonzero：有向面积 13697，一块实心",
+      "file": "case-d1-star-nonzero.json",
+      "group": "D",
+      "question": "有向面积能否区分填充规则",
+      "claim": "中心五边形绕数 2；nonzero 仍填充，五角与中心连成 1 块、孔 0",
+      "pairs": [
+        "case-d2-star-evenodd"
+      ],
+      "family": "fill-rule",
+      "degenerate": false
+    },
+    {
+      "id": "case-d2-star-evenodd",
+      "title": "D2 五角星 evenodd：有向面积 13697，五角加中心孔",
+      "file": "case-d2-star-evenodd.json",
+      "group": "D",
+      "question": "同一路径换规则是否改孔数",
+      "claim": "有向面积同为 13697；中心被挖空，五角只在交点相接",
+      "pairs": [
+        "case-d1-star-nonzero"
+      ],
+      "family": "fill-rule",
+      "degenerate": true
+    },
+    {
+      "id": "case-d3-duplicate-nonzero",
+      "title": "D3 完全重合双环 nonzero：有向面积 15360，实心 7680",
+      "file": "case-d3-duplicate-nonzero.json",
+      "group": "D",
+      "question": "重合边界的有向面积是否有意义",
+      "claim": "两环完全重合，有向面积是单环两倍 15360，填充仍是 7680；边界处处重合，按重合约定计数",
+      "pairs": [
+        "case-d4-duplicate-evenodd"
+      ],
+      "family": "coincident",
+      "degenerate": true
+    },
+    {
+      "id": "case-d4-duplicate-evenodd",
+      "title": "D4 完全重合双环 evenodd：有向面积 15360，填充为空",
+      "file": "case-d4-duplicate-evenodd.json",
+      "group": "D",
+      "question": "同一退化边界换规则会怎样",
+      "claim": "有向面积仍 15360，绕数处处为偶，填充为空，连通块 0、孔 0；重合边界同样是退化",
+      "pairs": [
+        "case-d3-duplicate-nonzero"
+      ],
+      "family": "coincident",
+      "degenerate": true
+    },
+    {
+      "id": "case-e1-hole-inside",
+      "title": "E1 孔完全在内：有向面积 6528，一个孔",
+      "file": "case-e1-hole-inside.json",
+      "group": "E",
+      "question": "孔洞与边界接触时孔数是多少",
+      "claim": "反向菱形环完全在外环内：孔洞 1，填充 6528",
+      "pairs": [
+        "case-e3-hole-crossing"
+      ],
+      "family": "hole-boundary",
+      "degenerate": false
+    },
+    {
+      "id": "case-e2-hole-tangent",
+      "title": "E2 孔与外边界单点相切：有向面积 6528",
+      "file": "case-e2-hole-tangent.json",
+      "group": "E",
+      "question": "孔洞与边界接触时孔数是多少",
+      "claim": "菱形孔尖点落在矩形右边线上：孔数取决于开/闭约定",
+      "pairs": [
+        "case-e1-hole-inside",
+        "case-e3-hole-crossing"
+      ],
+      "family": "hole-boundary",
+      "degenerate": true
+    },
+    {
+      "id": "case-e3-hole-crossing",
+      "title": "E3 孔环穿出外边界：有向面积 6528，孔消失",
+      "file": "case-e3-hole-crossing.json",
+      "group": "E",
+      "question": "孔洞与边界接触时孔数是多少",
+      "claim": "内环越出外环：外凸部分按 nonzero 被填充，缺口与孔都随约定改变",
+      "pairs": [
+        "case-e1-hole-inside",
+        "case-e3-hole-crossing"
+      ],
+      "family": "hole-boundary",
+      "degenerate": true
+    },
+    {
+      "id": "case-e4-apex-apart",
+      "title": "E4 两菱形分离：有向面积 6400，两块实心",
+      "file": "case-e4-apex-apart.json",
+      "group": "E",
+      "question": "单点接触算不算同一边界",
+      "claim": "两瓣间距 14，开/闭读法都给连通块 2、孔 0",
+      "pairs": [
+        "case-e6-apex-overlap"
+      ],
+      "family": "point-contact",
+      "degenerate": false
+    },
+    {
+      "id": "case-e5-apex-contact",
+      "title": "E5 两菱形单点相接：有向面积 6400，两块还是一块",
+      "file": "case-e5-apex-contact.json",
+      "group": "E",
+      "question": "单点接触算不算同一边界",
+      "claim": "两瓣只在一点接触；开集两块，闭包一块",
+      "pairs": [
+        "case-e4-apex-apart",
+        "case-e6-apex-overlap"
+      ],
+      "family": "point-contact",
+      "degenerate": true
+    },
+    {
+      "id": "case-e6-apex-overlap",
+      "title": "E6 两菱形重叠：有向面积 6400，一块实心",
+      "file": "case-e6-apex-overlap.json",
+      "group": "E",
+      "question": "单点接触算不算同一边界",
+      "claim": "重叠 16：并集一块，填充面积小于有向面积",
+      "pairs": [
+        "case-e4-apex-apart",
+        "case-e6-apex-overlap"
+      ],
+      "family": "point-contact",
+      "degenerate": false
+    },
+    {
+      "id": "case-e7-edge-gap",
+      "title": "E7 两矩形留缝：有向面积 11520，两块实心",
+      "file": "case-e7-edge-gap.json",
+      "group": "E",
+      "question": "共边重叠算不算连通",
+      "claim": "两矩形间距 4，连通块 2、孔 0",
+      "pairs": [
+        "case-e9-edge-overlap"
+      ],
+      "family": "edge-contact",
+      "degenerate": false
+    },
+    {
+      "id": "case-e8-edge-shared",
+      "title": "E8 两矩形共边：有向面积 11520，两块还是一块",
+      "file": "case-e8-edge-shared.json",
+      "group": "E",
+      "question": "共边重叠算不算连通",
+      "claim": "共享一段边；开集两块，闭包一块",
+      "pairs": [
+        "case-e7-edge-gap",
+        "case-e9-edge-overlap"
+      ],
+      "family": "edge-contact",
+      "degenerate": true
+    },
+    {
+      "id": "case-e9-edge-overlap",
+      "title": "E9 两矩形重叠：有向面积 11520，一块实心",
+      "file": "case-e9-edge-overlap.json",
+      "group": "E",
+      "question": "共边重叠算不算连通",
+      "claim": "重叠 8：并集一块，填充 11136",
+      "pairs": [
+        "case-e7-edge-gap",
+        "case-e9-edge-overlap"
+      ],
+      "family": "edge-contact",
+      "degenerate": false
+    },
+    {
+      "id": "case-e10-curve-gap",
+      "title": "E10 两椭圆分离：有向面积 7800，两块实心",
+      "file": "case-e10-curve-gap.json",
+      "group": "E",
+      "question": "曲线相切能否由折线判定",
+      "claim": "两椭圆间隙 6，远大于折线误差界；连通块 2、孔 0",
+      "pairs": [
+        "case-e12-curve-overlap"
+      ],
+      "family": "curve-contact",
+      "degenerate": false
+    },
+    {
+      "id": "case-e11-curve-tangent",
+      "title": "E11 两椭圆外切：有向面积 7800，两块还是一块",
+      "file": "case-e11-curve-tangent.json",
+      "group": "E",
+      "question": "曲线相切能否由折线判定",
+      "claim": "两椭圆在 (127,96) 有公切线；折线在切点相接，计数依赖约定",
+      "pairs": [
+        "case-e10-curve-gap",
+        "case-e12-curve-overlap"
+      ],
+      "family": "curve-contact",
+      "degenerate": true
+    },
+    {
+      "id": "case-e12-curve-overlap",
+      "title": "E12 两椭圆重叠：有向面积 7800，一块实心",
+      "file": "case-e12-curve-overlap.json",
+      "group": "E",
+      "question": "曲线相切能否由折线判定",
+      "claim": "重叠 8：并集一块，填充面积小于有向面积",
+      "pairs": [
+        "case-e10-curve-gap",
+        "case-e12-curve-overlap"
+      ],
+      "family": "curve-contact",
+      "degenerate": false
+    },
+    {
+      "id": "case-e13-cancelling-rings",
+      "title": "E13 反向完全重合双环：有向面积 0，填充为空",
+      "file": "case-e13-cancelling-rings.json",
+      "group": "E",
+      "question": "填充为空是否等于没有退化",
+      "claim": "处处绕数 0，填充集为空；但两条边界完全重合，任何区域计数都建立在重合约定上",
+      "pairs": [
+        "case-a5-zero-disjoint",
+        "case-a4-zero-bowtie"
+      ],
+      "family": "cancellation",
+      "degenerate": true
+    },
+    {
+      "id": "case-e14-subpixel-ring",
+      "title": "E14 亚像素边框：线宽 0.02，有向面积 7.0384",
+      "file": "case-e14-subpixel-ring.json",
+      "group": "E",
+      "question": "几何上存在的孔，像素校样看不见",
+      "claim": "外环 7680、内环 -7672.9616，几何填充是宽 0.02 的边框，面积 7.0384；512 像素覆盖下边框必然消失，孔 1 个但肉眼不可见",
+      "pairs": [
+        "case-e1-hole-inside"
+      ],
+      "family": "subpixel",
+      "degenerate": true
+    }
+  ]
+}

@@ -1,0 +1,164 @@
+{
+  "id": "case-c4-oval-pair",
+  "title": "C4 两枚分离椭圆：有向面积 17520，两块实心、零孔",
+  "group": "C",
+  "question": "有向面积与填充面积都相同是否拓扑相同",
+  "claim": "精确面积 6720+10800=17520，填充同为 17520；与 C1 相比是 2 块、0 孔",
+  "fill_rule": "nonzero",
+  "degenerate_declared": false,
+  "per_shape": [
+    {
+      "id": "shape-ovals",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "17520",
+      "local_signed": 17520.0,
+      "canvas_signed_exact": "17520",
+      "canvas_signed": 17520.0,
+      "determinant": "1",
+      "flattened_signed": 17507.833333333332
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "17520",
+    "local_signed": 17520.0,
+    "canvas_signed_exact": "17520",
+    "canvas_signed": 17520.0,
+    "flattened_signed": 17507.833333333332,
+    "filled_exact": "105047/6",
+    "filled": 17507.833333333332
+  },
+  "topology": {
+    "hole_area_exact": "0",
+    "components_open": 2,
+    "components_closure": 2,
+    "holes_open": 0,
+    "holes_closure": 0,
+    "faces_open": 3,
+    "faces_closure": 3,
+    "cells": 290,
+    "vertex_contacts": 378
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.035035479289254455,
+    "minimum_clearance": 3.428096354838283,
+    "contact_pairs": 0,
+    "minimum_clearance_at": [
+      [
+        107.91666666666667,
+        99.42708333333333
+      ],
+      [
+        108.0,
+        96.0
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 17471.333333333332,
+        "signed_area": 17471.333333333332,
+        "error_bound": 0.14014191715701782
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 17507.833333333332,
+        "signed_area": 17507.833333333332,
+        "error_bound": 0.035035479289254455
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 17516.958333333332,
+        "signed_area": 17516.958333333332,
+        "error_bound": 0.008758869822313614
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 17519.239583333332,
+        "signed_area": 17519.239583333332,
+        "error_bound": 0.0021897174555784034
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 0,
+    "minimum_crossing_angle_deg": null,
+    "vertex_contacts": 0,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "21585/2",
+      "area": 10792.5,
+      "sample_point": [
+        "18005/96",
+        "96"
+      ],
+      "cells": 48
+    },
+    {
+      "kind": "filled-component",
+      "index": 1,
+      "area_exact": "20146/3",
+      "area": 6715.333333333333,
+      "sample_point": [
+        "1393/24",
+        "96"
+      ],
+      "cells": 48
+    }
+  ],
+  "uncertain": [],
+  "curve_certificate": {
+    "applies": true,
+    "bound": 0.035035479289254455,
+    "pairs": [
+      {
+        "a": "shape-ovals",
+        "b": "shape-ovals",
+        "relation": "separated",
+        "transfer": "faithful",
+        "true_curves_certified_disjoint": true,
+        "separation_lower_bound_sq": 484.0,
+        "shared_points": [],
+        "witnesses": 0
+      }
+    ]
+  },
+  "contact_degrees": [],
+  "boundary_degenerate": false,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined",
+  "visibility": "visible",
+  "component_status": "determined",
+  "hole_status": "determined",
+  "status_reasons": []
+}

@@ -1,0 +1,276 @@
+{
+  "id": "case-d4-duplicate-evenodd",
+  "title": "D4 完全重合双环 evenodd：有向面积 15360，填充为空",
+  "group": "D",
+  "question": "同一退化边界换规则会怎样",
+  "claim": "有向面积仍 15360，绕数处处为偶，填充为空，连通块 0、孔 0；重合边界同样是退化",
+  "fill_rule": "evenodd",
+  "degenerate_declared": true,
+  "per_shape": [
+    {
+      "id": "shape-duplicate",
+      "fill_rule": "evenodd",
+      "local_signed_exact": "15360",
+      "local_signed": 15360.0,
+      "canvas_signed_exact": "15360",
+      "canvas_signed": 15360.0,
+      "determinant": "1",
+      "flattened_signed": 15360.0
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "15360",
+    "local_signed": 15360.0,
+    "canvas_signed_exact": "15360",
+    "canvas_signed": 15360.0,
+    "flattened_signed": 15360.0,
+    "filled_exact": "0",
+    "filled": 0.0
+  },
+  "topology": {
+    "hole_area_exact": "0",
+    "components_open": 0,
+    "components_closure": 0,
+    "holes_open": 0,
+    "holes_closure": 0,
+    "faces_open": 1,
+    "faces_closure": 1,
+    "cells": 5,
+    "vertex_contacts": 0
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.0,
+    "minimum_clearance": 80.0,
+    "contact_pairs": 12,
+    "minimum_clearance_at": [
+      [
+        64.0,
+        48.0
+      ],
+      [
+        64.0,
+        128.0
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 0,
+        "components_closure": 0,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 0.0,
+        "signed_area": 15360.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 0,
+        "components_closure": 0,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 0.0,
+        "signed_area": 15360.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 0,
+        "components_closure": 0,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 0.0,
+        "signed_area": 15360.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 0,
+        "components_closure": 0,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 0.0,
+        "signed_area": 15360.0,
+        "error_bound": 0.0
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 0,
+    "minimum_crossing_angle_deg": null,
+    "vertex_contacts": 4,
+    "coincident_overlaps": 4
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [],
+  "uncertain": [
+    {
+      "kind": "vertex-contact",
+      "point": [
+        "160",
+        "48"
+      ]
+    },
+    {
+      "kind": "vertex-contact",
+      "point": [
+        "64",
+        "48"
+      ]
+    },
+    {
+      "kind": "vertex-contact",
+      "point": [
+        "160",
+        "128"
+      ]
+    },
+    {
+      "kind": "vertex-contact",
+      "point": [
+        "64",
+        "128"
+      ]
+    },
+    {
+      "kind": "coincident-overlap",
+      "segments": [
+        [
+          [
+            "64",
+            "48"
+          ],
+          [
+            "160",
+            "48"
+          ]
+        ],
+        [
+          [
+            "64",
+            "48"
+          ],
+          [
+            "160",
+            "48"
+          ]
+        ]
+      ],
+      "regions": [
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "coincident-overlap",
+      "segments": [
+        [
+          [
+            "160",
+            "48"
+          ],
+          [
+            "160",
+            "128"
+          ]
+        ],
+        [
+          [
+            "160",
+            "48"
+          ],
+          [
+            "160",
+            "128"
+          ]
+        ]
+      ],
+      "regions": [
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "coincident-overlap",
+      "segments": [
+        [
+          [
+            "160",
+            "128"
+          ],
+          [
+            "64",
+            "128"
+          ]
+        ],
+        [
+          [
+            "160",
+            "128"
+          ],
+          [
+            "64",
+            "128"
+          ]
+        ]
+      ],
+      "regions": [
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "coincident-overlap",
+      "segments": [
+        [
+          [
+            "64",
+            "128"
+          ],
+          [
+            "64",
+            "48"
+          ]
+        ],
+        [
+          [
+            "64",
+            "128"
+          ],
+          [
+            "64",
+            "48"
+          ]
+        ]
+      ],
+      "regions": [
+        0,
+        0
+      ]
+    }
+  ],
+  "curve_certificate": {
+    "applies": false
+  },
+  "contact_degrees": [],
+  "boundary_degenerate": true,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined-with-contact",
+  "visibility": "visible",
+  "component_status": "determined-with-contact",
+  "hole_status": "determined-with-contact",
+  "status_reasons": [
+    "4 vertex contact(s) between distinct boundary elements",
+    "4 coincident edge overlap(s) between distinct shapes"
+  ]
+}

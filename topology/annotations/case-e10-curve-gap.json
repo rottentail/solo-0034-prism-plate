@@ -1,0 +1,164 @@
+{
+  "id": "case-e10-curve-gap",
+  "title": "E10 两椭圆分离：有向面积 7800，两块实心",
+  "group": "E",
+  "question": "曲线相切能否由折线判定",
+  "claim": "两椭圆间隙 6，远大于折线误差界；连通块 2、孔 0",
+  "fill_rule": "nonzero",
+  "degenerate_declared": false,
+  "per_shape": [
+    {
+      "id": "shape-tangent-ovals",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "7800",
+      "local_signed": 7800.0,
+      "canvas_signed_exact": "7800",
+      "canvas_signed": 7800.0,
+      "determinant": "1",
+      "flattened_signed": 7794.583333333333
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "7800",
+    "local_signed": 7800.0,
+    "canvas_signed_exact": "7800",
+    "canvas_signed": 7800.0,
+    "flattened_signed": 7794.583333333333,
+    "filled_exact": "93535/12",
+    "filled": 7794.583333333333
+  },
+  "topology": {
+    "hole_area_exact": "0",
+    "components_open": 2,
+    "components_closure": 2,
+    "holes_open": 0,
+    "holes_closure": 0,
+    "faces_open": 3,
+    "faces_closure": 3,
+    "cells": 290,
+    "vertex_contacts": 378
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.021355754514136363,
+    "minimum_clearance": 2.448852879481992,
+    "contact_pairs": 0,
+    "minimum_clearance_at": [
+      [
+        126.93229166666667,
+        98.44791666666667
+      ],
+      [
+        127.0,
+        96.0
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7778.333333333333,
+        "signed_area": 7778.333333333333,
+        "error_bound": 0.08542301805654545
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7794.583333333333,
+        "signed_area": 7794.583333333333,
+        "error_bound": 0.021355754514136363
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7798.645833333333,
+        "signed_area": 7798.645833333333,
+        "error_bound": 0.005338938628534091
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7799.661458333333,
+        "signed_area": 7799.661458333333,
+        "error_bound": 0.0013347346571335227
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 0,
+    "minimum_crossing_angle_deg": null,
+    "vertex_contacts": 0,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "93535/24",
+      "area": 3897.2916666666665,
+      "sample_point": [
+        "33181/384",
+        "96"
+      ],
+      "cells": 48
+    },
+    {
+      "kind": "filled-component",
+      "index": 1,
+      "area_exact": "93535/24",
+      "area": 3897.2916666666665,
+      "sample_point": [
+        "65437/384",
+        "96"
+      ],
+      "cells": 48
+    }
+  ],
+  "uncertain": [],
+  "curve_certificate": {
+    "applies": true,
+    "bound": 0.021355754514136363,
+    "pairs": [
+      {
+        "a": "shape-tangent-ovals",
+        "b": "shape-tangent-ovals",
+        "relation": "separated",
+        "transfer": "faithful",
+        "true_curves_certified_disjoint": true,
+        "separation_lower_bound_sq": 36.0,
+        "shared_points": [],
+        "witnesses": 0
+      }
+    ]
+  },
+  "contact_degrees": [],
+  "boundary_degenerate": false,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined",
+  "visibility": "visible",
+  "component_status": "determined",
+  "hole_status": "determined",
+  "status_reasons": []
+}

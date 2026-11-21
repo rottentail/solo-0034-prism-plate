@@ -1,0 +1,161 @@
+{
+  "id": "case-b5-two-shapes",
+  "title": "B5 两个独立形状：和 +4800，两块实心",
+  "group": "B",
+  "question": "多形状的有向面积能否相加后判断孔数",
+  "claim": "逐形状有向面积 2400+2400=4800；两块分离，连通块 2、孔 0",
+  "fill_rule": "nonzero/nonzero",
+  "degenerate_declared": false,
+  "per_shape": [
+    {
+      "id": "shape-left",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "2400",
+      "local_signed": 2400.0,
+      "canvas_signed_exact": "2400",
+      "canvas_signed": 2400.0,
+      "determinant": "1",
+      "flattened_signed": 2400.0
+    },
+    {
+      "id": "shape-right",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "2400",
+      "local_signed": 2400.0,
+      "canvas_signed_exact": "2400",
+      "canvas_signed": 2400.0,
+      "determinant": "1",
+      "flattened_signed": 2400.0
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "4800",
+    "local_signed": 4800.0,
+    "canvas_signed_exact": "4800",
+    "canvas_signed": 4800.0,
+    "flattened_signed": 4800.0,
+    "filled_exact": "4800",
+    "filled": 4800.0
+  },
+  "topology": {
+    "hole_area_exact": "0",
+    "components_open": 2,
+    "components_closure": 2,
+    "holes_open": 0,
+    "holes_closure": 0,
+    "faces_open": 3,
+    "faces_closure": 3,
+    "cells": 8,
+    "vertex_contacts": 0
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.0,
+    "minimum_clearance": 40.0,
+    "contact_pairs": 0,
+    "minimum_clearance_at": [
+      [
+        24.0,
+        48.0
+      ],
+      [
+        24.0,
+        88.0
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 4800.0,
+        "signed_area": 4800.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 4800.0,
+        "signed_area": 4800.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 4800.0,
+        "signed_area": 4800.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 4800.0,
+        "signed_area": 4800.0,
+        "error_bound": 0.0
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 0,
+    "minimum_crossing_angle_deg": null,
+    "vertex_contacts": 0,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "2400",
+      "area": 2400.0,
+      "sample_point": [
+        "54",
+        "68"
+      ],
+      "cells": 1
+    },
+    {
+      "kind": "filled-component",
+      "index": 1,
+      "area_exact": "2400",
+      "area": 2400.0,
+      "sample_point": [
+        "150",
+        "124"
+      ],
+      "cells": 1
+    }
+  ],
+  "uncertain": [],
+  "curve_certificate": {
+    "applies": false
+  },
+  "contact_degrees": [],
+  "boundary_degenerate": false,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined",
+  "visibility": "visible",
+  "component_status": "determined",
+  "hole_status": "determined",
+  "status_reasons": []
+}

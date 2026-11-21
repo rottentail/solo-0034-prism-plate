@@ -1,0 +1,151 @@
+{
+  "id": "case-e4-apex-apart",
+  "title": "E4 两菱形分离：有向面积 6400，两块实心",
+  "group": "E",
+  "question": "单点接触算不算同一边界",
+  "claim": "两瓣间距 14，开/闭读法都给连通块 2、孔 0",
+  "fill_rule": "nonzero",
+  "degenerate_declared": false,
+  "per_shape": [
+    {
+      "id": "shape-lobes",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "6400",
+      "local_signed": 6400.0,
+      "canvas_signed_exact": "6400",
+      "canvas_signed": 6400.0,
+      "determinant": "1",
+      "flattened_signed": 6400.0
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "6400",
+    "local_signed": 6400.0,
+    "canvas_signed_exact": "6400",
+    "canvas_signed": 6400.0,
+    "flattened_signed": 6400.0,
+    "filled_exact": "6400",
+    "filled": 6400.0
+  },
+  "topology": {
+    "hole_area_exact": "0",
+    "components_open": 2,
+    "components_closure": 2,
+    "holes_open": 0,
+    "holes_closure": 0,
+    "faces_open": 3,
+    "faces_closure": 3,
+    "cells": 12,
+    "vertex_contacts": 12
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.0,
+    "minimum_clearance": 14.0,
+    "contact_pairs": 0,
+    "minimum_clearance_at": [
+      [
+        128.0,
+        96.0
+      ],
+      [
+        128.0,
+        110.0
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 6400.0,
+        "signed_area": 6400.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 6400.0,
+        "signed_area": 6400.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 6400.0,
+        "signed_area": 6400.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 2,
+        "components_closure": 2,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 6400.0,
+        "signed_area": 6400.0,
+        "error_bound": 0.0
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 0,
+    "minimum_crossing_angle_deg": null,
+    "vertex_contacts": 0,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "3200",
+      "area": 3200.0,
+      "sample_point": [
+        "108",
+        "56"
+      ],
+      "cells": 2
+    },
+    {
+      "kind": "filled-component",
+      "index": 1,
+      "area_exact": "3200",
+      "area": 3200.0,
+      "sample_point": [
+        "108",
+        "150"
+      ],
+      "cells": 2
+    }
+  ],
+  "uncertain": [],
+  "curve_certificate": {
+    "applies": false
+  },
+  "contact_degrees": [],
+  "boundary_degenerate": false,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined",
+  "visibility": "visible",
+  "component_status": "determined",
+  "hole_status": "determined",
+  "status_reasons": []
+}

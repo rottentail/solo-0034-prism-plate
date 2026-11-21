@@ -1,0 +1,124 @@
+{
+  "id": "case-e14-subpixel-ring",
+  "title": "E14 亚像素边框：线宽 0.02，有向面积 7.0384",
+  "document": {
+    "width": 256,
+    "height": 192,
+    "background": {
+      "r": 0.055,
+      "g": 0.065,
+      "b": 0.09,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "layer-main",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "shape-subpixel",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 48,
+                    "y": 40
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 144,
+                    "y": 40
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 144,
+                    "y": 120
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 48,
+                    "y": 120
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              },
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 48.02,
+                    "y": 119.98
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 143.98,
+                    "y": 119.98
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 143.98,
+                    "y": 40.02
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 48.02,
+                    "y": 40.02
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "fill_rule": "nonzero",
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.12,
+                "g": 0.62,
+                "b": 0.7,
+                "a": 1
+              }
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

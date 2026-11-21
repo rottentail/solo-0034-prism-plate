@@ -1,0 +1,85 @@
+{
+  "id": "case-a1-bowtie",
+  "title": "A1 领结自交：有向面积 5760，两块实心",
+  "document": {
+    "width": 256,
+    "height": 192,
+    "background": {
+      "r": 0.055,
+      "g": 0.065,
+      "b": 0.09,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "layer-main",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "shape-bowtie",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 80,
+                    "y": 80
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 80,
+                    "y": 160
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 224,
+                    "y": 16
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 224,
+                    "y": 176
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "fill_rule": "nonzero",
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.12,
+                "g": 0.62,
+                "b": 0.7,
+                "a": 1
+              }
+            },
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

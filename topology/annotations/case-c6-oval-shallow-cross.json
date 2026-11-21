@@ -1,0 +1,222 @@
+{
+  "id": "case-c6-oval-shallow-cross",
+  "title": "C6 曲线浅交：重叠 1e-4，有向面积 17520",
+  "group": "C",
+  "question": "浅交与近切是否可判",
+  "claim": "两曲线真实相交，交叠深度约 1e-4，小于折线误差界 b；证书无法在 b 内确认绕数翻转",
+  "fill_rule": "nonzero",
+  "degenerate_declared": true,
+  "per_shape": [
+    {
+      "id": "shape-ovals",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "17520",
+      "local_signed": 17520.0,
+      "canvas_signed_exact": "17520",
+      "canvas_signed": 17520.0,
+      "determinant": "1",
+      "flattened_signed": 17507.833333333332
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "17520",
+    "local_signed": 17520.0,
+    "canvas_signed_exact": "17520",
+    "canvas_signed": 17520.0,
+    "flattened_signed": 17507.833333333332,
+    "filled_exact": "1382092332824899/78941250000",
+    "filled": 17507.859741578694
+  },
+  "topology": {
+    "hole_area_exact": "416518264050101/157882500000",
+    "components_open": 2,
+    "components_closure": 1,
+    "holes_open": 1,
+    "holes_closure": 0,
+    "faces_open": 4,
+    "faces_closure": 2,
+    "cells": 432,
+    "vertex_contacts": 666
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.049837654190116244,
+    "minimum_clearance": 9.995723376097856e-05,
+    "contact_pairs": 2,
+    "minimum_clearance_at": [
+      [
+        224.0,
+        96.0
+      ],
+      [
+        224.00009991448582,
+        95.99999707696983
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 2,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 17471.53453910406,
+        "signed_area": 17471.333333333332,
+        "error_bound": 0.19935061676046498
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 2,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 17507.859741578694,
+        "signed_area": 17507.833333333332,
+        "error_bound": 0.049837654190116244
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 2,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 17516.961989397147,
+        "signed_area": 17516.958333333332,
+        "error_bound": 0.012459413547529061
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 2,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 17519.240202126795,
+        "signed_area": 17519.239583333332,
+        "error_bound": 0.0031148533868822653
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 2,
+    "minimum_crossing_angle_deg": 3.380513,
+    "vertex_contacts": 0,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "2764182580949899/157882500000",
+      "area": 17507.846537456015,
+      "sample_point": [
+        "1489/12",
+        "96"
+      ],
+      "cells": 161
+    },
+    {
+      "kind": "filled-component",
+      "index": 1,
+      "area_exact": "2084699899/157882500000",
+      "area": 0.01320412267984102,
+      "sample_point": [
+        "53753137/240000",
+        "642511361/6758400"
+      ],
+      "cells": 5
+    },
+    {
+      "kind": "hole-area-total",
+      "area_exact": "416518264050101/157882500000",
+      "area": 2638.1534625439867,
+      "cells": 68
+    }
+  ],
+  "uncertain": [
+    {
+      "kind": "transverse-crossing",
+      "point": [
+        "589251856/2631375",
+        "172029961/1754250"
+      ],
+      "angle_deg": 3.380513,
+      "regions": [
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "transverse-crossing",
+      "point": [
+        "589251856/2631375",
+        "164786039/1754250"
+      ],
+      "angle_deg": 3.380513,
+      "regions": [
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "approximation-margin",
+      "clearance": 9.995723376097856e-05,
+      "bound": 0.049837654190116244,
+      "point": [
+        224.0000499572429,
+        95.99999853848492
+      ],
+      "closest_pair": [
+        [
+          224.0,
+          96.0
+        ],
+        [
+          224.00009991448582,
+          95.99999707696983
+        ]
+      ]
+    }
+  ],
+  "curve_certificate": {
+    "applies": true,
+    "bound": 0.049837654190116244,
+    "pairs": [
+      {
+        "a": "shape-ovals",
+        "b": "shape-ovals",
+        "relation": "unresolved",
+        "transfer": "not_certified",
+        "true_curves_certified_disjoint": false,
+        "separation_lower_bound_sq": 0.0,
+        "shared_points": [],
+        "witnesses": 0
+      }
+    ]
+  },
+  "contact_degrees": [
+    "component split depends on point/edge contact",
+    "hole count depends on point/edge contact"
+  ],
+  "boundary_degenerate": false,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "undetermined",
+  "visibility": "below-pixel",
+  "component_status": "undetermined",
+  "hole_status": "undetermined",
+  "status_reasons": [
+    "component split depends on point/edge contact",
+    "hole count depends on point/edge contact",
+    "minimum non-contact clearance 9.99572e-05 canvas units is under 1 px, so adjacent regions merge in raster",
+    "curve pair shape-ovals/shape-ovals: true relation unresolved, transfer to flattened path not certified"
+  ]
+}

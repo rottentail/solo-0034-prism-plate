@@ -1,0 +1,159 @@
+{
+  "id": "case-e2-hole-tangent",
+  "title": "E2 孔与外边界单点相切：有向面积 6528",
+  "group": "E",
+  "question": "孔洞与边界接触时孔数是多少",
+  "claim": "菱形孔尖点落在矩形右边线上：孔数取决于开/闭约定",
+  "fill_rule": "nonzero",
+  "degenerate_declared": true,
+  "per_shape": [
+    {
+      "id": "shape-hole",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "6528",
+      "local_signed": 6528.0,
+      "canvas_signed_exact": "6528",
+      "canvas_signed": 6528.0,
+      "determinant": "1",
+      "flattened_signed": 6528.0
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "6528",
+    "local_signed": 6528.0,
+    "canvas_signed_exact": "6528",
+    "canvas_signed": 6528.0,
+    "flattened_signed": 6528.0,
+    "filled_exact": "6528",
+    "filled": 6528.0
+  },
+  "topology": {
+    "hole_area_exact": "1152",
+    "components_open": 1,
+    "components_closure": 1,
+    "holes_open": 1,
+    "holes_closure": 0,
+    "faces_open": 3,
+    "faces_closure": 2,
+    "cells": 15,
+    "vertex_contacts": 14
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.0,
+    "minimum_clearance": 16.0,
+    "contact_pairs": 2,
+    "minimum_clearance_at": [
+      [
+        120.0,
+        56.0
+      ],
+      [
+        120.0,
+        40.0
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 6528.0,
+        "signed_area": 6528.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 6528.0,
+        "signed_area": 6528.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 6528.0,
+        "signed_area": 6528.0,
+        "error_bound": 0.0
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 1,
+        "holes_closure": 0,
+        "filled_area": 6528.0,
+        "signed_area": 6528.0,
+        "error_bound": 0.0
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 0,
+    "minimum_crossing_angle_deg": null,
+    "vertex_contacts": 1,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "6528",
+      "area": 6528.0,
+      "sample_point": [
+        "72",
+        "80"
+      ],
+      "cells": 5
+    },
+    {
+      "kind": "hole-area-total",
+      "area_exact": "1152",
+      "area": 1152.0,
+      "cells": 2
+    }
+  ],
+  "uncertain": [
+    {
+      "kind": "vertex-contact",
+      "point": [
+        "144",
+        "80"
+      ]
+    }
+  ],
+  "curve_certificate": {
+    "applies": false
+  },
+  "contact_degrees": [
+    "hole count depends on point/edge contact"
+  ],
+  "boundary_degenerate": true,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined-with-contact",
+  "visibility": "visible",
+  "component_status": "determined-with-contact",
+  "hole_status": "determined-with-contact",
+  "status_reasons": [
+    "hole count depends on point/edge contact",
+    "1 vertex contact(s) between distinct boundary elements"
+  ]
+}

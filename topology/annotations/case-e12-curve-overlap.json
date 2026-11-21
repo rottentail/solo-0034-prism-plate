@@ -1,0 +1,178 @@
+{
+  "id": "case-e12-curve-overlap",
+  "title": "E12 两椭圆重叠：有向面积 7800，一块实心",
+  "group": "E",
+  "question": "曲线相切能否由折线判定",
+  "claim": "重叠 8：并集一块，填充面积小于有向面积",
+  "fill_rule": "nonzero",
+  "degenerate_declared": false,
+  "per_shape": [
+    {
+      "id": "shape-tangent-ovals",
+      "fill_rule": "nonzero",
+      "local_signed_exact": "7800",
+      "local_signed": 7800.0,
+      "canvas_signed_exact": "7800",
+      "canvas_signed": 7800.0,
+      "determinant": "1",
+      "flattened_signed": 7794.583333333333
+    }
+  ],
+  "areas": {
+    "local_signed_exact": "7800",
+    "local_signed": 7800.0,
+    "canvas_signed_exact": "7800",
+    "canvas_signed": 7800.0,
+    "flattened_signed": 7794.583333333333,
+    "filled_exact": "7127743/936",
+    "filled": 7615.110042735043
+  },
+  "topology": {
+    "hole_area_exact": "0",
+    "components_open": 1,
+    "components_closure": 1,
+    "holes_open": 0,
+    "holes_closure": 0,
+    "faces_open": 2,
+    "faces_closure": 2,
+    "cells": 340,
+    "vertex_contacts": 482
+  },
+  "approximation": {
+    "contract": {
+      "quadratic_steps": 16,
+      "cubic_steps": 24
+    },
+    "error_bound": 0.021355754514136363,
+    "minimum_clearance": 0.5739510188095367,
+    "contact_pairs": 2,
+    "minimum_clearance_at": [
+      [
+        122.66666666666667,
+        112.66666666666667
+      ],
+      [
+        123.16079632465544,
+        112.37468095967331
+      ]
+    ],
+    "refinements": [
+      {
+        "quadratic_steps": 8,
+        "cubic_steps": 12,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7601.529304029304,
+        "signed_area": 7778.333333333333,
+        "error_bound": 0.08542301805654545
+      },
+      {
+        "quadratic_steps": 16,
+        "cubic_steps": 24,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7615.110042735043,
+        "signed_area": 7794.583333333333,
+        "error_bound": 0.021355754514136363
+      },
+      {
+        "quadratic_steps": 32,
+        "cubic_steps": 48,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7618.513104838709,
+        "signed_area": 7798.645833333333,
+        "error_bound": 0.005338938628534091
+      },
+      {
+        "quadratic_steps": 64,
+        "cubic_steps": 96,
+        "components_open": 1,
+        "components_closure": 1,
+        "holes_open": 0,
+        "holes_closure": 0,
+        "filled_area": 7619.367177032433,
+        "signed_area": 7799.661458333333,
+        "error_bound": 0.0013347346571335227
+      }
+    ],
+    "stable_across_refinements": true
+  },
+  "contacts": {
+    "transverse_crossings": 2,
+    "minimum_crossing_angle_deg": 61.158454,
+    "vertex_contacts": 0,
+    "coincident_overlaps": 0
+  },
+  "signed_area_from_faces_exact": null,
+  "regions": [
+    {
+      "kind": "filled-component",
+      "index": 0,
+      "area_exact": "7127743/936",
+      "area": 7615.110042735043,
+      "sample_point": [
+        "33181/384",
+        "96"
+      ],
+      "cells": 142
+    }
+  ],
+  "uncertain": [
+    {
+      "kind": "transverse-crossing",
+      "point": [
+        "123",
+        "4372/39"
+      ],
+      "angle_deg": 61.158454,
+      "regions": [
+        0,
+        0
+      ]
+    },
+    {
+      "kind": "transverse-crossing",
+      "point": [
+        "123",
+        "3116/39"
+      ],
+      "angle_deg": 61.158454,
+      "regions": [
+        0,
+        0
+      ]
+    }
+  ],
+  "curve_certificate": {
+    "applies": true,
+    "bound": 0.021355754514136363,
+    "pairs": [
+      {
+        "a": "shape-tangent-ovals",
+        "b": "shape-tangent-ovals",
+        "relation": "crossing",
+        "transfer": "faithful",
+        "true_curves_certified_disjoint": false,
+        "separation_lower_bound_sq": 0.0,
+        "shared_points": [],
+        "witnesses": 16
+      }
+    ]
+  },
+  "contact_degrees": [],
+  "boundary_degenerate": false,
+  "min_band_width": null,
+  "refinement_notes": [],
+  "status": "determined",
+  "visibility": "visible",
+  "component_status": "determined",
+  "hole_status": "determined",
+  "status_reasons": []
+}

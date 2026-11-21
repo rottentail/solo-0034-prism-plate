@@ -1,0 +1,706 @@
+{
+  "service_binary": "cmd/prismplate (this repository)",
+  "build": "CGO_ENABLED=0 go build -trimpath",
+  "records": [
+    {
+      "id": "case-a1-bowtie",
+      "title": "A1 领结自交：有向面积 5760，两块实心",
+      "group": "A",
+      "scene_digest": "9bb2bbb51a94146522666b7b464bc6d71663b98334a3da63171dc4a68227ab0a",
+      "artifacts": {
+        "png": {
+          "artifact": "d8fa8936c71e0d51f7347351f9f22672ecb21c6b96a343ae8b54cf17f0268251",
+          "digest": "e13bf48a53d928b377cb14308224aabf05451cd80052ba2f97d1efd786f9d595",
+          "bytes": 1489,
+          "file": "case-a1-bowtie.png"
+        },
+        "svg": {
+          "artifact": "5fd4e7f52d1a721e50096e219f24a73dc723935897a400685a1ec99f74be8460",
+          "digest": "704a78bdd5b4e4482fd760e9e290a7b3c50c7be7b569778c7dd0847ff5036dfb",
+          "bytes": 422,
+          "file": "case-a1-bowtie.svg"
+        }
+      }
+    },
+    {
+      "id": "case-a2-nested-opposite",
+      "title": "A2 内环反向且完全包含：有向面积 5760，一个孔",
+      "group": "A",
+      "scene_digest": "a6a2cc4bc8288dd6a64eaf6d537472d5a2d73ac42c75fb588771671706ddc933",
+      "artifacts": {
+        "png": {
+          "artifact": "1fb646901851a31a10327142f7a6a2c0ea8e0bb9e43216d81cf63873d8d835d9",
+          "digest": "fff412245732575c6156be005b01adc7d63deb0a1ebfac8495f46eb2b0d4bda9",
+          "bytes": 647,
+          "file": "case-a2-nested-opposite.png"
+        },
+        "svg": {
+          "artifact": "7faa1ed8f9f17e7bc26c5491a1e104b68c74e6774d176e74da6537831507c7d2",
+          "digest": "51c95a66798a7c9bd6e05ea9d2f7675fafa9f1fabd43f5a0db26645299e0beac",
+          "bytes": 451,
+          "file": "case-a2-nested-opposite.svg"
+        }
+      }
+    },
+    {
+      "id": "case-a3-crossing-opposite",
+      "title": "A3 反向内环穿出外环：有向面积 5760，孔消失",
+      "group": "A",
+      "scene_digest": "77ab9f6b2306ab140ab22735e0d60288f55720f061c97f8279cff5517add4e67",
+      "artifacts": {
+        "png": {
+          "artifact": "745f5439e5ee94acebe00588be28ec900ffa175b89ca5c070b5d28500d3d6190",
+          "digest": "65908617e54320d755e2dd44e1b18e627783bca6882a73556b0d8128448206b5",
+          "bytes": 654,
+          "file": "case-a3-crossing-opposite.png"
+        },
+        "svg": {
+          "artifact": "fa3697ddc5294a6c180247986c3c23462809244375e150daa48d13b8d9e96176",
+          "digest": "b0acc962ae9f76a93445821baed3652004aac065c15d6ac2fec4de2f0420eb5e",
+          "bytes": 453,
+          "file": "case-a3-crossing-opposite.svg"
+        }
+      }
+    },
+    {
+      "id": "case-a4-zero-bowtie",
+      "title": "A4 对称领结：有向面积 0，填充 6144",
+      "group": "A",
+      "scene_digest": "e7efcf67469cb8f1f967855e2452d69d07e898f4c3160f5c552437dd68b3e5c6",
+      "artifacts": {
+        "png": {
+          "artifact": "c9777abc7d631e7418113624a5dc1c4e2ba681210f648db6422011809e338efe",
+          "digest": "0b65af9e0aef38910a8f7dec54312b5e0e7ef9f90a315feb3373908c5012a6ed",
+          "bytes": 1383,
+          "file": "case-a4-zero-bowtie.png"
+        },
+        "svg": {
+          "artifact": "4fab98a13425263f893fc4fc0bd2f11519473625a8024f6545b77ce39d35beab",
+          "digest": "2e57a8e26f7fa1b6da452c66662b663c9a2570026bb3bfabbc58b5bec8496c96",
+          "bytes": 422,
+          "file": "case-a4-zero-bowtie.svg"
+        }
+      }
+    },
+    {
+      "id": "case-a5-zero-disjoint",
+      "title": "A5 两个反向分离形状：有向面积 0，两块实心",
+      "group": "A",
+      "scene_digest": "b14b3af387dad275af068104215fcf630f30974b083bf12b740937efe6bf79fd",
+      "artifacts": {
+        "png": {
+          "artifact": "20968092611e73f4eaf0f061c1b7a5463c8e8ceafe64081658b5e7915ea1d607",
+          "digest": "67381cd103048cfea8d7550c88a90743b7a76f5cd12bca30e93f8057b2020dbe",
+          "bytes": 656,
+          "file": "case-a5-zero-disjoint.png"
+        },
+        "svg": {
+          "artifact": "eb67f9d95c0af28b9403bdd97dfb91e7d0161bc92d86ce718c1d9a5950b4794d",
+          "digest": "8a60baed741cf0cb4dff2d0c25dfc479783abb2a5bf98434c8b92228eaf55fbb",
+          "bytes": 561,
+          "file": "case-a5-zero-disjoint.svg"
+        }
+      }
+    },
+    {
+      "id": "case-b1-same-orientation",
+      "title": "B1 内环同向且包含：有向面积 5760，零孔",
+      "group": "B",
+      "scene_digest": "0939908394331e442bd61934e53a6e1f25d95045f07c6d1411c63ed61832d32e",
+      "artifacts": {
+        "png": {
+          "artifact": "b83a2433af7a7c787763ad345ebfbeafd0a58fe69f9bc153f3067ee6ceb794f9",
+          "digest": "b556990aefa9a71a8e36aa1fc1d101facce1c1e2b758b476261e69cd2bb4fafd",
+          "bytes": 627,
+          "file": "case-b1-same-orientation.png"
+        },
+        "svg": {
+          "artifact": "476086e7c3b4762e4335e14dfaeb9f72dd3a374ce20ecf676a2bbb09ba74489c",
+          "digest": "91818347da49f854d611f0f6143d437deb93a4b41af48c933bb0e8286d6c8cc5",
+          "bytes": 453,
+          "file": "case-b1-same-orientation.svg"
+        }
+      }
+    },
+    {
+      "id": "case-b2-mirror-disjoint",
+      "title": "B2 镜像 + 外侧小环：有向面积 -3840，两块实心",
+      "group": "B",
+      "scene_digest": "ccf2e3e0c4ec515b50f2307b083dcc80eb26668107a88b4e73af754470c99094",
+      "artifacts": {
+        "png": {
+          "artifact": "f0d4fc653f9e4e810a4ba8387b56b15a53a6c218a94e1c174aa824d910c65d90",
+          "digest": "428dbd921639ed05d8ddf2b7b8f819ece46178225726b2ffa6173b5ecc72febc",
+          "bytes": 648,
+          "file": "case-b2-mirror-disjoint.png"
+        },
+        "svg": {
+          "artifact": "1297024ad32970d39cb35b7966607a8e5a4d59d8fb6d2295b284d7e7ec7a04f5",
+          "digest": "3f7e9e33e340f7c0d62ef0f48a1a56dedcdb4717b6c62adb7555afd3357052e0",
+          "bytes": 458,
+          "file": "case-b2-mirror-disjoint.svg"
+        }
+      }
+    },
+    {
+      "id": "case-b3-mirror-nested",
+      "title": "B3 镜像 + 内环包含：有向面积 -3840，一个孔",
+      "group": "B",
+      "scene_digest": "c4eae912d7979d6d7417b8c0d9859358e7a4cd4a51b73bb5a2cbe17061845489",
+      "artifacts": {
+        "png": {
+          "artifact": "589ae1e27720260d7cf1773e7fac2811e76518538b86177ffafa0a9edca8162b",
+          "digest": "f2bbe150fa846ba1a24351967255a8a50993bfd6ec6f56ba8d691e24e9b8fe00",
+          "bytes": 647,
+          "file": "case-b3-mirror-nested.png"
+        },
+        "svg": {
+          "artifact": "3393032b22b403dfea3f33900fb146c0e6b4b507bc0ce4e9d313c2eb8da20fe9",
+          "digest": "8c4ac5193749bf14fa5eda2a018cb6254884733f5c6ad63e8e51c4533ec2f5f6",
+          "bytes": 452,
+          "file": "case-b3-mirror-nested.svg"
+        }
+      }
+    },
+    {
+      "id": "case-b4-direct-nested",
+      "title": "B4 同稿不镜像：有向面积 +3840，一个孔",
+      "group": "B",
+      "scene_digest": "2a222b96b2d2fe74d006c5e30ab29da3112e2f254d05217d10e4ebf4fb8ec05f",
+      "artifacts": {
+        "png": {
+          "artifact": "d6e9ce56b9dc57aa1bb592c3fe77fa8eb113923ca84191459dde55fb29e897e7",
+          "digest": "cbf5e7b565763a4dd8962464a5a0df87d44d6c45a22304d9206ec9a1db8a1aa9",
+          "bytes": 647,
+          "file": "case-b4-direct-nested.png"
+        },
+        "svg": {
+          "artifact": "8cafcb6ba5d33b8800a8f022669448e848db29059c26c01949291068cbed36c6",
+          "digest": "989fdc65b4ae3ce840a83c4c0fa92e3b42619d9f512d39e0668124423cda9d7f",
+          "bytes": 449,
+          "file": "case-b4-direct-nested.svg"
+        }
+      }
+    },
+    {
+      "id": "case-b5-two-shapes",
+      "title": "B5 两个独立形状：和 +4800，两块实心",
+      "group": "B",
+      "scene_digest": "f2e0054a17470e5cfece79ef52aa097bfe9ba48685d680e35ecdf3fee2280f04",
+      "artifacts": {
+        "png": {
+          "artifact": "a2fb4b211c705b93d3cdee390dde463348351127b6242d2c8a4f433ba65a6b14",
+          "digest": "16b7281ca95ffa28881921d1458776dd172f75ee0c58203dab05ad023c36cde8",
+          "bytes": 656,
+          "file": "case-b5-two-shapes.png"
+        },
+        "svg": {
+          "artifact": "70ffc4668a7d99af3034add8c8e7c2a8999274967c242d10bc8f4bf949c9ec83",
+          "digest": "7aa6ee598b3cbd43c078b46b78b89f7b0afbfcb486e624e756f8d8e42af568d7",
+          "bytes": 556,
+          "file": "case-b5-two-shapes.svg"
+        }
+      }
+    },
+    {
+      "id": "case-b6-one-shape",
+      "title": "B6 单个形状：有向面积 +4800，一块实心",
+      "group": "B",
+      "scene_digest": "537ea8f89cfcd04722cbfac300f8008bf283765f852a6509ba5d2d7b8722cb4d",
+      "artifacts": {
+        "png": {
+          "artifact": "53fa82bb813214439793b827adcd1ab61fa25b1f981fad2aeefe1831803fcdeb",
+          "digest": "c4726bcff8147d8a46eb8c0e313cf03aea49b5976b85c723d2ac98cbf625825a",
+          "bytes": 627,
+          "file": "case-b6-one-shape.png"
+        },
+        "svg": {
+          "artifact": "4b811df7a7dc02315af8897a78e2d62f49cc72c2bf92a258b7276740b3484bd8",
+          "digest": "ab62321bf2b049d5524b36d2c0fb9eb8daff4521e608adafc315a13aacf8b933",
+          "bytes": 422,
+          "file": "case-b6-one-shape.svg"
+        }
+      }
+    },
+    {
+      "id": "case-c1-oval-nested",
+      "title": "C1 曲线复合轮廓：精确有向面积 17520，一个孔",
+      "group": "C",
+      "scene_digest": "61d59fad99ede05f3d5dfa6f04351099083c8a03db64966621480855192e61b9",
+      "artifacts": {
+        "png": {
+          "artifact": "1e4a5218ff62e174e61b2d4f02a69ab4d3f3707507cebeb7c9cb54abdc3f8990",
+          "digest": "5e7545766d828198874561c1b0fb0d20b8fbaebd94bc92b44911818513d752fa",
+          "bytes": 2330,
+          "file": "case-c1-oval-nested.png"
+        },
+        "svg": {
+          "artifact": "f0d0a4e94599ae9ceef61072bf3a84e6fc883956592173538fa34e29a1a7a64d",
+          "digest": "d175784b753ac0d3a2bae2721a45e6299ef4cb7b64ba5e87a97e3d56e0d75421",
+          "bytes": 3971,
+          "file": "case-c1-oval-nested.svg"
+        }
+      }
+    },
+    {
+      "id": "case-c2-oval-crossing",
+      "title": "C2 曲线内环穿出外环：有向面积 17520，两次横穿",
+      "group": "C",
+      "scene_digest": "c29a45569148ccb39c9927ed8eb9fcae738e75242e24e8ed354c32fce640914d",
+      "artifacts": {
+        "png": {
+          "artifact": "63e9f9bd781a334822bce0a8877079a6fb7b327c4a03fb1bca0f347bf87eba76",
+          "digest": "ebf851ede841511b61eed5c55cb27f40dd744f3a0bbf9abc25cb1ba422add496",
+          "bytes": 2264,
+          "file": "case-c2-oval-crossing.png"
+        },
+        "svg": {
+          "artifact": "8350725e0bf5a85d1369f0027d9541d2066009ff9153d99ef9286077ed9d8e58",
+          "digest": "3a1e2cd238eb49333193b1394550d6103e859be52fb0e624f4c3534246b50ad9",
+          "bytes": 3978,
+          "file": "case-c2-oval-crossing.svg"
+        }
+      }
+    },
+    {
+      "id": "case-c6-oval-shallow-cross",
+      "title": "C6 曲线浅交：重叠 1e-4，有向面积 17520",
+      "group": "C",
+      "scene_digest": "e53f2066d90a9736390ed9b7ac5a931f6858ebb65c5e5aa0845028c66d6c30a3",
+      "artifacts": {
+        "png": {
+          "artifact": "8eab6e63aaf90f9e3a4bcc068c0367b1f6a054d5b8b922ef3b4d6b39c15c623d",
+          "digest": "dee94182aac54ff0262b933b474d248e2e58ea39c435fe2854806fc704d21ba5",
+          "bytes": 2302,
+          "file": "case-c6-oval-shallow-cross.png"
+        },
+        "svg": {
+          "artifact": "56760f3ad2f93ba7232f2ce8a14dbde15b9c6d61202dfbc0f6258d96404aa30d",
+          "digest": "0175735fa92e6a08fbfbbed69259847c24b1574da19d69f00bb7491c470879ae",
+          "bytes": 4011,
+          "file": "case-c6-oval-shallow-cross.svg"
+        }
+      }
+    },
+    {
+      "id": "case-c3-oval-near-tangent",
+      "title": "C3 曲线近切：间隙 1e-4，有向面积 17520",
+      "group": "C",
+      "scene_digest": "7c88a1b49c800e197e0a446e8c8db1c17bb036ba5c761251bb0822446bd1bbe3",
+      "artifacts": {
+        "png": {
+          "artifact": "65dd31ffddb52095383d8b0a520c7e50dd848366acd8dc5a6d4570f9fd7bba12",
+          "digest": "dee94182aac54ff0262b933b474d248e2e58ea39c435fe2854806fc704d21ba5",
+          "bytes": 2302,
+          "file": "case-c3-oval-near-tangent.png"
+        },
+        "svg": {
+          "artifact": "0cf3a7136aed82a75d0da2f5f016c7b72f0cfe34653f02f850dfc9a400c3ef6c",
+          "digest": "bbb510849d8160042a7a0b988f670427abbcc0147b7912382c689e6cc46ead99",
+          "bytes": 4011,
+          "file": "case-c3-oval-near-tangent.svg"
+        }
+      }
+    },
+    {
+      "id": "case-c4-oval-pair",
+      "title": "C4 两枚分离椭圆：有向面积 17520，两块实心、零孔",
+      "group": "C",
+      "scene_digest": "67d0d88effa12af57cecbead1a7a9aa07212664873472157d0d78efb28123e20",
+      "artifacts": {
+        "png": {
+          "artifact": "096285c16c6316ae58ca13b61691fdbb091e0299cd96ea840ee15836fe21ad07",
+          "digest": "eb5e8817c6d66304e4c850f93cd8a5e7af367d9dcd17b866ed78ab13e98a8927",
+          "bytes": 2231,
+          "file": "case-c4-oval-pair.png"
+        },
+        "svg": {
+          "artifact": "72bf3f6b0a40271a25daadc44f8834c464aa2364cfe09589389d8411c32ff23d",
+          "digest": "b2b06d4d108e5c90903687fb40a7f38a547fdcaa48b16c9222d7cecffe602e16",
+          "bytes": 3894,
+          "file": "case-c4-oval-pair.svg"
+        }
+      }
+    },
+    {
+      "id": "case-c5-oval-mirror",
+      "title": "C5 曲线稿镜像：有向面积 -17520，一个孔",
+      "group": "C",
+      "scene_digest": "6b73f41e9fdcb708ab72b36bc970d19b85dfbca14857c273c529803af3f506df",
+      "artifacts": {
+        "png": {
+          "artifact": "b4ab3bb29df64f47148b6ee8536c230ee240f6203729538ea8e3606a3f652ec8",
+          "digest": "addbd1acfbe2bc083cf46c3accb2de5e31b41195e72f5b40a4f15c4c38358ddd",
+          "bytes": 2363,
+          "file": "case-c5-oval-mirror.png"
+        },
+        "svg": {
+          "artifact": "880d1c266fdcc0ab993e8e994b536a5c8c51743b76ed06e55ac6960bd6d6f339",
+          "digest": "2dff02d6eb9dd1b7629af9380bb1a9ad519137e4dde9beb3eed92cfc87d87bc3",
+          "bytes": 3974,
+          "file": "case-c5-oval-mirror.svg"
+        }
+      }
+    },
+    {
+      "id": "case-d1-star-nonzero",
+      "title": "D1 五角星 nonzero：有向面积 13697，一块实心",
+      "group": "D",
+      "scene_digest": "76f0349cf821545a15aa2732369ce238adb426ebe91e50ae9646b3e49830fa99",
+      "artifacts": {
+        "png": {
+          "artifact": "8950f614148c1ad5526ce05bdbc2b8c840a821d3fc1408080307052cbbbe94c5",
+          "digest": "1c2fa1269f973e4292e3804f1d5887e4ec03def1503556e248ce0f146472dca4",
+          "bytes": 2517,
+          "file": "case-d1-star-nonzero.png"
+        },
+        "svg": {
+          "artifact": "0ce8f2a38fd5797697131f2c285bbe7851edf81bea55a466164e3e85d67b0791",
+          "digest": "293fdf29ae4a8d3492825327a7ac7c7809c2b636d5a88863f9753a4a140e09bc",
+          "bytes": 429,
+          "file": "case-d1-star-nonzero.svg"
+        }
+      }
+    },
+    {
+      "id": "case-d2-star-evenodd",
+      "title": "D2 五角星 evenodd：有向面积 13697，五角加中心孔",
+      "group": "D",
+      "scene_digest": "fc6fc62a4ae42a58791b5c1f2ecf8ed1e779b749266fb0d08c62d8a6f8e8cb5e",
+      "artifacts": {
+        "png": {
+          "artifact": "98b160427de78fae06fe043dd2037c9d7f402b3fe2cbb1dd1311ae8f688bb4b3",
+          "digest": "84f8eef25967790188e6faced54afef073be604753da0f72b7311ccfc0ff788f",
+          "bytes": 3161,
+          "file": "case-d2-star-evenodd.png"
+        },
+        "svg": {
+          "artifact": "8db12b3c4462be6c5b205f5096d56d15164813fdf10355f198fbe31a322efecc",
+          "digest": "7da969a57ddadbd8bc56a9e699f2a9657bc84c31654f4ed30ce44104f8537805",
+          "bytes": 429,
+          "file": "case-d2-star-evenodd.svg"
+        }
+      }
+    },
+    {
+      "id": "case-d3-duplicate-nonzero",
+      "title": "D3 完全重合双环 nonzero：有向面积 15360，实心 7680",
+      "group": "D",
+      "scene_digest": "f845874abbac7f47fd77014618e7c68a99133e1eafae55d775520650e73c7007",
+      "artifacts": {
+        "png": {
+          "artifact": "65224d5ad3fd8d639a308e865ef91db91fcbfdb56f0e260346869c18586c8378",
+          "digest": "de38cdb8ab8fca7dac8b8950037829868db8b20a11e272a4fdfa1f66c140fd9d",
+          "bytes": 628,
+          "file": "case-d3-duplicate-nonzero.png"
+        },
+        "svg": {
+          "artifact": "36aaaaa706c432e306fdb94f847044a0bc5d49a80e57fb3ac35b6c885356dcd6",
+          "digest": "e5e37b4c87177c728226690abbd47a4125f095a726119279be40eefb08678db7",
+          "bytes": 451,
+          "file": "case-d3-duplicate-nonzero.svg"
+        }
+      }
+    },
+    {
+      "id": "case-d4-duplicate-evenodd",
+      "title": "D4 完全重合双环 evenodd：有向面积 15360，填充为空",
+      "group": "D",
+      "scene_digest": "c921668eace1a0f2c382f363e82e562ff7f62a15a1e16c41707eef32a6417e1c",
+      "artifacts": {
+        "png": {
+          "artifact": "f8d35619bc667de9778c61e2aab9fdbafcd5504bcda00eb03add93d7da47d0d7",
+          "digest": "6f225cdb0ddefdd6b905aafceb127fa88f64065b7d79db7cfc513730becba3c7",
+          "bytes": 599,
+          "file": "case-d4-duplicate-evenodd.png"
+        },
+        "svg": {
+          "artifact": "c8783a1e59d04568154b30744d15d0107bb5304fe6e94305b8de6508b946cb74",
+          "digest": "94dcec898166a077281a1703150d27d29cc8787dc149609fdcac51eaa5c267f3",
+          "bytes": 451,
+          "file": "case-d4-duplicate-evenodd.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e1-hole-inside",
+      "title": "E1 孔完全在内：有向面积 6528，一个孔",
+      "group": "E",
+      "scene_digest": "034639d0236d10d2689e1042650c2c2ad359eaa7963eac92847b9530aabdddef",
+      "artifacts": {
+        "png": {
+          "artifact": "2c3f6401e2a60ae0182ec7d5de6b230eca02f3baa400919053d44cad803e8cd3",
+          "digest": "4e79cdbb703fc111f78650520145649564f37ef8ed09e6f90891e9fa6dc2deea",
+          "bytes": 986,
+          "file": "case-e1-hole-inside.png"
+        },
+        "svg": {
+          "artifact": "d7138bbb52603291350fd3bc9cb850ca607b8f41b17e9040b76743cbd8193dbd",
+          "digest": "23fadeed32e4d5f934a45f67866f0465cc372598eafb456152f7deb505aea60d",
+          "bytes": 451,
+          "file": "case-e1-hole-inside.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e2-hole-tangent",
+      "title": "E2 孔与外边界单点相切：有向面积 6528",
+      "group": "E",
+      "scene_digest": "a8e1c4c4829e1190d0a263ed5ff5e605dfa7381b5cf8d98d2f466ea32724b09c",
+      "artifacts": {
+        "png": {
+          "artifact": "8edd2f642e192cfd0061dd7cd54865d5e4e9ea767d768abfdd366466116fdbe2",
+          "digest": "86b2c5944c44b0ddc2aeb80a650d6b3803046716bf45bad243984b82949f1dd9",
+          "bytes": 986,
+          "file": "case-e2-hole-tangent.png"
+        },
+        "svg": {
+          "artifact": "6da6b84a95e2da1d9de55d9f4da53ff6327616a52c3aa1681878da22076079fb",
+          "digest": "8609ad1cf59aecf4fb5be72fed11123563b2e65565854b2309835204e6c98380",
+          "bytes": 451,
+          "file": "case-e2-hole-tangent.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e3-hole-crossing",
+      "title": "E3 孔环穿出外边界：有向面积 6528，孔消失",
+      "group": "E",
+      "scene_digest": "66c5541de9b518ed2d8b251dc575f53aee1c9e4b01135aba9f05554206a5ab59",
+      "artifacts": {
+        "png": {
+          "artifact": "ec416fa277efd05ca6fe0aba0cd624a53c188692835fd708e57b41fee8f7f56a",
+          "digest": "27165bdd074033065cd06ae56372633ea5319004f21e091e81e089e2947eb409",
+          "bytes": 1029,
+          "file": "case-e3-hole-crossing.png"
+        },
+        "svg": {
+          "artifact": "751d4a6bd82d4c408b6aea1e96822f69ed5a73b14ffa7e607b03b1955344e2d6",
+          "digest": "911f9e021c9c37e11d10aa4dc0b2eebb7f594bb82c522266bf7f57935e30af6d",
+          "bytes": 452,
+          "file": "case-e3-hole-crossing.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e4-apex-apart",
+      "title": "E4 两菱形分离：有向面积 6400，两块实心",
+      "group": "E",
+      "scene_digest": "a2678b8b3d1286a80f1801e097708c1f2f0d74de414028c22c1522d28164e1e6",
+      "artifacts": {
+        "png": {
+          "artifact": "3cc593ddce9683f7ad619d86eb2666e6574437df2ca569227298a61fb4672668",
+          "digest": "844a384e844cbfe10a817e3e56c976cb87c35f52394277f8c2a392d1bb9b8c93",
+          "bytes": 1620,
+          "file": "case-e4-apex-apart.png"
+        },
+        "svg": {
+          "artifact": "4fab312f46e20ddde22f6d17931e8fab2f777ba4edd84fef2ec58a12183091e5",
+          "digest": "dc4f370fc665519f61ab23bdfc97e401b7a59807bde75f0115a770b727efe20b",
+          "bytes": 453,
+          "file": "case-e4-apex-apart.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e5-apex-contact",
+      "title": "E5 两菱形单点相接：有向面积 6400，两块还是一块",
+      "group": "E",
+      "scene_digest": "aebdb6b1e59a631ef519067bdb6d3516082a266862031a576166034d131cca0a",
+      "artifacts": {
+        "png": {
+          "artifact": "136ef445bfccb86e59a4643621d61f82358244afedb1acf5f2fd980e984e4b19",
+          "digest": "2eb8cc3008fca28c1457f7bc856e46a5be293da3c3675be27389082b8d3f8d26",
+          "bytes": 1585,
+          "file": "case-e5-apex-contact.png"
+        },
+        "svg": {
+          "artifact": "32c543e213efd2e8bbe0606863717028cdd2e2d52036fd34eef818c188f5d722",
+          "digest": "2cd523a666de833002e512fda2894eea91fb6b276c4614be8511df032ee2bd56",
+          "bytes": 452,
+          "file": "case-e5-apex-contact.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e6-apex-overlap",
+      "title": "E6 两菱形重叠：有向面积 6400，一块实心",
+      "group": "E",
+      "scene_digest": "270670d4c7932eaaf2e739d5f0022e71ca5965a04d3abd42f25f8f50f68c7eff",
+      "artifacts": {
+        "png": {
+          "artifact": "1f2f8d251a0f8125fc5e13f94d075025b7fd94d1121cc896d35d975a11d5118b",
+          "digest": "8485bd8807b1f86aff63e91e9f30df1e6f2d496adc847c7d3c1b41579f3ce4d3",
+          "bytes": 1495,
+          "file": "case-e6-apex-overlap.png"
+        },
+        "svg": {
+          "artifact": "ff85e817d27ee32a6351b207e037e1e7703d69db12bff7b85506571fb081f4a1",
+          "digest": "0241212a393cb144aa8d5f7898cc38016c26fc94d9010889348b8d75eaf3aeea",
+          "bytes": 452,
+          "file": "case-e6-apex-overlap.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e7-edge-gap",
+      "title": "E7 两矩形留缝：有向面积 11520，两块实心",
+      "group": "E",
+      "scene_digest": "74031072d5be3a0c75ce80a0884f6282ba4d09538e903c84015d54a9a93d2eb3",
+      "artifacts": {
+        "png": {
+          "artifact": "20ec21617cdb43713473c33e6013736900333c79a73bfdb8b9bfe61b5c569954",
+          "digest": "1268f6a8d0d9c5cd9baf2503bb8f633c9401a487122c89ebd53e698ec0be8968",
+          "bytes": 643,
+          "file": "case-e7-edge-gap.png"
+        },
+        "svg": {
+          "artifact": "940a95e04412326be0a95f129a00b8ed80f9244268bf7257129189fff38f42c4",
+          "digest": "0470ca4b0557001eba13aea7dc737dba32821ed06eb2009382d870e53c1d6d7d",
+          "bytes": 453,
+          "file": "case-e7-edge-gap.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e8-edge-shared",
+      "title": "E8 两矩形共边：有向面积 11520，两块还是一块",
+      "group": "E",
+      "scene_digest": "264b8d3fe16fae6b3046fe2a7043c9f97ed791f1b25b76cef55a3cfb87d785a9",
+      "artifacts": {
+        "png": {
+          "artifact": "e113d3e35a3e68b2268a46eba209080a92c57dec3e0a1bd123ffb6ff501e43e4",
+          "digest": "5eb6ca56a51b9f087defafea88864a41748fea783790c4be832d0f0030d29538",
+          "bytes": 649,
+          "file": "case-e8-edge-shared.png"
+        },
+        "svg": {
+          "artifact": "bc526270095b15d225994b2958a5ac548c8c6ea3a90d2f536b180bf1f227521d",
+          "digest": "abddf320dabe90140edc3157672cfa5f00eafce24869ecd75a53035068bdd937",
+          "bytes": 453,
+          "file": "case-e8-edge-shared.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e9-edge-overlap",
+      "title": "E9 两矩形重叠：有向面积 11520，一块实心",
+      "group": "E",
+      "scene_digest": "d4e759ff217dd39eddebf09a5c62f2893b91f9208977dd4f821bf817bc61d530",
+      "artifacts": {
+        "png": {
+          "artifact": "4b1f5c9c7d98168b2e654ee33f1ca8dfe3602ea6d96aa65611543e769e2a8bf5",
+          "digest": "c00809cb71bd078bbf6c210996765f35a75041df11b5f3b52854f1a0327c9d28",
+          "bytes": 655,
+          "file": "case-e9-edge-overlap.png"
+        },
+        "svg": {
+          "artifact": "3331a8a67c97fa323b4a4e46b97aa66505d5925467734aec0b686475c197f8f5",
+          "digest": "b921a52714e668c7261c234474c782459cf2eee8450e6dfdb7cf07339623a3fb",
+          "bytes": 453,
+          "file": "case-e9-edge-overlap.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e10-curve-gap",
+      "title": "E10 两椭圆分离：有向面积 7800，两块实心",
+      "group": "E",
+      "scene_digest": "b73eac0bda0f1e2db113114ae1709ec87e187d6a7c71000cf0cb8a9861842fce",
+      "artifacts": {
+        "png": {
+          "artifact": "687406b41a5afe63ccd1e989a256aff10b48ce3815eb1c5238b22d0c02230c9d",
+          "digest": "f9c2b724448d1fbc421f9c830454cb598906f0dd7cda79d3df9e8fbd7c571529",
+          "bytes": 1529,
+          "file": "case-e10-curve-gap.png"
+        },
+        "svg": {
+          "artifact": "48b0023496f967ce32a0418211c7b4328a9da55d9c103916b872721b67722a1c",
+          "digest": "b0cec1d92447bba14de95919b227ecc3cbd4e1edfc822a7d2dd2f0a722bb44a9",
+          "bytes": 4284,
+          "file": "case-e10-curve-gap.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e11-curve-tangent",
+      "title": "E11 两椭圆外切：有向面积 7800，两块还是一块",
+      "group": "E",
+      "scene_digest": "a072aa7c04e1298bed81352addb3f955d1500e5c5331340ff41602948d91d184",
+      "artifacts": {
+        "png": {
+          "artifact": "718d25c1679adc18b373cafadb3d9f8e760d4d9203bfe34433a051a1fcbed796",
+          "digest": "81ae3d42f1f7742c6051109b6035199f04dca07c880403926a94982bebf04b0c",
+          "bytes": 1544,
+          "file": "case-e11-curve-tangent.png"
+        },
+        "svg": {
+          "artifact": "4122f13f3dcdcff60062f446988ec73dd54eef0ae99381c4b36f5fa3d4b1c5e9",
+          "digest": "e04f29e66fec004bc667456701d187ff98ce6e8a54886f42fa7921b1835cdaa0",
+          "bytes": 4284,
+          "file": "case-e11-curve-tangent.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e12-curve-overlap",
+      "title": "E12 两椭圆重叠：有向面积 7800，一块实心",
+      "group": "E",
+      "scene_digest": "d040433c5a4b8ef7eee60a1244468cfea6a1c8902a708d14ac9ced8fc1055e6f",
+      "artifacts": {
+        "png": {
+          "artifact": "88b93133b52af0cec9589755ae9e54e1fe5704be8fd2f5ef4cae9208a0337156",
+          "digest": "78df11fda446e9834bc59fb37c61a0a94f29c714b3102b0681ff1d6db5428f4c",
+          "bytes": 1488,
+          "file": "case-e12-curve-overlap.png"
+        },
+        "svg": {
+          "artifact": "8f93c05d68b06a7399ab9b978df3d7d7423fc324990d3c8c08b17744ecb95dd7",
+          "digest": "84133ff66afdfa0c8683ff8791be0895b1ecbc91310857fa89ad0ec4cfdf737a",
+          "bytes": 4284,
+          "file": "case-e12-curve-overlap.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e13-cancelling-rings",
+      "title": "E13 反向完全重合双环：有向面积 0，填充为空",
+      "group": "E",
+      "scene_digest": "b7035c75a5ff3a0cf7f2b8dbe48547e661d74b654cb286016a5f3910a473ad40",
+      "artifacts": {
+        "png": {
+          "artifact": "763e775dd7d3178c462b448a044cab97d64dcb3bf5c6236fdde8e869e0d0b99c",
+          "digest": "6f225cdb0ddefdd6b905aafceb127fa88f64065b7d79db7cfc513730becba3c7",
+          "bytes": 599,
+          "file": "case-e13-cancelling-rings.png"
+        },
+        "svg": {
+          "artifact": "1f21f3f9119ea61d27cc0a388f8ec4778ea1130e23252032cb03da643f2942e2",
+          "digest": "ae4d87af4fa21cfe200b8d3fb6fb8a5141f2cfd0a671e55ffedbbc119cdea52b",
+          "bytes": 451,
+          "file": "case-e13-cancelling-rings.svg"
+        }
+      }
+    },
+    {
+      "id": "case-e14-subpixel-ring",
+      "title": "E14 亚像素边框：线宽 0.02，有向面积 7.0384",
+      "group": "E",
+      "scene_digest": "422e7a52bae4b36de1fa03e88b3d39dc7a6f88b258e384ace30994c6ccc4e6b1",
+      "artifacts": {
+        "png": {
+          "artifact": "4f2d85371fe8058daf7410dae156714c7a82e4a27a59a8a92985b252065d504a",
+          "digest": "6f225cdb0ddefdd6b905aafceb127fa88f64065b7d79db7cfc513730becba3c7",
+          "bytes": 599,
+          "file": "case-e14-subpixel-ring.png"
+        },
+        "svg": {
+          "artifact": "7d17d3032e4fb9816ff24476eaa26b6bfc89f577c22f8d0e0d85f26aa25fe61e",
+          "digest": "c8d9ae1a9494e28f5bfe49a0f5e7683b563460f8f5429da96298967162ee2d71",
+          "bytes": 475,
+          "file": "case-e14-subpixel-ring.svg"
+        }
+      }
+    }
+  ]
+}

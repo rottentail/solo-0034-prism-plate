@@ -1,0 +1,599 @@
+{
+  "cases": [
+    {
+      "id": "case-a1-bowtie",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 9720,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-a2-nested-opposite",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 5760,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-a3-crossing-opposite",
+      "exact_components": 2,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 7040,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": true
+    },
+    {
+      "id": "case-a4-zero-bowtie",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 6272,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-a5-zero-disjoint",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 6400,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-b1-same-orientation",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 4800,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-b2-mirror-disjoint",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 5760,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-b3-mirror-nested",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 3840,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-b4-direct-nested",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 3840,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-b5-two-shapes",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 4800,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-b6-one-shape",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 4800,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-c1-oval-nested",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 17716,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-c2-oval-crossing",
+      "exact_components": 2,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 18268,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": true
+    },
+    {
+      "id": "case-c6-oval-shallow-cross",
+      "exact_components": 2,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 17716,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-c3-oval-near-tangent",
+      "exact_components": 4,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 17716,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-c4-oval-pair",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 17704,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-c5-oval-mirror",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 17716,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-d1-star-nonzero",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 10656,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-d2-star-evenodd",
+      "exact_components": 5,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 7482,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": true
+    },
+    {
+      "id": "case-d3-duplicate-nonzero",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 7680,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-d4-duplicate-evenodd",
+      "exact_components": 0,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 0,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 0,
+        "holes": 0
+      },
+      "ink_pixels": 0,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e1-hole-inside",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 6576,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e2-hole-tangent",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 1
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 6576,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e3-hole-crossing",
+      "exact_components": 2,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 1
+      },
+      "ink_pixels": 7088,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": true
+    },
+    {
+      "id": "case-e4-apex-apart",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 6560,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e5-apex-contact",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 6560,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e6-apex-overlap",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 6416,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e7-edge-gap",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 11520,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e8-edge-shared",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 11520,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e9-edge-overlap",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 11136,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e10-curve-gap",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 2,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 2,
+        "holes": 0
+      },
+      "ink_pixels": 7936,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e11-curve-tangent",
+      "exact_components": 2,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 7936,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e12-curve-overlap",
+      "exact_components": 1,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 1,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 1,
+        "holes": 0
+      },
+      "ink_pixels": 7736,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e13-cancelling-rings",
+      "exact_components": 0,
+      "exact_holes": 0,
+      "png_fg4_bg8": {
+        "components": 0,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 0,
+        "holes": 0
+      },
+      "ink_pixels": 0,
+      "agrees_fg4": true,
+      "agrees_fg8": true,
+      "naive_conflict": false
+    },
+    {
+      "id": "case-e14-subpixel-ring",
+      "exact_components": 1,
+      "exact_holes": 1,
+      "png_fg4_bg8": {
+        "components": 0,
+        "holes": 0
+      },
+      "png_fg8_bg4": {
+        "components": 0,
+        "holes": 0
+      },
+      "ink_pixels": 0,
+      "agrees_fg4": false,
+      "agrees_fg8": false,
+      "naive_conflict": false
+    }
+  ]
+}

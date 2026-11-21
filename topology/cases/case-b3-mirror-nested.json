@@ -1,0 +1,124 @@
+{
+  "id": "case-b3-mirror-nested",
+  "title": "B3 镜像 + 内环包含：有向面积 -3840，一个孔",
+  "document": {
+    "width": 256,
+    "height": 192,
+    "background": {
+      "r": 0.055,
+      "g": 0.065,
+      "b": 0.09,
+      "a": 1
+    },
+    "layers": [
+      {
+        "id": "layer-main",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "shape-mirrored",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 48,
+                    "y": 48
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 128,
+                    "y": 48
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 128,
+                    "y": 108
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 48,
+                    "y": 108
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              },
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 68,
+                    "y": 90
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 108,
+                    "y": 90
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 108,
+                    "y": 66
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 68,
+                    "y": 66
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "fill_rule": "nonzero",
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.12,
+                "g": 0.62,
+                "b": 0.7,
+                "a": 1
+              }
+            },
+            "transform": [
+              -1,
+              0,
+              0,
+              1,
+              240,
+              0
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

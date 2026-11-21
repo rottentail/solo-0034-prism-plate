@@ -1,0 +1,19 @@
+{
+  "cases": 35,
+  "groups": {
+    "A": 5,
+    "B": 6,
+    "C": 6,
+    "D": 4,
+    "E": 14
+  },
+  "status": {
+    "determined": 20,
+    "determined-with-contact": 13,
+    "undetermined": 2
+  },
+  "below_pixel": 3,
+  "contrast_pairs": 23,
+  "control_pairs": 6,
+  "pixel_naive_conflicts": 4
+}
