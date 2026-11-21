@@ -1,0 +1,26 @@
+{
+  "case": "case-a",
+  "record": "proof-open",
+  "request": {
+    "method": "POST",
+    "path": "/v1/proofs",
+    "body": {
+      "id": "proof-alpha-r2",
+      "artifact": "eb531929a02f2ec5845b1ca1bf3fcce794c797f3d2e85d6bc0c5a458ad49655c"
+    }
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff"
+    },
+    "body": {
+      "id": "proof-alpha-r2",
+      "artifact": "eb531929a02f2ec5845b1ca1bf3fcce794c797f3d2e85d6bc0c5a458ad49655c",
+      "state": "open",
+      "note": ""
+    }
+  },
+  "capture_note": "响应记录为真实会话的摘录；易变的 Date/Transfer-Encoding 头未保留。"
+}

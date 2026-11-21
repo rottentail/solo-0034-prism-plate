@@ -1,0 +1,386 @@
+{
+  "case": "case-b",
+  "plate": "press-beta",
+  "revision_notes": {
+    "1": "初始稿。",
+    "2": "两块相邻 1x1 色标互换。",
+    "3": "被不透明遮片完全覆盖的隐藏色标改为蓝色。",
+    "4": "新增一层 alpha=0 的透明光油，颜色任意。"
+  },
+  "proofs": {},
+  "bundle_digest": null,
+  "artifacts": {
+    "png-r1": {
+      "meta": {
+        "id": "c3b5c4e846c46c5928b8063fd8db1db02895d05bbaae673ee2bbbcb5bd953a5d",
+        "plate": "press-beta",
+        "revision": 1,
+        "scene_digest": "5f477fb8ef7e996c70c8d2aec4d5c2252267eb214cc79f0c5fae25f8f0800d32",
+        "format": "png",
+        "digest": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+      "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567"
+    },
+    "png-r2": {
+      "meta": {
+        "id": "76d85954379cca93ab2a4ceb89af8b5100492d21b8e60f15f0ac372e3383f985",
+        "plate": "press-beta",
+        "revision": 2,
+        "scene_digest": "3c041bfda81e7acb962ced39c1ccaf412a37264bb0a8cbb9c0bb23ff556356ff",
+        "format": "png",
+        "digest": "308c2b85b7012d62733bec6f4aeea544ec1d4eb9360fcc41ea3bda04ee1e3c0d",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "308c2b85b7012d62733bec6f4aeea544ec1d4eb9360fcc41ea3bda04ee1e3c0d",
+      "pixels_sha256": "7234dadf143c73a1e3089e1301a27042ea632b1aae1ab10998a570bae147af3c"
+    },
+    "png-r3": {
+      "meta": {
+        "id": "72d75829be3bd49da62cba50a55047d43f2f305c8e01038050879b7c38ddfcee",
+        "plate": "press-beta",
+        "revision": 3,
+        "scene_digest": "b3f109efd257adda4eb2c9ceba5092f826931717120bcdd8e43ace94f8a9808e",
+        "format": "png",
+        "digest": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+      "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567"
+    },
+    "png-r4": {
+      "meta": {
+        "id": "788693fdb55d0afc52f2b983e120237ce01da9854a7f79a189126aab4baeeb4f",
+        "plate": "press-beta",
+        "revision": 4,
+        "scene_digest": "8e029eb5fd0fcc01287dcdeb901337e40878b0e26aaabcd95c435475fa41daff",
+        "format": "png",
+        "digest": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+      "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567"
+    },
+    "svg-r1": {
+      "meta": {
+        "id": "51e41e9c57e5715b61c037ea8a977912a4f94a6d6a35b49df93025a3acccc4fb",
+        "plate": "press-beta",
+        "revision": 1,
+        "scene_digest": "5f477fb8ef7e996c70c8d2aec4d5c2252267eb214cc79f0c5fae25f8f0800d32",
+        "format": "svg",
+        "digest": "5cc7ee4bf0012005f7cccd3e6e80f6aa09a3c02507082e99b67b651bd242e7e0",
+        "state": "available",
+        "data": null
+      },
+      "format": "svg",
+      "sha256": "5cc7ee4bf0012005f7cccd3e6e80f6aa09a3c02507082e99b67b651bd242e7e0",
+      "pixels_sha256": null
+    }
+  },
+  "measurements": {
+    "facts": {
+      "png-r1": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567",
+        "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "bytes": 1007,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "18a6df1fee0ffd492a59bf29db0d98c9acd9f27d37c73b7e6b8196c8bbdb3534"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "150c309a26de08cbe4cea4ec0c1c7a451af3aad7717e99e9d32a85504cbbfa23"
+          }
+        }
+      },
+      "png-r2": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "7234dadf143c73a1e3089e1301a27042ea632b1aae1ab10998a570bae147af3c",
+        "sha256": "308c2b85b7012d62733bec6f4aeea544ec1d4eb9360fcc41ea3bda04ee1e3c0d",
+        "bytes": 1007,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "18a6df1fee0ffd492a59bf29db0d98c9acd9f27d37c73b7e6b8196c8bbdb3534"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "150c309a26de08cbe4cea4ec0c1c7a451af3aad7717e99e9d32a85504cbbfa23"
+          }
+        }
+      },
+      "png-r3": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567",
+        "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "bytes": 1007,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "18a6df1fee0ffd492a59bf29db0d98c9acd9f27d37c73b7e6b8196c8bbdb3534"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "150c309a26de08cbe4cea4ec0c1c7a451af3aad7717e99e9d32a85504cbbfa23"
+          }
+        }
+      },
+      "png-r4": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567",
+        "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "bytes": 1007,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "18a6df1fee0ffd492a59bf29db0d98c9acd9f27d37c73b7e6b8196c8bbdb3534"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "150c309a26de08cbe4cea4ec0c1c7a451af3aad7717e99e9d32a85504cbbfa23"
+          }
+        }
+      },
+      "svg-r1": {
+        "format": "svg",
+        "sha256": "5cc7ee4bf0012005f7cccd3e6e80f6aa09a3c02507082e99b67b651bd242e7e0",
+        "bytes": 1573
+      }
+    },
+    "relations": [
+      {
+        "left": "png-r1",
+        "right": "png-r2",
+        "left_revision": 1,
+        "right_revision": 2,
+        "bytes_equal": false,
+        "pixels_equal": false,
+        "diff_pixels": 2,
+        "bbox": [
+          60,
+          40,
+          61,
+          40
+        ],
+        "max_channel_delta": 216,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": [
+          {
+            "x": 60,
+            "y": 40,
+            "left": [
+              242,
+              64,
+              31,
+              255
+            ],
+            "right": [
+              26,
+              204,
+              217,
+              255
+            ]
+          },
+          {
+            "x": 61,
+            "y": 40,
+            "left": [
+              26,
+              204,
+              217,
+              255
+            ],
+            "right": [
+              242,
+              64,
+              31,
+              255
+            ]
+          }
+        ]
+      },
+      {
+        "left": "png-r1",
+        "right": "png-r3",
+        "left_revision": 1,
+        "right_revision": 3,
+        "bytes_equal": true,
+        "pixels_equal": true,
+        "diff_pixels": 0,
+        "bbox": null,
+        "max_channel_delta": 0,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": []
+      },
+      {
+        "left": "png-r1",
+        "right": "png-r4",
+        "left_revision": 1,
+        "right_revision": 4,
+        "bytes_equal": true,
+        "pixels_equal": true,
+        "diff_pixels": 0,
+        "bbox": null,
+        "max_channel_delta": 0,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": []
+      },
+      {
+        "left": "png-r2",
+        "right": "png-r3",
+        "left_revision": 2,
+        "right_revision": 3,
+        "bytes_equal": false,
+        "pixels_equal": false,
+        "diff_pixels": 2,
+        "bbox": [
+          60,
+          40,
+          61,
+          40
+        ],
+        "max_channel_delta": 216,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": [
+          {
+            "x": 60,
+            "y": 40,
+            "left": [
+              26,
+              204,
+              217,
+              255
+            ],
+            "right": [
+              242,
+              64,
+              31,
+              255
+            ]
+          },
+          {
+            "x": 61,
+            "y": 40,
+            "left": [
+              242,
+              64,
+              31,
+              255
+            ],
+            "right": [
+              26,
+              204,
+              217,
+              255
+            ]
+          }
+        ]
+      },
+      {
+        "left": "png-r2",
+        "right": "png-r4",
+        "left_revision": 2,
+        "right_revision": 4,
+        "bytes_equal": false,
+        "pixels_equal": false,
+        "diff_pixels": 2,
+        "bbox": [
+          60,
+          40,
+          61,
+          40
+        ],
+        "max_channel_delta": 216,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": [
+          {
+            "x": 60,
+            "y": 40,
+            "left": [
+              26,
+              204,
+              217,
+              255
+            ],
+            "right": [
+              242,
+              64,
+              31,
+              255
+            ]
+          },
+          {
+            "x": 61,
+            "y": 40,
+            "left": [
+              242,
+              64,
+              31,
+              255
+            ],
+            "right": [
+              26,
+              204,
+              217,
+              255
+            ]
+          }
+        ]
+      },
+      {
+        "left": "png-r3",
+        "right": "png-r4",
+        "left_revision": 3,
+        "right_revision": 4,
+        "bytes_equal": true,
+        "pixels_equal": true,
+        "diff_pixels": 0,
+        "bbox": null,
+        "max_channel_delta": 0,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": []
+      }
+    ]
+  }
+}

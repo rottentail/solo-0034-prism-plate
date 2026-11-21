@@ -1,0 +1,27 @@
+{
+  "case": "case-e",
+  "record": "render-png-r1",
+  "request": {
+    "method": "POST",
+    "path": "/v1/plates/press-epsilon/render?revision=1&format=png",
+    "body": null
+  },
+  "response": {
+    "status": 201,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff"
+    },
+    "body": {
+      "id": "cf7e2b3b9252c96290f7609fc2fd1126781c8686a632f66f34521d8686c20d22",
+      "plate": "press-epsilon",
+      "revision": 1,
+      "scene_digest": "7a1f38d61d465d36abca1ed2d0388f167485fd27664655f5bb0f9b5f0a5537e4",
+      "format": "png",
+      "digest": "8150b1cd9b5953fc98f202ccc848b65f4c59811be689134987ab01a1c20300cf",
+      "state": "available",
+      "data": null
+    }
+  },
+  "capture_note": "响应记录为真实会话的摘录；易变的 Date/Transfer-Encoding 头未保留。"
+}

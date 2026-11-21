@@ -1,0 +1,202 @@
+{
+  "case": "case-d",
+  "plate": {
+    "id": "press-delta",
+    "title": "签样来源演练丁"
+  },
+  "package": "real prismplate session excerpt",
+  "warning": "本包是真实流程的节选。未纳入的响应、源稿或成品不代表被删除或篡改；未纳入的材料必须在结论中列为未排除项。",
+  "source_excerpt": {
+    "file": "sources/plate-excerpt.json",
+    "sha256": "33ef08659b0421e448cb0472f3be602f811aa6070da9d6566d54ba096b9a18b3",
+    "included_revisions": [
+      1,
+      2,
+      3
+    ],
+    "omitted_revision_numbers": [],
+    "omission_is_not_tampering": true
+  },
+  "images": [
+    {
+      "file": "artifacts/press-delta-r1.png",
+      "format": "png",
+      "sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+      "artifact": {
+        "id": "b0ad023452431eb3acdbf6c46c00520baf6bce64d4190c591216fc102a795947",
+        "revision": 1,
+        "scene_digest": "c22e2cfacbd7781766f65498bf01737580a8add8708ec7fd43442c0f56a13c6a",
+        "byte_digest": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "7550f06749d3ea1cf0076e4bc7000b1d5e5338d66268c5b394917cf836e28ceb",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+      }
+    },
+    {
+      "file": "artifacts/press-delta-r2.png",
+      "format": "png",
+      "sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+      "artifact": {
+        "id": "408167f250c2f75e25277e6ee216af2e62756b1de6bc5016546ed6803bc32645",
+        "revision": 2,
+        "scene_digest": "3293ca2ed5fa125e820d0fa0dbe53221eaa560fe1518347b2e7729819acfcfe5",
+        "byte_digest": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+      }
+    },
+    {
+      "file": "artifacts/press-delta-r3.png",
+      "format": "png",
+      "sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+      "artifact": {
+        "id": "48d92f50095f2420b8142f0b284345bf3b68e56a1afddd581f99d17c42293279",
+        "revision": 3,
+        "scene_digest": "ae53e4c654cd561e47d446e92c0e4843a96f37d822df68e012feec366f319043",
+        "byte_digest": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "7550f06749d3ea1cf0076e4bc7000b1d5e5338d66268c5b394917cf836e28ceb",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+      }
+    }
+  ],
+  "signed_sample": {
+    "file": "signed/signed-sample.png",
+    "format": "png",
+    "sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+    "pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12",
+    "kind": "received_sample",
+    "artifact_metadata": "见同目录响应记录"
+  },
+  "responses": {
+    "included": [
+      "responses/render-png-r1.json",
+      "responses/get-artifact-png-r1.json",
+      "responses/render-png-r2.json",
+      "responses/get-artifact-png-r2.json",
+      "responses/render-png-r3.json",
+      "responses/get-artifact-png-r3.json",
+      "responses/proof-open.json",
+      "responses/proof-decide.json"
+    ],
+    "withheld": [
+      {
+        "record": "create-plate",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "revise-r2",
+        "request": {
+          "method": "PUT",
+          "path": "/v1/plates/press-delta"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "revise-r3",
+        "request": {
+          "method": "PUT",
+          "path": "/v1/plates/press-delta"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-plate",
+        "request": {
+          "method": "GET",
+          "path": "/v1/plates/press-delta"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "create-press-delta-unfiled",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "render-unfiled-png",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates/press-delta-unfiled/render?revision=1&format=png"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-artifact-unfiled-png",
+        "request": {
+          "method": "GET",
+          "path": "/v1/artifacts/6f0ed9d2ec2ddca6dd9295b1b9ee98ae736ab52510e6cd81d4cbd0218a41ac75"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      }
+    ]
+  },
+  "derivations": [],
+  "thumbnail_exhibits": [
+    {
+      "file": "thumbnails/signed-4x.png",
+      "label": "signed",
+      "factor": 4,
+      "pixels_sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67",
+      "note": "缩略图只用于筛查；相同缩略图不构成同一来源的证据。"
+    },
+    {
+      "file": "thumbnails/r1-4x.png",
+      "label": "r1",
+      "factor": 4,
+      "pixels_sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67",
+      "note": "缩略图只用于筛查；相同缩略图不构成同一来源的证据。"
+    }
+  ],
+  "lookalikes": [
+    {
+      "file": "unfiled/other-plate-same-pixels.png",
+      "is_received_sample": false,
+      "is_service_artifact": true,
+      "plate": "press-delta-unfiled",
+      "title": "未纳入包的另一版面（像素同 R2）",
+      "artifact": {
+        "id": "6f0ed9d2ec2ddca6dd9295b1b9ee98ae736ab52510e6cd81d4cbd0218a41ac75",
+        "revision": 1,
+        "scene_digest": "3293ca2ed5fa125e820d0fa0dbe53221eaa560fe1518347b2e7729819acfcfe5",
+        "byte_digest": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5"
+      },
+      "sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+      "pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12",
+      "pixels_equal_to_signed": true,
+      "diff_pixels": 0,
+      "warning": "这是另一版面的真实重渲染图，与受签样本没有谱系关系；肉眼最接近或像素相同都不等于来源。"
+    }
+  ],
+  "worksheet": "WORKSHEET.md"
+}

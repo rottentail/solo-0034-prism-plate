@@ -1,0 +1,26 @@
+{
+  "case": "case-c",
+  "record": "proof-decide",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/proofs/proof-gamma-r1",
+    "body": {
+      "state": "accepted",
+      "note": "归档副本与受签成品逐像素一致"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff"
+    },
+    "body": {
+      "id": "proof-gamma-r1",
+      "artifact": "6a7a35a5e028137ed9f3a656fbf3516a4a20417c2f20c27100010a99925e49fa",
+      "state": "accepted",
+      "note": "归档副本与受签成品逐像素一致"
+    }
+  },
+  "capture_note": "响应记录为真实会话的摘录；易变的 Date/Transfer-Encoding 头未保留。"
+}

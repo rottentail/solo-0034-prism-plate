@@ -1,0 +1,19 @@
+{
+  "file": "signed/signed-sample.png",
+  "is_service_artifact": false,
+  "kind": "rgba8",
+  "source_artifact": {
+    "id": "6a7a35a5e028137ed9f3a656fbf3516a4a20417c2f20c27100010a99925e49fa",
+    "revision": 1,
+    "file": "artifacts/press-gamma-r1.png",
+    "sha256": "e55bbfd2e0a22a40db6d6df0b09a20779842cc0ee609e36a1a7aa8183cb7a642"
+  },
+  "transform": "按原始尺寸解码源成品为 RGBA8，逐像素保持不变，再以 PNG 重新编码；仅改变容器编码，不改变像素。",
+  "tool": "drill/lib/pngcodec.py",
+  "verification": {
+    "pixels_equal_to_source": true,
+    "source_pixels_sha256": "810e1d328b1e5ae0fba454a109e497881007d4a3833c8980d76c6a4a127a2997",
+    "derived_sha256": "3c0254fd166184e0e39b8f9f57629ae5bfe1c6d2cf1aa9d2be874cacd41f2902"
+  },
+  "warning": "派生记录是自述性说明，不带密码学签名；它解释字节差，本身不能替代校样或交接记录来认定来源。"
+}

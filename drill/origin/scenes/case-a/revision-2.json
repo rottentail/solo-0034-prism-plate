@@ -1,0 +1,489 @@
+{
+  "width": 96,
+  "height": 72,
+  "background": {
+    "r": 0.045,
+    "g": 0.06,
+    "b": 0.085,
+    "a": 1
+  },
+  "layers": [
+    {
+      "id": "ground",
+      "opacity": 1,
+      "blend": "normal",
+      "shapes": [
+        {
+          "id": "ground-wash",
+          "path": [
+            {
+              "kind": "M",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 96,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 96,
+                  "y": 72
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 72
+                }
+              ]
+            },
+            {
+              "kind": "Z"
+            }
+          ],
+          "fill_rule": "nonzero",
+          "brush": {
+            "kind": "linear",
+            "color": {
+              "r": 0,
+              "g": 0,
+              "b": 0,
+              "a": 0
+            },
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 96,
+              "y": 72
+            },
+            "stops": [
+              {
+                "at": 0,
+                "color": {
+                  "r": 0.12,
+                  "g": 0.24,
+                  "b": 0.32,
+                  "a": 1
+                }
+              },
+              {
+                "at": 0.55,
+                "color": {
+                  "r": 0.2,
+                  "g": 0.38,
+                  "b": 0.42,
+                  "a": 1
+                }
+              },
+              {
+                "at": 1,
+                "color": {
+                  "r": 0.08,
+                  "g": 0.14,
+                  "b": 0.22,
+                  "a": 1
+                }
+              }
+            ]
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "underlay",
+      "opacity": 1,
+      "blend": "normal",
+      "shapes": [
+        {
+          "id": "hidden-token",
+          "path": [
+            {
+              "kind": "M",
+              "points": [
+                {
+                  "x": 10,
+                  "y": 10
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 26,
+                  "y": 10
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 26,
+                  "y": 26
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 10,
+                  "y": 26
+                }
+              ]
+            },
+            {
+              "kind": "Z"
+            }
+          ],
+          "fill_rule": "nonzero",
+          "brush": {
+            "kind": "solid",
+            "color": {
+              "r": 0.94,
+              "g": 0.24,
+              "b": 0.12,
+              "a": 1
+            },
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cover",
+      "opacity": 1,
+      "blend": "normal",
+      "shapes": [
+        {
+          "id": "cover-panel",
+          "path": [
+            {
+              "kind": "M",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 40,
+                  "y": 0
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 40,
+                  "y": 40
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 0,
+                  "y": 40
+                }
+              ]
+            },
+            {
+              "kind": "Z"
+            }
+          ],
+          "fill_rule": "nonzero",
+          "brush": {
+            "kind": "solid",
+            "color": {
+              "r": 0.78,
+              "g": 0.8,
+              "b": 0.76,
+              "a": 1
+            },
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marks",
+      "opacity": 1,
+      "blend": "normal",
+      "shapes": [
+        {
+          "id": "color-bar",
+          "path": [
+            {
+              "kind": "M",
+              "points": [
+                {
+                  "x": 50,
+                  "y": 10
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 88,
+                  "y": 10
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 88,
+                  "y": 26
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 50,
+                  "y": 26
+                }
+              ]
+            },
+            {
+              "kind": "Z"
+            }
+          ],
+          "fill_rule": "nonzero",
+          "brush": {
+            "kind": "solid",
+            "color": {
+              "r": 0.92,
+              "g": 0.58,
+              "b": 0.2,
+              "a": 1
+            },
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "proof-mark",
+          "path": [
+            {
+              "kind": "M",
+              "points": [
+                {
+                  "x": 60,
+                  "y": 44
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 72,
+                  "y": 44
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 72,
+                  "y": 56
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 60,
+                  "y": 56
+                }
+              ]
+            },
+            {
+              "kind": "Z"
+            }
+          ],
+          "fill_rule": "nonzero",
+          "brush": {
+            "kind": "solid",
+            "color": {
+              "r": 0.16,
+              "g": 0.58,
+              "b": 0.8,
+              "a": 1
+            },
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "register-dot",
+          "path": [
+            {
+              "kind": "M",
+              "points": [
+                {
+                  "x": 46,
+                  "y": 58
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 48,
+                  "y": 58
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 48,
+                  "y": 60
+                }
+              ]
+            },
+            {
+              "kind": "L",
+              "points": [
+                {
+                  "x": 46,
+                  "y": 60
+                }
+              ]
+            },
+            {
+              "kind": "Z"
+            }
+          ],
+          "fill_rule": "nonzero",
+          "brush": {
+            "kind": "solid",
+            "color": {
+              "r": 0.72,
+              "g": 0.74,
+              "b": 0.8,
+              "a": 1
+            },
+            "from": {
+              "x": 0,
+              "y": 0
+            },
+            "to": {
+              "x": 0,
+              "y": 0
+            }
+          },
+          "transform": [
+            1,
+            0,
+            0,
+            1,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  ]
+}

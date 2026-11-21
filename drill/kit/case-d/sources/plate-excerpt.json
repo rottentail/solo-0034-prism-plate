@@ -1,0 +1,1684 @@
+{
+  "excerpt": false,
+  "kind": "derived_excerpt_of_GET_plate_response",
+  "source_response": "get-plate",
+  "included_revisions": [
+    1,
+    2,
+    3
+  ],
+  "omitted_revision_numbers": [],
+  "note": "节选仅从 GET /v1/plates 的真实响应中保留上述稿本；省略的稿本内容未纳入本包，不构成对源稿的删除或篡改。",
+  "plate": {
+    "id": "press-delta",
+    "title": "签样来源演练丁",
+    "state": "active",
+    "revisions": [
+      {
+        "number": 1,
+        "digest": "c22e2cfacbd7781766f65498bf01737580a8add8708ec7fd43442c0f56a13c6a",
+        "document": {
+          "width": 96,
+          "height": 72,
+          "background": {
+            "r": 0.05,
+            "g": 0.045,
+            "b": 0.07,
+            "a": 1
+          },
+          "layers": [
+            {
+              "id": "ground",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "ground-wash",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 96,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 96,
+                          "y": 72
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 72
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "linear",
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 0
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 96,
+                      "y": 72
+                    },
+                    "stops": [
+                      {
+                        "at": 0,
+                        "color": {
+                          "r": 0.2,
+                          "g": 0.18,
+                          "b": 0.32,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "at": 0.5,
+                        "color": {
+                          "r": 0.3,
+                          "g": 0.26,
+                          "b": 0.4,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "at": 1,
+                        "color": {
+                          "r": 0.1,
+                          "g": 0.1,
+                          "b": 0.2,
+                          "a": 1
+                        }
+                      }
+                    ]
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "underlay",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "hidden-token",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 14,
+                          "y": 12
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 28,
+                          "y": 12
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 28,
+                          "y": 24
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 14,
+                          "y": 24
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.92,
+                      "g": 0.18,
+                      "b": 0.14,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cover",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "cover-panel",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 46,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 46,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.82,
+                      "g": 0.84,
+                      "b": 0.8,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "marks",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "color-bar",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 52,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 88,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 88,
+                          "y": 26
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 52,
+                          "y": 26
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.9,
+                      "g": 0.6,
+                      "b": 0.22,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "token-left",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 60,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 60,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.94,
+                      "g": 0.56,
+                      "b": 0.18,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "token-right",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 62,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 62,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.12,
+                      "g": 0.74,
+                      "b": 0.7,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "arrow",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 68,
+                          "y": 50
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 80,
+                          "y": 62
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 58,
+                          "y": 62
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.32,
+                      "g": 0.72,
+                      "b": 0.66,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "created": "2026-11-21T01:22:30.953058123Z"
+      },
+      {
+        "number": 2,
+        "digest": "3293ca2ed5fa125e820d0fa0dbe53221eaa560fe1518347b2e7729819acfcfe5",
+        "document": {
+          "width": 96,
+          "height": 72,
+          "background": {
+            "r": 0.05,
+            "g": 0.045,
+            "b": 0.07,
+            "a": 1
+          },
+          "layers": [
+            {
+              "id": "ground",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "ground-wash",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 96,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 96,
+                          "y": 72
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 72
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "linear",
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 0
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 96,
+                      "y": 72
+                    },
+                    "stops": [
+                      {
+                        "at": 0,
+                        "color": {
+                          "r": 0.2,
+                          "g": 0.18,
+                          "b": 0.32,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "at": 0.5,
+                        "color": {
+                          "r": 0.3,
+                          "g": 0.26,
+                          "b": 0.4,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "at": 1,
+                        "color": {
+                          "r": 0.1,
+                          "g": 0.1,
+                          "b": 0.2,
+                          "a": 1
+                        }
+                      }
+                    ]
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "underlay",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "hidden-token",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 14,
+                          "y": 12
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 28,
+                          "y": 12
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 28,
+                          "y": 24
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 14,
+                          "y": 24
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.92,
+                      "g": 0.18,
+                      "b": 0.14,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cover",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "cover-panel",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 46,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 46,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.82,
+                      "g": 0.84,
+                      "b": 0.8,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "marks",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "color-bar",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 52,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 88,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 88,
+                          "y": 26
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 52,
+                          "y": 26
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.9,
+                      "g": 0.6,
+                      "b": 0.22,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "token-left",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 60,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 60,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.12,
+                      "g": 0.74,
+                      "b": 0.7,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "token-right",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 62,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 62,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.94,
+                      "g": 0.56,
+                      "b": 0.18,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "arrow",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 68,
+                          "y": 50
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 80,
+                          "y": 62
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 58,
+                          "y": 62
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.32,
+                      "g": 0.72,
+                      "b": 0.66,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "created": "2026-11-21T01:22:30.963471612Z"
+      },
+      {
+        "number": 3,
+        "digest": "ae53e4c654cd561e47d446e92c0e4843a96f37d822df68e012feec366f319043",
+        "document": {
+          "width": 96,
+          "height": 72,
+          "background": {
+            "r": 0.05,
+            "g": 0.045,
+            "b": 0.07,
+            "a": 1
+          },
+          "layers": [
+            {
+              "id": "ground",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "ground-wash",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 96,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 96,
+                          "y": 72
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 72
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "linear",
+                    "color": {
+                      "r": 0,
+                      "g": 0,
+                      "b": 0,
+                      "a": 0
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 96,
+                      "y": 72
+                    },
+                    "stops": [
+                      {
+                        "at": 0,
+                        "color": {
+                          "r": 0.2,
+                          "g": 0.18,
+                          "b": 0.32,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "at": 0.5,
+                        "color": {
+                          "r": 0.3,
+                          "g": 0.26,
+                          "b": 0.4,
+                          "a": 1
+                        }
+                      },
+                      {
+                        "at": 1,
+                        "color": {
+                          "r": 0.1,
+                          "g": 0.1,
+                          "b": 0.2,
+                          "a": 1
+                        }
+                      }
+                    ]
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "underlay",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "hidden-token",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 14,
+                          "y": 12
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 28,
+                          "y": 12
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 28,
+                          "y": 24
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 14,
+                          "y": 24
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.12,
+                      "g": 0.4,
+                      "b": 0.9,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "cover",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "cover-panel",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 46,
+                          "y": 0
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 46,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 0,
+                          "y": 30
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.82,
+                      "g": 0.84,
+                      "b": 0.8,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            },
+            {
+              "id": "marks",
+              "opacity": 1,
+              "blend": "normal",
+              "shapes": [
+                {
+                  "id": "color-bar",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 52,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 88,
+                          "y": 10
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 88,
+                          "y": 26
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 52,
+                          "y": 26
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.9,
+                      "g": 0.6,
+                      "b": 0.22,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "token-left",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 60,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 60,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.94,
+                      "g": 0.56,
+                      "b": 0.18,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "token-right",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 62,
+                          "y": 40
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 62,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 61,
+                          "y": 41
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.12,
+                      "g": 0.74,
+                      "b": 0.7,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                },
+                {
+                  "id": "arrow",
+                  "path": [
+                    {
+                      "kind": "M",
+                      "points": [
+                        {
+                          "x": 68,
+                          "y": 50
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 80,
+                          "y": 62
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "L",
+                      "points": [
+                        {
+                          "x": 58,
+                          "y": 62
+                        }
+                      ]
+                    },
+                    {
+                      "kind": "Z"
+                    }
+                  ],
+                  "fill_rule": "nonzero",
+                  "brush": {
+                    "kind": "solid",
+                    "color": {
+                      "r": 0.32,
+                      "g": 0.72,
+                      "b": 0.66,
+                      "a": 1
+                    },
+                    "from": {
+                      "x": 0,
+                      "y": 0
+                    },
+                    "to": {
+                      "x": 0,
+                      "y": 0
+                    }
+                  },
+                  "transform": [
+                    1,
+                    0,
+                    0,
+                    1,
+                    0,
+                    0
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "created": "2026-11-21T01:22:30.973143427Z"
+      }
+    ]
+  }
+}

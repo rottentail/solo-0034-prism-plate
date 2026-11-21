@@ -1,0 +1,163 @@
+{
+  "case": "case-a",
+  "plate": {
+    "id": "press-alpha",
+    "title": "签样来源演练甲"
+  },
+  "package": "real prismplate session excerpt",
+  "warning": "本包是真实流程的节选。未纳入的响应、源稿或成品不代表被删除或篡改；未纳入的材料必须在结论中列为未排除项。",
+  "source_excerpt": {
+    "file": "sources/plate-excerpt.json",
+    "sha256": "e1deb5e25c062e6c454a11c5eed95108f433d84c73c4511092504f5eb885a2d5",
+    "included_revisions": [
+      1,
+      2
+    ],
+    "omitted_revision_numbers": [],
+    "omission_is_not_tampering": true
+  },
+  "images": [
+    {
+      "file": "artifacts/press-alpha-r1.png",
+      "format": "png",
+      "sha256": "63902bd0a5c41167cc353b932298c6b45de27ce3ae0ed92ebe1fa746a1c5d33e",
+      "artifact": {
+        "id": "a21962cc99ea09116de97a4bd9e0ad2c5d54fa1ffae9b9f3ec2f97ddb7740935",
+        "revision": 1,
+        "scene_digest": "ee201b1d180bb14ad38626d2c9fb3e868bc0cd3bf249ba108501b9cb58850540",
+        "byte_digest": "63902bd0a5c41167cc353b932298c6b45de27ce3ae0ed92ebe1fa746a1c5d33e"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "b478c828bc72df3f810ba646bc9d2412cab9da7abf8743018efcb4e242740a2e",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "7ecd48af2b62f72fc5ab98b06a2c9dec00272311a083cd5d9435bf6d2e8c002e"
+      }
+    },
+    {
+      "file": "artifacts/press-alpha-r2.png",
+      "format": "png",
+      "sha256": "5bba77509695c5437bf3facb7b4010aae0975f50f70b9c4bc9966ec63758325c",
+      "artifact": {
+        "id": "eb531929a02f2ec5845b1ca1bf3fcce794c797f3d2e85d6bc0c5a458ad49655c",
+        "revision": 2,
+        "scene_digest": "b9f92b7269314f383f1d010265bd9fa2571d5d36e15c0bc8dbb6a31d64bd142a",
+        "byte_digest": "5bba77509695c5437bf3facb7b4010aae0975f50f70b9c4bc9966ec63758325c"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "d789373b8ec37439771c7c2f69b23507a0fa42a0df67b4a58e2f4e9fe1035cfe",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "4cda8fa771517ceff6296d6109f346b2d87ad375d966acd5150f91b1cecc8a30"
+      }
+    },
+    {
+      "file": "vectors/press-alpha-r2.svg",
+      "format": "svg",
+      "sha256": "afff41d4f247a3877e4c6c2bd1abcd8a50dfdcf411269173539255206f6dcf0f",
+      "artifact": {
+        "id": "31b050eb44660fd9322cd5e03d01f9147e6e6fdd9ba71b7e8b29f94e24d9aeb5",
+        "revision": 2,
+        "scene_digest": "b9f92b7269314f383f1d010265bd9fa2571d5d36e15c0bc8dbb6a31d64bd142a",
+        "byte_digest": "afff41d4f247a3877e4c6c2bd1abcd8a50dfdcf411269173539255206f6dcf0f"
+      },
+      "provenance": "service_artifact",
+      "note": "SVG 是矢量校样，不是像素成品；不得用它替代 PNG 做逐像素认定。"
+    }
+  ],
+  "signed_sample": {
+    "file": "signed/signed-sample.png",
+    "format": "png",
+    "sha256": "5bba77509695c5437bf3facb7b4010aae0975f50f70b9c4bc9966ec63758325c",
+    "pixels_sha256": "d789373b8ec37439771c7c2f69b23507a0fa42a0df67b4a58e2f4e9fe1035cfe",
+    "kind": "received_sample",
+    "artifact_metadata": "见同目录响应记录"
+  },
+  "responses": {
+    "included": [
+      "responses/render-png-r1.json",
+      "responses/get-artifact-png-r1.json",
+      "responses/render-png-r2.json",
+      "responses/get-artifact-png-r2.json",
+      "responses/proof-open.json",
+      "responses/proof-decide.json",
+      "responses/bundle.json"
+    ],
+    "withheld": [
+      {
+        "record": "create-plate",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "revise-r2",
+        "request": {
+          "method": "PUT",
+          "path": "/v1/plates/press-alpha"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-plate",
+        "request": {
+          "method": "GET",
+          "path": "/v1/plates/press-alpha"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "render-svg-r1",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates/press-alpha/render?revision=1&format=svg"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-artifact-svg-r1",
+        "request": {
+          "method": "GET",
+          "path": "/v1/artifacts/e40fc1d68ac6b35450bfd762b04442e492eb8fc81fdb96fafc6cfa90c513c61e"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "render-svg-r2",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates/press-alpha/render?revision=2&format=svg"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-artifact-svg-r2",
+        "request": {
+          "method": "GET",
+          "path": "/v1/artifacts/31b050eb44660fd9322cd5e03d01f9147e6e6fdd9ba71b7e8b29f94e24d9aeb5"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      }
+    ]
+  },
+  "derivations": [],
+  "bundle": {
+    "file": "sources/plate-bundle.json",
+    "sha256": "6d06a12b09329905e06a9782c2eafef23b6056962f1ef90693a5df75b2f48a7a",
+    "note": "封包只含稿本历史，不含成品与校样；封包摘要可校验包内谱系一致性。"
+  },
+  "worksheet": "WORKSHEET.md"
+}

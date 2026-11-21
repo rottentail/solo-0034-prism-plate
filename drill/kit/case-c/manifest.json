@@ -1,0 +1,184 @@
+{
+  "case": "case-c",
+  "plate": {
+    "id": "press-gamma",
+    "title": "签样来源演练丙"
+  },
+  "package": "real prismplate session excerpt",
+  "warning": "本包是真实流程的节选。未纳入的响应、源稿或成品不代表被删除或篡改；未纳入的材料必须在结论中列为未排除项。",
+  "source_excerpt": {
+    "file": "sources/plate-excerpt.json",
+    "sha256": "fa664b88e31f5a39e01caff1fab965b3ddf66cd9fc353a54210ae6eea4b80006",
+    "included_revisions": [
+      1,
+      2
+    ],
+    "omitted_revision_numbers": [],
+    "omission_is_not_tampering": true
+  },
+  "images": [
+    {
+      "file": "artifacts/press-gamma-r1.png",
+      "format": "png",
+      "sha256": "e55bbfd2e0a22a40db6d6df0b09a20779842cc0ee609e36a1a7aa8183cb7a642",
+      "artifact": {
+        "id": "6a7a35a5e028137ed9f3a656fbf3516a4a20417c2f20c27100010a99925e49fa",
+        "revision": 1,
+        "scene_digest": "a95b072906d2eada7bde802402b428fec568575b2fbdf56a9fc8c838ce7996e4",
+        "byte_digest": "e55bbfd2e0a22a40db6d6df0b09a20779842cc0ee609e36a1a7aa8183cb7a642"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "810e1d328b1e5ae0fba454a109e497881007d4a3833c8980d76c6a4a127a2997",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "8f4df06ffa2c0e6e44c505f3f460530c2f659d71824e01bd3e6a7be1b819245e"
+      }
+    },
+    {
+      "file": "artifacts/press-gamma-r2.png",
+      "format": "png",
+      "sha256": "c0bd7a29a8feba8a799983a2cec41fa1c8203d71110637ab20f56ddf659c5a34",
+      "artifact": {
+        "id": "71c10bed41cd0b171870bda3dd675a6db57ef57bae755acd47eaf95707ee1fd5",
+        "revision": 2,
+        "scene_digest": "c49e27aca420f121a322f55c404749eb6d814ba7f75220a5fb22f2acf2b4e79f",
+        "byte_digest": "c0bd7a29a8feba8a799983a2cec41fa1c8203d71110637ab20f56ddf659c5a34"
+      },
+      "provenance": "service_artifact",
+      "width": 96,
+      "height": 72,
+      "pixels_sha256": "897bd41c03fb16001fd33bb7a2f876ab0c1456a3bb161fca0dbd9db4293e6191",
+      "thumbnail": {
+        "factor": 4,
+        "sha256": "39c3fbf3fe4eb71dd314b75c02f4aa85a71625c61a8bd486346b83b8e025d684"
+      }
+    },
+    {
+      "file": "vectors/press-gamma-r1.svg",
+      "format": "svg",
+      "sha256": "f923551859e5432e652b9b8a1bf38f27e8a57e23de736ad0d3d73dc53deebd43",
+      "artifact": {
+        "id": "6b50b5cd50e7beac333791ac70a107667bb283e50e403d44e300d6ef1dd0bdf9",
+        "revision": 1,
+        "scene_digest": "a95b072906d2eada7bde802402b428fec568575b2fbdf56a9fc8c838ce7996e4",
+        "byte_digest": "f923551859e5432e652b9b8a1bf38f27e8a57e23de736ad0d3d73dc53deebd43"
+      },
+      "provenance": "service_artifact",
+      "note": "SVG 是矢量校样，不是像素成品；不得用它替代 PNG 做逐像素认定。"
+    }
+  ],
+  "signed_sample": {
+    "file": "signed/signed-sample.png",
+    "format": "png",
+    "sha256": "3c0254fd166184e0e39b8f9f57629ae5bfe1c6d2cf1aa9d2be874cacd41f2902",
+    "pixels_sha256": "810e1d328b1e5ae0fba454a109e497881007d4a3833c8980d76c6a4a127a2997",
+    "kind": "labelled_reencoding",
+    "artifact_metadata": "见派生记录；样本本身不是服务成品。"
+  },
+  "responses": {
+    "included": [
+      "responses/render-png-r1.json",
+      "responses/get-artifact-png-r1.json",
+      "responses/proof-open.json",
+      "responses/proof-decide.json"
+    ],
+    "withheld": [
+      {
+        "record": "create-plate",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "revise-r2",
+        "request": {
+          "method": "PUT",
+          "path": "/v1/plates/press-gamma"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-plate",
+        "request": {
+          "method": "GET",
+          "path": "/v1/plates/press-gamma"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "render-png-r2",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates/press-gamma/render?revision=2&format=png"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-artifact-png-r2",
+        "request": {
+          "method": "GET",
+          "path": "/v1/artifacts/71c10bed41cd0b171870bda3dd675a6db57ef57bae755acd47eaf95707ee1fd5"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "render-svg-r1",
+        "request": {
+          "method": "POST",
+          "path": "/v1/plates/press-gamma/render?revision=1&format=svg"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      },
+      {
+        "record": "get-artifact-svg-r1",
+        "request": {
+          "method": "GET",
+          "path": "/v1/artifacts/6b50b5cd50e7beac333791ac70a107667bb283e50e403d44e300d6ef1dd0bdf9"
+        },
+        "body_included": false,
+        "reason": "真实会话中执行过，但请求体与响应体均未纳入本包；此处只登记调用存在，不提供其中任何稿本内容。"
+      }
+    ]
+  },
+  "derivations": [
+    {
+      "file": "signed/signed-sample.png",
+      "is_service_artifact": false,
+      "kind": "rgba8",
+      "source_artifact": {
+        "id": "6a7a35a5e028137ed9f3a656fbf3516a4a20417c2f20c27100010a99925e49fa",
+        "revision": 1,
+        "file": "artifacts/press-gamma-r1.png",
+        "sha256": "e55bbfd2e0a22a40db6d6df0b09a20779842cc0ee609e36a1a7aa8183cb7a642"
+      },
+      "transform": "按原始尺寸解码源成品为 RGBA8，逐像素保持不变，再以 PNG 重新编码；仅改变容器编码，不改变像素。",
+      "tool": "drill/lib/pngcodec.py",
+      "verification": {
+        "pixels_equal_to_source": true,
+        "source_pixels_sha256": "810e1d328b1e5ae0fba454a109e497881007d4a3833c8980d76c6a4a127a2997",
+        "derived_sha256": "3c0254fd166184e0e39b8f9f57629ae5bfe1c6d2cf1aa9d2be874cacd41f2902"
+      },
+      "warning": "派生记录是自述性说明，不带密码学签名；它解释字节差，本身不能替代校样或交接记录来认定来源。"
+    }
+  ],
+  "thumbnail_exhibits": [
+    {
+      "file": "thumbnails/signed-4x.png",
+      "label": "signed",
+      "factor": 4,
+      "pixels_sha256": "8f4df06ffa2c0e6e44c505f3f460530c2f659d71824e01bd3e6a7be1b819245e",
+      "note": "缩略图只用于筛查；相同缩略图不构成同一来源的证据。"
+    }
+  ],
+  "worksheet": "WORKSHEET.md"
+}

@@ -1,0 +1,436 @@
+{
+  "description": "逐例答案。receiver_* 字段是仅凭接收包可以正当得出的结论；ground_truth 是原始事实中记录的样本出处，接收者看不到。",
+  "cases": {
+    "case-a": {
+      "case": "case-a",
+      "plate": "press-alpha",
+      "receiver_verdict": "provenance_established",
+      "receiver_source": "press-alpha revision 2",
+      "receiver_candidates": [
+        "press-alpha revision 2"
+      ],
+      "receiver_excluded": [
+        {
+          "candidate": "press-alpha revision 1",
+          "reason": "可见校样标记颜色不同，全分辨率像素差不为零。"
+        }
+      ],
+      "receiver_unresolved_withheld": [],
+      "ground_truth": {
+        "signed_sample_origin": "service artifact png-r2 of press-alpha revision 2",
+        "source_revision": 2,
+        "source_artifact": "png-r2",
+        "source_bytes_sha256": "5bba77509695c5437bf3facb7b4010aae0975f50f70b9c4bc9966ec63758325c",
+        "source_scene_digest": "b9f92b7269314f383f1d010265bd9fa2571d5d36e15c0bc8dbb6a31d64bd142a",
+        "source_pixels_sha256": "d789373b8ec37439771c7c2f69b23507a0fa42a0df67b4a58e2f4e9fe1035cfe"
+      },
+      "ambiguity": [
+        "服务没有身份认证，摘要链只能证明包内谱系一致，不能证明保管链或排除整包伪造。"
+      ],
+      "missing_evidence": [],
+      "measurements": {
+        "signed_sample": {
+          "file": "signed/signed-sample.png",
+          "sha256": "5bba77509695c5437bf3facb7b4010aae0975f50f70b9c4bc9966ec63758325c",
+          "pixels_sha256": "d789373b8ec37439771c7c2f69b23507a0fa42a0df67b4a58e2f4e9fe1035cfe",
+          "thumbnail_4x_sha256": "4cda8fa771517ceff6296d6109f346b2d87ad375d966acd5150f91b1cecc8a30"
+        },
+        "candidate_pixel_relations": [
+          {
+            "revision": 1,
+            "artifact": "png-r1",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 144,
+            "bbox": [
+              60,
+              44,
+              71,
+              55
+            ],
+            "max_channel_delta": 87,
+            "thumbnail_4x_equal": false,
+            "thumbnail_8x_equal": false
+          }
+        ],
+        "excluded_revisions": [
+          {
+            "candidate": "press-alpha revision 1",
+            "reason": "可见校样标记颜色不同，全分辨率像素差不为零。"
+          }
+        ],
+        "ground_truth_notes": [],
+        "omitted_revision_numbers": [],
+        "lookalike_relations": []
+      },
+      "replay": {
+        "kit": "kit/case-a",
+        "bind": "python3 tools/compare.py bind --case kit/case-a --json"
+      },
+      "receiver_guarantees": [
+        "成品级绑定：样本就是校样已接受的那一件成品（按成品 id 与字节摘要）。",
+        "同版面内唯一：包内其余稿本的成品均与样本存在全分辨率像素差。"
+      ],
+      "receiver_established_on": "an accepted proof binds this artifact id; the received sample equals that artifact byte-for-byte; exactly one kit candidate is pixel-identical; the kit declares no omitted revision of this plate"
+    },
+    "case-b": {
+      "case": "case-b",
+      "plate": "press-beta",
+      "receiver_verdict": "candidates_only",
+      "receiver_source": null,
+      "receiver_candidates": [
+        "press-beta revision 1",
+        "press-beta revision 3"
+      ],
+      "receiver_excluded": [],
+      "receiver_unresolved_withheld": [
+        "press-beta revision 2 (material withheld)",
+        "press-beta revision 4 (material withheld)"
+      ],
+      "ground_truth": {
+        "signed_sample_origin": "labelled rgba8 copy of service artifact png-r1 of press-beta revision 1",
+        "source_revision": 1,
+        "source_artifact": "png-r1",
+        "source_bytes_sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+        "source_scene_digest": "5f477fb8ef7e996c70c8d2aec4d5c2252267eb214cc79f0c5fae25f8f0800d32",
+        "source_pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567",
+        "derivation_note": "样本是带派生记录的编码副本；像素与源成品一致，字节不同。"
+      },
+      "ambiguity": [
+        "R1 与 R3 的全部像素与成品字节完全相同，像素证据无法区分。",
+        "样本字节同时等于 R1 与 R3 的成品字节；派生记录只自述源自 R1，且不带签名，不能把两者区分开。",
+        "R2、R4 未纳入接收包，不能在接收包内排除；接收者必须把它们列为不可排除项。"
+      ],
+      "missing_evidence": [
+        "能把接收样本绑定到具体成品的校样裁决或带认证的交接记录。",
+        "R2、R4 的源稿与成品元数据，用于关闭候选集。"
+      ],
+      "measurements": {
+        "signed_sample": {
+          "file": "signed/signed-sample.png",
+          "sha256": "beee47beedd486eecaa13ba7c951ef206c3de5d3b1e435bc78d4bae3b7ec500e",
+          "pixels_sha256": "0ed6703eea988a2915c49c5dd89b45caba2f3ffee4483aae2ce6e1b17061d567",
+          "thumbnail_4x_sha256": "18a6df1fee0ffd492a59bf29db0d98c9acd9f27d37c73b7e6b8196c8bbdb3534"
+        },
+        "candidate_pixel_relations": [
+          {
+            "revision": 2,
+            "artifact": "png-r2",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 2,
+            "bbox": [
+              60,
+              40,
+              61,
+              40
+            ],
+            "max_channel_delta": 216,
+            "thumbnail_4x_equal": true,
+            "thumbnail_8x_equal": true
+          },
+          {
+            "revision": 3,
+            "artifact": "png-r3",
+            "pixels_equal": true,
+            "bytes_equal": true,
+            "diff_pixels": 0,
+            "bbox": null,
+            "max_channel_delta": 0,
+            "thumbnail_4x_equal": true,
+            "thumbnail_8x_equal": true
+          },
+          {
+            "revision": 4,
+            "artifact": "png-r4",
+            "pixels_equal": true,
+            "bytes_equal": true,
+            "diff_pixels": 0,
+            "bbox": null,
+            "max_channel_delta": 0,
+            "thumbnail_4x_equal": true,
+            "thumbnail_8x_equal": true
+          }
+        ],
+        "excluded_revisions": [],
+        "ground_truth_notes": [
+          "R2 与受签样本相差 2 像素，但 R2 未纳入接收包；接收者不能据此排除它。",
+          "R4 与受签样本像素与字节完全相同，且未纳入接收包；接收者不能排除它。"
+        ],
+        "omitted_revision_numbers": [
+          2,
+          4
+        ],
+        "lookalike_relations": []
+      },
+      "replay": {
+        "kit": "kit/case-b",
+        "bind": "python3 tools/compare.py bind --case kit/case-b --json"
+      },
+      "receiver_guarantees": [],
+      "receiver_established_on": null
+    },
+    "case-c": {
+      "case": "case-c",
+      "plate": "press-gamma",
+      "receiver_verdict": "provenance_established",
+      "receiver_source": "press-gamma revision 1",
+      "receiver_candidates": [
+        "press-gamma revision 1"
+      ],
+      "receiver_excluded": [
+        {
+          "candidate": "press-gamma revision 2",
+          "reason": "可见校样标记颜色不同，全分辨率像素差不为零。"
+        }
+      ],
+      "receiver_unresolved_withheld": [],
+      "ground_truth": {
+        "signed_sample_origin": "labelled rgba8 copy of service artifact png-r1 of press-gamma revision 1",
+        "source_revision": 1,
+        "source_artifact": "png-r1",
+        "source_bytes_sha256": "e55bbfd2e0a22a40db6d6df0b09a20779842cc0ee609e36a1a7aa8183cb7a642",
+        "source_scene_digest": "a95b072906d2eada7bde802402b428fec568575b2fbdf56a9fc8c838ce7996e4",
+        "source_pixels_sha256": "810e1d328b1e5ae0fba454a109e497881007d4a3833c8980d76c6a4a127a2997",
+        "derivation_note": "样本是带派生记录的编码副本；像素与源成品一致，字节不同。"
+      },
+      "ambiguity": [
+        "派生记录是自述字段，不带密码学签名；它解释编码差，但不能单独证明保管链。"
+      ],
+      "missing_evidence": [],
+      "measurements": {
+        "signed_sample": {
+          "file": "signed/signed-sample.png",
+          "sha256": "e55bbfd2e0a22a40db6d6df0b09a20779842cc0ee609e36a1a7aa8183cb7a642",
+          "pixels_sha256": "810e1d328b1e5ae0fba454a109e497881007d4a3833c8980d76c6a4a127a2997",
+          "thumbnail_4x_sha256": "8f4df06ffa2c0e6e44c505f3f460530c2f659d71824e01bd3e6a7be1b819245e"
+        },
+        "candidate_pixel_relations": [
+          {
+            "revision": 2,
+            "artifact": "png-r2",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 1152,
+            "bbox": [
+              46,
+              30,
+              81,
+              61
+            ],
+            "max_channel_delta": 168,
+            "thumbnail_4x_equal": false,
+            "thumbnail_8x_equal": false
+          }
+        ],
+        "excluded_revisions": [
+          {
+            "candidate": "press-gamma revision 2",
+            "reason": "可见校样标记颜色不同，全分辨率像素差不为零。"
+          }
+        ],
+        "ground_truth_notes": [],
+        "omitted_revision_numbers": [],
+        "lookalike_relations": []
+      },
+      "replay": {
+        "kit": "kit/case-c",
+        "bind": "python3 tools/compare.py bind --case kit/case-c --json"
+      },
+      "receiver_guarantees": [
+        "成品级绑定：样本就是校样已接受的那一件成品（按成品 id 与字节摘要）。",
+        "同版面内唯一：包内其余稿本的成品均与样本存在全分辨率像素差。"
+      ],
+      "receiver_established_on": "an accepted proof binds this artifact id; the received sample equals that artifact byte-for-byte; exactly one kit candidate is pixel-identical; the kit declares no omitted revision of this plate"
+    },
+    "case-d": {
+      "case": "case-d",
+      "plate": "press-delta",
+      "receiver_verdict": "provenance_established",
+      "receiver_source": "press-delta revision 2",
+      "receiver_candidates": [
+        "press-delta revision 2"
+      ],
+      "receiver_excluded": [
+        {
+          "candidate": "press-delta revision 1",
+          "reason": "缩略图相同，但全分辨率在 (60,40)、(61,40) 两像素不同。"
+        },
+        {
+          "candidate": "press-delta revision 3",
+          "reason": "与 R1 像素相同，因此同样被上述两像素差排除。"
+        }
+      ],
+      "receiver_unresolved_withheld": [],
+      "ground_truth": {
+        "signed_sample_origin": "service artifact png-r2 of press-delta revision 2",
+        "source_revision": 2,
+        "source_artifact": "png-r2",
+        "source_bytes_sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+        "source_scene_digest": "3293ca2ed5fa125e820d0fa0dbe53221eaa560fe1518347b2e7729819acfcfe5",
+        "source_pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12"
+      },
+      "ambiguity": [
+        "缩略图不是身份证据；若只给缩略图，R1 与受签样本不可区分。",
+        "包外另有一张像素相同的重渲染图；没有谱系或校样把它与受签样本绑定。"
+      ],
+      "missing_evidence": [],
+      "measurements": {
+        "signed_sample": {
+          "file": "signed/signed-sample.png",
+          "sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+          "pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12",
+          "thumbnail_4x_sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+        },
+        "candidate_pixel_relations": [
+          {
+            "revision": 1,
+            "artifact": "png-r1",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 2,
+            "bbox": [
+              60,
+              40,
+              61,
+              40
+            ],
+            "max_channel_delta": 209,
+            "thumbnail_4x_equal": true,
+            "thumbnail_8x_equal": true
+          },
+          {
+            "revision": 3,
+            "artifact": "png-r3",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 2,
+            "bbox": [
+              60,
+              40,
+              61,
+              40
+            ],
+            "max_channel_delta": 209,
+            "thumbnail_4x_equal": true,
+            "thumbnail_8x_equal": true
+          }
+        ],
+        "excluded_revisions": [
+          {
+            "candidate": "press-delta revision 1",
+            "reason": "缩略图相同，但全分辨率在 (60,40)、(61,40) 两像素不同。"
+          },
+          {
+            "candidate": "press-delta revision 3",
+            "reason": "与 R1 像素相同，因此同样被上述两像素差排除。"
+          }
+        ],
+        "ground_truth_notes": [],
+        "omitted_revision_numbers": [],
+        "lookalike_relations": [
+          {
+            "plate": "press-delta-unfiled",
+            "file": "unfiled/other-plate-same-pixels.png",
+            "pixels_equal": true,
+            "bytes_equal": true,
+            "diff_pixels": 0
+          }
+        ]
+      },
+      "replay": {
+        "kit": "kit/case-d",
+        "bind": "python3 tools/compare.py bind --case kit/case-d --json"
+      },
+      "receiver_guarantees": [
+        "成品级绑定：样本就是校样已接受的那一件成品（按成品 id 与字节摘要）。",
+        "同版面内唯一：包内其余稿本的成品均与样本存在全分辨率像素差。",
+        "像素级唯一性未成立：包外 `unfiled/other-plate-same-pixels.png`（press-delta-unfiled）与样本像素相同，说明相同像素也可由另一版面产生。",
+        "结论是“样本就是被接受的该成品”，不是“只有它能产生这些像素”。"
+      ],
+      "receiver_established_on": "an accepted proof binds this artifact id; the received sample equals that artifact byte-for-byte; exactly one kit candidate is pixel-identical; the kit declares no omitted revision of this plate"
+    },
+    "case-e": {
+      "case": "case-e",
+      "plate": "press-epsilon",
+      "receiver_verdict": "indeterminate",
+      "receiver_source": null,
+      "receiver_candidates": [],
+      "receiver_excluded": [
+        {
+          "candidate": "press-epsilon revision 1",
+          "reason": "全分辨率像素差不为零，可以排除 R1。"
+        }
+      ],
+      "receiver_unresolved_withheld": [],
+      "ground_truth": {
+        "signed_sample_origin": "service artifact png-r2 of press-epsilon revision 2",
+        "source_revision": 2,
+        "source_artifact": "png-r2",
+        "source_bytes_sha256": "766c2589452033fa1119125f19490caac803d6e2538478700a1994237b7bd2be",
+        "source_scene_digest": "dfd3d70f8373030d5aa83c244e2aae0e0e01d400d8afc56ba98fb4aeb31c8531",
+        "source_pixels_sha256": "73dd258178efad606b73a7f0d15a9e72d5431851402e57b8dae488c0c0f263d0"
+      },
+      "ambiguity": [
+        "R1 被排除后，包内没有可验证的候选；SVG 只是矢量校样，不能证明像素来源。",
+        "缩略图只能用于筛查，不能用来认定来源。"
+      ],
+      "missing_evidence": [
+        "受签样本对应的源稿或版面封包。",
+        "成品元数据（artifact id、scene_digest、字节摘要）或校样裁决。",
+        "若样本经过重编码，需要可核对的派生记录与原始成品。"
+      ],
+      "measurements": {
+        "signed_sample": {
+          "file": "signed/signed-sample.png",
+          "sha256": "766c2589452033fa1119125f19490caac803d6e2538478700a1994237b7bd2be",
+          "pixels_sha256": "73dd258178efad606b73a7f0d15a9e72d5431851402e57b8dae488c0c0f263d0",
+          "thumbnail_4x_sha256": "e97bafa998f59f557814f6b4f4147cef4ec2ce3612708416ab2b6c0d93da2147"
+        },
+        "candidate_pixel_relations": [
+          {
+            "revision": 1,
+            "artifact": "png-r1",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 1440,
+            "bbox": [
+              44,
+              28,
+              83,
+              63
+            ],
+            "max_channel_delta": 168,
+            "thumbnail_4x_equal": false,
+            "thumbnail_8x_equal": false
+          }
+        ],
+        "excluded_revisions": [
+          {
+            "candidate": "press-epsilon revision 1",
+            "reason": "全分辨率像素差不为零，可以排除 R1。"
+          }
+        ],
+        "ground_truth_notes": [],
+        "omitted_revision_numbers": [
+          2
+        ],
+        "lookalike_relations": [
+          {
+            "plate": "press-epsilon-lookalike",
+            "file": "lookalike/rebased-approximation.png",
+            "pixels_equal": false,
+            "bytes_equal": false,
+            "diff_pixels": 2100
+          }
+        ]
+      },
+      "replay": {
+        "kit": "kit/case-e",
+        "bind": "python3 tools/compare.py bind --case kit/case-e --json"
+      },
+      "receiver_guarantees": [],
+      "receiver_established_on": null
+    }
+  }
+}

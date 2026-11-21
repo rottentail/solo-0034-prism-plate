@@ -1,0 +1,252 @@
+{
+  "case": "case-d",
+  "plate": "press-delta",
+  "revision_notes": {
+    "1": "初始稿。",
+    "2": "两块相邻 1x1 色标互换，形成本题的受签成品。",
+    "3": "被遮片覆盖的隐藏色标改为蓝色；像素与 R1 相同。"
+  },
+  "proofs": {
+    "proof-delta-r2": {
+      "artifact_name": "png-r2",
+      "artifact": "408167f250c2f75e25277e6ee216af2e62756b1de6bc5016546ed6803bc32645",
+      "state": "accepted",
+      "note": "局部色标换位后复核通过"
+    }
+  },
+  "bundle_digest": null,
+  "artifacts": {
+    "png-r1": {
+      "meta": {
+        "id": "b0ad023452431eb3acdbf6c46c00520baf6bce64d4190c591216fc102a795947",
+        "plate": "press-delta",
+        "revision": 1,
+        "scene_digest": "c22e2cfacbd7781766f65498bf01737580a8add8708ec7fd43442c0f56a13c6a",
+        "format": "png",
+        "digest": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+      "pixels_sha256": "7550f06749d3ea1cf0076e4bc7000b1d5e5338d66268c5b394917cf836e28ceb"
+    },
+    "png-r2": {
+      "meta": {
+        "id": "408167f250c2f75e25277e6ee216af2e62756b1de6bc5016546ed6803bc32645",
+        "plate": "press-delta",
+        "revision": 2,
+        "scene_digest": "3293ca2ed5fa125e820d0fa0dbe53221eaa560fe1518347b2e7729819acfcfe5",
+        "format": "png",
+        "digest": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+      "pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12"
+    },
+    "png-r3": {
+      "meta": {
+        "id": "48d92f50095f2420b8142f0b284345bf3b68e56a1afddd581f99d17c42293279",
+        "plate": "press-delta",
+        "revision": 3,
+        "scene_digest": "ae53e4c654cd561e47d446e92c0e4843a96f37d822df68e012feec366f319043",
+        "format": "png",
+        "digest": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+        "state": "available",
+        "data": null
+      },
+      "format": "png",
+      "sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+      "pixels_sha256": "7550f06749d3ea1cf0076e4bc7000b1d5e5338d66268c5b394917cf836e28ceb"
+    }
+  },
+  "measurements": {
+    "facts": {
+      "png-r1": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "7550f06749d3ea1cf0076e4bc7000b1d5e5338d66268c5b394917cf836e28ceb",
+        "sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+        "bytes": 1220,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "84f6829e067a92453a8bfa8bcf4fa5fd45e8e091f4a1b5c7ccab9ffbf6311d95"
+          }
+        }
+      },
+      "png-r2": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "d1b12825c68f9baeef99d3d5dd87e05b21a2075c36666c9ca13708b698091b12",
+        "sha256": "b44b2d7398e0a78893bab30c28960dfafadaee11609e5acdcec8ff6b9f6a80c5",
+        "bytes": 1221,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "84f6829e067a92453a8bfa8bcf4fa5fd45e8e091f4a1b5c7ccab9ffbf6311d95"
+          }
+        }
+      },
+      "png-r3": {
+        "width": 96,
+        "height": 72,
+        "pixels_sha256": "7550f06749d3ea1cf0076e4bc7000b1d5e5338d66268c5b394917cf836e28ceb",
+        "sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+        "bytes": 1220,
+        "thumbnails": {
+          "4": {
+            "width": 24,
+            "height": 18,
+            "sha256": "3db460e4bce5d73f1e86ac8585678c0474236433ba4970c1072ec1d8e8676d67"
+          },
+          "8": {
+            "width": 12,
+            "height": 9,
+            "sha256": "84f6829e067a92453a8bfa8bcf4fa5fd45e8e091f4a1b5c7ccab9ffbf6311d95"
+          }
+        }
+      }
+    },
+    "relations": [
+      {
+        "left": "png-r1",
+        "right": "png-r2",
+        "left_revision": 1,
+        "right_revision": 2,
+        "bytes_equal": false,
+        "pixels_equal": false,
+        "diff_pixels": 2,
+        "bbox": [
+          60,
+          40,
+          61,
+          40
+        ],
+        "max_channel_delta": 209,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": [
+          {
+            "x": 60,
+            "y": 40,
+            "left": [
+              240,
+              143,
+              46,
+              255
+            ],
+            "right": [
+              31,
+              189,
+              179,
+              255
+            ]
+          },
+          {
+            "x": 61,
+            "y": 40,
+            "left": [
+              31,
+              189,
+              179,
+              255
+            ],
+            "right": [
+              240,
+              143,
+              46,
+              255
+            ]
+          }
+        ]
+      },
+      {
+        "left": "png-r1",
+        "right": "png-r3",
+        "left_revision": 1,
+        "right_revision": 3,
+        "bytes_equal": true,
+        "pixels_equal": true,
+        "diff_pixels": 0,
+        "bbox": null,
+        "max_channel_delta": 0,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": []
+      },
+      {
+        "left": "png-r2",
+        "right": "png-r3",
+        "left_revision": 2,
+        "right_revision": 3,
+        "bytes_equal": false,
+        "pixels_equal": false,
+        "diff_pixels": 2,
+        "bbox": [
+          60,
+          40,
+          61,
+          40
+        ],
+        "max_channel_delta": 209,
+        "thumbnails_equal": {
+          "4": true,
+          "8": true
+        },
+        "pairs": [
+          {
+            "x": 60,
+            "y": 40,
+            "left": [
+              31,
+              189,
+              179,
+              255
+            ],
+            "right": [
+              240,
+              143,
+              46,
+              255
+            ]
+          },
+          {
+            "x": 61,
+            "y": 40,
+            "left": [
+              240,
+              143,
+              46,
+              255
+            ],
+            "right": [
+              31,
+              189,
+              179,
+              255
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

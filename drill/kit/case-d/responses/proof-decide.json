@@ -1,0 +1,26 @@
+{
+  "case": "case-d",
+  "record": "proof-decide",
+  "request": {
+    "method": "PUT",
+    "path": "/v1/proofs/proof-delta-r2",
+    "body": {
+      "state": "accepted",
+      "note": "局部色标换位后复核通过"
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json; charset=utf-8",
+      "x-content-type-options": "nosniff"
+    },
+    "body": {
+      "id": "proof-delta-r2",
+      "artifact": "408167f250c2f75e25277e6ee216af2e62756b1de6bc5016546ed6803bc32645",
+      "state": "accepted",
+      "note": "局部色标换位后复核通过"
+    }
+  },
+  "capture_note": "响应记录为真实会话的摘录；易变的 Date/Transfer-Encoding 头未保留。"
+}

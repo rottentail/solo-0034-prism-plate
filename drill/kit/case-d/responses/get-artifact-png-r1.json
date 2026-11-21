@@ -1,0 +1,23 @@
+{
+  "case": "case-d",
+  "record": "get-artifact-png-r1",
+  "request": {
+    "method": "GET",
+    "path": "/v1/artifacts/b0ad023452431eb3acdbf6c46c00520baf6bce64d4190c591216fc102a795947",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-security-policy": "default-src 'none'; style-src 'unsafe-inline'; sandbox",
+      "content-type": "image/png",
+      "etag": "\"ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02\"",
+      "x-content-type-options": "nosniff",
+      "x-scene-digest": "c22e2cfacbd7781766f65498bf01737580a8add8708ec7fd43442c0f56a13c6a"
+    },
+    "body_sha256": "ebc9457c6516b0646dbbfa1b068096233b9951a124eb0a4a826cceb53eeb7a02",
+    "body_bytes": 1220,
+    "body_omitted": "binary body stored in origin/artifacts"
+  },
+  "capture_note": "响应记录为真实会话的摘录；易变的 Date/Transfer-Encoding 头未保留。"
+}

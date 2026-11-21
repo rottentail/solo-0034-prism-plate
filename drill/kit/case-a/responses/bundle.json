@@ -1,0 +1,21 @@
+{
+  "case": "case-a",
+  "record": "bundle",
+  "request": {
+    "method": "GET",
+    "path": "/v1/plates/press-alpha/bundle",
+    "body": null
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "content-type": "application/json",
+      "x-content-type-options": "nosniff"
+    },
+    "body_file": "sources/plate-bundle.json",
+    "body_note": "解析副本；字节精确内容见 body_file。",
+    "body_sha256": "6d06a12b09329905e06a9782c2eafef23b6056962f1ef90693a5df75b2f48a7a",
+    "body_omitted": "二进制成品单独存放于 artifacts/ 或 signed/。"
+  },
+  "capture_note": "响应记录为真实会话的摘录；易变的 Date/Transfer-Encoding 头未保留。"
+}
