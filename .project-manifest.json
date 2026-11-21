@@ -3,6 +3,11 @@
   "project_shape": "backend",
   "modules": [
     {
+      "id": "migrate",
+      "name": "颜色模型迁移",
+      "path": "internal/migrate"
+    },
+    {
       "id": "scene",
       "name": "场景值契约",
       "path": "internal/scene"
@@ -314,6 +319,50 @@
       "success": "非法场景不占历史，已有图仍可生成",
       "failure": "过量画布或错误渐变400",
       "verification": "python3 scripts/walkthrough.py --workflow rejection"
+    },
+    {
+      "id": "migration",
+      "name": "颜色模型升级与回退",
+      "entry": "POST /v1/plates/{id}/upgrade",
+      "module_ids": [
+        "transport",
+        "service",
+        "migrate",
+        "validate",
+        "repository",
+        "bundle",
+        "vector",
+        "raster"
+      ],
+      "steps": [
+        "旧校样先签下并固定其成品与摘要",
+        "升级追加新模型稿本且不改旧稿",
+        "新旧稿共同渲染、封包与恢复"
+      ],
+      "success": "旧成品/校样/摘要可取回，新稿按版本保存线性预乘颜色",
+      "failure": "旧式手动文档409、未知版本400、v2封包被旧版拒绝",
+      "verification": "python3 scripts/walkthrough.py --workflow migration"
+    },
+    {
+      "id": "color-model",
+      "name": "透明端点与混合背景往返",
+      "entry": "POST /v1/plates → upgrade → PNG/SVG",
+      "module_ids": [
+        "transport",
+        "service",
+        "migrate",
+        "paint",
+        "raster",
+        "vector"
+      ],
+      "steps": [
+        "用不同隐藏RGB的透明端点与近透明非零停止点建稿",
+        "升级后比较PNG摘要与SVG标记及stop",
+        "在透明与不透明背景上重复往返"
+      ],
+      "success": "PNG逐字节相同，SVG保留可编辑几何与alpha>0颜色",
+      "failure": "不可表示预乘颜色400",
+      "verification": "python3 scripts/walkthrough.py --workflow color-model"
     }
   ],
   "complexity": {

@@ -14,6 +14,7 @@ import (
 
 func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 	d := c.Document
+	model := d.ModelKind()
 	img := image.NewNRGBA(image.Rect(0, 0, d.Width, d.Height))
 	for y := 0; y < d.Height; y++ {
 		if err := ctx.Err(); err != nil {
@@ -24,7 +25,7 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 			for sy := 0; sy < 2; sy++ {
 				for sx := 0; sx < 2; sx++ {
 					p := geom.Point{X: float64(x) + (float64(sx)+0.5)/2, Y: float64(y) + (float64(sy)+0.5)/2}
-					dst := paint.From(d.Background)
+					dst := paint.From(d.Background, model)
 					for _, l := range c.Layers {
 						if len(l.Clip) > 0 && !l.Clip.Contains(p, "nonzero") {
 							continue
@@ -36,7 +37,7 @@ func Render(ctx context.Context, c scene.Compiled) ([]byte, error) {
 						for _, s := range l.Shapes {
 							q := s.Inverse.Apply(p)
 							if s.Path.Contains(q, s.Shape.FillRule) {
-								src = paint.Over(src, paint.Sample(s.Shape.Brush, q), "normal")
+								src = paint.Over(src, paint.Sample(s.Shape.Brush, model, q), "normal")
 							}
 						}
 						dst = paint.Over(dst, src.Scale(l.Layer.Opacity), l.Layer.Blend)

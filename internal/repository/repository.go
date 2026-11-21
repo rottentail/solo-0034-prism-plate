@@ -61,8 +61,52 @@ type Repo struct {
 
 func Hash(b []byte) string              { v := sha256.Sum256(b); return hex.EncodeToString(v[:]) }
 func SceneHash(d scene.Document) string { b, _ := json.Marshal(d); return Hash(b) }
+
+// LegacySceneHash is the pre-versioning digest: the scene marshalled as the
+// prism-plate-v1 struct before color_model existed. A legacy revision's
+// Document is an unknown-field-free v1 document, so marshalling it through
+// v1Document reproduces the identical bytes and therefore the original digest.
+// This is what lets historical revisions, artifacts and bundles keep verifying
+// after the format gained a version marker.
+type v1Document struct {
+	Width      int           `json:"width"`
+	Height     int           `json:"height"`
+	Background scene.Color   `json:"background"`
+	Layers     []scene.Layer `json:"layers"`
+}
+
+func LegacySceneHash(d scene.Document) string {
+	b, _ := json.Marshal(v1Document{Width: d.Width, Height: d.Height, Background: d.Background, Layers: d.Layers})
+	return Hash(b)
+}
+
+// RevisionDigest returns the digest a revision must carry for its document.
+// Legacy documents use the legacy canonical bytes; versioned documents use
+// the current struct including color_model.
+func RevisionDigest(d scene.Document) string {
+	if d.ColorModel == nil {
+		return LegacySceneHash(d)
+	}
+	return SceneHash(d)
+}
 func Fresh() State {
 	return State{Schema: "prism-plate-v1", Plates: map[string]Plate{}, Artifacts: map[string]Artifact{}, Proofs: map[string]Proof{}}
+}
+
+// stateSchema reports the snapshot schema a state requires. Snapshots that
+// carry any versioned revision are written as prism-plate-v2 so a legacy
+// binary refuses to restore them instead of reinterpreting their color
+// components as straight sRGB. Snapshots without versioned revisions keep the
+// original schema name and are therefore readable by legacy binaries.
+func stateSchema(s State) string {
+	for _, p := range s.Plates {
+		for _, r := range p.Revisions {
+			if r.Document.ColorModel != nil {
+				return "prism-plate-v2"
+			}
+		}
+	}
+	return "prism-plate-v1"
 }
 func Open(root string) (*Repo, error) {
 	if err := os.MkdirAll(root, 0700); err != nil {
@@ -94,15 +138,18 @@ func Open(root string) (*Repo, error) {
 
 // Check verifies internal lineage before a restored state can become authoritative.
 func Check(s State) error {
-	if s.Schema != "prism-plate-v1" || s.Plates == nil || s.Artifacts == nil || s.Proofs == nil {
+	if (s.Schema != "prism-plate-v1" && s.Schema != "prism-plate-v2") || s.Plates == nil || s.Artifacts == nil || s.Proofs == nil {
 		return fmt.Errorf("unsupported snapshot schema")
+	}
+	if stateSchema(s) != s.Schema {
+		return fmt.Errorf("snapshot schema does not match its revisions")
 	}
 	for id, p := range s.Plates {
 		if p.ID != id || len(p.Revisions) == 0 || (p.State != "active" && p.State != "archived") {
 			return fmt.Errorf("invalid plate lineage")
 		}
 		for i, r := range p.Revisions {
-			if r.Number != i+1 || r.Digest != SceneHash(r.Document) {
+			if r.Number != i+1 || r.Digest != RevisionDigest(r.Document) {
 				return fmt.Errorf("invalid revision digest")
 			}
 		}
@@ -136,6 +183,7 @@ func (r *Repo) Update(fn func(*State) error) error {
 	if err := fn(&next); err != nil {
 		return err
 	}
+	next.Schema = stateSchema(next)
 	if err := Check(next); err != nil {
 		return err
 	}

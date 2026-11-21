@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"fmt"
 	"prismplate/internal/geom"
+	"prismplate/internal/paint"
 	"prismplate/internal/scene"
 	"strings"
 )
@@ -24,16 +25,28 @@ func path(p geom.Path) string {
 	}
 	return b.String()
 }
-func color(c scene.Color) string {
-	return fmt.Sprintf("rgb(%s%%,%s%%,%s%%)", number(c.R*100), number(c.G*100), number(c.B*100))
+
+// color renders a stored color as a CSS sRGB triple. Versioned documents store
+// premultiplied linear components, which are de-premultiplied and re-encoded
+// here; legacy straight sRGB is emitted unchanged.
+func color(c scene.Color, m scene.Model) string {
+	s := paint.Straight(c, m)
+	return fmt.Sprintf("rgb(%s%%,%s%%,%s%%)", number(s.R*100), number(s.G*100), number(s.B*100))
 }
 
 // SVG uses the same flattened geometry. Browser gradient alpha interpolation and
 // pixel coverage may differ from the canonical PNG renderer; SVG is a vector proof.
+// Legacy documents emit exactly the v1 markup so their historical artifacts stay
+// byte-reproducible; only versioned documents add the color-model descriptor.
 func Export(c scene.Compiled) []byte {
 	var b bytes.Buffer
 	d := c.Document
-	fmt.Fprintf(&b, `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" color-interpolation="linearRGB"><defs>`, d.Width, d.Height, d.Width, d.Height)
+	model := d.ModelKind()
+	fmt.Fprintf(&b, `<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 %d %d" color-interpolation="linearRGB">`, d.Width, d.Height, d.Width, d.Height)
+	if model == scene.LinearPremul {
+		b.WriteString(`<desc>color-model:prism-plate-v2-linear-premultiplied</desc>`)
+	}
+	b.WriteString(`<defs>`)
 	for i, l := range c.Layers {
 		if len(l.Clip) > 0 {
 			fmt.Fprintf(&b, `<clipPath id="c%d" clipPathUnits="userSpaceOnUse"><path d="%s"/></clipPath>`, i, path(l.Clip))
@@ -46,14 +59,15 @@ func Export(c scene.Compiled) []byte {
 			if br.Kind == "linear" {
 				fmt.Fprintf(&b, `<linearGradient id="b%d_%d" gradientUnits="userSpaceOnUse" x1="%s" y1="%s" x2="%s" y2="%s">`, i, j, number(br.From.X), number(br.From.Y), number(br.To.X), number(br.To.Y))
 				for _, stop := range br.Stops {
-					fmt.Fprintf(&b, `<stop offset="%s" stop-color="%s" stop-opacity="%s"/>`, number(stop.At), color(stop.Color), number(stop.Color.A))
+					fmt.Fprintf(&b, `<stop offset="%s" stop-color="%s" stop-opacity="%s"/>`, number(stop.At), color(stop.Color, model), number(paint.Straight(stop.Color, model).A))
 				}
 				b.WriteString(`</linearGradient>`)
 			}
 		}
 	}
 	b.WriteString(`</defs>`)
-	fmt.Fprintf(&b, `<rect width="100%%" height="100%%" fill="%s" fill-opacity="%s"/>`, color(d.Background), number(d.Background.A))
+	bg := paint.Straight(d.Background, model)
+	fmt.Fprintf(&b, `<rect width="100%%" height="100%%" fill="%s" fill-opacity="%s"/>`, color(d.Background, model), number(bg.A))
 	for i, l := range c.Layers {
 		fmt.Fprintf(&b, `<g opacity="%s" style="isolation:isolate;mix-blend-mode:%s"`, number(l.Layer.Opacity), map[string]string{"normal": "normal", "multiply": "multiply", "screen": "screen"}[l.Layer.Blend])
 		if len(l.Clip) > 0 {
@@ -67,8 +81,8 @@ func Export(c scene.Compiled) []byte {
 		for j, s := range l.Shapes {
 			m := s.Shape.Transform
 			br := s.Shape.Brush
-			fill := color(br.Color)
-			alpha := br.Color.A
+			fill := color(br.Color, model)
+			alpha := paint.Straight(br.Color, model).A
 			if br.Kind == "linear" {
 				fill = fmt.Sprintf("url(#b%d_%d)", i, j)
 				alpha = 1

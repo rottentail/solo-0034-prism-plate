@@ -128,6 +128,24 @@ func (a API) Handler() http.Handler {
 		}
 		jsonOut(w, 200, map[string]string{"state": "archived"})
 	})
+	mux.HandleFunc("POST /v1/plates/{id}/upgrade", func(w http.ResponseWriter, r *http.Request) {
+		var q struct {
+			Expected int `json:"expected_revision"`
+		}
+		if e := decode(w, r, &q); e != nil {
+			failure(w, e)
+			return
+		}
+		v, changed, e := a.Service.Upgrade(r.PathValue("id"), q.Expected)
+		if e != nil {
+			failure(w, e)
+			return
+		}
+		jsonOut(w, 200, struct {
+			Plate   repository.Plate `json:"plate"`
+			Changed bool             `json:"changed"`
+		}{v, changed})
+	})
 	mux.HandleFunc("POST /v1/plates/{id}/render", func(w http.ResponseWriter, r *http.Request) {
 		n, e := revision(r)
 		if e != nil {
@@ -234,6 +252,9 @@ func (a API) Handler() http.Handler {
 			failure(w, e)
 			return
 		}
+		// The envelope schema records the oldest writer format that can read the
+		// bundle losslessly (see docs/migration.md), so an operator can pick a
+		// compatible receiver before shipping.
 		w.Header().Set("Content-Type", "application/json")
 		_, _ = w.Write(v)
 	})

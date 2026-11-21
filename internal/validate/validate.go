@@ -15,6 +15,43 @@ func ID(s string) bool         { return identifier.MatchString(s) }
 func finite(x float64) bool    { return !math.IsNaN(x) && !math.IsInf(x, 0) && math.Abs(x) <= 1e6 }
 func Unit(x float64) bool      { return finite(x) && x >= 0 && x <= 1 }
 func Color(c scene.Color) bool { return Unit(c.R) && Unit(c.G) && Unit(c.B) && Unit(c.A) }
+
+// ColorFor validates a color under an explicit model. Legacy straight sRGB
+// accepts any in-range component. Linear premultiplied input must additionally
+// be representable: each channel may not exceed alpha, so the stored value
+// cannot describe light that the alpha does not carry.
+func ColorFor(c scene.Color, m scene.Model) bool {
+	if !Color(c) {
+		return false
+	}
+	if m == scene.LinearPremul {
+		return c.R <= c.A && c.G <= c.A && c.B <= c.A
+	}
+	return true
+}
+
+var linearModels = map[int]string{2: "linear-premultiplied"}
+
+// Model resolves the document's explicit color model. Omitted means legacy.
+func Model(d scene.Document) (scene.Model, error) { return colorModel(d) }
+
+// colorModel validates the explicit marker and returns the resolved model.
+// An omitted marker is the legacy straight-sRGB contract; a present marker must
+// name a known version precisely, because silently defaulting unknown versions
+// would reinterpret stored components.
+func colorModel(d scene.Document) (scene.Model, error) {
+	if d.ColorModel == nil {
+		return scene.StraightSRGB, nil
+	}
+	c := d.ColorModel
+	if _, ok := linearModels[c.Version]; !ok {
+		return 0, fmt.Errorf("unsupported color model version")
+	}
+	if c.Space != "linear-srgb" || c.Alpha != "premultiplied" {
+		return 0, fmt.Errorf("unsupported color model")
+	}
+	return scene.LinearPremul, nil
+}
 func path(ops []geom.Op) (geom.Path, error) {
 	if len(ops) == 0 || len(ops) > 256 {
 		return nil, fmt.Errorf("contour operation count must be 1..256")
@@ -56,9 +93,9 @@ func path(ops []geom.Op) (geom.Path, error) {
 	}
 	return geom.Flatten(ops), nil
 }
-func brush(b scene.Brush) error {
+func brush(b scene.Brush, m scene.Model) error {
 	if b.Kind == "solid" {
-		if !Color(b.Color) {
+		if !ColorFor(b.Color, m) {
 			return fmt.Errorf("invalid solid color")
 		}
 		return nil
@@ -79,7 +116,7 @@ func brush(b scene.Brush) error {
 	}
 	prev := -1.0
 	for _, s := range b.Stops {
-		if !Unit(s.At) || s.At <= prev || !Color(s.Color) {
+		if !Unit(s.At) || s.At <= prev || !ColorFor(s.Color, m) {
 			return fmt.Errorf("invalid gradient stops")
 		}
 		prev = s.At
@@ -91,7 +128,11 @@ func brush(b scene.Brush) error {
 }
 func Compile(d scene.Document) (scene.Compiled, error) {
 	c := scene.Compiled{Document: d}
-	if d.Width < 1 || d.Height < 1 || d.Width > 512 || d.Height > 512 || !Color(d.Background) {
+	model, err := colorModel(d)
+	if err != nil {
+		return c, err
+	}
+	if d.Width < 1 || d.Height < 1 || d.Width > 512 || d.Height > 512 || !ColorFor(d.Background, model) {
 		return c, fmt.Errorf("invalid canvas (maximum 512 square)")
 	}
 	if len(d.Layers) < 1 || len(d.Layers) > 16 {
@@ -162,7 +203,7 @@ func Compile(d scene.Document) (scene.Compiled, error) {
 			if e != nil {
 				return c, e
 			}
-			if e = brush(s.Brush); e != nil {
+			if e = brush(s.Brush, model); e != nil {
 				return c, e
 			}
 			count(p)

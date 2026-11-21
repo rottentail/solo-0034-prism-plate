@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"prismplate/internal/bundle"
 	"prismplate/internal/exposure"
+	"prismplate/internal/migrate"
 	"prismplate/internal/raster"
 	"prismplate/internal/repository"
 	"prismplate/internal/scene"
@@ -32,7 +33,7 @@ func (s *Service) Create(id, title string, d scene.Document) (repository.Plate, 
 	if _, err := validate.Compile(d); err != nil {
 		return repository.Plate{}, err
 	}
-	p := repository.Plate{ID: id, Title: title, State: "active", Revisions: []repository.Revision{{Number: 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()}}}
+	p := repository.Plate{ID: id, Title: title, State: "active", Revisions: []repository.Revision{{Number: 1, Digest: repository.RevisionDigest(d), Document: d, Created: time.Now().UTC()}}}
 	err := s.Repo.Update(func(st *repository.State) error {
 		if _, ok := st.Plates[id]; ok {
 			return repository.ErrConflict
@@ -69,7 +70,15 @@ func (s *Service) Revise(id string, expected int, d scene.Document) (repository.
 		if len(p.Revisions) >= 64 {
 			return fmt.Errorf("revision capacity reached")
 		}
-		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.SceneHash(d), Document: d, Created: time.Now().UTC()})
+		// A plate may gain the versioned color model, but a revision that omits
+		// the marker is always the legacy straight-sRGB contract. Switching a
+		// plate back from versioned to legacy within the same plate is refused:
+		// the two models are not comparable and a silent downgrade would make a
+		// new document masquerade as its own predecessor.
+		if last := p.Revisions[len(p.Revisions)-1].Document; last.ColorModel != nil && d.ColorModel == nil {
+			return repository.ErrState
+		}
+		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.RevisionDigest(d), Document: d, Created: time.Now().UTC()})
 		st.Plates[id] = p
 		return nil
 	})
@@ -94,7 +103,60 @@ func (s *Service) Branch(id string, revision int, target, title string) (reposit
 	if revision < 1 || revision > len(p.Revisions) {
 		return p, repository.ErrMissing
 	}
-	return s.Create(target, title, p.Revisions[revision-1].Document)
+	// A branch is a new independent plate whose first revision is the frozen
+	// source document. It already carries its own color model, so it cannot use
+	// Create's legacy defaulting.
+	d := p.Revisions[revision-1].Document
+	if _, err := validate.Compile(d); err != nil {
+		return repository.Plate{}, err
+	}
+	np := repository.Plate{ID: target, Title: title, State: "active", Revisions: []repository.Revision{{Number: 1, Digest: repository.RevisionDigest(d), Document: d, Created: time.Now().UTC()}}}
+	err = s.Repo.Update(func(st *repository.State) error {
+		if !validate.ID(target) || len(title) == 0 || len(title) > 160 {
+			return fmt.Errorf("invalid plate identity")
+		}
+		if _, ok := st.Plates[target]; ok {
+			return repository.ErrConflict
+		}
+		st.Plates[target] = np
+		return nil
+	})
+	return np, err
+}
+
+// Upgrade converts a legacy plate's latest revision to the explicit linear
+// premultiplied model, appending exactly one new revision when that revision is
+// still the legacy one. Older revisions are never rewritten, so their digests,
+// artifacts and accepted proofs stay valid. If the latest revision is already
+// versioned the call is a no-op conflict-free success.
+func (s *Service) Upgrade(id string, expected int) (repository.Plate, bool, error) {
+	var p repository.Plate
+	changed := false
+	err := s.Repo.Update(func(st *repository.State) error {
+		var ok bool
+		p, ok = st.Plates[id]
+		if !ok {
+			return repository.ErrMissing
+		}
+		if p.State != "active" {
+			return repository.ErrState
+		}
+		if len(p.Revisions) != expected {
+			return repository.ErrConflict
+		}
+		if len(p.Revisions) >= 64 {
+			return fmt.Errorf("revision capacity reached")
+		}
+		d, upgraded := migrate.Upgrade(p.Revisions[len(p.Revisions)-1].Document)
+		if !upgraded {
+			return nil
+		}
+		changed = true
+		p.Revisions = append(p.Revisions, repository.Revision{Number: expected + 1, Digest: repository.RevisionDigest(d), Document: d, Created: time.Now().UTC()})
+		st.Plates[id] = p
+		return nil
+	})
+	return p, changed, err
 }
 func (s *Service) capture(id string, revision int) (repository.Revision, error) {
 	p, err := s.Plate(id)
