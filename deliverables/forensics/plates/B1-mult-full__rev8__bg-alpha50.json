@@ -1,0 +1,85 @@
+{
+  "id": "fp-b1-mult-full",
+  "title": "forensics B1-mult-full on bg-alpha50",
+  "document": {
+    "width": 96,
+    "height": 96,
+    "background": {
+      "r": 0.5,
+      "g": 0.5,
+      "b": 0.5,
+      "a": 0.5
+    },
+    "layers": [
+      {
+        "id": "probe-layer",
+        "opacity": 1.0,
+        "blend": "multiply",
+        "shapes": [
+          {
+            "id": "probe-fill",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.7674,
+                "g": 0.7674,
+                "b": 0.7674,
+                "a": 1.0
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

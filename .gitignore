@@ -2,3 +2,10 @@
 /bin/
 *.tmp
 .DS_Store
+
+# Forensics kit: regenerable service runtime, binary and Python caches.
+/deliverables/forensics/.service-state/
+/deliverables/forensics/.prismplate-bin
+/deliverables/forensics/service.log
+__pycache__/
+*.pyc

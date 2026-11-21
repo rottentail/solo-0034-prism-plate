@@ -1,0 +1,85 @@
+{
+  "id": "fp-b3-mult-thin",
+  "title": "forensics B3-mult-thin on bg-white",
+  "document": {
+    "width": 96,
+    "height": 96,
+    "background": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 1.0
+    },
+    "layers": [
+      {
+        "id": "probe-layer",
+        "opacity": 0.55,
+        "blend": "multiply",
+        "shapes": [
+          {
+            "id": "probe-fill",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.4635,
+                "g": 0.4635,
+                "b": 0.4635,
+                "a": 1.0
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

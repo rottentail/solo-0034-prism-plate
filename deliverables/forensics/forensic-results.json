@@ -1,0 +1,2197 @@
+{
+  "candidate_count": 16,
+  "background_count": 8,
+  "render_count": 128,
+  "forward_model_agrees_with_png": true,
+  "equifinality": {
+    "A|bg-midgray": {
+      "code_groups": [
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque",
+            "A2-glaze70",
+            "A3-glaze50"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "A|bg-black": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            127,
+            170,
+            255
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        },
+        {
+          "codes": [
+            92,
+            138,
+            178,
+            255
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "A|bg-white": {
+      "code_groups": [
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        },
+        {
+          "codes": [
+            171,
+            196,
+            224,
+            255
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            198,
+            219,
+            243,
+            255
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "A|bg-orange": {
+      "code_groups": [
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        },
+        {
+          "codes": [
+            164,
+            150,
+            178,
+            255
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            189,
+            148,
+            171,
+            255
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "A|bg-darkgray": {
+      "code_groups": [
+        {
+          "codes": [
+            82,
+            132,
+            173,
+            255
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        },
+        {
+          "codes": [
+            97,
+            141,
+            180,
+            255
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "A|bg-lightgray": {
+      "code_groups": [
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        },
+        {
+          "codes": [
+            146,
+            176,
+            207,
+            255
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            163,
+            190,
+            218,
+            255
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "A|bg-red": {
+      "code_groups": [
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        },
+        {
+          "codes": [
+            146,
+            139,
+            178,
+            255
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            163,
+            128,
+            171,
+            255
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "A|bg-alpha50": {
+      "code_groups": [
+        {
+          "codes": [
+            110,
+            160,
+            204,
+            191
+          ],
+          "candidates": [
+            "A3-glaze50"
+          ]
+        },
+        {
+          "codes": [
+            112,
+            157,
+            197,
+            217
+          ],
+          "candidates": [
+            "A2-glaze70"
+          ]
+        },
+        {
+          "codes": [
+            115,
+            153,
+            189,
+            255
+          ],
+          "candidates": [
+            "A1-opaque"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "B|bg-midgray": {
+      "code_groups": [
+        {
+          "codes": [
+            96,
+            96,
+            96,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-black": {
+      "code_groups": [
+        {
+          "codes": [
+            0,
+            0,
+            0,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-white": {
+      "code_groups": [
+        {
+          "codes": [
+            196,
+            196,
+            196,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-orange": {
+      "code_groups": [
+        {
+          "codes": [
+            186,
+            86,
+            17,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-darkgray": {
+      "code_groups": [
+        {
+          "codes": [
+            41,
+            41,
+            41,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-lightgray": {
+      "code_groups": [
+        {
+          "codes": [
+            156,
+            156,
+            156,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-red": {
+      "code_groups": [
+        {
+          "codes": [
+            156,
+            17,
+            17,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full",
+            "B2-mult-glaze",
+            "B3-mult-thin",
+            "B4-brush-alpha"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "B|bg-alpha50": {
+      "code_groups": [
+        {
+          "codes": [
+            105,
+            105,
+            105,
+            198
+          ],
+          "candidates": [
+            "B3-mult-thin"
+          ]
+        },
+        {
+          "codes": [
+            134,
+            134,
+            134,
+            223
+          ],
+          "candidates": [
+            "B2-mult-glaze",
+            "B4-brush-alpha"
+          ]
+        },
+        {
+          "codes": [
+            156,
+            156,
+            156,
+            255
+          ],
+          "candidates": [
+            "B1-mult-full"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "C|bg-midgray": {
+      "code_groups": [
+        {
+          "codes": [
+            186,
+            186,
+            186,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-black": {
+      "code_groups": [
+        {
+          "codes": [
+            160,
+            160,
+            160,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-white": {
+      "code_groups": [
+        {
+          "codes": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-orange": {
+      "code_groups": [
+        {
+          "codes": [
+            247,
+            181,
+            161,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-darkgray": {
+      "code_groups": [
+        {
+          "codes": [
+            165,
+            165,
+            165,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-lightgray": {
+      "code_groups": [
+        {
+          "codes": [
+            224,
+            224,
+            224,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-red": {
+      "code_groups": [
+        {
+          "codes": [
+            224,
+            161,
+            161,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full",
+            "C2-screen-glaze",
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "C|bg-alpha50": {
+      "code_groups": [
+        {
+          "codes": [
+            173,
+            173,
+            173,
+            255
+          ],
+          "candidates": [
+            "C1-screen-full"
+          ]
+        },
+        {
+          "codes": [
+            186,
+            186,
+            186,
+            217
+          ],
+          "candidates": [
+            "C2-screen-glaze"
+          ]
+        },
+        {
+          "codes": [
+            197,
+            197,
+            197,
+            191
+          ],
+          "candidates": [
+            "C3-screen-thin"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-midgray": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal",
+            "EM2-multiply"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "EM|bg-black": {
+      "code_groups": [
+        {
+          "codes": [
+            0,
+            0,
+            0,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        },
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-white": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        },
+        {
+          "codes": [
+            148,
+            177,
+            216,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-orange": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        },
+        {
+          "codes": [
+            141,
+            78,
+            20,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-darkgray": {
+      "code_groups": [
+        {
+          "codes": [
+            28,
+            36,
+            46,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        },
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-lightgray": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        },
+        {
+          "codes": [
+            118,
+            141,
+            173,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-red": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        },
+        {
+          "codes": [
+            118,
+            14,
+            20,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "EM|bg-alpha50": {
+      "code_groups": [
+        {
+          "codes": [
+            71,
+            87,
+            107,
+            255
+          ],
+          "candidates": [
+            "EM1-normal"
+          ]
+        },
+        {
+          "codes": [
+            118,
+            141,
+            173,
+            255
+          ],
+          "candidates": [
+            "EM2-multiply"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-midgray": {
+      "code_groups": [
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal",
+            "ES2-screen"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "ES|bg-black": {
+      "code_groups": [
+        {
+          "codes": [
+            112,
+            148,
+            187,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        },
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-white": {
+      "code_groups": [
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        },
+        {
+          "codes": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-orange": {
+      "code_groups": [
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        },
+        {
+          "codes": [
+            244,
+            173,
+            188,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-darkgray": {
+      "code_groups": [
+        {
+          "codes": [
+            123,
+            155,
+            190,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        },
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-lightgray": {
+      "code_groups": [
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        },
+        {
+          "codes": [
+            213,
+            221,
+            231,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-red": {
+      "code_groups": [
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        },
+        {
+          "codes": [
+            213,
+            150,
+            188,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "ES|bg-alpha50": {
+      "code_groups": [
+        {
+          "codes": [
+            138,
+            164,
+            196,
+            255
+          ],
+          "candidates": [
+            "ES2-screen"
+          ]
+        },
+        {
+          "codes": [
+            158,
+            179,
+            204,
+            255
+          ],
+          "candidates": [
+            "ES1-normal"
+          ]
+        }
+      ],
+      "distinguishable": true
+    },
+    "D|bg-midgray": {
+      "code_groups": [
+        {
+          "codes": [
+            128,
+            128,
+            128,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-black": {
+      "code_groups": [
+        {
+          "codes": [
+            0,
+            0,
+            0,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-white": {
+      "code_groups": [
+        {
+          "codes": [
+            255,
+            255,
+            255,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-orange": {
+      "code_groups": [
+        {
+          "codes": [
+            242,
+            115,
+            26,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-darkgray": {
+      "code_groups": [
+        {
+          "codes": [
+            56,
+            56,
+            56,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-lightgray": {
+      "code_groups": [
+        {
+          "codes": [
+            204,
+            204,
+            204,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-red": {
+      "code_groups": [
+        {
+          "codes": [
+            204,
+            26,
+            26,
+            255
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    },
+    "D|bg-alpha50": {
+      "code_groups": [
+        {
+          "codes": [
+            128,
+            128,
+            128,
+            128
+          ],
+          "candidates": [
+            "D1-zero-opacity",
+            "D2-off-canvas"
+          ]
+        }
+      ],
+      "distinguishable": false
+    }
+  },
+  "family_A_midgray_srgb_inversion": [
+    {
+      "channel": "R",
+      "observed_code": 115,
+      "srgb_quant_interval": [
+        0.44902,
+        0.45294
+      ],
+      "per_candidate": [
+        {
+          "candidate": "A1-opaque",
+          "o": 1.0,
+          "declared_srgb": 0.45,
+          "admissible_linear_s": [
+            0.16985,
+            0.17304
+          ],
+          "admissible_srgb_s": [
+            0.449,
+            0.4529
+          ]
+        },
+        {
+          "candidate": "A2-glaze70",
+          "o": 0.7,
+          "declared_srgb": 0.4263,
+          "admissible_linear_s": [
+            0.15091,
+            0.15547
+          ],
+          "admissible_srgb_s": [
+            0.4248,
+            0.4308
+          ]
+        },
+        {
+          "candidate": "A3-glaze50",
+          "o": 0.5,
+          "declared_srgb": 0.3919,
+          "admissible_linear_s": [
+            0.12566,
+            0.13204
+          ],
+          "admissible_srgb_s": [
+            0.3895,
+            0.3988
+          ]
+        }
+      ]
+    },
+    {
+      "channel": "G",
+      "observed_code": 153,
+      "srgb_quant_interval": [
+        0.59804,
+        0.60196
+      ],
+      "per_candidate": [
+        {
+          "candidate": "A1-opaque",
+          "o": 1.0,
+          "declared_srgb": 0.6,
+          "admissible_linear_s": [
+            0.31626,
+            0.32084
+          ],
+          "admissible_srgb_s": [
+            0.598,
+            0.602
+          ]
+        },
+        {
+          "candidate": "A2-glaze70",
+          "o": 0.7,
+          "declared_srgb": 0.6369,
+          "admissible_linear_s": [
+            0.36007,
+            0.36661
+          ],
+          "admissible_srgb_s": [
+            0.6343,
+            0.6395
+          ]
+        },
+        {
+          "candidate": "A3-glaze50",
+          "o": 0.5,
+          "declared_srgb": 0.6822,
+          "admissible_linear_s": [
+            0.41848,
+            0.42764
+          ],
+          "admissible_srgb_s": [
+            0.6789,
+            0.6855
+          ]
+        }
+      ]
+    },
+    {
+      "channel": "B",
+      "observed_code": 189,
+      "srgb_quant_interval": [
+        0.73922,
+        0.74314
+      ],
+      "per_candidate": [
+        {
+          "candidate": "A1-opaque",
+          "o": 1.0,
+          "declared_srgb": 0.74,
+          "admissible_linear_s": [
+            0.50588,
+            0.51189
+          ],
+          "admissible_srgb_s": [
+            0.7392,
+            0.7431
+          ]
+        },
+        {
+          "candidate": "A2-glaze70",
+          "o": 0.7,
+          "declared_srgb": 0.8168,
+          "admissible_linear_s": [
+            0.63095,
+            0.63955
+          ],
+          "admissible_srgb_s": [
+            0.8158,
+            0.8207
+          ]
+        },
+        {
+          "candidate": "A3-glaze50",
+          "o": 0.5,
+          "declared_srgb": 0.9064,
+          "admissible_linear_s": [
+            0.79772,
+            0.80975
+          ],
+          "admissible_srgb_s": [
+            0.9052,
+            0.9112
+          ]
+        }
+      ]
+    }
+  ],
+  "alpha_probe_coverage_inversion": [
+    {
+      "family": "A",
+      "candidate": "A1-opaque",
+      "alpha_code": 255,
+      "coverage_o_interval": [
+        0.9961,
+        1.0
+      ],
+      "declared_o": 1.0
+    },
+    {
+      "family": "A",
+      "candidate": "A2-glaze70",
+      "alpha_code": 217,
+      "coverage_o_interval": [
+        0.698,
+        0.7059
+      ],
+      "declared_o": 0.7
+    },
+    {
+      "family": "A",
+      "candidate": "A3-glaze50",
+      "alpha_code": 191,
+      "coverage_o_interval": [
+        0.4941,
+        0.502
+      ],
+      "declared_o": 0.5
+    },
+    {
+      "family": "B",
+      "candidate": "B1-mult-full",
+      "alpha_code": 255,
+      "coverage_o_interval": [
+        0.9961,
+        1.0
+      ],
+      "declared_o": 1.0
+    },
+    {
+      "family": "B",
+      "candidate": "B2-mult-glaze",
+      "alpha_code": 223,
+      "coverage_o_interval": [
+        0.7451,
+        0.7529
+      ],
+      "declared_o": 0.75
+    },
+    {
+      "family": "B",
+      "candidate": "B3-mult-thin",
+      "alpha_code": 198,
+      "coverage_o_interval": [
+        0.549,
+        0.5569
+      ],
+      "declared_o": 0.55
+    },
+    {
+      "family": "B",
+      "candidate": "B4-brush-alpha",
+      "alpha_code": 223,
+      "coverage_o_interval": [
+        0.7451,
+        0.7529
+      ],
+      "declared_o": 0.75
+    },
+    {
+      "family": "C",
+      "candidate": "C1-screen-full",
+      "alpha_code": 255,
+      "coverage_o_interval": [
+        0.9961,
+        1.0
+      ],
+      "declared_o": 1.0
+    },
+    {
+      "family": "C",
+      "candidate": "C2-screen-glaze",
+      "alpha_code": 217,
+      "coverage_o_interval": [
+        0.698,
+        0.7059
+      ],
+      "declared_o": 0.7
+    },
+    {
+      "family": "C",
+      "candidate": "C3-screen-thin",
+      "alpha_code": 191,
+      "coverage_o_interval": [
+        0.4941,
+        0.502
+      ],
+      "declared_o": 0.5
+    }
+  ],
+  "measured_codes": {
+    "A1-opaque|bg-alpha50": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-black": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-darkgray": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-lightgray": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-midgray": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-orange": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-red": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A1-opaque|bg-white": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A2-glaze70|bg-alpha50": [
+      112,
+      157,
+      197,
+      217
+    ],
+    "A2-glaze70|bg-black": [
+      92,
+      138,
+      178,
+      255
+    ],
+    "A2-glaze70|bg-darkgray": [
+      97,
+      141,
+      180,
+      255
+    ],
+    "A2-glaze70|bg-lightgray": [
+      146,
+      176,
+      207,
+      255
+    ],
+    "A2-glaze70|bg-midgray": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A2-glaze70|bg-orange": [
+      164,
+      150,
+      178,
+      255
+    ],
+    "A2-glaze70|bg-red": [
+      146,
+      139,
+      178,
+      255
+    ],
+    "A2-glaze70|bg-white": [
+      171,
+      196,
+      224,
+      255
+    ],
+    "A3-glaze50|bg-alpha50": [
+      110,
+      160,
+      204,
+      191
+    ],
+    "A3-glaze50|bg-black": [
+      71,
+      127,
+      170,
+      255
+    ],
+    "A3-glaze50|bg-darkgray": [
+      82,
+      132,
+      173,
+      255
+    ],
+    "A3-glaze50|bg-lightgray": [
+      163,
+      190,
+      218,
+      255
+    ],
+    "A3-glaze50|bg-midgray": [
+      115,
+      153,
+      189,
+      255
+    ],
+    "A3-glaze50|bg-orange": [
+      189,
+      148,
+      171,
+      255
+    ],
+    "A3-glaze50|bg-red": [
+      163,
+      128,
+      171,
+      255
+    ],
+    "A3-glaze50|bg-white": [
+      198,
+      219,
+      243,
+      255
+    ],
+    "B1-mult-full|bg-alpha50": [
+      156,
+      156,
+      156,
+      255
+    ],
+    "B1-mult-full|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "B1-mult-full|bg-darkgray": [
+      41,
+      41,
+      41,
+      255
+    ],
+    "B1-mult-full|bg-lightgray": [
+      156,
+      156,
+      156,
+      255
+    ],
+    "B1-mult-full|bg-midgray": [
+      96,
+      96,
+      96,
+      255
+    ],
+    "B1-mult-full|bg-orange": [
+      186,
+      86,
+      17,
+      255
+    ],
+    "B1-mult-full|bg-red": [
+      156,
+      17,
+      17,
+      255
+    ],
+    "B1-mult-full|bg-white": [
+      196,
+      196,
+      196,
+      255
+    ],
+    "B2-mult-glaze|bg-alpha50": [
+      134,
+      134,
+      134,
+      223
+    ],
+    "B2-mult-glaze|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "B2-mult-glaze|bg-darkgray": [
+      41,
+      41,
+      41,
+      255
+    ],
+    "B2-mult-glaze|bg-lightgray": [
+      156,
+      156,
+      156,
+      255
+    ],
+    "B2-mult-glaze|bg-midgray": [
+      96,
+      96,
+      96,
+      255
+    ],
+    "B2-mult-glaze|bg-orange": [
+      186,
+      86,
+      17,
+      255
+    ],
+    "B2-mult-glaze|bg-red": [
+      156,
+      17,
+      17,
+      255
+    ],
+    "B2-mult-glaze|bg-white": [
+      196,
+      196,
+      196,
+      255
+    ],
+    "B3-mult-thin|bg-alpha50": [
+      105,
+      105,
+      105,
+      198
+    ],
+    "B3-mult-thin|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "B3-mult-thin|bg-darkgray": [
+      41,
+      41,
+      41,
+      255
+    ],
+    "B3-mult-thin|bg-lightgray": [
+      156,
+      156,
+      156,
+      255
+    ],
+    "B3-mult-thin|bg-midgray": [
+      96,
+      96,
+      96,
+      255
+    ],
+    "B3-mult-thin|bg-orange": [
+      186,
+      86,
+      17,
+      255
+    ],
+    "B3-mult-thin|bg-red": [
+      156,
+      17,
+      17,
+      255
+    ],
+    "B3-mult-thin|bg-white": [
+      196,
+      196,
+      196,
+      255
+    ],
+    "B4-brush-alpha|bg-alpha50": [
+      134,
+      134,
+      134,
+      223
+    ],
+    "B4-brush-alpha|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "B4-brush-alpha|bg-darkgray": [
+      41,
+      41,
+      41,
+      255
+    ],
+    "B4-brush-alpha|bg-lightgray": [
+      156,
+      156,
+      156,
+      255
+    ],
+    "B4-brush-alpha|bg-midgray": [
+      96,
+      96,
+      96,
+      255
+    ],
+    "B4-brush-alpha|bg-orange": [
+      186,
+      86,
+      17,
+      255
+    ],
+    "B4-brush-alpha|bg-red": [
+      156,
+      17,
+      17,
+      255
+    ],
+    "B4-brush-alpha|bg-white": [
+      196,
+      196,
+      196,
+      255
+    ],
+    "C1-screen-full|bg-alpha50": [
+      173,
+      173,
+      173,
+      255
+    ],
+    "C1-screen-full|bg-black": [
+      160,
+      160,
+      160,
+      255
+    ],
+    "C1-screen-full|bg-darkgray": [
+      165,
+      165,
+      165,
+      255
+    ],
+    "C1-screen-full|bg-lightgray": [
+      224,
+      224,
+      224,
+      255
+    ],
+    "C1-screen-full|bg-midgray": [
+      186,
+      186,
+      186,
+      255
+    ],
+    "C1-screen-full|bg-orange": [
+      247,
+      181,
+      161,
+      255
+    ],
+    "C1-screen-full|bg-red": [
+      224,
+      161,
+      161,
+      255
+    ],
+    "C1-screen-full|bg-white": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "C2-screen-glaze|bg-alpha50": [
+      186,
+      186,
+      186,
+      217
+    ],
+    "C2-screen-glaze|bg-black": [
+      160,
+      160,
+      160,
+      255
+    ],
+    "C2-screen-glaze|bg-darkgray": [
+      165,
+      165,
+      165,
+      255
+    ],
+    "C2-screen-glaze|bg-lightgray": [
+      224,
+      224,
+      224,
+      255
+    ],
+    "C2-screen-glaze|bg-midgray": [
+      186,
+      186,
+      186,
+      255
+    ],
+    "C2-screen-glaze|bg-orange": [
+      247,
+      181,
+      161,
+      255
+    ],
+    "C2-screen-glaze|bg-red": [
+      224,
+      161,
+      161,
+      255
+    ],
+    "C2-screen-glaze|bg-white": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "C3-screen-thin|bg-alpha50": [
+      197,
+      197,
+      197,
+      191
+    ],
+    "C3-screen-thin|bg-black": [
+      160,
+      160,
+      160,
+      255
+    ],
+    "C3-screen-thin|bg-darkgray": [
+      165,
+      165,
+      165,
+      255
+    ],
+    "C3-screen-thin|bg-lightgray": [
+      224,
+      224,
+      224,
+      255
+    ],
+    "C3-screen-thin|bg-midgray": [
+      186,
+      186,
+      186,
+      255
+    ],
+    "C3-screen-thin|bg-orange": [
+      247,
+      181,
+      161,
+      255
+    ],
+    "C3-screen-thin|bg-red": [
+      224,
+      161,
+      161,
+      255
+    ],
+    "C3-screen-thin|bg-white": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "D1-zero-opacity|bg-alpha50": [
+      128,
+      128,
+      128,
+      128
+    ],
+    "D1-zero-opacity|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "D1-zero-opacity|bg-darkgray": [
+      56,
+      56,
+      56,
+      255
+    ],
+    "D1-zero-opacity|bg-lightgray": [
+      204,
+      204,
+      204,
+      255
+    ],
+    "D1-zero-opacity|bg-midgray": [
+      128,
+      128,
+      128,
+      255
+    ],
+    "D1-zero-opacity|bg-orange": [
+      242,
+      115,
+      26,
+      255
+    ],
+    "D1-zero-opacity|bg-red": [
+      204,
+      26,
+      26,
+      255
+    ],
+    "D1-zero-opacity|bg-white": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "D2-off-canvas|bg-alpha50": [
+      128,
+      128,
+      128,
+      128
+    ],
+    "D2-off-canvas|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "D2-off-canvas|bg-darkgray": [
+      56,
+      56,
+      56,
+      255
+    ],
+    "D2-off-canvas|bg-lightgray": [
+      204,
+      204,
+      204,
+      255
+    ],
+    "D2-off-canvas|bg-midgray": [
+      128,
+      128,
+      128,
+      255
+    ],
+    "D2-off-canvas|bg-orange": [
+      242,
+      115,
+      26,
+      255
+    ],
+    "D2-off-canvas|bg-red": [
+      204,
+      26,
+      26,
+      255
+    ],
+    "D2-off-canvas|bg-white": [
+      255,
+      255,
+      255,
+      255
+    ],
+    "EM1-normal|bg-alpha50": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-black": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-darkgray": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-lightgray": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-midgray": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-orange": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-red": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM1-normal|bg-white": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM2-multiply|bg-alpha50": [
+      118,
+      141,
+      173,
+      255
+    ],
+    "EM2-multiply|bg-black": [
+      0,
+      0,
+      0,
+      255
+    ],
+    "EM2-multiply|bg-darkgray": [
+      28,
+      36,
+      46,
+      255
+    ],
+    "EM2-multiply|bg-lightgray": [
+      118,
+      141,
+      173,
+      255
+    ],
+    "EM2-multiply|bg-midgray": [
+      71,
+      87,
+      107,
+      255
+    ],
+    "EM2-multiply|bg-orange": [
+      141,
+      78,
+      20,
+      255
+    ],
+    "EM2-multiply|bg-red": [
+      118,
+      14,
+      20,
+      255
+    ],
+    "EM2-multiply|bg-white": [
+      148,
+      177,
+      216,
+      255
+    ],
+    "ES1-normal|bg-alpha50": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-black": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-darkgray": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-lightgray": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-midgray": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-orange": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-red": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES1-normal|bg-white": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES2-screen|bg-alpha50": [
+      138,
+      164,
+      196,
+      255
+    ],
+    "ES2-screen|bg-black": [
+      112,
+      148,
+      187,
+      255
+    ],
+    "ES2-screen|bg-darkgray": [
+      123,
+      155,
+      190,
+      255
+    ],
+    "ES2-screen|bg-lightgray": [
+      213,
+      221,
+      231,
+      255
+    ],
+    "ES2-screen|bg-midgray": [
+      158,
+      179,
+      204,
+      255
+    ],
+    "ES2-screen|bg-orange": [
+      244,
+      173,
+      188,
+      255
+    ],
+    "ES2-screen|bg-red": [
+      213,
+      150,
+      188,
+      255
+    ],
+    "ES2-screen|bg-white": [
+      255,
+      255,
+      255,
+      255
+    ]
+  }
+}

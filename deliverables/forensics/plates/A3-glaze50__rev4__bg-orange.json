@@ -1,0 +1,85 @@
+{
+  "id": "fp-a3-glaze50",
+  "title": "forensics A3-glaze50 on bg-orange",
+  "document": {
+    "width": 96,
+    "height": 96,
+    "background": {
+      "r": 0.95,
+      "g": 0.45,
+      "b": 0.1,
+      "a": 1.0
+    },
+    "layers": [
+      {
+        "id": "probe-layer",
+        "opacity": 0.5,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "probe-fill",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.3919,
+                "g": 0.6822,
+                "b": 0.9064,
+                "a": 1.0
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

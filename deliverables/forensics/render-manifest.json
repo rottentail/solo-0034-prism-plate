@@ -1,0 +1,2306 @@
+[
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "db5b48f6159a3c9f2aa6a8149c359a3f2153e359fc79bc77b4578420387c4b77",
+    "artifact_sha256": "e8261e7bce55821cdbc5a8c9c28ceb15ce1a884657e6ba1f4e49b820bc693d2d",
+    "scene_digest": "ca657e345bdee0a7e0906d0c33373505e3785a4dd71c950106838c9378caaf9c",
+    "scene_source": "plates/A1-opaque__rev1__bg-midgray.json",
+    "png": "renders/A1-opaque__bg-midgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "0606066da4cc37c3988319b58fdd09c3ec9fad7232a47ccde773be9a96e0d8e0",
+    "artifact_sha256": "8824b6e6c0b493faf04b6944a2f87118c2333499bb914e82122ae51205c1a203",
+    "scene_digest": "34a49e1b70beb9ab6e55181cfbeb841f133e4dee023710efb70f25d0820c561c",
+    "scene_source": "plates/A1-opaque__rev2__bg-black.json",
+    "png": "renders/A1-opaque__bg-black.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "bc24be7759d144fb93e3ec68328aa95497a776b5b3a184246799d971e34f505c",
+    "artifact_sha256": "87a6450168dbd1754c2bce0a59f03ebb4f6917c723881912b27287b7293fb232",
+    "scene_digest": "d5645a50f5bf792c53f893d845145896f8e2723ff2993c3d6d5481c9fcbb7ca5",
+    "scene_source": "plates/A1-opaque__rev3__bg-white.json",
+    "png": "renders/A1-opaque__bg-white.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "92fe81b64232dfcae68602ba770b392920242e4e5dbe8a2a6907c08ee2fab7a9",
+    "artifact_sha256": "06d9da50f09f8552a404bdccc42c399c3444c3948ae79e0e859c39e70add3061",
+    "scene_digest": "cc6be5aba11ba4b12c0efeb9d9af4a5789a93a2521dcac2801407fae9934aba8",
+    "scene_source": "plates/A1-opaque__rev4__bg-orange.json",
+    "png": "renders/A1-opaque__bg-orange.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "c48619d624aab2c1e7bc482583b27b693d85cf09367067384d69135bd96357ec",
+    "artifact_sha256": "54522434ca76005cc6a2c8bf752867d96c230f5264a4cf697ebc3a66a7a1d706",
+    "scene_digest": "0b481f53598b7af8af0b633b9e42c1dff78b810e752014c5f0b7f17c8f93d1f7",
+    "scene_source": "plates/A1-opaque__rev5__bg-darkgray.json",
+    "png": "renders/A1-opaque__bg-darkgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "4670139307b5a4d667fa9fb9b2af866ae2694927ff7724735e754abc9d604aa3",
+    "artifact_sha256": "e17ab611332c9492e9426ec29fa052111098ef460a3c8b60f5f6928691b3bd43",
+    "scene_digest": "40a4688512d240dbba3a8422991e41d006322f06c5f823d3372fd1ec8573d523",
+    "scene_source": "plates/A1-opaque__rev6__bg-lightgray.json",
+    "png": "renders/A1-opaque__bg-lightgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "179b4dc76ff8c4397e86527b16f2e80b371951ff68cd6f513996114e212acc2f",
+    "artifact_sha256": "7e797631a7109c0f76a8ed382657612bc7188d7b5eb0a438388bddc307b8f9b7",
+    "scene_digest": "5a87eeb8947846d784b856924be07eb6b3b381308a2d3ba9c7518e16c0438b82",
+    "scene_source": "plates/A1-opaque__rev7__bg-red.json",
+    "png": "renders/A1-opaque__bg-red.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A1-opaque",
+    "plate": "fp-a1-opaque",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "b24aa810071a0fd49f00b6139b307cc9675167725a4059b46ac7909723dca9c8",
+    "artifact_sha256": "12143ba2796e9ad3f4b12e2b1848eaed7a84fe0b22ce1151bb83357f6545d0ee",
+    "scene_digest": "3d1ce65dbd97321e421172d775ea143bc4dde7e63d94a7d837231c68045d8e6c",
+    "scene_source": "plates/A1-opaque__rev8__bg-alpha50.json",
+    "png": "renders/A1-opaque__bg-alpha50.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "6f1312a6aa50d5e51fa0957019a8c2457a59dc306d2de3c8c688823f6be46e90",
+    "artifact_sha256": "e8261e7bce55821cdbc5a8c9c28ceb15ce1a884657e6ba1f4e49b820bc693d2d",
+    "scene_digest": "ae2b6596e0afee58f3eea000574784f40b66ce6cbbf5605cca0385d979510788",
+    "scene_source": "plates/A2-glaze70__rev1__bg-midgray.json",
+    "png": "renders/A2-glaze70__bg-midgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "5311122f4674b3d2f25dab0749dcb3e29d49a9868078e4aa75d63b5a396d744b",
+    "artifact_sha256": "58d5c1bfa2230c9c10a8d616e0a34e76aa9c609f44b46480bf3980e0d60df71d",
+    "scene_digest": "c6a7f58ac8304372dc4f4a194875c43f26dffcd6824f004fca87eb99959a6e50",
+    "scene_source": "plates/A2-glaze70__rev2__bg-black.json",
+    "png": "renders/A2-glaze70__bg-black.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "019724dcaf2674772da389ef56b36a1c9863d27c7498fb2c4e434eebc98cb879",
+    "artifact_sha256": "e753e811ec98d488c7b2d63f8a740ba56dccc33f11a8bf17c01e9e3a5c936755",
+    "scene_digest": "a812ff4ae331327e7e27a6f24fcccbb08b396a4ae2ec55c0636f62f1b2e2678e",
+    "scene_source": "plates/A2-glaze70__rev3__bg-white.json",
+    "png": "renders/A2-glaze70__bg-white.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "96e61a5015e9d91bb53b2d17a9767aab28da6b715a0fb36d3ee79de79f87443d",
+    "artifact_sha256": "1783daf68e650314870ea281a28f38a2bf9e642f4a1ed966dbbc4c83444923fc",
+    "scene_digest": "dff10f79d668c45a0cc86bf7df1748b3abc5b8c9c1a5f75ee31f0c83c39eac25",
+    "scene_source": "plates/A2-glaze70__rev4__bg-orange.json",
+    "png": "renders/A2-glaze70__bg-orange.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "aaa5643e4fc7fb43157d1b55f232ad3dd794eef5058305adf0b214d24ac637cd",
+    "artifact_sha256": "1d3466db597644da54501085f4af16f3372b63dd6c4315170bff089b087af033",
+    "scene_digest": "30790d99310ad6a457497e27b45c788d1282eea51e6e3f255d9b6d6da47deca9",
+    "scene_source": "plates/A2-glaze70__rev5__bg-darkgray.json",
+    "png": "renders/A2-glaze70__bg-darkgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "726be3c2318606001a9ee94e8904788be12b89b5f2906fb94833f542f0b7b734",
+    "artifact_sha256": "0ef043372389a93afa5094864184bf9df3181df26c458c04faebc70329650895",
+    "scene_digest": "6258346e5914252730702965f5214c37301e810223a32ae32fa0a5b4923ea273",
+    "scene_source": "plates/A2-glaze70__rev6__bg-lightgray.json",
+    "png": "renders/A2-glaze70__bg-lightgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "c7e6014f61b6adc27cebd63b355a35b01535982e8bf4d6d457c48a61dbfd9d81",
+    "artifact_sha256": "076f8b6ded631f4b828ed317751e85ae7c822a1e67a1bead3573dde9383f8d07",
+    "scene_digest": "bd742b88095ac8994da874d1aec361d397495187a90c5c1755b36806a6236975",
+    "scene_source": "plates/A2-glaze70__rev7__bg-red.json",
+    "png": "renders/A2-glaze70__bg-red.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A2-glaze70",
+    "plate": "fp-a2-glaze70",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "1e8417ab4085c7fec46432072cc5c9a78f3004289e67d467dbaaad52a2e14969",
+    "artifact_sha256": "65908291bf9690aadcd61dc70fddd4f577632cd8699e5eaa7a541d6a1d540cde",
+    "scene_digest": "aa99d02ffd02ab9c26e840c1d84b63b65657d2b881de7d7ab1eb833d12282938",
+    "scene_source": "plates/A2-glaze70__rev8__bg-alpha50.json",
+    "png": "renders/A2-glaze70__bg-alpha50.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "ecea07a4a0dff35f5858d947b4939e4153432da30da210f26fad420ddc597534",
+    "artifact_sha256": "e8261e7bce55821cdbc5a8c9c28ceb15ce1a884657e6ba1f4e49b820bc693d2d",
+    "scene_digest": "cbd0e134bc3098c4ae6d8f8d5f9e9bffc6c416da428c3961b97ab3febf5293e4",
+    "scene_source": "plates/A3-glaze50__rev1__bg-midgray.json",
+    "png": "renders/A3-glaze50__bg-midgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "30b02e9c1795a5b9e4ba28c22b1508a9ea586ed1c95d49a3649e2adb34f45d73",
+    "artifact_sha256": "d1c1342e9b2b1220d8f54ce65de8f76aeb587d559f6fd3e60afd5f1c68d53ec8",
+    "scene_digest": "8abd313cc8361d99b754c6c2ebd4b667597bdae4161c81f7938a99de339e6b5d",
+    "scene_source": "plates/A3-glaze50__rev2__bg-black.json",
+    "png": "renders/A3-glaze50__bg-black.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "0e9d401d8843cb4541cf6da19ba2d36cc8576c3e3629084a1bb7180ae6c0c68a",
+    "artifact_sha256": "1e248609dcca1af1af826964cb54f9ac438935543baed57c84257d5f92572693",
+    "scene_digest": "83f0cef88e13a13a0f066b72666ffb5dd9d69db7363c43659ad515dfe9c4d55b",
+    "scene_source": "plates/A3-glaze50__rev3__bg-white.json",
+    "png": "renders/A3-glaze50__bg-white.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "1e4ac8dcc12918dcee6f937e4c3d9ace49cf5c91759da6e35ff73bf8b83066f3",
+    "artifact_sha256": "f0ebd6c9003c6b999c0446afaa05497a4dcb07e205eb76c348481fe9c34abc53",
+    "scene_digest": "cd5562f30fd4d97f764348d68231892720bc71964fa43bf45eec1fb9aeea947e",
+    "scene_source": "plates/A3-glaze50__rev4__bg-orange.json",
+    "png": "renders/A3-glaze50__bg-orange.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "4bd7af1bfea3face0887be22d4557c087a6f21957cd3561c6cd67bdf670003a1",
+    "artifact_sha256": "a43ae3f63de7c9ce6dc3b4d108995e4a9453ec2daba9172d02bf03916af55b73",
+    "scene_digest": "cc653e28ec157819339bbee260c100c3fa1648b16cf4622eead90c07cde4c4a9",
+    "scene_source": "plates/A3-glaze50__rev5__bg-darkgray.json",
+    "png": "renders/A3-glaze50__bg-darkgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "0f95b7756834b01bb14aac30f369fe2e53ce3079e5c64e683363f7a4c7bd8079",
+    "artifact_sha256": "24e3d9e62adb92197a427495dde4b5a3277c62a4d1568efd3c1a6fb64f17a8f9",
+    "scene_digest": "c5fe74827c5836530c02ff90e2a94a8135e985f7f8f0fc449f543e787976db4f",
+    "scene_source": "plates/A3-glaze50__rev6__bg-lightgray.json",
+    "png": "renders/A3-glaze50__bg-lightgray.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "14730b180355b6f2bad9ec42e78f8fdbe22e200d9730d7422b322a67cd403cae",
+    "artifact_sha256": "c56a9bd842a75d102665b9a8a62085298faf185788275eeeec5b3a8518d3043f",
+    "scene_digest": "212ea80ef35cfdbf4a323852e73d073eb1721fbd8f07b668f972d75075305fb6",
+    "scene_source": "plates/A3-glaze50__rev7__bg-red.json",
+    "png": "renders/A3-glaze50__bg-red.png"
+  },
+  {
+    "family": "A",
+    "candidate": "A3-glaze50",
+    "plate": "fp-a3-glaze50",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "387ff42016d457a40006aa9bc3a7a0891392c601ad58d694500e50c7a9b2b902",
+    "artifact_sha256": "bb4bdc5dc964a5f5dc9f6f158fc3c1961e90332c3b32fd5a94c5bc3f67629f63",
+    "scene_digest": "5ab65bf3d51ad39f585f3d09beb50e3b4a394e988e328c28c510fcbfb3e6bed8",
+    "scene_source": "plates/A3-glaze50__rev8__bg-alpha50.json",
+    "png": "renders/A3-glaze50__bg-alpha50.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "d36781d868e65b81dc2e25f435f6857045f3ca7a54b779ef1a525b1a1b93407c",
+    "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c",
+    "scene_digest": "b0aa86582ef3531e086ece46a216728e98a561d99a0957b7a154f10d46e248f9",
+    "scene_source": "plates/B1-mult-full__rev1__bg-midgray.json",
+    "png": "renders/B1-mult-full__bg-midgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "73ef71bc364e67397552b313ffb864476d25b07132a5b204cdb42c379d8a1f58",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "f6cc1a063a4f822b532be4fa352480542c0d979c629d5f67a536dacd9855370a",
+    "scene_source": "plates/B1-mult-full__rev2__bg-black.json",
+    "png": "renders/B1-mult-full__bg-black.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "aec3197e0d35552464cc1b779448313dfae7fb2365dfeb178e5fe9d9e3c2aa4e",
+    "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed",
+    "scene_digest": "0a8892b0dd29989bd29650cd010a54ddf0860c705c833354a0498f5e6040231f",
+    "scene_source": "plates/B1-mult-full__rev3__bg-white.json",
+    "png": "renders/B1-mult-full__bg-white.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "cba4b6466ae0b6ac12354a8e10889c242a5a17dde03d647be921e1f1585be123",
+    "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176",
+    "scene_digest": "3245a41de96a97cbeb805c200c7e0521e1d1ef9c07262789de3faf44498d2cd0",
+    "scene_source": "plates/B1-mult-full__rev4__bg-orange.json",
+    "png": "renders/B1-mult-full__bg-orange.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "8091f47587b840cad0f221fc07fede9d0e5c9d626e1607b0ad8af6f48a2bfb02",
+    "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d",
+    "scene_digest": "67a32fe837c24055b0743aa2533ba77e80b7b23fa724006509035c9c789f8d87",
+    "scene_source": "plates/B1-mult-full__rev5__bg-darkgray.json",
+    "png": "renders/B1-mult-full__bg-darkgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "b164cd64e776504e8046a644e4e96e19f10b57e884b4f6ffa654f2625323f5da",
+    "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8",
+    "scene_digest": "04d83be52be5e26ee589b7464b5dc7abf0e591ee648efe508c67b317fe054775",
+    "scene_source": "plates/B1-mult-full__rev6__bg-lightgray.json",
+    "png": "renders/B1-mult-full__bg-lightgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "93abd0b15b928261ac3fa13f59ec14e01f8b676041d638b8b442c8c7e8944b0d",
+    "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2",
+    "scene_digest": "653530fa29a06b35ed9ee1ba6359d14ad11b00c8d1914db11733df21df12394a",
+    "scene_source": "plates/B1-mult-full__rev7__bg-red.json",
+    "png": "renders/B1-mult-full__bg-red.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B1-mult-full",
+    "plate": "fp-b1-mult-full",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "6d377ab040405c06242d4892a3b01ebb7e7f52dc8f6fcb888e49ca94d4488e61",
+    "artifact_sha256": "f8989e464125c95626c27076a7986360cc4aedd4727f7238f286f9e0d833b946",
+    "scene_digest": "b05090dc6707636836d7342866928f556a43258eb013811b7825d8e34e7e7f9b",
+    "scene_source": "plates/B1-mult-full__rev8__bg-alpha50.json",
+    "png": "renders/B1-mult-full__bg-alpha50.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "e8753fd4b2cbfdd21692f84c3cbbf4b90e50d3602234a21bd4517c8c9530a9f8",
+    "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c",
+    "scene_digest": "25b49eea8d122665f7c90c076968f5fe3d545e8c62abbf88b7e6e65add9c956c",
+    "scene_source": "plates/B2-mult-glaze__rev1__bg-midgray.json",
+    "png": "renders/B2-mult-glaze__bg-midgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "097c8f0443203a1cdc4cab18aae38d9d8eebe2a0db741058c4c79fcc2df51c80",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "02cc4d781e3ca409bf3ef31b9d6211212e728460fe2e5751ea004729cdf4501d",
+    "scene_source": "plates/B2-mult-glaze__rev2__bg-black.json",
+    "png": "renders/B2-mult-glaze__bg-black.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "5d26d8db62f608529b9d68bd73c53a2f08d6994e910af3af1d1540d8c6956d02",
+    "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed",
+    "scene_digest": "886eb4a4bc53242ca9a12e1da9ee783b23b6096a5d877273a809889e00024bae",
+    "scene_source": "plates/B2-mult-glaze__rev3__bg-white.json",
+    "png": "renders/B2-mult-glaze__bg-white.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "579ba5a58515cefadbdd2b40be68cb34d0e5e8ab8e497a165403a3f7fc531b52",
+    "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176",
+    "scene_digest": "f65d62fab81866fb4e340bb05bb1737662140eb3f11ce8ef2cfbd96485ce870f",
+    "scene_source": "plates/B2-mult-glaze__rev4__bg-orange.json",
+    "png": "renders/B2-mult-glaze__bg-orange.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "430ea09aee6dda29a6e2b89a6a83eb736c2be21a244ca022e435ea97ac30654f",
+    "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d",
+    "scene_digest": "cbc2f5109cf791bb59cfe9bf1087f18a5b4eed5d716f4c217823a1669b4bab07",
+    "scene_source": "plates/B2-mult-glaze__rev5__bg-darkgray.json",
+    "png": "renders/B2-mult-glaze__bg-darkgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "9c7c44feb32f787277f75b550ab6d46b77de429bf862b57ba9eb20dedcf20707",
+    "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8",
+    "scene_digest": "167cbdee277dd37f039071f538774475ca9b1e51e6404188e68aafcf124db844",
+    "scene_source": "plates/B2-mult-glaze__rev6__bg-lightgray.json",
+    "png": "renders/B2-mult-glaze__bg-lightgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "02764aee023fe510262d00fc382884923a55e8c01acb57b8ea33fbefc9323455",
+    "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2",
+    "scene_digest": "275c6195b8f9a8487d0fa28f22448f5af2791d0bdd469e945ee328a97ea01246",
+    "scene_source": "plates/B2-mult-glaze__rev7__bg-red.json",
+    "png": "renders/B2-mult-glaze__bg-red.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B2-mult-glaze",
+    "plate": "fp-b2-mult-glaze",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "13406f3cdd1b12f5bc157d165ca16584faff26627ec6d549bc9e3bc8a118de95",
+    "artifact_sha256": "04f7642671f284aa6610b738e20b2ab9320a9c5e5a762bc664151c60113459cb",
+    "scene_digest": "6e7b71228f7fe1d1584ec9f04713f7febb0a4e049e2ed14ddff8e61d0817cef5",
+    "scene_source": "plates/B2-mult-glaze__rev8__bg-alpha50.json",
+    "png": "renders/B2-mult-glaze__bg-alpha50.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "e190c90eea60c6fc4115f0e43ebf7af0886d1b82faee932e2f8de63822945878",
+    "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c",
+    "scene_digest": "db51a731c530713bd25e5eeb47d5f118282759615e0bef777147a4d21ebd37d6",
+    "scene_source": "plates/B3-mult-thin__rev1__bg-midgray.json",
+    "png": "renders/B3-mult-thin__bg-midgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "65084fa578a2d457a3512e74d8f43d4b6118e769edf1ad40435365d16e316b5c",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "dd27bfa309edcb70cb23dbb7f1ede85056e2adaab4b888288351d432d64bf696",
+    "scene_source": "plates/B3-mult-thin__rev2__bg-black.json",
+    "png": "renders/B3-mult-thin__bg-black.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "56d79fb74f4a2209201e98ba6ee3672fa8e4eaefac26163e8aa8b3af5b0b4f32",
+    "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed",
+    "scene_digest": "de00ee12e17060b7e74a9afdd04426207c65aa099248378d44b58d596b6b4d3c",
+    "scene_source": "plates/B3-mult-thin__rev3__bg-white.json",
+    "png": "renders/B3-mult-thin__bg-white.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "d2f9d8f931095d5821adceed9b97277eae08b7e7aebb22ebd7cde66749fbdb7e",
+    "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176",
+    "scene_digest": "e71d8ee9174110bcf28935d885ddb3a3643f1cb82b186aec47d25ed7f5a7732a",
+    "scene_source": "plates/B3-mult-thin__rev4__bg-orange.json",
+    "png": "renders/B3-mult-thin__bg-orange.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "c5e37f48c9f70b44f60e57815b21787ca6fa334f477ab6114e7df43f00cb47f5",
+    "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d",
+    "scene_digest": "ca321491d9722ad1f7f7667573fd583888a813e11f4e6e1d1bab27a8de4a3ec4",
+    "scene_source": "plates/B3-mult-thin__rev5__bg-darkgray.json",
+    "png": "renders/B3-mult-thin__bg-darkgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "0db3b367a0d31058eba0bf573ed65dbe0b6e4fe925361c95aae09abaa6678684",
+    "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8",
+    "scene_digest": "b11d9b849aee96c2da3d8d9a87171e88d98e5b2234a729de83aae87e2ab5309b",
+    "scene_source": "plates/B3-mult-thin__rev6__bg-lightgray.json",
+    "png": "renders/B3-mult-thin__bg-lightgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "3962d4397840746bd46cbfb55d65cca1535d66c5139b0f9169da2e45672dd247",
+    "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2",
+    "scene_digest": "34e437fa4300db4d14729beffdaaf0be7cebb73fe7beaafcda02d8a7bece958a",
+    "scene_source": "plates/B3-mult-thin__rev7__bg-red.json",
+    "png": "renders/B3-mult-thin__bg-red.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B3-mult-thin",
+    "plate": "fp-b3-mult-thin",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "f36ad41e5241e96bf6ec5951bf49a6a8b8bce1d10fdc63893523c875a9d528ae",
+    "artifact_sha256": "8e48c6c03a40ed4fb32c5b2dfbd6f2e899b78cbb03b7852aa5a1ebd64c75006c",
+    "scene_digest": "2367a77bf963623dac8bdb2cad6406a98043359b40371a755b6008422a07b5b6",
+    "scene_source": "plates/B3-mult-thin__rev8__bg-alpha50.json",
+    "png": "renders/B3-mult-thin__bg-alpha50.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "4e698727b95d8ef4296433503cb766c4eb0e8669e6a06addd8b6972c0e847eda",
+    "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c",
+    "scene_digest": "1bd07b91fc500d149bcab45ef04a1a31abebe6cc80f9579458062730a1968071",
+    "scene_source": "plates/B4-brush-alpha__rev1__bg-midgray.json",
+    "png": "renders/B4-brush-alpha__bg-midgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "9cf48290cbc1b37cc6ba21f228af3a36223231faa27dcc37392523ba08b6b922",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "2be3f8fa3f88a801769c64c6f9d4966c8e8bcb0624e77641bf774af3e2ffa1f2",
+    "scene_source": "plates/B4-brush-alpha__rev2__bg-black.json",
+    "png": "renders/B4-brush-alpha__bg-black.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "d07b901ee61462914b02d6d03a53975d3f5f56bf7dfad83ee310d0604d59c299",
+    "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed",
+    "scene_digest": "c83315234aff9cac3ae0b86b99e2135da9b4c79426f73578e0c93b7495b03a49",
+    "scene_source": "plates/B4-brush-alpha__rev3__bg-white.json",
+    "png": "renders/B4-brush-alpha__bg-white.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "b60b78e97d4c26c39ec78302d4fe20046fd0c4c3a1135ca75472e6a9eb784933",
+    "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176",
+    "scene_digest": "ddf2f99491208f1130670a16c69a90cfab3d1978cb8bb66322fdca8e62554272",
+    "scene_source": "plates/B4-brush-alpha__rev4__bg-orange.json",
+    "png": "renders/B4-brush-alpha__bg-orange.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "9e635199cc6ccd14be0ee79808db83e153156cd29d694f0a7d6645a83d421799",
+    "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d",
+    "scene_digest": "28e4b98e31201aa3db6217f9fc1e6fba4de08d3e54b5a56e571d3804207c4aee",
+    "scene_source": "plates/B4-brush-alpha__rev5__bg-darkgray.json",
+    "png": "renders/B4-brush-alpha__bg-darkgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "f6f79c887743ec71a3b1615d0a65b21835c7281d35dbfee4effb9d33646e65a4",
+    "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8",
+    "scene_digest": "76c13634d5ab7b5151d17c6022e4b374b4e032cba84f35ecab8153f5c2713aa0",
+    "scene_source": "plates/B4-brush-alpha__rev6__bg-lightgray.json",
+    "png": "renders/B4-brush-alpha__bg-lightgray.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "1734f40ecf92d9c14f2f6b298eb3f34e3690644ebee00f8b07eaedeb1031b389",
+    "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2",
+    "scene_digest": "139adfef98d478173a74c09228cc951f40d1c9a24854550ab0e3e29b168de264",
+    "scene_source": "plates/B4-brush-alpha__rev7__bg-red.json",
+    "png": "renders/B4-brush-alpha__bg-red.png"
+  },
+  {
+    "family": "B",
+    "candidate": "B4-brush-alpha",
+    "plate": "fp-b4-brush-alpha",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "3c1046b29818a2d5d32efe84700411524de962f2d202c40b9deac88d5b28496e",
+    "artifact_sha256": "04f7642671f284aa6610b738e20b2ab9320a9c5e5a762bc664151c60113459cb",
+    "scene_digest": "b17eb1adb81e8723206fca6182856e342913567810616aa936eff1a269b5b4cc",
+    "scene_source": "plates/B4-brush-alpha__rev8__bg-alpha50.json",
+    "png": "renders/B4-brush-alpha__bg-alpha50.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "da18cab79534190826b59c69671268537bebd0c065293c93ffc4a34260dde02b",
+    "artifact_sha256": "f696fae8c11d4f783bcade2e0155f6eb6865b204840ac567de49ba6e3f1294b3",
+    "scene_digest": "67ef2f1c583ac694e7882070134241d88eae7f16182130523c58531909c71323",
+    "scene_source": "plates/C1-screen-full__rev1__bg-midgray.json",
+    "png": "renders/C1-screen-full__bg-midgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "a394cf2366ada37033245a04050d10534f838b670763713d33fff25289511b1a",
+    "artifact_sha256": "5b27483d2490aa57f84be92ba6c86120e073f33fd4c1904075d88a5cf5a6bde1",
+    "scene_digest": "c04b215e6d97a67303580f63a13ad31953f314873e83891221c220548f8f3a16",
+    "scene_source": "plates/C1-screen-full__rev2__bg-black.json",
+    "png": "renders/C1-screen-full__bg-black.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "b0249aceebc4964c291012e9460b0559c9d9c8621b664c7038c8d9b87721aa1c",
+    "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4",
+    "scene_digest": "59946075846b74a9f3275d441b33d77a2b5d9f70be39a47774fe956e5a8267bb",
+    "scene_source": "plates/C1-screen-full__rev3__bg-white.json",
+    "png": "renders/C1-screen-full__bg-white.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "50a5f40737d67072313c46b4a7ab9986ac21c7294fdeb55ac2b16abcff144770",
+    "artifact_sha256": "ce076e0bc45cd1fd98d22db6184c8cafb4ea39c3030366e3698a7b5d495e4a22",
+    "scene_digest": "aaad36c0a9a2997bca39d61878ff6edf7a293c2c28c7a48d9ed7caac9ce4ebc8",
+    "scene_source": "plates/C1-screen-full__rev4__bg-orange.json",
+    "png": "renders/C1-screen-full__bg-orange.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "2d0746ec23d1c096e7740827bbcd005f603b8a939447311ce0b0924b7ee1f0c2",
+    "artifact_sha256": "27bdce14d3eedd1a2e83391bc5ea28a626a892e3eedf4a05f1694c937bdc586e",
+    "scene_digest": "2344339141cafc59f000ef3290bc2eb5f0f64231001a72ba5a3d768664dc2716",
+    "scene_source": "plates/C1-screen-full__rev5__bg-darkgray.json",
+    "png": "renders/C1-screen-full__bg-darkgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "4d5ac34c37d831e823befb00df06a6af5b6c6d3848c3865b4664fef27e4185d2",
+    "artifact_sha256": "ec934e3a369bd4f7ce891efa3ed986ec54ec952b1138449f58842450e6a48481",
+    "scene_digest": "d4fa6910fea011a8ec42aba8ed5c6a6d734c8aff8063dbcb7ab4bf0b3d4ff166",
+    "scene_source": "plates/C1-screen-full__rev6__bg-lightgray.json",
+    "png": "renders/C1-screen-full__bg-lightgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "9a4f8a44a6b71d7ee4940b561f5cd2b3bacb82fb972c0885b2fd84c0048f9172",
+    "artifact_sha256": "4417ef80f054aeab23c904fad3b535d5489a55d0c0e42074769718519c4cedbe",
+    "scene_digest": "a89e7f5f0ba7112da5eaa9b3c0f558dd4fa032f631cf76ff7a6881bf1aca559d",
+    "scene_source": "plates/C1-screen-full__rev7__bg-red.json",
+    "png": "renders/C1-screen-full__bg-red.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C1-screen-full",
+    "plate": "fp-c1-screen-full",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "64f49ed7ed0c3a13d74a451aca43a3343eaf01e8869fc18539b27c38a95d9d97",
+    "artifact_sha256": "8b48238c04b45f5c843197186c156f79a8af91e2152312233ad572dc3b2a90f2",
+    "scene_digest": "a6b150b2758b38f4d784946a6c0a9f6cc43f3aed3ec2c658e8b28374e72ae7a4",
+    "scene_source": "plates/C1-screen-full__rev8__bg-alpha50.json",
+    "png": "renders/C1-screen-full__bg-alpha50.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "6af6a346c583e94a825edd837e82e9e5cec45302f2ae3d218a6535a4cd4c0e12",
+    "artifact_sha256": "f696fae8c11d4f783bcade2e0155f6eb6865b204840ac567de49ba6e3f1294b3",
+    "scene_digest": "439504bdebb9272420a293935801fe7be51cc07e11d2da418d90b7383060d9cf",
+    "scene_source": "plates/C2-screen-glaze__rev1__bg-midgray.json",
+    "png": "renders/C2-screen-glaze__bg-midgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "9c43d6ce19fb7b7f948a557bfe02c8363b72a0a9a8cbe9e06bb2a8b0cf473323",
+    "artifact_sha256": "5b27483d2490aa57f84be92ba6c86120e073f33fd4c1904075d88a5cf5a6bde1",
+    "scene_digest": "dcf914823def1da8291fb0ad486c4ef99da3a407068bd53c3ebd527dd1d09275",
+    "scene_source": "plates/C2-screen-glaze__rev2__bg-black.json",
+    "png": "renders/C2-screen-glaze__bg-black.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "b0e64b1574d883a3d0ee0494f5206b1531422ab3c651a3e705cde5b3a4adcbe1",
+    "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4",
+    "scene_digest": "0b3ec5fdaf46f3f4d4142c4b6f2cb89b04f75117fba6e14138ffe5c56b8b4c10",
+    "scene_source": "plates/C2-screen-glaze__rev3__bg-white.json",
+    "png": "renders/C2-screen-glaze__bg-white.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "5b717148f1263da2e6e3e73ea3c103f592bd5fcd6082530cb692d29909b02ca2",
+    "artifact_sha256": "ce076e0bc45cd1fd98d22db6184c8cafb4ea39c3030366e3698a7b5d495e4a22",
+    "scene_digest": "bc07e6606fb15852266e31f4e579198c0fdd937c6515830a4d41a7d4f7dfa038",
+    "scene_source": "plates/C2-screen-glaze__rev4__bg-orange.json",
+    "png": "renders/C2-screen-glaze__bg-orange.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "746060a53bf5905d5e2a4642b334ad248fb4dfb8a9c2fb55db5ad930796d7595",
+    "artifact_sha256": "27bdce14d3eedd1a2e83391bc5ea28a626a892e3eedf4a05f1694c937bdc586e",
+    "scene_digest": "af124a642739d9c05c5716e9229da8810b26aede857141500be4ded4f2670db8",
+    "scene_source": "plates/C2-screen-glaze__rev5__bg-darkgray.json",
+    "png": "renders/C2-screen-glaze__bg-darkgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "09b7d5c9efce1398b0bade4e3026d9c89fc9fe209aca11103105448e1a844477",
+    "artifact_sha256": "ec934e3a369bd4f7ce891efa3ed986ec54ec952b1138449f58842450e6a48481",
+    "scene_digest": "61348a51b4abf243076b65be856f98fa83f77917e7763bd02fce2a736a5061d3",
+    "scene_source": "plates/C2-screen-glaze__rev6__bg-lightgray.json",
+    "png": "renders/C2-screen-glaze__bg-lightgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "1c99b1f3481b6db2e1829f9994c4c92e6fc1ae499070677560eab2db5463085e",
+    "artifact_sha256": "4417ef80f054aeab23c904fad3b535d5489a55d0c0e42074769718519c4cedbe",
+    "scene_digest": "c7fe0a1c17f8a0a62a92363c68f85fefdd71c35f1a6fd69a93d0b5dd9036ca09",
+    "scene_source": "plates/C2-screen-glaze__rev7__bg-red.json",
+    "png": "renders/C2-screen-glaze__bg-red.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C2-screen-glaze",
+    "plate": "fp-c2-screen-glaze",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "11da423e9b0d50a910a9c7ffa6e1c2a4627de07aa3f7acf4f036a0b0c0d673b5",
+    "artifact_sha256": "a1982aebf3aac064c44916c33d1a6818ca6311baa82743e58ff80eaaf4d383b8",
+    "scene_digest": "4fe8d8577b89e6ac8f2daf11af84d86e578cf0b4f01dd8019e431862e83bbc93",
+    "scene_source": "plates/C2-screen-glaze__rev8__bg-alpha50.json",
+    "png": "renders/C2-screen-glaze__bg-alpha50.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "081939b3c831a3261da676d717969f4d8d0235677c1e22495f82fe9b993cc197",
+    "artifact_sha256": "f696fae8c11d4f783bcade2e0155f6eb6865b204840ac567de49ba6e3f1294b3",
+    "scene_digest": "e83740e15c9ad36385d77da86bb3ad855428a3d357aea98672389582ceba1145",
+    "scene_source": "plates/C3-screen-thin__rev1__bg-midgray.json",
+    "png": "renders/C3-screen-thin__bg-midgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "5ab6142667144bb1ea0105f6b99fbf5d3b6d20eba2655545a8270dfa0f4a56f5",
+    "artifact_sha256": "5b27483d2490aa57f84be92ba6c86120e073f33fd4c1904075d88a5cf5a6bde1",
+    "scene_digest": "9ed5b7eddd1d4e73a7ebc08fb3069baab6d1e05bfaa121f1be82e37b7825698f",
+    "scene_source": "plates/C3-screen-thin__rev2__bg-black.json",
+    "png": "renders/C3-screen-thin__bg-black.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "59e10cd740ea4932f59fb7528518da41ffa9d2cb9a5fa7a69163b698d0977b30",
+    "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4",
+    "scene_digest": "7624ad4db8b1d9747d6b89f12d1bbc3dc1c90e6bc509af6956b0736292ce2ddd",
+    "scene_source": "plates/C3-screen-thin__rev3__bg-white.json",
+    "png": "renders/C3-screen-thin__bg-white.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "be212bbcbf4cff436c0dc4fedc79dec579ca71df4e8c9cf4037d4584833ea8fe",
+    "artifact_sha256": "ce076e0bc45cd1fd98d22db6184c8cafb4ea39c3030366e3698a7b5d495e4a22",
+    "scene_digest": "2f80de00ffa21c1b9c0c5fd3b9bdc8e07491d0a98de9fc5e8e6a58d82255b0f1",
+    "scene_source": "plates/C3-screen-thin__rev4__bg-orange.json",
+    "png": "renders/C3-screen-thin__bg-orange.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "6a286059314b066f726097f6bbe3080df417a68157e0b7d4cf58bcdae00b8b3f",
+    "artifact_sha256": "27bdce14d3eedd1a2e83391bc5ea28a626a892e3eedf4a05f1694c937bdc586e",
+    "scene_digest": "83380e0a17bf5d132b0378fd2c94c6b2b1117c8ef09e4c59f825d8adc6c7bb35",
+    "scene_source": "plates/C3-screen-thin__rev5__bg-darkgray.json",
+    "png": "renders/C3-screen-thin__bg-darkgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "b6c1e0ab8510539ac660fb761247317485c58e1914f7991a0d2afbffc0bdc1cb",
+    "artifact_sha256": "ec934e3a369bd4f7ce891efa3ed986ec54ec952b1138449f58842450e6a48481",
+    "scene_digest": "058db39ccd8e274e9da0178e95d4d928596fb59850669edc153890cf763c5b60",
+    "scene_source": "plates/C3-screen-thin__rev6__bg-lightgray.json",
+    "png": "renders/C3-screen-thin__bg-lightgray.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "f68081a69341bf0083a623346f0a3c97986acc555fff14a4715de9ef8476cd7c",
+    "artifact_sha256": "4417ef80f054aeab23c904fad3b535d5489a55d0c0e42074769718519c4cedbe",
+    "scene_digest": "2559ef647ecc0b100700adf48fd7b92e9c71b2496bb35996f4475c9096981300",
+    "scene_source": "plates/C3-screen-thin__rev7__bg-red.json",
+    "png": "renders/C3-screen-thin__bg-red.png"
+  },
+  {
+    "family": "C",
+    "candidate": "C3-screen-thin",
+    "plate": "fp-c3-screen-thin",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "6c8766258b028881a8720d51bf53a19cafa98639d5b2b5a68fc077d371b1d53a",
+    "artifact_sha256": "7c154f961f42c4330041b8c83ddd300b9204c859c2572dca63f7059e68781091",
+    "scene_digest": "68495083134f8de879e55b559ab8e2ff4baa15ae019936e04b888d2e191f18a9",
+    "scene_source": "plates/C3-screen-thin__rev8__bg-alpha50.json",
+    "png": "renders/C3-screen-thin__bg-alpha50.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "ccb8d14e2196c40da1b3c90dcb90e8890e069a1f2f240d0328823df889228196",
+    "artifact_sha256": "a0aab33d876dc51a1ff760f03bb63292ba2b17df5fa600fd13ff3922c25367d9",
+    "scene_digest": "fc571764b2811e407ca51e02552fadc21a61ecd0bcf43faafaebd08c23f14adc",
+    "scene_source": "plates/EM1-normal__rev1__bg-midgray.json",
+    "png": "renders/EM1-normal__bg-midgray.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "219af15bd12d8169f80c54e470d0fe0fbccedfd93e0635afa2e52cbdc8b75224",
+    "artifact_sha256": "81d68b84b05d21f9edf6d3a638630146d2cc0b73aa13eb8120c228e5610baec9",
+    "scene_digest": "c144473c798cdcba80cfa6eeb0ddb9821d8e6eec979801ea4ee02655dbf5a1ad",
+    "scene_source": "plates/EM1-normal__rev2__bg-black.json",
+    "png": "renders/EM1-normal__bg-black.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "00f7d2635d5f660297f64e4327188d640b3f79a67c7d4cabd3364bbae8cf3e48",
+    "artifact_sha256": "07f56815a9db5f0e6c4e0bf9278fd17d0bd65182a322101c3308f7886c2c9776",
+    "scene_digest": "720682b28be8d91612cd0655c605ddd59ef7a1854f9f3b73d536bdc62f61aeb3",
+    "scene_source": "plates/EM1-normal__rev3__bg-white.json",
+    "png": "renders/EM1-normal__bg-white.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "d765791c119c051775a9b4141917423ee900be3471bc16eee84339e0a5d5bdc1",
+    "artifact_sha256": "f77f264c58b9eabcc689edf3c659685506b1e43f337759b91ec7a901882fcc07",
+    "scene_digest": "3abdedf04128d43fd9195a378b39a6624f311e62e195d8585991383049ca7913",
+    "scene_source": "plates/EM1-normal__rev4__bg-orange.json",
+    "png": "renders/EM1-normal__bg-orange.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "75eec33f08d3eb2ec1cceeac46e0bb21fb49b282ddc4f728c4533605bde5aa3e",
+    "artifact_sha256": "5668a87b8560a1274a2fe46b3bb1c934d98c9e37681c7ef14a5db82bde08a1e9",
+    "scene_digest": "dd61a643d470b297f7177c6b02a3a40a496bf24d30d98198efeb80108b22db95",
+    "scene_source": "plates/EM1-normal__rev5__bg-darkgray.json",
+    "png": "renders/EM1-normal__bg-darkgray.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "a7d1e8913a06b318fb7bb16f1ddee5d5e9d6b9ff1a73fee0923c18044b1d63a1",
+    "artifact_sha256": "2b7f9b49a75c5ee26978290297bd9fecbd10764f8ee9f6ee8ef39b7dea460e0a",
+    "scene_digest": "bec1a1d3fb0d0697f057ea9218a22b2bbbb0e7495198658a7bf1f6e2dc6c3397",
+    "scene_source": "plates/EM1-normal__rev6__bg-lightgray.json",
+    "png": "renders/EM1-normal__bg-lightgray.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "f3250fa1e7f4980712314c151860a6e4c63a1a08413c099a8bc08b530590e3dd",
+    "artifact_sha256": "ca22001c388ac18f75388eaf024aada9519592c397e43b2a373b2774a2240f0c",
+    "scene_digest": "b86881c3c50829b38974deebff1add9f163cdcb1e8c00266eb5f5417a38fc988",
+    "scene_source": "plates/EM1-normal__rev7__bg-red.json",
+    "png": "renders/EM1-normal__bg-red.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM1-normal",
+    "plate": "fp-em1-normal",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "7b8c01d25eb2a9f5a8813d0c3486a434249ff8274bebea6e4a5dbe185aac768f",
+    "artifact_sha256": "dc28c724e12e728f7e6f1bcdfa17b2559c16dc439147186359b5fca78703c822",
+    "scene_digest": "0c7f01668158cf1c04da51370b65981087fa5832009d895f0396a575bf81a5ae",
+    "scene_source": "plates/EM1-normal__rev8__bg-alpha50.json",
+    "png": "renders/EM1-normal__bg-alpha50.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "3a33dc6eb0b59d6efcb11a50facc56ae8209df6cbfcb7bd361c1e7b286392985",
+    "artifact_sha256": "a0aab33d876dc51a1ff760f03bb63292ba2b17df5fa600fd13ff3922c25367d9",
+    "scene_digest": "f560336939c2d53c3a9992e2c144a5946cc8d4824717c5f0c5c42378aa1d5354",
+    "scene_source": "plates/EM2-multiply__rev1__bg-midgray.json",
+    "png": "renders/EM2-multiply__bg-midgray.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "c1859bf1b97d22aee09da666dd2549e36e4d8ed21d4eab7a7278f942d294ea4d",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "4308fecc3de7d7c7b77fe5cd11f714b93871af436cfee4b372bae8ddb2989908",
+    "scene_source": "plates/EM2-multiply__rev2__bg-black.json",
+    "png": "renders/EM2-multiply__bg-black.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "7cb056711a78857b7f5659962804fe6d2ca0babad0812804aa438d1acf299085",
+    "artifact_sha256": "1bdd457ee62e192807dd9597c699fea0b90e19f6a1fb46abaff8a271bd51bde9",
+    "scene_digest": "9553ab90d0a8fbc4d9e6ad63a1e7b279d4e838e9469dc62222e81d5dccb4f99d",
+    "scene_source": "plates/EM2-multiply__rev3__bg-white.json",
+    "png": "renders/EM2-multiply__bg-white.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "0ce669989494c431e31dc3063d435810a4070045e8f8804f6ccab4b1fd59673c",
+    "artifact_sha256": "608454f0ba25e776e6795ce793114d81152ea5ffbfb35a191de368fcd1587d58",
+    "scene_digest": "c76fde7270558f5018cb3a30e35c790b73e0cb52c58c8fe55d078f0c4b7e0db5",
+    "scene_source": "plates/EM2-multiply__rev4__bg-orange.json",
+    "png": "renders/EM2-multiply__bg-orange.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "86339fb7916fde2de08beae1b20454c81b9c41f039dcb56b62299f8ad6e8b429",
+    "artifact_sha256": "d3df2d373ab55e1ec08bf7344913c775ced05f65e4233279fb73c896e2811494",
+    "scene_digest": "195f260b0a16c7232ffe1dd9f28df33b98ed16daba22b54cec50aa2348904eb2",
+    "scene_source": "plates/EM2-multiply__rev5__bg-darkgray.json",
+    "png": "renders/EM2-multiply__bg-darkgray.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "2a8ac63840db0056b5bfff8aa2ee97b497a123961ebb94e3369451f04de4fce6",
+    "artifact_sha256": "55089332e486fecbe89d69b027cbd418dfd7f9aa4507e5502842adf8818903f0",
+    "scene_digest": "614594961c4bbee4dd5d8a7dd3aca014ef07d04c1ca07050e34386a57be75aaf",
+    "scene_source": "plates/EM2-multiply__rev6__bg-lightgray.json",
+    "png": "renders/EM2-multiply__bg-lightgray.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "7de1fc1d9e7cce418485131864b7a4aaa48ac29ccb64ed4dad55713425049597",
+    "artifact_sha256": "c8f0990897c66a7e8bb866264ec47ecd3c006aca089b5cdfafc86246f12cc1b0",
+    "scene_digest": "f99e617e786072db15d58b0c71ed35ce953a456a9d56f75c399bc5e0f296b894",
+    "scene_source": "plates/EM2-multiply__rev7__bg-red.json",
+    "png": "renders/EM2-multiply__bg-red.png"
+  },
+  {
+    "family": "EM",
+    "candidate": "EM2-multiply",
+    "plate": "fp-em2-multiply",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "caa86880a8ec31c5fc64abaec565c10ead8b4be43ce6b59578adfd2f2026da53",
+    "artifact_sha256": "d5f28de4995f13bbd528ccf01a0c8926fd9649347d99f1571637586fc106f60a",
+    "scene_digest": "2b9d7528b4d6653388a025f9a60348623bacec37512fb8191f2ef570e5671e46",
+    "scene_source": "plates/EM2-multiply__rev8__bg-alpha50.json",
+    "png": "renders/EM2-multiply__bg-alpha50.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "c2f0fd9acac673b2220c450d7b0e9276dfcd4c89244a40d5a1f607f37483ec56",
+    "artifact_sha256": "1bdbbe7384435c7b5bba45372f0b4fc1dc9fe10e72284cec9f3bab7e0d244624",
+    "scene_digest": "b6199ec7c2f15f5416ea5bcf3305a5d405bbb6a483a77f140293ca2d3c7f217a",
+    "scene_source": "plates/ES1-normal__rev1__bg-midgray.json",
+    "png": "renders/ES1-normal__bg-midgray.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "30dfd89c27421c7de45dd969dd60122e172f09f36731960d7100c1100d1cbb4f",
+    "artifact_sha256": "115f16f4112bd4a8aed6e2be355df664a03518a6ebf349a0c8937597676218a4",
+    "scene_digest": "7109cd6075f92e5ddeebd7e87d0d10e9403c3148b195913866595feace8fec30",
+    "scene_source": "plates/ES1-normal__rev2__bg-black.json",
+    "png": "renders/ES1-normal__bg-black.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "4b5aa8c5e4a1a6aaa54f0269b9556e50275cc82b6405c87e404e39f038593951",
+    "artifact_sha256": "aea80c19f5f356a95d7b51e6f36299587526efa69073c7b1646b230c7d1695cf",
+    "scene_digest": "8f0f51321ec28b129feab7be5ac3e65d3b128650d1ff5a5060d883307e7fd8ca",
+    "scene_source": "plates/ES1-normal__rev3__bg-white.json",
+    "png": "renders/ES1-normal__bg-white.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "d03fbaed63e53d76210ab60c91b6de708adc6e4c0413ae5c49b3b656bc5ff637",
+    "artifact_sha256": "378bb30358775d10dea66030b2bc6a8d3c17a9472322195cda01997adad92312",
+    "scene_digest": "ea27976f83a22ebe385fd621d53890516702b462818c64c708aae9bdb36567eb",
+    "scene_source": "plates/ES1-normal__rev4__bg-orange.json",
+    "png": "renders/ES1-normal__bg-orange.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "c1717da7fec5972f0941bc85ae2564990ac3c01de842569185a6996b83abee52",
+    "artifact_sha256": "f7453355c773e922e80ad9f8a30f0636c46cbc3a7213791fd24b076c514544a6",
+    "scene_digest": "5d0ee0b84b40124b20d6df78692582e781a2807830dcf2217044f9c00431a26e",
+    "scene_source": "plates/ES1-normal__rev5__bg-darkgray.json",
+    "png": "renders/ES1-normal__bg-darkgray.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "a838d62ffb4ce161fb3e18a4574122a0694498de153ce34a761de0803d4af038",
+    "artifact_sha256": "fc3c5fab025c5248d7a671afbe3e30b42b5b15f44b19bde346c8dfa9aba8efe9",
+    "scene_digest": "4ec4daa69e6f5fee97ffed92d991fd5fd9a64803b7393662b5a9f78758a41592",
+    "scene_source": "plates/ES1-normal__rev6__bg-lightgray.json",
+    "png": "renders/ES1-normal__bg-lightgray.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "97a1b9f24d9ca7d97a2a4889b00cf330f169bf55f479d65528cb7422ca49f2c6",
+    "artifact_sha256": "16de3b4bb5f398c96301061b65d7c8fdb4acd5537a3c7bcf52317405b547cd03",
+    "scene_digest": "b24041e1829f631d42f412ff80cdd7e57c14e2aa0d6a74a4b6d6d1f331a51af6",
+    "scene_source": "plates/ES1-normal__rev7__bg-red.json",
+    "png": "renders/ES1-normal__bg-red.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES1-normal",
+    "plate": "fp-es1-normal",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "74f0f3627c625a1caebe60d2da836b3b4d815d1196612fee065750516c6309cb",
+    "artifact_sha256": "d2bbf09d5a475f14d5cebb430148cb6e85387b131c437e813ebfafb66ed66431",
+    "scene_digest": "8c9263d94eafe71cc6b9aad57850b0d2b066977083b03388a4e5cb6e9f4607f6",
+    "scene_source": "plates/ES1-normal__rev8__bg-alpha50.json",
+    "png": "renders/ES1-normal__bg-alpha50.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "fe4e4fe895477ac7850fc3faffdc96803628c4582aa6951d8aef9ff545908784",
+    "artifact_sha256": "1bdbbe7384435c7b5bba45372f0b4fc1dc9fe10e72284cec9f3bab7e0d244624",
+    "scene_digest": "1e6500cf6bb6d40762407df887448b54bc0c2a1b3cc4dfeab755069509fb95c9",
+    "scene_source": "plates/ES2-screen__rev1__bg-midgray.json",
+    "png": "renders/ES2-screen__bg-midgray.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "53a6522e0b161ee6f8067e286887b7bb937289cdbdd601d8c959d57800478ef6",
+    "artifact_sha256": "95ced3e6fc0eae9e2eebaed5a9d6eb9d6d1f4c78850fa9687129ee88994cd116",
+    "scene_digest": "ed617b656a207116066e420ceb77d3cd26759c5ab4ee5362a1cad4a5908cfdfe",
+    "scene_source": "plates/ES2-screen__rev2__bg-black.json",
+    "png": "renders/ES2-screen__bg-black.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "61d252c30c0399b4fa5125b50a498ba535710b999f7c8d797ccb6e4847715b2c",
+    "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4",
+    "scene_digest": "bfe92be7b3a5daed0ab95771855abf4afbdd34c1950d6d8a4e2dfa606207c601",
+    "scene_source": "plates/ES2-screen__rev3__bg-white.json",
+    "png": "renders/ES2-screen__bg-white.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "8f61709bbe63f4a30c63b13005c73f8d7af5487ba22e5e70f151eaeded8fa941",
+    "artifact_sha256": "ffda11b32521b961d55f794139352f003e4531e5f1480484cc7ec77826eb7ccd",
+    "scene_digest": "b963c00d250eb6f03c7c1c63ff10467ab12ce351b2f321d5c189aabc236d60c0",
+    "scene_source": "plates/ES2-screen__rev4__bg-orange.json",
+    "png": "renders/ES2-screen__bg-orange.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "f1aa75051cb75ba2451993435fa811617de89dee1cb9646aeb7932a6f049fe91",
+    "artifact_sha256": "3a36976b04e410e535b7b23695fcbd307ffc231246f22057f066834eb315eef8",
+    "scene_digest": "d61c0b79dcf08472dca1ab1b077eb7fa3a90d0b60bd5aa24486aa9c3c2f37305",
+    "scene_source": "plates/ES2-screen__rev5__bg-darkgray.json",
+    "png": "renders/ES2-screen__bg-darkgray.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "92ae45e81b1a6b522f80e7811a5720fd9070c2f0be3071308def7e610896d1ba",
+    "artifact_sha256": "1f859d512d8e2edac33e78fa33f9e667b1160ef15d670b39f4889cd547237456",
+    "scene_digest": "3d50196aec8afde7a360204ca169d9217588abdae515415f92fa69afd539ee90",
+    "scene_source": "plates/ES2-screen__rev6__bg-lightgray.json",
+    "png": "renders/ES2-screen__bg-lightgray.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "8a605e09a26a920b7610b9418f18da7d2175bfe5c3ca24d6460d475d1ae5cf4c",
+    "artifact_sha256": "80c74c5bf2c122eecce35c3874b170a19aabf5010576b84f9a1a2996d68106dc",
+    "scene_digest": "7d8198850299777defd0d05d35c4b401d329d27f3daa95ed9986ee70fa4213fd",
+    "scene_source": "plates/ES2-screen__rev7__bg-red.json",
+    "png": "renders/ES2-screen__bg-red.png"
+  },
+  {
+    "family": "ES",
+    "candidate": "ES2-screen",
+    "plate": "fp-es2-screen",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "7f6c7de1ddc886b7d75e4986737ff4c3754b70f375426e5226c1f3a534eb68a9",
+    "artifact_sha256": "9cf26314a52eb79b24b13ff05fbf677c9aa7625d844709dcb6fb555a8303b41a",
+    "scene_digest": "34f533805d74f180c58006477f8a7977494d144c838334d81ac0ab77ce5e7141",
+    "scene_source": "plates/ES2-screen__rev8__bg-alpha50.json",
+    "png": "renders/ES2-screen__bg-alpha50.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "fc7fbf13c816ff01da99d21432473e213e2ecd1ca57b0f63ea6d69e8706a094e",
+    "artifact_sha256": "c9ae591e8faf17aff2daa3ed9efc9985e6080f57ddbb55a753d737fcbcf88a36",
+    "scene_digest": "e78c3be30e11b00c5f780657498ff1d9588003d7868ebd96472be4980f418387",
+    "scene_source": "plates/D1-zero-opacity__rev1__bg-midgray.json",
+    "png": "renders/D1-zero-opacity__bg-midgray.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "71e031313c074b281dbbda732730ddfbf8c059d86fecc2cf1b1e814293062401",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "ae599b6c8936d073d38dfb76d6d09f84896b17c184a8b24a3975de79e55a6a7e",
+    "scene_source": "plates/D1-zero-opacity__rev2__bg-black.json",
+    "png": "renders/D1-zero-opacity__bg-black.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "aa7687b6d1aa82eb9176e712dbb6fd2b277a744338209370591d1b979e0b5bc6",
+    "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4",
+    "scene_digest": "c812acf74fc52391c09af675a605ca0b45b511ccf335f137b52b1b56ee06ec61",
+    "scene_source": "plates/D1-zero-opacity__rev3__bg-white.json",
+    "png": "renders/D1-zero-opacity__bg-white.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "8591f7695b633eadaceb7f49c2ac2eeca0d17149df5d703cbf924ae96f2c013f",
+    "artifact_sha256": "cd680f4b8bd1060d0552a366c2559c0323e303c1c6e68a4dcbb15b77da7b9381",
+    "scene_digest": "c36250986b66722f41d93d4d01391b514e2592c8bdaa93488ae2ba7d8de744a1",
+    "scene_source": "plates/D1-zero-opacity__rev4__bg-orange.json",
+    "png": "renders/D1-zero-opacity__bg-orange.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "397189cef90a9eaac643291cb6364e961ef5a58d37e634971e9f82ea390c1e8c",
+    "artifact_sha256": "9ca0f9ef1293f722d9838fb9989596915189d7f548bddc85950b18f1f11ede40",
+    "scene_digest": "c0add80ba3375d9a9639ac0fe1610c0c0b6bba8abc2ed769e4ba94a909ac6e43",
+    "scene_source": "plates/D1-zero-opacity__rev5__bg-darkgray.json",
+    "png": "renders/D1-zero-opacity__bg-darkgray.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "8aba4cebb8aefc0f479be248eb23a0c2ea649e8abb72142395ba8e32797c11e6",
+    "artifact_sha256": "16469a6dd7d3dea503480458a4e130b960115948d605ab8da5ddc8fe2410d21c",
+    "scene_digest": "9b0fe5ffb1dcc9ae91e4310b6b959ca72153e42ca8c0787326a99b9128be10e9",
+    "scene_source": "plates/D1-zero-opacity__rev6__bg-lightgray.json",
+    "png": "renders/D1-zero-opacity__bg-lightgray.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "eec69b65212f8ecf9c554df00fe12ec5f1f56b4b4085f0fb299b55a1d9c3f4ea",
+    "artifact_sha256": "510e49639cc8e8e3718469f961075399146d6c22aaa5ff5d2dd6dcff9644b106",
+    "scene_digest": "09cb2a87b687d8b80c29b7d516073d972e73daac4abe51641debb4a7a4854264",
+    "scene_source": "plates/D1-zero-opacity__rev7__bg-red.json",
+    "png": "renders/D1-zero-opacity__bg-red.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D1-zero-opacity",
+    "plate": "fp-d1-zero-opacity",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "ab93937a1ca6a1f305cabf4c8720f762a3dd5eb6781a5bb695f4b25c6ffc8c20",
+    "artifact_sha256": "5559b94d105d577514e78da9054558c37b078f0ef1d851c3e3787fa75cef4de9",
+    "scene_digest": "1ebe33629c9156a6519a2f940050b0e749d580e5a5acea94738f427d12e58e96",
+    "scene_source": "plates/D1-zero-opacity__rev8__bg-alpha50.json",
+    "png": "renders/D1-zero-opacity__bg-alpha50.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 1,
+    "background": "bg-midgray",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 1.0,
+    "artifact": "3547cb3adb9a5b207ea5c67800fb2ecb4539b1da5765ded4ebcaf46b884e0803",
+    "artifact_sha256": "c9ae591e8faf17aff2daa3ed9efc9985e6080f57ddbb55a753d737fcbcf88a36",
+    "scene_digest": "4976eaef56784a0f9e9063b7d8ed5a903a5182056a1f70e573641aeb4ffa5926",
+    "scene_source": "plates/D2-off-canvas__rev1__bg-midgray.json",
+    "png": "renders/D2-off-canvas__bg-midgray.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 2,
+    "background": "bg-black",
+    "background_srgb": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "10c477601fd203b091a115ac1d03f369c10a2ad4b6ce678e9ec9c857e1920849",
+    "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884",
+    "scene_digest": "bcc28605f5fb8326135f16151338e0c9f0dd8bdc1c6fab1cc5f59a88c5fca86d",
+    "scene_source": "plates/D2-off-canvas__rev2__bg-black.json",
+    "png": "renders/D2-off-canvas__bg-black.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 3,
+    "background": "bg-white",
+    "background_srgb": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "background_alpha": 1.0,
+    "artifact": "6a6de7dab43aa1ee944f78feaa63f2fa15f72cdb9b5233adc11f2a5fae124481",
+    "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4",
+    "scene_digest": "a9f41c889216f08f995511aef27321018fa957055dfae75296a494938f1abacc",
+    "scene_source": "plates/D2-off-canvas__rev3__bg-white.json",
+    "png": "renders/D2-off-canvas__bg-white.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 4,
+    "background": "bg-orange",
+    "background_srgb": [
+      0.95,
+      0.45,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "41cd2d090cd818717a916cedc19a15f6330a4185a9c6ed56e352cfa514e02142",
+    "artifact_sha256": "cd680f4b8bd1060d0552a366c2559c0323e303c1c6e68a4dcbb15b77da7b9381",
+    "scene_digest": "78df69fc8e64283fcb7b1185382c95a7360602b4b929683b564e364e33ce7af1",
+    "scene_source": "plates/D2-off-canvas__rev4__bg-orange.json",
+    "png": "renders/D2-off-canvas__bg-orange.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 5,
+    "background": "bg-darkgray",
+    "background_srgb": [
+      0.22,
+      0.22,
+      0.22
+    ],
+    "background_alpha": 1.0,
+    "artifact": "49e89493e5704a988715f95ed490e7d9050af4fd9b71529be7c5f4d34b68cd67",
+    "artifact_sha256": "9ca0f9ef1293f722d9838fb9989596915189d7f548bddc85950b18f1f11ede40",
+    "scene_digest": "6756d43c3ee356ca6e3cde500822ba2eccd9cab631a1ae53f766e1b1fe26e707",
+    "scene_source": "plates/D2-off-canvas__rev5__bg-darkgray.json",
+    "png": "renders/D2-off-canvas__bg-darkgray.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 6,
+    "background": "bg-lightgray",
+    "background_srgb": [
+      0.8,
+      0.8,
+      0.8
+    ],
+    "background_alpha": 1.0,
+    "artifact": "a0e0a5415629019b6046e856940c9c1da158d4d26b431d38efcc03d8dba4d6c4",
+    "artifact_sha256": "16469a6dd7d3dea503480458a4e130b960115948d605ab8da5ddc8fe2410d21c",
+    "scene_digest": "1189b58487a2cd6ad45a1a44b8b738f5defce22ba7df7fe2baef021c15f53919",
+    "scene_source": "plates/D2-off-canvas__rev6__bg-lightgray.json",
+    "png": "renders/D2-off-canvas__bg-lightgray.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 7,
+    "background": "bg-red",
+    "background_srgb": [
+      0.8,
+      0.1,
+      0.1
+    ],
+    "background_alpha": 1.0,
+    "artifact": "08d8974a6531ab71bfdf99e0cc8e7622023395272dc99f25da468d643f56c882",
+    "artifact_sha256": "510e49639cc8e8e3718469f961075399146d6c22aaa5ff5d2dd6dcff9644b106",
+    "scene_digest": "79ede7fbd06f854c50d5920a3d88863947e367c4fff7c8f93e3625daa1dbdfd9",
+    "scene_source": "plates/D2-off-canvas__rev7__bg-red.json",
+    "png": "renders/D2-off-canvas__bg-red.png"
+  },
+  {
+    "family": "D",
+    "candidate": "D2-off-canvas",
+    "plate": "fp-d2-off-canvas",
+    "revision": 8,
+    "background": "bg-alpha50",
+    "background_srgb": [
+      0.5,
+      0.5,
+      0.5
+    ],
+    "background_alpha": 0.5,
+    "artifact": "0586f53b94635328f46f88a82d9e6ce8cedd35539a8dd55651f8e8102c3281a0",
+    "artifact_sha256": "5559b94d105d577514e78da9054558c37b078f0ef1d851c3e3787fa75cef4de9",
+    "scene_digest": "efcddbd822897b20f983a9dbcdd07eb1a69e4cf5110b540b62ca85571064a79e",
+    "scene_source": "plates/D2-off-canvas__rev8__bg-alpha50.json",
+    "png": "renders/D2-off-canvas__bg-alpha50.png"
+  }
+]

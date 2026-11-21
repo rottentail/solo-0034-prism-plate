@@ -1,0 +1,1150 @@
+{
+  "family-A": {
+    "montage": "renders/montages/family-A-grid.png",
+    "rows": [
+      "A1-opaque",
+      "A2-glaze70",
+      "A3-glaze50"
+    ],
+    "columns": [
+      "bg-midgray",
+      "bg-black",
+      "bg-white",
+      "bg-orange",
+      "bg-darkgray",
+      "bg-lightgray",
+      "bg-red",
+      "bg-alpha50"
+    ],
+    "highlighted_column": "bg-midgray (original single background)",
+    "tiles": [
+      {
+        "row": 0,
+        "column": 0,
+        "candidate": "A1-opaque",
+        "background": "bg-midgray",
+        "source_png": "renders/A1-opaque__bg-midgray.png",
+        "artifact_sha256": "e8261e7bce55821cdbc5a8c9c28ceb15ce1a884657e6ba1f4e49b820bc693d2d"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "candidate": "A1-opaque",
+        "background": "bg-black",
+        "source_png": "renders/A1-opaque__bg-black.png",
+        "artifact_sha256": "8824b6e6c0b493faf04b6944a2f87118c2333499bb914e82122ae51205c1a203"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "candidate": "A1-opaque",
+        "background": "bg-white",
+        "source_png": "renders/A1-opaque__bg-white.png",
+        "artifact_sha256": "87a6450168dbd1754c2bce0a59f03ebb4f6917c723881912b27287b7293fb232"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "candidate": "A1-opaque",
+        "background": "bg-orange",
+        "source_png": "renders/A1-opaque__bg-orange.png",
+        "artifact_sha256": "06d9da50f09f8552a404bdccc42c399c3444c3948ae79e0e859c39e70add3061"
+      },
+      {
+        "row": 0,
+        "column": 4,
+        "candidate": "A1-opaque",
+        "background": "bg-darkgray",
+        "source_png": "renders/A1-opaque__bg-darkgray.png",
+        "artifact_sha256": "54522434ca76005cc6a2c8bf752867d96c230f5264a4cf697ebc3a66a7a1d706"
+      },
+      {
+        "row": 0,
+        "column": 5,
+        "candidate": "A1-opaque",
+        "background": "bg-lightgray",
+        "source_png": "renders/A1-opaque__bg-lightgray.png",
+        "artifact_sha256": "e17ab611332c9492e9426ec29fa052111098ef460a3c8b60f5f6928691b3bd43"
+      },
+      {
+        "row": 0,
+        "column": 6,
+        "candidate": "A1-opaque",
+        "background": "bg-red",
+        "source_png": "renders/A1-opaque__bg-red.png",
+        "artifact_sha256": "7e797631a7109c0f76a8ed382657612bc7188d7b5eb0a438388bddc307b8f9b7"
+      },
+      {
+        "row": 0,
+        "column": 7,
+        "candidate": "A1-opaque",
+        "background": "bg-alpha50",
+        "source_png": "renders/A1-opaque__bg-alpha50.png",
+        "artifact_sha256": "12143ba2796e9ad3f4b12e2b1848eaed7a84fe0b22ce1151bb83357f6545d0ee"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "candidate": "A2-glaze70",
+        "background": "bg-midgray",
+        "source_png": "renders/A2-glaze70__bg-midgray.png",
+        "artifact_sha256": "e8261e7bce55821cdbc5a8c9c28ceb15ce1a884657e6ba1f4e49b820bc693d2d"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "candidate": "A2-glaze70",
+        "background": "bg-black",
+        "source_png": "renders/A2-glaze70__bg-black.png",
+        "artifact_sha256": "58d5c1bfa2230c9c10a8d616e0a34e76aa9c609f44b46480bf3980e0d60df71d"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "candidate": "A2-glaze70",
+        "background": "bg-white",
+        "source_png": "renders/A2-glaze70__bg-white.png",
+        "artifact_sha256": "e753e811ec98d488c7b2d63f8a740ba56dccc33f11a8bf17c01e9e3a5c936755"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "candidate": "A2-glaze70",
+        "background": "bg-orange",
+        "source_png": "renders/A2-glaze70__bg-orange.png",
+        "artifact_sha256": "1783daf68e650314870ea281a28f38a2bf9e642f4a1ed966dbbc4c83444923fc"
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "candidate": "A2-glaze70",
+        "background": "bg-darkgray",
+        "source_png": "renders/A2-glaze70__bg-darkgray.png",
+        "artifact_sha256": "1d3466db597644da54501085f4af16f3372b63dd6c4315170bff089b087af033"
+      },
+      {
+        "row": 1,
+        "column": 5,
+        "candidate": "A2-glaze70",
+        "background": "bg-lightgray",
+        "source_png": "renders/A2-glaze70__bg-lightgray.png",
+        "artifact_sha256": "0ef043372389a93afa5094864184bf9df3181df26c458c04faebc70329650895"
+      },
+      {
+        "row": 1,
+        "column": 6,
+        "candidate": "A2-glaze70",
+        "background": "bg-red",
+        "source_png": "renders/A2-glaze70__bg-red.png",
+        "artifact_sha256": "076f8b6ded631f4b828ed317751e85ae7c822a1e67a1bead3573dde9383f8d07"
+      },
+      {
+        "row": 1,
+        "column": 7,
+        "candidate": "A2-glaze70",
+        "background": "bg-alpha50",
+        "source_png": "renders/A2-glaze70__bg-alpha50.png",
+        "artifact_sha256": "65908291bf9690aadcd61dc70fddd4f577632cd8699e5eaa7a541d6a1d540cde"
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "candidate": "A3-glaze50",
+        "background": "bg-midgray",
+        "source_png": "renders/A3-glaze50__bg-midgray.png",
+        "artifact_sha256": "e8261e7bce55821cdbc5a8c9c28ceb15ce1a884657e6ba1f4e49b820bc693d2d"
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "candidate": "A3-glaze50",
+        "background": "bg-black",
+        "source_png": "renders/A3-glaze50__bg-black.png",
+        "artifact_sha256": "d1c1342e9b2b1220d8f54ce65de8f76aeb587d559f6fd3e60afd5f1c68d53ec8"
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "candidate": "A3-glaze50",
+        "background": "bg-white",
+        "source_png": "renders/A3-glaze50__bg-white.png",
+        "artifact_sha256": "1e248609dcca1af1af826964cb54f9ac438935543baed57c84257d5f92572693"
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "candidate": "A3-glaze50",
+        "background": "bg-orange",
+        "source_png": "renders/A3-glaze50__bg-orange.png",
+        "artifact_sha256": "f0ebd6c9003c6b999c0446afaa05497a4dcb07e205eb76c348481fe9c34abc53"
+      },
+      {
+        "row": 2,
+        "column": 4,
+        "candidate": "A3-glaze50",
+        "background": "bg-darkgray",
+        "source_png": "renders/A3-glaze50__bg-darkgray.png",
+        "artifact_sha256": "a43ae3f63de7c9ce6dc3b4d108995e4a9453ec2daba9172d02bf03916af55b73"
+      },
+      {
+        "row": 2,
+        "column": 5,
+        "candidate": "A3-glaze50",
+        "background": "bg-lightgray",
+        "source_png": "renders/A3-glaze50__bg-lightgray.png",
+        "artifact_sha256": "24e3d9e62adb92197a427495dde4b5a3277c62a4d1568efd3c1a6fb64f17a8f9"
+      },
+      {
+        "row": 2,
+        "column": 6,
+        "candidate": "A3-glaze50",
+        "background": "bg-red",
+        "source_png": "renders/A3-glaze50__bg-red.png",
+        "artifact_sha256": "c56a9bd842a75d102665b9a8a62085298faf185788275eeeec5b3a8518d3043f"
+      },
+      {
+        "row": 2,
+        "column": 7,
+        "candidate": "A3-glaze50",
+        "background": "bg-alpha50",
+        "source_png": "renders/A3-glaze50__bg-alpha50.png",
+        "artifact_sha256": "bb4bdc5dc964a5f5dc9f6f158fc3c1961e90332c3b32fd5a94c5bc3f67629f63"
+      }
+    ]
+  },
+  "family-B": {
+    "montage": "renders/montages/family-B-grid.png",
+    "rows": [
+      "B1-mult-full",
+      "B2-mult-glaze",
+      "B3-mult-thin",
+      "B4-brush-alpha"
+    ],
+    "columns": [
+      "bg-midgray",
+      "bg-black",
+      "bg-white",
+      "bg-orange",
+      "bg-darkgray",
+      "bg-lightgray",
+      "bg-red",
+      "bg-alpha50"
+    ],
+    "highlighted_column": "bg-midgray (original single background)",
+    "tiles": [
+      {
+        "row": 0,
+        "column": 0,
+        "candidate": "B1-mult-full",
+        "background": "bg-midgray",
+        "source_png": "renders/B1-mult-full__bg-midgray.png",
+        "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "candidate": "B1-mult-full",
+        "background": "bg-black",
+        "source_png": "renders/B1-mult-full__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "candidate": "B1-mult-full",
+        "background": "bg-white",
+        "source_png": "renders/B1-mult-full__bg-white.png",
+        "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "candidate": "B1-mult-full",
+        "background": "bg-orange",
+        "source_png": "renders/B1-mult-full__bg-orange.png",
+        "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176"
+      },
+      {
+        "row": 0,
+        "column": 4,
+        "candidate": "B1-mult-full",
+        "background": "bg-darkgray",
+        "source_png": "renders/B1-mult-full__bg-darkgray.png",
+        "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d"
+      },
+      {
+        "row": 0,
+        "column": 5,
+        "candidate": "B1-mult-full",
+        "background": "bg-lightgray",
+        "source_png": "renders/B1-mult-full__bg-lightgray.png",
+        "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8"
+      },
+      {
+        "row": 0,
+        "column": 6,
+        "candidate": "B1-mult-full",
+        "background": "bg-red",
+        "source_png": "renders/B1-mult-full__bg-red.png",
+        "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2"
+      },
+      {
+        "row": 0,
+        "column": 7,
+        "candidate": "B1-mult-full",
+        "background": "bg-alpha50",
+        "source_png": "renders/B1-mult-full__bg-alpha50.png",
+        "artifact_sha256": "f8989e464125c95626c27076a7986360cc4aedd4727f7238f286f9e0d833b946"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-midgray",
+        "source_png": "renders/B2-mult-glaze__bg-midgray.png",
+        "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-black",
+        "source_png": "renders/B2-mult-glaze__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-white",
+        "source_png": "renders/B2-mult-glaze__bg-white.png",
+        "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-orange",
+        "source_png": "renders/B2-mult-glaze__bg-orange.png",
+        "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176"
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-darkgray",
+        "source_png": "renders/B2-mult-glaze__bg-darkgray.png",
+        "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d"
+      },
+      {
+        "row": 1,
+        "column": 5,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-lightgray",
+        "source_png": "renders/B2-mult-glaze__bg-lightgray.png",
+        "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8"
+      },
+      {
+        "row": 1,
+        "column": 6,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-red",
+        "source_png": "renders/B2-mult-glaze__bg-red.png",
+        "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2"
+      },
+      {
+        "row": 1,
+        "column": 7,
+        "candidate": "B2-mult-glaze",
+        "background": "bg-alpha50",
+        "source_png": "renders/B2-mult-glaze__bg-alpha50.png",
+        "artifact_sha256": "04f7642671f284aa6610b738e20b2ab9320a9c5e5a762bc664151c60113459cb"
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "candidate": "B3-mult-thin",
+        "background": "bg-midgray",
+        "source_png": "renders/B3-mult-thin__bg-midgray.png",
+        "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c"
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "candidate": "B3-mult-thin",
+        "background": "bg-black",
+        "source_png": "renders/B3-mult-thin__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "candidate": "B3-mult-thin",
+        "background": "bg-white",
+        "source_png": "renders/B3-mult-thin__bg-white.png",
+        "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed"
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "candidate": "B3-mult-thin",
+        "background": "bg-orange",
+        "source_png": "renders/B3-mult-thin__bg-orange.png",
+        "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176"
+      },
+      {
+        "row": 2,
+        "column": 4,
+        "candidate": "B3-mult-thin",
+        "background": "bg-darkgray",
+        "source_png": "renders/B3-mult-thin__bg-darkgray.png",
+        "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d"
+      },
+      {
+        "row": 2,
+        "column": 5,
+        "candidate": "B3-mult-thin",
+        "background": "bg-lightgray",
+        "source_png": "renders/B3-mult-thin__bg-lightgray.png",
+        "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8"
+      },
+      {
+        "row": 2,
+        "column": 6,
+        "candidate": "B3-mult-thin",
+        "background": "bg-red",
+        "source_png": "renders/B3-mult-thin__bg-red.png",
+        "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2"
+      },
+      {
+        "row": 2,
+        "column": 7,
+        "candidate": "B3-mult-thin",
+        "background": "bg-alpha50",
+        "source_png": "renders/B3-mult-thin__bg-alpha50.png",
+        "artifact_sha256": "8e48c6c03a40ed4fb32c5b2dfbd6f2e899b78cbb03b7852aa5a1ebd64c75006c"
+      },
+      {
+        "row": 3,
+        "column": 0,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-midgray",
+        "source_png": "renders/B4-brush-alpha__bg-midgray.png",
+        "artifact_sha256": "8800ccb9fea3b88bf8a82972b6a16adc28ede92d361bca1a18033c81f549644c"
+      },
+      {
+        "row": 3,
+        "column": 1,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-black",
+        "source_png": "renders/B4-brush-alpha__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 3,
+        "column": 2,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-white",
+        "source_png": "renders/B4-brush-alpha__bg-white.png",
+        "artifact_sha256": "ab91b0a792d9135a01dece119601e5d4b213c2e19f8bca14b0814886bbbf21ed"
+      },
+      {
+        "row": 3,
+        "column": 3,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-orange",
+        "source_png": "renders/B4-brush-alpha__bg-orange.png",
+        "artifact_sha256": "a4ae7ff7c355fdb279dc16a4ee5e389f3934d7a7ca6b7079dfaaa15fa6e46176"
+      },
+      {
+        "row": 3,
+        "column": 4,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-darkgray",
+        "source_png": "renders/B4-brush-alpha__bg-darkgray.png",
+        "artifact_sha256": "55148df0f15e0229fae555c59a7d6b890760cef6d86b6702e65cd6b0d2e55f8d"
+      },
+      {
+        "row": 3,
+        "column": 5,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-lightgray",
+        "source_png": "renders/B4-brush-alpha__bg-lightgray.png",
+        "artifact_sha256": "883eb17e276ea1580b8a7a1cc22abfe6d774a5ba91d2f4cea84377d91e2717d8"
+      },
+      {
+        "row": 3,
+        "column": 6,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-red",
+        "source_png": "renders/B4-brush-alpha__bg-red.png",
+        "artifact_sha256": "77139c2fa10f00b5172ead74d0496b9b608ac1e7cdda17fa9ba2055f42ee84c2"
+      },
+      {
+        "row": 3,
+        "column": 7,
+        "candidate": "B4-brush-alpha",
+        "background": "bg-alpha50",
+        "source_png": "renders/B4-brush-alpha__bg-alpha50.png",
+        "artifact_sha256": "04f7642671f284aa6610b738e20b2ab9320a9c5e5a762bc664151c60113459cb"
+      }
+    ]
+  },
+  "family-C": {
+    "montage": "renders/montages/family-C-grid.png",
+    "rows": [
+      "C1-screen-full",
+      "C2-screen-glaze",
+      "C3-screen-thin"
+    ],
+    "columns": [
+      "bg-midgray",
+      "bg-black",
+      "bg-white",
+      "bg-orange",
+      "bg-darkgray",
+      "bg-lightgray",
+      "bg-red",
+      "bg-alpha50"
+    ],
+    "highlighted_column": "bg-midgray (original single background)",
+    "tiles": [
+      {
+        "row": 0,
+        "column": 0,
+        "candidate": "C1-screen-full",
+        "background": "bg-midgray",
+        "source_png": "renders/C1-screen-full__bg-midgray.png",
+        "artifact_sha256": "f696fae8c11d4f783bcade2e0155f6eb6865b204840ac567de49ba6e3f1294b3"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "candidate": "C1-screen-full",
+        "background": "bg-black",
+        "source_png": "renders/C1-screen-full__bg-black.png",
+        "artifact_sha256": "5b27483d2490aa57f84be92ba6c86120e073f33fd4c1904075d88a5cf5a6bde1"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "candidate": "C1-screen-full",
+        "background": "bg-white",
+        "source_png": "renders/C1-screen-full__bg-white.png",
+        "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "candidate": "C1-screen-full",
+        "background": "bg-orange",
+        "source_png": "renders/C1-screen-full__bg-orange.png",
+        "artifact_sha256": "ce076e0bc45cd1fd98d22db6184c8cafb4ea39c3030366e3698a7b5d495e4a22"
+      },
+      {
+        "row": 0,
+        "column": 4,
+        "candidate": "C1-screen-full",
+        "background": "bg-darkgray",
+        "source_png": "renders/C1-screen-full__bg-darkgray.png",
+        "artifact_sha256": "27bdce14d3eedd1a2e83391bc5ea28a626a892e3eedf4a05f1694c937bdc586e"
+      },
+      {
+        "row": 0,
+        "column": 5,
+        "candidate": "C1-screen-full",
+        "background": "bg-lightgray",
+        "source_png": "renders/C1-screen-full__bg-lightgray.png",
+        "artifact_sha256": "ec934e3a369bd4f7ce891efa3ed986ec54ec952b1138449f58842450e6a48481"
+      },
+      {
+        "row": 0,
+        "column": 6,
+        "candidate": "C1-screen-full",
+        "background": "bg-red",
+        "source_png": "renders/C1-screen-full__bg-red.png",
+        "artifact_sha256": "4417ef80f054aeab23c904fad3b535d5489a55d0c0e42074769718519c4cedbe"
+      },
+      {
+        "row": 0,
+        "column": 7,
+        "candidate": "C1-screen-full",
+        "background": "bg-alpha50",
+        "source_png": "renders/C1-screen-full__bg-alpha50.png",
+        "artifact_sha256": "8b48238c04b45f5c843197186c156f79a8af91e2152312233ad572dc3b2a90f2"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-midgray",
+        "source_png": "renders/C2-screen-glaze__bg-midgray.png",
+        "artifact_sha256": "f696fae8c11d4f783bcade2e0155f6eb6865b204840ac567de49ba6e3f1294b3"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-black",
+        "source_png": "renders/C2-screen-glaze__bg-black.png",
+        "artifact_sha256": "5b27483d2490aa57f84be92ba6c86120e073f33fd4c1904075d88a5cf5a6bde1"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-white",
+        "source_png": "renders/C2-screen-glaze__bg-white.png",
+        "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-orange",
+        "source_png": "renders/C2-screen-glaze__bg-orange.png",
+        "artifact_sha256": "ce076e0bc45cd1fd98d22db6184c8cafb4ea39c3030366e3698a7b5d495e4a22"
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-darkgray",
+        "source_png": "renders/C2-screen-glaze__bg-darkgray.png",
+        "artifact_sha256": "27bdce14d3eedd1a2e83391bc5ea28a626a892e3eedf4a05f1694c937bdc586e"
+      },
+      {
+        "row": 1,
+        "column": 5,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-lightgray",
+        "source_png": "renders/C2-screen-glaze__bg-lightgray.png",
+        "artifact_sha256": "ec934e3a369bd4f7ce891efa3ed986ec54ec952b1138449f58842450e6a48481"
+      },
+      {
+        "row": 1,
+        "column": 6,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-red",
+        "source_png": "renders/C2-screen-glaze__bg-red.png",
+        "artifact_sha256": "4417ef80f054aeab23c904fad3b535d5489a55d0c0e42074769718519c4cedbe"
+      },
+      {
+        "row": 1,
+        "column": 7,
+        "candidate": "C2-screen-glaze",
+        "background": "bg-alpha50",
+        "source_png": "renders/C2-screen-glaze__bg-alpha50.png",
+        "artifact_sha256": "a1982aebf3aac064c44916c33d1a6818ca6311baa82743e58ff80eaaf4d383b8"
+      },
+      {
+        "row": 2,
+        "column": 0,
+        "candidate": "C3-screen-thin",
+        "background": "bg-midgray",
+        "source_png": "renders/C3-screen-thin__bg-midgray.png",
+        "artifact_sha256": "f696fae8c11d4f783bcade2e0155f6eb6865b204840ac567de49ba6e3f1294b3"
+      },
+      {
+        "row": 2,
+        "column": 1,
+        "candidate": "C3-screen-thin",
+        "background": "bg-black",
+        "source_png": "renders/C3-screen-thin__bg-black.png",
+        "artifact_sha256": "5b27483d2490aa57f84be92ba6c86120e073f33fd4c1904075d88a5cf5a6bde1"
+      },
+      {
+        "row": 2,
+        "column": 2,
+        "candidate": "C3-screen-thin",
+        "background": "bg-white",
+        "source_png": "renders/C3-screen-thin__bg-white.png",
+        "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4"
+      },
+      {
+        "row": 2,
+        "column": 3,
+        "candidate": "C3-screen-thin",
+        "background": "bg-orange",
+        "source_png": "renders/C3-screen-thin__bg-orange.png",
+        "artifact_sha256": "ce076e0bc45cd1fd98d22db6184c8cafb4ea39c3030366e3698a7b5d495e4a22"
+      },
+      {
+        "row": 2,
+        "column": 4,
+        "candidate": "C3-screen-thin",
+        "background": "bg-darkgray",
+        "source_png": "renders/C3-screen-thin__bg-darkgray.png",
+        "artifact_sha256": "27bdce14d3eedd1a2e83391bc5ea28a626a892e3eedf4a05f1694c937bdc586e"
+      },
+      {
+        "row": 2,
+        "column": 5,
+        "candidate": "C3-screen-thin",
+        "background": "bg-lightgray",
+        "source_png": "renders/C3-screen-thin__bg-lightgray.png",
+        "artifact_sha256": "ec934e3a369bd4f7ce891efa3ed986ec54ec952b1138449f58842450e6a48481"
+      },
+      {
+        "row": 2,
+        "column": 6,
+        "candidate": "C3-screen-thin",
+        "background": "bg-red",
+        "source_png": "renders/C3-screen-thin__bg-red.png",
+        "artifact_sha256": "4417ef80f054aeab23c904fad3b535d5489a55d0c0e42074769718519c4cedbe"
+      },
+      {
+        "row": 2,
+        "column": 7,
+        "candidate": "C3-screen-thin",
+        "background": "bg-alpha50",
+        "source_png": "renders/C3-screen-thin__bg-alpha50.png",
+        "artifact_sha256": "7c154f961f42c4330041b8c83ddd300b9204c859c2572dca63f7059e68781091"
+      }
+    ]
+  },
+  "family-EM": {
+    "montage": "renders/montages/family-EM-grid.png",
+    "rows": [
+      "EM1-normal",
+      "EM2-multiply"
+    ],
+    "columns": [
+      "bg-midgray",
+      "bg-black",
+      "bg-white",
+      "bg-orange",
+      "bg-darkgray",
+      "bg-lightgray",
+      "bg-red",
+      "bg-alpha50"
+    ],
+    "highlighted_column": "bg-midgray (original single background)",
+    "tiles": [
+      {
+        "row": 0,
+        "column": 0,
+        "candidate": "EM1-normal",
+        "background": "bg-midgray",
+        "source_png": "renders/EM1-normal__bg-midgray.png",
+        "artifact_sha256": "a0aab33d876dc51a1ff760f03bb63292ba2b17df5fa600fd13ff3922c25367d9"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "candidate": "EM1-normal",
+        "background": "bg-black",
+        "source_png": "renders/EM1-normal__bg-black.png",
+        "artifact_sha256": "81d68b84b05d21f9edf6d3a638630146d2cc0b73aa13eb8120c228e5610baec9"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "candidate": "EM1-normal",
+        "background": "bg-white",
+        "source_png": "renders/EM1-normal__bg-white.png",
+        "artifact_sha256": "07f56815a9db5f0e6c4e0bf9278fd17d0bd65182a322101c3308f7886c2c9776"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "candidate": "EM1-normal",
+        "background": "bg-orange",
+        "source_png": "renders/EM1-normal__bg-orange.png",
+        "artifact_sha256": "f77f264c58b9eabcc689edf3c659685506b1e43f337759b91ec7a901882fcc07"
+      },
+      {
+        "row": 0,
+        "column": 4,
+        "candidate": "EM1-normal",
+        "background": "bg-darkgray",
+        "source_png": "renders/EM1-normal__bg-darkgray.png",
+        "artifact_sha256": "5668a87b8560a1274a2fe46b3bb1c934d98c9e37681c7ef14a5db82bde08a1e9"
+      },
+      {
+        "row": 0,
+        "column": 5,
+        "candidate": "EM1-normal",
+        "background": "bg-lightgray",
+        "source_png": "renders/EM1-normal__bg-lightgray.png",
+        "artifact_sha256": "2b7f9b49a75c5ee26978290297bd9fecbd10764f8ee9f6ee8ef39b7dea460e0a"
+      },
+      {
+        "row": 0,
+        "column": 6,
+        "candidate": "EM1-normal",
+        "background": "bg-red",
+        "source_png": "renders/EM1-normal__bg-red.png",
+        "artifact_sha256": "ca22001c388ac18f75388eaf024aada9519592c397e43b2a373b2774a2240f0c"
+      },
+      {
+        "row": 0,
+        "column": 7,
+        "candidate": "EM1-normal",
+        "background": "bg-alpha50",
+        "source_png": "renders/EM1-normal__bg-alpha50.png",
+        "artifact_sha256": "dc28c724e12e728f7e6f1bcdfa17b2559c16dc439147186359b5fca78703c822"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "candidate": "EM2-multiply",
+        "background": "bg-midgray",
+        "source_png": "renders/EM2-multiply__bg-midgray.png",
+        "artifact_sha256": "a0aab33d876dc51a1ff760f03bb63292ba2b17df5fa600fd13ff3922c25367d9"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "candidate": "EM2-multiply",
+        "background": "bg-black",
+        "source_png": "renders/EM2-multiply__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "candidate": "EM2-multiply",
+        "background": "bg-white",
+        "source_png": "renders/EM2-multiply__bg-white.png",
+        "artifact_sha256": "1bdd457ee62e192807dd9597c699fea0b90e19f6a1fb46abaff8a271bd51bde9"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "candidate": "EM2-multiply",
+        "background": "bg-orange",
+        "source_png": "renders/EM2-multiply__bg-orange.png",
+        "artifact_sha256": "608454f0ba25e776e6795ce793114d81152ea5ffbfb35a191de368fcd1587d58"
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "candidate": "EM2-multiply",
+        "background": "bg-darkgray",
+        "source_png": "renders/EM2-multiply__bg-darkgray.png",
+        "artifact_sha256": "d3df2d373ab55e1ec08bf7344913c775ced05f65e4233279fb73c896e2811494"
+      },
+      {
+        "row": 1,
+        "column": 5,
+        "candidate": "EM2-multiply",
+        "background": "bg-lightgray",
+        "source_png": "renders/EM2-multiply__bg-lightgray.png",
+        "artifact_sha256": "55089332e486fecbe89d69b027cbd418dfd7f9aa4507e5502842adf8818903f0"
+      },
+      {
+        "row": 1,
+        "column": 6,
+        "candidate": "EM2-multiply",
+        "background": "bg-red",
+        "source_png": "renders/EM2-multiply__bg-red.png",
+        "artifact_sha256": "c8f0990897c66a7e8bb866264ec47ecd3c006aca089b5cdfafc86246f12cc1b0"
+      },
+      {
+        "row": 1,
+        "column": 7,
+        "candidate": "EM2-multiply",
+        "background": "bg-alpha50",
+        "source_png": "renders/EM2-multiply__bg-alpha50.png",
+        "artifact_sha256": "d5f28de4995f13bbd528ccf01a0c8926fd9649347d99f1571637586fc106f60a"
+      }
+    ]
+  },
+  "family-ES": {
+    "montage": "renders/montages/family-ES-grid.png",
+    "rows": [
+      "ES1-normal",
+      "ES2-screen"
+    ],
+    "columns": [
+      "bg-midgray",
+      "bg-black",
+      "bg-white",
+      "bg-orange",
+      "bg-darkgray",
+      "bg-lightgray",
+      "bg-red",
+      "bg-alpha50"
+    ],
+    "highlighted_column": "bg-midgray (original single background)",
+    "tiles": [
+      {
+        "row": 0,
+        "column": 0,
+        "candidate": "ES1-normal",
+        "background": "bg-midgray",
+        "source_png": "renders/ES1-normal__bg-midgray.png",
+        "artifact_sha256": "1bdbbe7384435c7b5bba45372f0b4fc1dc9fe10e72284cec9f3bab7e0d244624"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "candidate": "ES1-normal",
+        "background": "bg-black",
+        "source_png": "renders/ES1-normal__bg-black.png",
+        "artifact_sha256": "115f16f4112bd4a8aed6e2be355df664a03518a6ebf349a0c8937597676218a4"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "candidate": "ES1-normal",
+        "background": "bg-white",
+        "source_png": "renders/ES1-normal__bg-white.png",
+        "artifact_sha256": "aea80c19f5f356a95d7b51e6f36299587526efa69073c7b1646b230c7d1695cf"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "candidate": "ES1-normal",
+        "background": "bg-orange",
+        "source_png": "renders/ES1-normal__bg-orange.png",
+        "artifact_sha256": "378bb30358775d10dea66030b2bc6a8d3c17a9472322195cda01997adad92312"
+      },
+      {
+        "row": 0,
+        "column": 4,
+        "candidate": "ES1-normal",
+        "background": "bg-darkgray",
+        "source_png": "renders/ES1-normal__bg-darkgray.png",
+        "artifact_sha256": "f7453355c773e922e80ad9f8a30f0636c46cbc3a7213791fd24b076c514544a6"
+      },
+      {
+        "row": 0,
+        "column": 5,
+        "candidate": "ES1-normal",
+        "background": "bg-lightgray",
+        "source_png": "renders/ES1-normal__bg-lightgray.png",
+        "artifact_sha256": "fc3c5fab025c5248d7a671afbe3e30b42b5b15f44b19bde346c8dfa9aba8efe9"
+      },
+      {
+        "row": 0,
+        "column": 6,
+        "candidate": "ES1-normal",
+        "background": "bg-red",
+        "source_png": "renders/ES1-normal__bg-red.png",
+        "artifact_sha256": "16de3b4bb5f398c96301061b65d7c8fdb4acd5537a3c7bcf52317405b547cd03"
+      },
+      {
+        "row": 0,
+        "column": 7,
+        "candidate": "ES1-normal",
+        "background": "bg-alpha50",
+        "source_png": "renders/ES1-normal__bg-alpha50.png",
+        "artifact_sha256": "d2bbf09d5a475f14d5cebb430148cb6e85387b131c437e813ebfafb66ed66431"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "candidate": "ES2-screen",
+        "background": "bg-midgray",
+        "source_png": "renders/ES2-screen__bg-midgray.png",
+        "artifact_sha256": "1bdbbe7384435c7b5bba45372f0b4fc1dc9fe10e72284cec9f3bab7e0d244624"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "candidate": "ES2-screen",
+        "background": "bg-black",
+        "source_png": "renders/ES2-screen__bg-black.png",
+        "artifact_sha256": "95ced3e6fc0eae9e2eebaed5a9d6eb9d6d1f4c78850fa9687129ee88994cd116"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "candidate": "ES2-screen",
+        "background": "bg-white",
+        "source_png": "renders/ES2-screen__bg-white.png",
+        "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "candidate": "ES2-screen",
+        "background": "bg-orange",
+        "source_png": "renders/ES2-screen__bg-orange.png",
+        "artifact_sha256": "ffda11b32521b961d55f794139352f003e4531e5f1480484cc7ec77826eb7ccd"
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "candidate": "ES2-screen",
+        "background": "bg-darkgray",
+        "source_png": "renders/ES2-screen__bg-darkgray.png",
+        "artifact_sha256": "3a36976b04e410e535b7b23695fcbd307ffc231246f22057f066834eb315eef8"
+      },
+      {
+        "row": 1,
+        "column": 5,
+        "candidate": "ES2-screen",
+        "background": "bg-lightgray",
+        "source_png": "renders/ES2-screen__bg-lightgray.png",
+        "artifact_sha256": "1f859d512d8e2edac33e78fa33f9e667b1160ef15d670b39f4889cd547237456"
+      },
+      {
+        "row": 1,
+        "column": 6,
+        "candidate": "ES2-screen",
+        "background": "bg-red",
+        "source_png": "renders/ES2-screen__bg-red.png",
+        "artifact_sha256": "80c74c5bf2c122eecce35c3874b170a19aabf5010576b84f9a1a2996d68106dc"
+      },
+      {
+        "row": 1,
+        "column": 7,
+        "candidate": "ES2-screen",
+        "background": "bg-alpha50",
+        "source_png": "renders/ES2-screen__bg-alpha50.png",
+        "artifact_sha256": "9cf26314a52eb79b24b13ff05fbf677c9aa7625d844709dcb6fb555a8303b41a"
+      }
+    ]
+  },
+  "family-D": {
+    "montage": "renders/montages/family-D-grid.png",
+    "rows": [
+      "D1-zero-opacity",
+      "D2-off-canvas"
+    ],
+    "columns": [
+      "bg-midgray",
+      "bg-black",
+      "bg-white",
+      "bg-orange",
+      "bg-darkgray",
+      "bg-lightgray",
+      "bg-red",
+      "bg-alpha50"
+    ],
+    "highlighted_column": "bg-midgray (original single background)",
+    "tiles": [
+      {
+        "row": 0,
+        "column": 0,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-midgray",
+        "source_png": "renders/D1-zero-opacity__bg-midgray.png",
+        "artifact_sha256": "c9ae591e8faf17aff2daa3ed9efc9985e6080f57ddbb55a753d737fcbcf88a36"
+      },
+      {
+        "row": 0,
+        "column": 1,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-black",
+        "source_png": "renders/D1-zero-opacity__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 0,
+        "column": 2,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-white",
+        "source_png": "renders/D1-zero-opacity__bg-white.png",
+        "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4"
+      },
+      {
+        "row": 0,
+        "column": 3,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-orange",
+        "source_png": "renders/D1-zero-opacity__bg-orange.png",
+        "artifact_sha256": "cd680f4b8bd1060d0552a366c2559c0323e303c1c6e68a4dcbb15b77da7b9381"
+      },
+      {
+        "row": 0,
+        "column": 4,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-darkgray",
+        "source_png": "renders/D1-zero-opacity__bg-darkgray.png",
+        "artifact_sha256": "9ca0f9ef1293f722d9838fb9989596915189d7f548bddc85950b18f1f11ede40"
+      },
+      {
+        "row": 0,
+        "column": 5,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-lightgray",
+        "source_png": "renders/D1-zero-opacity__bg-lightgray.png",
+        "artifact_sha256": "16469a6dd7d3dea503480458a4e130b960115948d605ab8da5ddc8fe2410d21c"
+      },
+      {
+        "row": 0,
+        "column": 6,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-red",
+        "source_png": "renders/D1-zero-opacity__bg-red.png",
+        "artifact_sha256": "510e49639cc8e8e3718469f961075399146d6c22aaa5ff5d2dd6dcff9644b106"
+      },
+      {
+        "row": 0,
+        "column": 7,
+        "candidate": "D1-zero-opacity",
+        "background": "bg-alpha50",
+        "source_png": "renders/D1-zero-opacity__bg-alpha50.png",
+        "artifact_sha256": "5559b94d105d577514e78da9054558c37b078f0ef1d851c3e3787fa75cef4de9"
+      },
+      {
+        "row": 1,
+        "column": 0,
+        "candidate": "D2-off-canvas",
+        "background": "bg-midgray",
+        "source_png": "renders/D2-off-canvas__bg-midgray.png",
+        "artifact_sha256": "c9ae591e8faf17aff2daa3ed9efc9985e6080f57ddbb55a753d737fcbcf88a36"
+      },
+      {
+        "row": 1,
+        "column": 1,
+        "candidate": "D2-off-canvas",
+        "background": "bg-black",
+        "source_png": "renders/D2-off-canvas__bg-black.png",
+        "artifact_sha256": "e1a0fc65bb3a1ae52a4ccc594b7e51c1961e55ac4fe7a70ac714aeea9cc17884"
+      },
+      {
+        "row": 1,
+        "column": 2,
+        "candidate": "D2-off-canvas",
+        "background": "bg-white",
+        "source_png": "renders/D2-off-canvas__bg-white.png",
+        "artifact_sha256": "c28c1935fa82f98acc20af3b0f526f6bfb548aada4ad04ff18788418da2e36e4"
+      },
+      {
+        "row": 1,
+        "column": 3,
+        "candidate": "D2-off-canvas",
+        "background": "bg-orange",
+        "source_png": "renders/D2-off-canvas__bg-orange.png",
+        "artifact_sha256": "cd680f4b8bd1060d0552a366c2559c0323e303c1c6e68a4dcbb15b77da7b9381"
+      },
+      {
+        "row": 1,
+        "column": 4,
+        "candidate": "D2-off-canvas",
+        "background": "bg-darkgray",
+        "source_png": "renders/D2-off-canvas__bg-darkgray.png",
+        "artifact_sha256": "9ca0f9ef1293f722d9838fb9989596915189d7f548bddc85950b18f1f11ede40"
+      },
+      {
+        "row": 1,
+        "column": 5,
+        "candidate": "D2-off-canvas",
+        "background": "bg-lightgray",
+        "source_png": "renders/D2-off-canvas__bg-lightgray.png",
+        "artifact_sha256": "16469a6dd7d3dea503480458a4e130b960115948d605ab8da5ddc8fe2410d21c"
+      },
+      {
+        "row": 1,
+        "column": 6,
+        "candidate": "D2-off-canvas",
+        "background": "bg-red",
+        "source_png": "renders/D2-off-canvas__bg-red.png",
+        "artifact_sha256": "510e49639cc8e8e3718469f961075399146d6c22aaa5ff5d2dd6dcff9644b106"
+      },
+      {
+        "row": 1,
+        "column": 7,
+        "candidate": "D2-off-canvas",
+        "background": "bg-alpha50",
+        "source_png": "renders/D2-off-canvas__bg-alpha50.png",
+        "artifact_sha256": "5559b94d105d577514e78da9054558c37b078f0ef1d851c3e3787fa75cef4de9"
+      }
+    ]
+  }
+}

@@ -1,0 +1,56 @@
+== Family A ==
+  bg-midgray     SAME  {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (115, 153, 189, 255), 'A3-glaze50': (115, 153, 189, 255)}
+  bg-black       SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (92, 138, 178, 255), 'A3-glaze50': (71, 127, 170, 255)}
+  bg-white       SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (171, 196, 224, 255), 'A3-glaze50': (198, 219, 243, 255)}
+  bg-orange      SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (164, 150, 178, 255), 'A3-glaze50': (189, 148, 171, 255)}
+  bg-darkgray    SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (97, 141, 180, 255), 'A3-glaze50': (82, 132, 173, 255)}
+  bg-lightgray   SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (146, 176, 207, 255), 'A3-glaze50': (163, 190, 218, 255)}
+  bg-red         SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (146, 139, 178, 255), 'A3-glaze50': (163, 128, 171, 255)}
+  bg-alpha50     SPLIT {'A1-opaque': (115, 153, 189, 255), 'A2-glaze70': (112, 157, 197, 217), 'A3-glaze50': (110, 160, 204, 191)}
+== Family B ==
+  bg-midgray     SAME  {'B1-mult-full': (96, 96, 96, 255), 'B2-mult-glaze': (96, 96, 96, 255), 'B3-mult-thin': (96, 96, 96, 255), 'B4-brush-alpha': (96, 96, 96, 255)}
+  bg-black       SAME  {'B1-mult-full': (0, 0, 0, 255), 'B2-mult-glaze': (0, 0, 0, 255), 'B3-mult-thin': (0, 0, 0, 255), 'B4-brush-alpha': (0, 0, 0, 255)}
+  bg-white       SAME  {'B1-mult-full': (196, 196, 196, 255), 'B2-mult-glaze': (196, 196, 196, 255), 'B3-mult-thin': (196, 196, 196, 255), 'B4-brush-alpha': (196, 196, 196, 255)}
+  bg-orange      SAME  {'B1-mult-full': (186, 86, 17, 255), 'B2-mult-glaze': (186, 86, 17, 255), 'B3-mult-thin': (186, 86, 17, 255), 'B4-brush-alpha': (186, 86, 17, 255)}
+  bg-darkgray    SAME  {'B1-mult-full': (41, 41, 41, 255), 'B2-mult-glaze': (41, 41, 41, 255), 'B3-mult-thin': (41, 41, 41, 255), 'B4-brush-alpha': (41, 41, 41, 255)}
+  bg-lightgray   SAME  {'B1-mult-full': (156, 156, 156, 255), 'B2-mult-glaze': (156, 156, 156, 255), 'B3-mult-thin': (156, 156, 156, 255), 'B4-brush-alpha': (156, 156, 156, 255)}
+  bg-red         SAME  {'B1-mult-full': (156, 17, 17, 255), 'B2-mult-glaze': (156, 17, 17, 255), 'B3-mult-thin': (156, 17, 17, 255), 'B4-brush-alpha': (156, 17, 17, 255)}
+  bg-alpha50     SPLIT {'B1-mult-full': (156, 156, 156, 255), 'B2-mult-glaze': (134, 134, 134, 223), 'B3-mult-thin': (105, 105, 105, 198), 'B4-brush-alpha': (134, 134, 134, 223)}
+== Family C ==
+  bg-midgray     SAME  {'C1-screen-full': (186, 186, 186, 255), 'C2-screen-glaze': (186, 186, 186, 255), 'C3-screen-thin': (186, 186, 186, 255)}
+  bg-black       SAME  {'C1-screen-full': (160, 160, 160, 255), 'C2-screen-glaze': (160, 160, 160, 255), 'C3-screen-thin': (160, 160, 160, 255)}
+  bg-white       SAME  {'C1-screen-full': (255, 255, 255, 255), 'C2-screen-glaze': (255, 255, 255, 255), 'C3-screen-thin': (255, 255, 255, 255)}
+  bg-orange      SAME  {'C1-screen-full': (247, 181, 161, 255), 'C2-screen-glaze': (247, 181, 161, 255), 'C3-screen-thin': (247, 181, 161, 255)}
+  bg-darkgray    SAME  {'C1-screen-full': (165, 165, 165, 255), 'C2-screen-glaze': (165, 165, 165, 255), 'C3-screen-thin': (165, 165, 165, 255)}
+  bg-lightgray   SAME  {'C1-screen-full': (224, 224, 224, 255), 'C2-screen-glaze': (224, 224, 224, 255), 'C3-screen-thin': (224, 224, 224, 255)}
+  bg-red         SAME  {'C1-screen-full': (224, 161, 161, 255), 'C2-screen-glaze': (224, 161, 161, 255), 'C3-screen-thin': (224, 161, 161, 255)}
+  bg-alpha50     SPLIT {'C1-screen-full': (173, 173, 173, 255), 'C2-screen-glaze': (186, 186, 186, 217), 'C3-screen-thin': (197, 197, 197, 191)}
+== Family EM ==
+  bg-midgray     SAME  {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (71, 87, 107, 255)}
+  bg-black       SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (0, 0, 0, 255)}
+  bg-white       SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (148, 177, 216, 255)}
+  bg-orange      SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (141, 78, 20, 255)}
+  bg-darkgray    SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (28, 36, 46, 255)}
+  bg-lightgray   SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (118, 141, 173, 255)}
+  bg-red         SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (118, 14, 20, 255)}
+  bg-alpha50     SPLIT {'EM1-normal': (71, 87, 107, 255), 'EM2-multiply': (118, 141, 173, 255)}
+== Family ES ==
+  bg-midgray     SAME  {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (158, 179, 204, 255)}
+  bg-black       SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (112, 148, 187, 255)}
+  bg-white       SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (255, 255, 255, 255)}
+  bg-orange      SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (244, 173, 188, 255)}
+  bg-darkgray    SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (123, 155, 190, 255)}
+  bg-lightgray   SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (213, 221, 231, 255)}
+  bg-red         SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (213, 150, 188, 255)}
+  bg-alpha50     SPLIT {'ES1-normal': (158, 179, 204, 255), 'ES2-screen': (138, 164, 196, 255)}
+== Family D ==
+  bg-midgray     SAME  {'D1-zero-opacity': (128, 128, 128, 255), 'D2-off-canvas': (128, 128, 128, 255)}
+  bg-black       SAME  {'D1-zero-opacity': (0, 0, 0, 255), 'D2-off-canvas': (0, 0, 0, 255)}
+  bg-white       SAME  {'D1-zero-opacity': (255, 255, 255, 255), 'D2-off-canvas': (255, 255, 255, 255)}
+  bg-orange      SAME  {'D1-zero-opacity': (242, 115, 26, 255), 'D2-off-canvas': (242, 115, 26, 255)}
+  bg-darkgray    SAME  {'D1-zero-opacity': (56, 56, 56, 255), 'D2-off-canvas': (56, 56, 56, 255)}
+  bg-lightgray   SAME  {'D1-zero-opacity': (204, 204, 204, 255), 'D2-off-canvas': (204, 204, 204, 255)}
+  bg-red         SAME  {'D1-zero-opacity': (204, 26, 26, 255), 'D2-off-canvas': (204, 26, 26, 255)}
+  bg-alpha50     SAME  {'D1-zero-opacity': (128, 128, 128, 128), 'D2-off-canvas': (128, 128, 128, 128)}
+
+B2 == B4 on every background (permanent brush-alpha/opacity ambiguity): OK

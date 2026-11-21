@@ -1,0 +1,85 @@
+{
+  "id": "fp-b4-brush-alpha",
+  "title": "forensics B4-brush-alpha on bg-white",
+  "document": {
+    "width": 96,
+    "height": 96,
+    "background": {
+      "r": 1.0,
+      "g": 1.0,
+      "b": 1.0,
+      "a": 1.0
+    },
+    "layers": [
+      {
+        "id": "probe-layer",
+        "opacity": 1.0,
+        "blend": "multiply",
+        "shapes": [
+          {
+            "id": "probe-fill",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 4
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 92,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 4,
+                    "y": 92
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.6652,
+                "g": 0.6652,
+                "b": 0.6652,
+                "a": 0.75
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}
