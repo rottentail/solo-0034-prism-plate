@@ -48,3 +48,13 @@ python3 scripts/walkthrough.py --workflow bundle
 上线容量：128版面，每版64稿本，256成品，1024校样，状态快照128MiB，HTTP输入8MiB，单稿本4倍采样预计边遍历不超过1.6亿。容量达到时需要运维规划，不会自动淘汰被校样引用的数据。完整快照复制意味着吞吐适用于小规模打样服务。
 
 自动化测试套件按初始化边界延后，本仓库不含测试命令。已提供构建、静态检查与真实生产流程演示；后续质量保障任务可以建立独立测试体系。Dockerfile提供容器构建路径，容器跨架构和生产部署不在本机Go构建的验证结论内。
+
+## 交付示例：2×2 可重排展板（换展不重印）
+
+`scripts/rehang.py` 用同一批源砖（2 块甲型「回环」+ 2 块乙型「川流」）生成两套可用摆法与三套装错演练：配对边用双三角/单菱标记区分，曲线与半透明光晕跨砖边并在四砖交点拼合；输出摆放顺序、PNG/SVG 校样、源稿与自动核验报告。无 Go 环境时由 `scripts/prismplate_local.py`（同契约离线校样器）出图，`out/rehang/scenes/*.json` 可直接 POST 本服务复现交叉核对。
+
+```sh
+python3 scripts/rehang.py   # 生成 examples/rehang 源稿与 out/rehang 交付物
+```
+
+施工单见 `out/rehang/placement.md`，复核依据（真接缝 vs 预览采样差异、单砖/对调/整体重排阶梯）见 `docs/rehang-qc.md`。

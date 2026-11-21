@@ -1,0 +1,1167 @@
+{
+ "generator": "scripts/rehang.py",
+ "renderer": "scripts/prismplate_local.py (prism-plate-v1 契约离线校样器)",
+ "sources": {
+  "tilespec": "examples/rehang/tilespec.json",
+  "layouts": "examples/rehang/layouts.json"
+ },
+ "budgets": {
+  "tile-t1": {
+   "segments": 143,
+   "limit": 152,
+   "canvas": [
+    512,
+    512
+   ]
+  },
+  "tile-t2": {
+   "segments": 143,
+   "limit": 152,
+   "canvas": [
+    512,
+    512
+   ]
+  },
+  "tile-t3": {
+   "segments": 101,
+   "limit": 152,
+   "canvas": [
+    512,
+    512
+   ]
+  },
+  "tile-t4": {
+   "segments": 101,
+   "limit": 152,
+   "canvas": [
+    512,
+    512
+   ]
+  },
+  "board-l1": {
+   "segments": 488,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "board-l1-ann": {
+   "segments": 520,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "board-l2": {
+   "segments": 488,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "board-l2-ann": {
+   "segments": 520,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "board-fault": {
+   "segments": 488,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "board-fixed": {
+   "segments": 488,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "board-swap": {
+   "segments": 488,
+   "limit": 610,
+   "canvas": [
+    256,
+    256
+   ]
+  },
+  "zoom-l1-junction": {
+   "segments": 104,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-l2-junction": {
+   "segments": 108,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-l2-s2": {
+   "segments": 90,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-l2-s4": {
+   "segments": 108,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-fault-junction": {
+   "segments": 104,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-fault-s2": {
+   "segments": 104,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-fault-s4": {
+   "segments": 108,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  },
+  "zoom-swap-junction": {
+   "segments": 118,
+   "limit": 271,
+   "canvas": [
+    384,
+    384
+   ]
+  }
+ },
+ "determinism": {
+  "l2_rerender_equal": true,
+  "fixed_equals_l2": true
+ },
+ "layouts": {
+  "l1": {
+   "label": "原展",
+   "kind": "sanctioned",
+   "intrinsic_ok": true,
+   "checks": [
+    {
+     "check": "same_batch",
+     "ok": true,
+     "detail": "使用砖=t1,t2,t3,t4"
+    },
+    {
+     "check": "seam_s1_marker",
+     "ok": true,
+     "detail": "t1.E(twin) ↔ t3.W(twin)"
+    },
+    {
+     "check": "seam_s1_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s1_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s2_marker",
+     "ok": true,
+     "detail": "t2.E(twin) ↔ t4.W(twin)"
+    },
+    {
+     "check": "seam_s2_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s2_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s3_marker",
+     "ok": true,
+     "detail": "t1.S(twin) ↔ t2.N(twin)"
+    },
+    {
+     "check": "seam_s3_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s3_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s4_marker",
+     "ok": true,
+     "detail": "t3.S(solo) ↔ t4.N(solo)"
+    },
+    {
+     "check": "seam_s4_ports",
+     "ok": true,
+     "detail": "1 对端口对位一致"
+    },
+    {
+     "check": "seam_s4_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    }
+   ],
+   "fingerprint": {
+    "seams": {
+     "s1": [
+      "#f29e0e",
+      "#0e9a70"
+     ],
+     "s2": [
+      "#f29e0e",
+      "#0e9a70"
+     ],
+     "s3": [
+      "#d63a8c",
+      "#00a6c0"
+     ],
+     "s4": [
+      "#d63a8c",
+      "#00a6c0"
+     ]
+    },
+    "junction": [
+     "#7a5fd0",
+     "#3a7bd5",
+     "#e4572e",
+     "#e4b62e"
+    ],
+    "slots": {
+     "NW": [
+      "t1",
+      0
+     ],
+     "NE": [
+      "t3",
+      0
+     ],
+     "SW": [
+      "t2",
+      0
+     ],
+     "SE": [
+      "t4",
+      0
+     ]
+    }
+   }
+  },
+  "l2": {
+   "label": "换展",
+   "kind": "sanctioned",
+   "intrinsic_ok": true,
+   "checks": [
+    {
+     "check": "same_batch",
+     "ok": true,
+     "detail": "使用砖=t1,t2,t3,t4"
+    },
+    {
+     "check": "seam_s1_marker",
+     "ok": true,
+     "detail": "t2.E(twin) ↔ t1.W(twin)"
+    },
+    {
+     "check": "seam_s1_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s1_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s2_marker",
+     "ok": true,
+     "detail": "t3.E(solo) ↔ t4.W(solo)"
+    },
+    {
+     "check": "seam_s2_ports",
+     "ok": true,
+     "detail": "1 对端口对位一致"
+    },
+    {
+     "check": "seam_s2_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s3_marker",
+     "ok": true,
+     "detail": "t2.S(twin) ↔ t3.N(twin)"
+    },
+    {
+     "check": "seam_s3_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s3_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s4_marker",
+     "ok": true,
+     "detail": "t1.S(twin) ↔ t4.N(twin)"
+    },
+    {
+     "check": "seam_s4_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s4_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    }
+   ],
+   "fingerprint": {
+    "seams": {
+     "s1": [
+      "#f29e0e",
+      "#0e9a70"
+     ],
+     "s2": [
+      "#00a6c0",
+      "#00a6c0"
+     ],
+     "s3": [
+      "#d63a8c",
+      "#0e9a70"
+     ],
+     "s4": [
+      "#d63a8c",
+      "#f29e0e"
+     ]
+    },
+    "junction": [
+     "#7a5fd0",
+     "#3a7bd5",
+     "#e4b62e",
+     "#e4572e"
+    ],
+    "slots": {
+     "NW": [
+      "t2",
+      0
+     ],
+     "NE": [
+      "t1",
+      0
+     ],
+     "SW": [
+      "t3",
+      90
+     ],
+     "SE": [
+      "t4",
+      270
+     ]
+    }
+   }
+  },
+  "fault": {
+   "label": "演练·乙型砖装反(旋转180°)",
+   "kind": "drill",
+   "intrinsic_ok": true,
+   "checks": [
+    {
+     "check": "same_batch",
+     "ok": true,
+     "detail": "使用砖=t1,t2,t3,t4"
+    },
+    {
+     "check": "seam_s1_marker",
+     "ok": true,
+     "detail": "t2.E(twin) ↔ t1.W(twin)"
+    },
+    {
+     "check": "seam_s1_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s1_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s2_marker",
+     "ok": true,
+     "detail": "t3.E(solo) ↔ t4.W(solo)"
+    },
+    {
+     "check": "seam_s2_ports",
+     "ok": true,
+     "detail": "1 对端口对位一致"
+    },
+    {
+     "check": "seam_s2_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s3_marker",
+     "ok": true,
+     "detail": "t2.S(twin) ↔ t3.N(twin)"
+    },
+    {
+     "check": "seam_s3_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s3_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s4_marker",
+     "ok": true,
+     "detail": "t1.S(twin) ↔ t4.N(twin)"
+    },
+    {
+     "check": "seam_s4_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s4_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    }
+   ],
+   "fingerprint": {
+    "seams": {
+     "s1": [
+      "#f29e0e",
+      "#0e9a70"
+     ],
+     "s2": [
+      "#00a6c0",
+      "#d63a8c"
+     ],
+     "s3": [
+      "#d63a8c",
+      "#0e9a70"
+     ],
+     "s4": [
+      "#d63a8c",
+      "#0e9a70"
+     ]
+    },
+    "junction": [
+     "#7a5fd0",
+     "#3a7bd5",
+     "#e4b62e",
+     "#3a7bd5"
+    ],
+    "slots": {
+     "NW": [
+      "t2",
+      0
+     ],
+     "NE": [
+      "t1",
+      0
+     ],
+     "SW": [
+      "t3",
+      90
+     ],
+     "SE": [
+      "t4",
+      90
+     ]
+    }
+   },
+   "drill": {
+    "base": "l2",
+    "deviations": [
+     {
+      "where": "seam_s2",
+      "kind": "叠色",
+      "want": [
+       "#00a6c0",
+       "#00a6c0"
+      ],
+      "got": [
+       "#00a6c0",
+       "#d63a8c"
+      ]
+     },
+     {
+      "where": "seam_s4",
+      "kind": "叠色",
+      "want": [
+       "#d63a8c",
+       "#f29e0e"
+      ],
+      "got": [
+       "#d63a8c",
+       "#0e9a70"
+      ]
+     },
+     {
+      "where": "junction.SE",
+      "kind": "角部",
+      "want": "#e4572e",
+      "got": "#3a7bd5"
+     },
+     {
+      "where": "slot.SE",
+      "kind": "砖位/朝向",
+      "want": [
+       "t4",
+       270
+      ],
+      "got": [
+       "t4",
+       90
+      ]
+     }
+    ],
+    "recovery": [
+     {
+      "kind": "rotate",
+      "slot": "SE",
+      "tile": "t4",
+      "delta": 180,
+      "result": "恢复为基准摆法"
+     }
+    ],
+    "verdict": "单砖可恢复"
+   }
+  },
+  "fixed": {
+   "label": "演练·单砖旋转恢复",
+   "kind": "drill",
+   "intrinsic_ok": true,
+   "checks": [
+    {
+     "check": "same_batch",
+     "ok": true,
+     "detail": "使用砖=t1,t2,t3,t4"
+    },
+    {
+     "check": "seam_s1_marker",
+     "ok": true,
+     "detail": "t2.E(twin) ↔ t1.W(twin)"
+    },
+    {
+     "check": "seam_s1_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s1_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s2_marker",
+     "ok": true,
+     "detail": "t3.E(solo) ↔ t4.W(solo)"
+    },
+    {
+     "check": "seam_s2_ports",
+     "ok": true,
+     "detail": "1 对端口对位一致"
+    },
+    {
+     "check": "seam_s2_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s3_marker",
+     "ok": true,
+     "detail": "t2.S(twin) ↔ t3.N(twin)"
+    },
+    {
+     "check": "seam_s3_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s3_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s4_marker",
+     "ok": true,
+     "detail": "t1.S(twin) ↔ t4.N(twin)"
+    },
+    {
+     "check": "seam_s4_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s4_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    }
+   ],
+   "fingerprint": {
+    "seams": {
+     "s1": [
+      "#f29e0e",
+      "#0e9a70"
+     ],
+     "s2": [
+      "#00a6c0",
+      "#00a6c0"
+     ],
+     "s3": [
+      "#d63a8c",
+      "#0e9a70"
+     ],
+     "s4": [
+      "#d63a8c",
+      "#f29e0e"
+     ]
+    },
+    "junction": [
+     "#7a5fd0",
+     "#3a7bd5",
+     "#e4b62e",
+     "#e4572e"
+    ],
+    "slots": {
+     "NW": [
+      "t2",
+      0
+     ],
+     "NE": [
+      "t1",
+      0
+     ],
+     "SW": [
+      "t3",
+      90
+     ],
+     "SE": [
+      "t4",
+      270
+     ]
+    }
+   },
+   "drill": {
+    "base": "l2",
+    "deviations": [],
+    "recovery": [],
+    "verdict": "与基准一致"
+   }
+  },
+  "swap": {
+   "label": "演练·同型砖对调",
+   "kind": "drill",
+   "intrinsic_ok": true,
+   "checks": [
+    {
+     "check": "same_batch",
+     "ok": true,
+     "detail": "使用砖=t1,t2,t3,t4"
+    },
+    {
+     "check": "seam_s1_marker",
+     "ok": true,
+     "detail": "t2.E(twin) ↔ t1.W(twin)"
+    },
+    {
+     "check": "seam_s1_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s1_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s2_marker",
+     "ok": true,
+     "detail": "t4.E(solo) ↔ t3.W(solo)"
+    },
+    {
+     "check": "seam_s2_ports",
+     "ok": true,
+     "detail": "1 对端口对位一致"
+    },
+    {
+     "check": "seam_s2_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s3_marker",
+     "ok": true,
+     "detail": "t2.S(twin) ↔ t4.N(twin)"
+    },
+    {
+     "check": "seam_s3_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s3_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    },
+    {
+     "check": "seam_s4_marker",
+     "ok": true,
+     "detail": "t1.S(twin) ↔ t3.N(twin)"
+    },
+    {
+     "check": "seam_s4_ports",
+     "ok": true,
+     "detail": "2 对端口对位一致"
+    },
+    {
+     "check": "seam_s4_tangent",
+     "ok": true,
+     "detail": "切线跨缝连续"
+    }
+   ],
+   "fingerprint": {
+    "seams": {
+     "s1": [
+      "#f29e0e",
+      "#0e9a70"
+     ],
+     "s2": [
+      "#d63a8c",
+      "#d63a8c"
+     ],
+     "s3": [
+      "#d63a8c",
+      "#f29e0e"
+     ],
+     "s4": [
+      "#d63a8c",
+      "#0e9a70"
+     ]
+    },
+    "junction": [
+     "#7a5fd0",
+     "#3a7bd5",
+     "#7a5fd0",
+     "#3a7bd5"
+    ],
+    "slots": {
+     "NW": [
+      "t2",
+      0
+     ],
+     "NE": [
+      "t1",
+      0
+     ],
+     "SW": [
+      "t4",
+      270
+     ],
+     "SE": [
+      "t3",
+      90
+     ]
+    }
+   },
+   "drill": {
+    "base": "l2",
+    "deviations": [
+     {
+      "where": "seam_s2",
+      "kind": "叠色",
+      "want": [
+       "#00a6c0",
+       "#00a6c0"
+      ],
+      "got": [
+       "#d63a8c",
+       "#d63a8c"
+      ]
+     },
+     {
+      "where": "seam_s3",
+      "kind": "叠色",
+      "want": [
+       "#d63a8c",
+       "#0e9a70"
+      ],
+      "got": [
+       "#d63a8c",
+       "#f29e0e"
+      ]
+     },
+     {
+      "where": "seam_s4",
+      "kind": "叠色",
+      "want": [
+       "#d63a8c",
+       "#f29e0e"
+      ],
+      "got": [
+       "#d63a8c",
+       "#0e9a70"
+      ]
+     },
+     {
+      "where": "junction.SW",
+      "kind": "角部",
+      "want": "#e4b62e",
+      "got": "#7a5fd0"
+     },
+     {
+      "where": "junction.SE",
+      "kind": "角部",
+      "want": "#e4572e",
+      "got": "#3a7bd5"
+     },
+     {
+      "where": "slot.SW",
+      "kind": "砖位/朝向",
+      "want": [
+       "t3",
+       90
+      ],
+      "got": [
+       "t4",
+       270
+      ]
+     },
+     {
+      "where": "slot.SE",
+      "kind": "砖位/朝向",
+      "want": [
+       "t4",
+       270
+      ],
+      "got": [
+       "t3",
+       90
+      ]
+     }
+    ],
+    "recovery": [
+     {
+      "kind": "swap",
+      "slots": [
+       "SW",
+       "SE"
+      ],
+      "result": "对调后恢复为基准摆法"
+     }
+    ],
+    "verdict": "需双砖对调"
+   }
+  }
+ },
+ "artifacts": [
+  {
+   "plate": "tile-t1",
+   "title": "源砖 T1·甲型·回环",
+   "scene": "scenes/tile-t1.json",
+   "png": "tiles/tile-t1.png",
+   "png_sha256": "d3265cc61138902f7ac2445a54c04970ea966371b225aef6bfa77d2bbb68a390",
+   "svg": "tiles/tile-t1.svg",
+   "svg_sha256": "92ed258c4f5ef007b80f718bf25b7a8b33265ab1171b819045aba2f1503b7f6e",
+   "canvas": [
+    512,
+    512
+   ],
+   "segments": 143
+  },
+  {
+   "plate": "tile-t2",
+   "title": "源砖 T2·甲型·回环",
+   "scene": "scenes/tile-t2.json",
+   "png": "tiles/tile-t2.png",
+   "png_sha256": "8c6384b31c97df04cf8209793d81c8c7cc79f64b5aacc2bb51889def34f57596",
+   "svg": "tiles/tile-t2.svg",
+   "svg_sha256": "37acec7426de9ca8bca1db0cbf272bc26d73bac80e7eae9c354d700cdf788c7f",
+   "canvas": [
+    512,
+    512
+   ],
+   "segments": 143
+  },
+  {
+   "plate": "tile-t3",
+   "title": "源砖 T3·乙型·川流",
+   "scene": "scenes/tile-t3.json",
+   "png": "tiles/tile-t3.png",
+   "png_sha256": "7c91a7946527b509bd1048af5e205707a036852704b252b5a0fea242b5a322bc",
+   "svg": "tiles/tile-t3.svg",
+   "svg_sha256": "e0599024843955b7d766345fb6ae1deaab9f27d9c88ebb4e03474cb31155fce7",
+   "canvas": [
+    512,
+    512
+   ],
+   "segments": 101
+  },
+  {
+   "plate": "tile-t4",
+   "title": "源砖 T4·乙型·川流",
+   "scene": "scenes/tile-t4.json",
+   "png": "tiles/tile-t4.png",
+   "png_sha256": "5dda7f756db3ef0bea805b0fc3f1819003b9be762093d8de1adf054f9db4df4e",
+   "svg": "tiles/tile-t4.svg",
+   "svg_sha256": "19eb988ce9ae87e0396cbdad7251d46f5f8f66c36a38434e0f36007146d2d111",
+   "canvas": [
+    512,
+    512
+   ],
+   "segments": 101
+  },
+  {
+   "plate": "board-l1",
+   "title": "整版 L1·原展",
+   "scene": "scenes/board-l1.json",
+   "png": "boards/board-l1-original.png",
+   "png_sha256": "be8d0b5575938ac3d8fea588c189d5ebdbc9f701b0a3b51c26b645719100ee47",
+   "svg": "boards/board-l1-original.svg",
+   "svg_sha256": "1bbca09571c6dc01fde345fd00e5cdea6fe26ae4393e03696ff1cd9777b5a43c",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 488
+  },
+  {
+   "plate": "board-l1-ann",
+   "title": "整版 L1·原展(施工标注)",
+   "scene": "scenes/board-l1-ann.json",
+   "png": "boards/board-l1-annotated.png",
+   "png_sha256": "ca3df43f8e184df920da48783178e6999872427dbaee82eadbc16c63189d2c3e",
+   "svg": "boards/board-l1-annotated.svg",
+   "svg_sha256": "cb19ea7231d463deea917fcfeb3601bd7c41d55143b75ab6fefb095d2fc9287d",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 520
+  },
+  {
+   "plate": "board-l2",
+   "title": "整版 L2·换展",
+   "scene": "scenes/board-l2.json",
+   "png": "boards/board-l2-rehang.png",
+   "png_sha256": "cc13eb79a6fc83c4413d7122b1e70942ed4117896bf60656f02192c0161a2f1c",
+   "svg": "boards/board-l2-rehang.svg",
+   "svg_sha256": "9afb68dab766460b3dd4a4bc9428bd535a92b21339163f6f9f4d0f161862139e",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 488
+  },
+  {
+   "plate": "board-l2-ann",
+   "title": "整版 L2·换展(施工标注)",
+   "scene": "scenes/board-l2-ann.json",
+   "png": "boards/board-l2-annotated.png",
+   "png_sha256": "f2e33ea5a1a4fb4946a7b83ca5fd5920d542a25bdb171ce625c0a6ec0d9d366b",
+   "svg": "boards/board-l2-annotated.svg",
+   "svg_sha256": "f69799fbfae8c5fc3f83a4e18f402b92979dd167df95d231a99705e0680420d2",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 520
+  },
+  {
+   "plate": "board-fault",
+   "title": "整版 L2·装反演练",
+   "scene": "scenes/board-fault.json",
+   "png": "boards/board-l2-fault.png",
+   "png_sha256": "a097a83fda02263bd6a213af581cd8855f5ca63601ffd7414a9e0732fbee6a35",
+   "svg": "boards/board-l2-fault.svg",
+   "svg_sha256": "ffd85ad5124005ff2e6c519055f96e97d65c685bafdc005846fb21819644eafc",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 488
+  },
+  {
+   "plate": "board-fixed",
+   "title": "整版 L2·单砖恢复",
+   "scene": "scenes/board-fixed.json",
+   "png": "boards/board-l2-fixed.png",
+   "png_sha256": "cc13eb79a6fc83c4413d7122b1e70942ed4117896bf60656f02192c0161a2f1c",
+   "svg": "boards/board-l2-fixed.svg",
+   "svg_sha256": "9afb68dab766460b3dd4a4bc9428bd535a92b21339163f6f9f4d0f161862139e",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 488
+  },
+  {
+   "plate": "board-swap",
+   "title": "整版 L2·对调演练",
+   "scene": "scenes/board-swap.json",
+   "png": "boards/board-l2-swap.png",
+   "png_sha256": "d4bac8ca6be7c7173a2c6b1acf8ad55e97f1c277032cc02cf0aa151dfebc7ca9",
+   "svg": "boards/board-l2-swap.svg",
+   "svg_sha256": "989fefe59c7603cb3dd4d0a1f2ee75803ff60731f85aa2c1e1340706d4cbfb89",
+   "canvas": [
+    256,
+    256
+   ],
+   "segments": 488
+  },
+  {
+   "plate": "zoom-l1-junction",
+   "title": "放大·L1 中心交点",
+   "scene": "scenes/zoom-l1-junction.json",
+   "png": "zooms/zoom-l1-junction.png",
+   "png_sha256": "3eac7ea0676b205b2740a37bdd3351be4a3db4ba02a21b0f4b8e5db3f0afe5ff",
+   "svg": "zooms/zoom-l1-junction.svg",
+   "svg_sha256": "90c3823dc18afb9a91ad9ada4efde12a90b333d1c5315808ca0bac2c08565799",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 104
+  },
+  {
+   "plate": "zoom-l2-junction",
+   "title": "放大·L2 中心交点",
+   "scene": "scenes/zoom-l2-junction.json",
+   "png": "zooms/zoom-l2-junction.png",
+   "png_sha256": "50612ac1e6ac0044624699bb0cd5c9cf20412cec9b3aba81cc3127db3a42039b",
+   "svg": "zooms/zoom-l2-junction.svg",
+   "svg_sha256": "4fc722bf1cd41929f70b182d14e6b3bfc16e82574e542e545ab2e07dc54e730c",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 108
+  },
+  {
+   "plate": "zoom-l2-s2",
+   "title": "放大·L2 缝②",
+   "scene": "scenes/zoom-l2-s2.json",
+   "png": "zooms/zoom-l2-s2.png",
+   "png_sha256": "766f13d55079042e3c0b1c8266151e961f0c2cf3c48f97a7038052b93b446046",
+   "svg": "zooms/zoom-l2-s2.svg",
+   "svg_sha256": "967c22713ad344bd8064a1acdc31b5f0c2adaa28fbc58645d0427b477fed0299",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 90
+  },
+  {
+   "plate": "zoom-l2-s4",
+   "title": "放大·L2 缝④",
+   "scene": "scenes/zoom-l2-s4.json",
+   "png": "zooms/zoom-l2-s4.png",
+   "png_sha256": "a089d5abeef7908ead6be45e443ecc2b02ee5b9f546622d8a70b3c2aa32755aa",
+   "svg": "zooms/zoom-l2-s4.svg",
+   "svg_sha256": "69eac7edc1ea139f7309044d5e7df8dfada37c87cadf91d08660d16b776ee602",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 108
+  },
+  {
+   "plate": "zoom-fault-junction",
+   "title": "放大·装反 中心交点",
+   "scene": "scenes/zoom-fault-junction.json",
+   "png": "zooms/zoom-fault-junction.png",
+   "png_sha256": "d30dfad939d8d7cb4250021b89f097923e32e2f7b2cabe3210bb98ce231b4521",
+   "svg": "zooms/zoom-fault-junction.svg",
+   "svg_sha256": "6f5331f4aee00d4a19d3f26711feb4d5d05e6a052898a04b6c01ff56a4c9f3cb",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 104
+  },
+  {
+   "plate": "zoom-fault-s2",
+   "title": "放大·装反 缝②",
+   "scene": "scenes/zoom-fault-s2.json",
+   "png": "zooms/zoom-fault-s2.png",
+   "png_sha256": "f5729d938c9683dcc91f3b348eef22a87ec53001c069170fdf9bcf6283ddc19b",
+   "svg": "zooms/zoom-fault-s2.svg",
+   "svg_sha256": "bc483af3d4695159b1b643b85595a45b21332e3bfe2e12828dcfc04e85ae4ec9",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 104
+  },
+  {
+   "plate": "zoom-fault-s4",
+   "title": "放大·装反 缝④",
+   "scene": "scenes/zoom-fault-s4.json",
+   "png": "zooms/zoom-fault-s4.png",
+   "png_sha256": "05e7f86259dc4d35ab544d51e3d88f87f61e2fa8188fcc271933420f1443bb51",
+   "svg": "zooms/zoom-fault-s4.svg",
+   "svg_sha256": "74bb05554475459db68029a3c35ba7fd3e8f1ecf279d2c868092b1fa5ba2d026",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 108
+  },
+  {
+   "plate": "zoom-swap-junction",
+   "title": "放大·对调 中心交点",
+   "scene": "scenes/zoom-swap-junction.json",
+   "png": "zooms/zoom-swap-junction.png",
+   "png_sha256": "7dc998c82d6130be88f3b0a71d23f103d8bc7b04c77750464e68835ccbde66b8",
+   "svg": "zooms/zoom-swap-junction.svg",
+   "svg_sha256": "e2ed5fd490f74ab7fdba454eec9b998ed0362c6b09f3d62318cf2b56a2a0939a",
+   "canvas": [
+    384,
+    384
+   ],
+   "segments": 118
+  }
+ ]
+}
