@@ -1,0 +1,63 @@
+{
+  "id": "riskb-shift",
+  "title": "局部偏差风险：亚像素偏移后的变体稿",
+  "document": {
+    "width": 180,
+    "height": 140,
+    "background": { "r": 0.03, "g": 0.035, "b": 0.05, "a": 1 },
+    "layers": [
+      {
+        "id": "sliver-layer",
+        "opacity": 1,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "boundary-sliver",
+            "fill_rule": "nonzero",
+            "path": [
+              { "kind": "M", "points": [ { "x": 20.55, "y": 30 } ] },
+              { "kind": "Q", "points": [ { "x": 70.55, "y": 29.25 }, { "x": 120.55, "y": 30.75 } ] },
+              { "kind": "L", "points": [ { "x": 120.55, "y": 31.75 } ] },
+              { "kind": "Q", "points": [ { "x": 70.55, "y": 30.25 }, { "x": 20.55, "y": 31 } ] },
+              { "kind": "Z" }
+            ],
+            "transform": [ 1, 0, 0, 1, 0, 0 ],
+            "brush": {
+              "kind": "solid",
+              "color": { "r": 0.95, "g": 0.55, "b": 0.2, "a": 0.9 }
+            }
+          }
+        ]
+      },
+      {
+        "id": "wash-layer",
+        "opacity": 0.18,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "low-alpha-wash",
+            "fill_rule": "nonzero",
+            "path": [
+              { "kind": "M", "points": [ { "x": 10, "y": 10 } ] },
+              { "kind": "L", "points": [ { "x": 170, "y": 10 } ] },
+              { "kind": "L", "points": [ { "x": 170, "y": 130 } ] },
+              { "kind": "L", "points": [ { "x": 10, "y": 130 } ] },
+              { "kind": "Z" }
+            ],
+            "transform": [ 1, 0, 0, 1, 0, 0 ],
+            "brush": {
+              "kind": "linear",
+              "from": { "x": 10, "y": 10 },
+              "to": { "x": 170, "y": 130 },
+              "color": { "r": 0, "g": 0, "b": 0, "a": 0 },
+              "stops": [
+                { "at": 0, "color": { "r": 0.25, "g": 0.55, "b": 0.95, "a": 0.55 } },
+                { "at": 1, "color": { "r": 0.75, "g": 0.3, "b": 0.85, "a": 0.35 } }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

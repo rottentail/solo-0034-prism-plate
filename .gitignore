@@ -2,3 +2,10 @@
 /bin/
 *.tmp
 .DS_Store
+
+# 离线发布构建产物（由 release/build/build_release.py 重新生成，不纳入版本控制）
+/release/out/
+/release/dist/
+/release/build/work/
+__pycache__/
+*.pyc
