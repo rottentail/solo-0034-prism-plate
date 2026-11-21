@@ -1,0 +1,143 @@
+{
+  "A_veil_paradox": {
+    "alpha": 0.002,
+    "straight_rgb_euclidean": 1.4142135623730951,
+    "straight_rgb_max_channel": 1.0,
+    "composited_srgb_euclidean": 0.0030510892566645077,
+    "composited_srgb_max_channel": 0.002157445903392896,
+    "composited_deltaE00": 0.39609966054587753,
+    "png_observed_composited_max_channel": 0.003921568627450911,
+    "png_observed_in_codes": 1.0,
+    "interpretation": "straight-RGB distance is undefined for semi-transparent pixels; judge after flattening"
+  },
+  "B_bound_violation": {
+    "encoding_envelope_max_code_delta_same_draft": 0,
+    "design_change_max_code_delta": 65,
+    "design_change_pixels_affected": 88,
+    "design_change_worst_pixel": [
+      100,
+      151,
+      [
+        175,
+        147,
+        37,
+        255
+      ],
+      [
+        240,
+        202,
+        38,
+        255
+      ]
+    ],
+    "design_change_deltaE00_max": 16.304636744233033,
+    "design_change_deltaE00_mean": 0.023903266460118765,
+    "bound_crossed": true,
+    "interpretation": "the 1-code quantisation envelope does not bound coverage/design changes; no extrapolation"
+  },
+  "C_design_vs_noise": {
+    "design_variants": [
+      {
+        "draft": "quant-probe-edge-shift",
+        "pixels_different": 88,
+        "max_code_delta": 65
+      },
+      {
+        "draft": "quant-probe-recolour",
+        "pixels_different": 15552,
+        "max_code_delta": 28
+      },
+      {
+        "draft": "quant-probe-blend-swap",
+        "pixels_different": 6272,
+        "max_code_delta": 90
+      },
+      {
+        "draft": "quant-probe-opacity",
+        "pixels_different": 6272,
+        "max_code_delta": 29
+      },
+      {
+        "draft": "quant-probe-micro-tint",
+        "pixels_different": 21744,
+        "max_code_delta": 1
+      }
+    ],
+    "repeat_render_identical": true,
+    "quantisation_only_max_code_delta": 1
+  },
+  "D_threshold_trap": {
+    "observed_quantisation_envelope_codes": 1,
+    "micro_tint_real_design_edit": {
+      "changed_pixels_inside_envelope": 21744,
+      "changed_pixels_above_envelope": 0,
+      "deltas_seen": [
+        1
+      ]
+    },
+    "coarse_design_changes": [
+      {
+        "draft": "quant-probe-recolour",
+        "min_nonzero_code_delta": 1,
+        "max_code_delta": 28
+      },
+      {
+        "draft": "quant-probe-blend-swap",
+        "min_nonzero_code_delta": 90,
+        "max_code_delta": 90
+      },
+      {
+        "draft": "quant-probe-opacity",
+        "min_nonzero_code_delta": 29,
+        "max_code_delta": 29
+      },
+      {
+        "draft": "quant-probe-edge-shift",
+        "min_nonzero_code_delta": 50,
+        "max_code_delta": 65
+      }
+    ],
+    "overlap_exists": true,
+    "verdict": "a real design edit produces pixels inside the 1-code quantisation envelope, so code distance alone cannot classify; distinguish via source identity, change region and flattened perceptual metrics, never by one globally relaxed cutoff"
+  },
+  "analytic_bounds": {
+    "coverage_single_edge": {
+      "grid": "2x2",
+      "observed_max_coverage_error": 0.25,
+      "observed_at_edge_offset": 0.25,
+      "analytic_bound_single_edge": 0.25,
+      "bound_holds": true
+    },
+    "linear_step_widths": {
+      "max_linear_step": 0.008897902886170206,
+      "argmax_code_pair": [
+        254,
+        255
+      ],
+      "min_nonzero_linear_step": 0.00030352698354883714,
+      "half_step_srgb_units": 0.00196078431372549
+    },
+    "flatten_bound": [
+      {
+        "alpha": 1.0,
+        "straight_srgb_bound": 0.00196078431372549
+      },
+      {
+        "alpha": 0.5,
+        "straight_srgb_bound": 0.000980392156862745
+      },
+      {
+        "alpha": 0.1,
+        "straight_srgb_bound": 0.00019607843137254904
+      },
+      {
+        "alpha": 0.01,
+        "straight_srgb_bound": 1.9607843137254903e-05
+      },
+      {
+        "alpha": 0.002,
+        "straight_srgb_bound": 3.92156862745098e-06
+      }
+    ]
+  }
+}

@@ -1,0 +1,4 @@
+# Rebuildable production binary; recreate with analysis/fetch_production_pngs.py
+8bit-error-pack/bin/
+__pycache__/
+*.pyc

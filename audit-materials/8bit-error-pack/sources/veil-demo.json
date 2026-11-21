@@ -1,0 +1,147 @@
+{
+  "id": "veil-demo",
+  "title": "低透明直通RGB反差演示稿",
+  "document": {
+    "width": 128,
+    "height": 64,
+    "background": {
+      "r": 0.5,
+      "g": 0.5,
+      "b": 0.5,
+      "a": 1.0
+    },
+    "layers": [
+      {
+        "id": "veils",
+        "opacity": 1.0,
+        "blend": "normal",
+        "shapes": [
+          {
+            "id": "red-whisper",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 0.0,
+                    "y": 0.0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 64.0,
+                    "y": 0.0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 64.0,
+                    "y": 64.0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 0.0,
+                    "y": 64.0
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 1.0,
+                "g": 0.0,
+                "b": 0.0,
+                "a": 0.002
+              }
+            }
+          },
+          {
+            "id": "blue-whisper",
+            "fill_rule": "nonzero",
+            "path": [
+              {
+                "kind": "M",
+                "points": [
+                  {
+                    "x": 64.0,
+                    "y": 0.0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 128.0,
+                    "y": 0.0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 128.0,
+                    "y": 64.0
+                  }
+                ]
+              },
+              {
+                "kind": "L",
+                "points": [
+                  {
+                    "x": 64.0,
+                    "y": 64.0
+                  }
+                ]
+              },
+              {
+                "kind": "Z"
+              }
+            ],
+            "transform": [
+              1,
+              0,
+              0,
+              1,
+              0,
+              0
+            ],
+            "brush": {
+              "kind": "solid",
+              "color": {
+                "r": 0.0,
+                "g": 0.0,
+                "b": 1.0,
+                "a": 0.002
+              }
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

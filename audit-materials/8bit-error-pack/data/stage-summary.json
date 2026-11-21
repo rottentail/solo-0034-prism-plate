@@ -1,0 +1,263 @@
+[
+  {
+    "draft": "alpha-channel-probe",
+    "encoding_max_linear": {
+      "r_premul": 0.0016128976542337334,
+      "g_premul": 0.00228257889000974,
+      "b_premul": 0.0028014981297335706,
+      "alpha": 0.0019607843137254832
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0005084218560094469,
+      "g_premul": 0.0007119534720822512,
+      "b_premul": 0.0007017019177416858,
+      "alpha": 0.0010694182218958176
+    },
+    "coverage_max_linear": {
+      "r_premul": 8.326672684688674e-17,
+      "g_premul": 1.6653345369377348e-16,
+      "b_premul": 4.440892098500626e-16,
+      "alpha": 4.440892098500626e-16
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 2.5527870813855914e-17,
+      "g_premul": 5.104808508324023e-17,
+      "b_premul": 1.1002734726985377e-16,
+      "alpha": 8.101648549564509e-17
+    },
+    "reference_vs_production_mismatched_pixels": 384,
+    "reference_vs_production_max_code_delta": 1
+  },
+  {
+    "draft": "code-lattice-probe",
+    "encoding_max_linear": {
+      "r_premul": 0.00397350142919517,
+      "g_premul": 0.00397350142919517,
+      "b_premul": 0.0038856509370128745,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0015369890399708928,
+      "g_premul": 0.0015369890399708928,
+      "b_premul": 0.0014343180466283958,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 1.1102230246251565e-15,
+      "g_premul": 1.1102230246251565e-15,
+      "b_premul": 1.1102230246251565e-15,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 3.769057205484062e-16,
+      "g_premul": 3.769057205484062e-16,
+      "b_premul": 3.554553887523998e-16,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 64,
+    "reference_vs_production_max_code_delta": 1
+  },
+  {
+    "draft": "quant-probe-blend-swap",
+    "encoding_max_linear": {
+      "r_premul": 0.003987098701479064,
+      "g_premul": 0.00407129892592184,
+      "b_premul": 0.003960642350062105,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0012880796853116617,
+      "g_premul": 0.0016853709127100333,
+      "b_premul": 0.001874330885261034,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 0.2242788977844245,
+      "g_premul": 0.15147295918613213,
+      "b_premul": 0.10489116485274708,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 0.00830292635945148,
+      "g_premul": 0.005819449903478249,
+      "b_premul": 0.0037696143515759664,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  },
+  {
+    "draft": "quant-probe-edge-shift",
+    "encoding_max_linear": {
+      "r_premul": 0.003987098701479064,
+      "g_premul": 0.00407129892592184,
+      "b_premul": 0.003960642350062105,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0012885625133764672,
+      "g_premul": 0.0017005709081726456,
+      "b_premul": 0.001942014361642052,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 0.22172735794033294,
+      "g_premul": 0.14997284983781223,
+      "b_premul": 0.10489116485274708,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 0.008323379042267154,
+      "g_premul": 0.005833927383065749,
+      "b_premul": 0.003769631456671554,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  },
+  {
+    "draft": "quant-probe-micro-tint",
+    "encoding_max_linear": {
+      "r_premul": 0.003987098701479064,
+      "g_premul": 0.004086954796958753,
+      "b_premul": 0.003960642350062105,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0012880588998743895,
+      "g_premul": 0.0019083913770063723,
+      "b_premul": 0.0019423162530212907,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 0.2242788977844245,
+      "g_premul": 0.15147295918613213,
+      "b_premul": 0.10489116485274708,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 0.00830292635945148,
+      "g_premul": 0.005835853571915967,
+      "b_premul": 0.0037696143515759664,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  },
+  {
+    "draft": "quant-probe-opacity",
+    "encoding_max_linear": {
+      "r_premul": 0.003987098701479064,
+      "g_premul": 0.00407129892592184,
+      "b_premul": 0.003960642350062105,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.001289671381538483,
+      "g_premul": 0.001705123173567472,
+      "b_premul": 0.0018780458684840352,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 0.2242788977844245,
+      "g_premul": 0.15147295918613213,
+      "b_premul": 0.10489116485274708,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 0.00830292635945148,
+      "g_premul": 0.005819449903478249,
+      "b_premul": 0.0037696143515759664,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  },
+  {
+    "draft": "quant-probe-recolour",
+    "encoding_max_linear": {
+      "r_premul": 0.004039169924328623,
+      "g_premul": 0.00407129892592184,
+      "b_premul": 0.003960642350062105,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0012514061768083271,
+      "g_premul": 0.0017002603021043527,
+      "b_premul": 0.0019423162530212907,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 0.2242788977844245,
+      "g_premul": 0.15147295918613213,
+      "b_premul": 0.10489116485274708,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 0.00830292635945148,
+      "g_premul": 0.005819449903478249,
+      "b_premul": 0.0037696143515759664,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  },
+  {
+    "draft": "quant-probe",
+    "encoding_max_linear": {
+      "r_premul": 0.003987098701479064,
+      "g_premul": 0.00407129892592184,
+      "b_premul": 0.003960642350062105,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0012880588998743895,
+      "g_premul": 0.0017002603021043527,
+      "b_premul": 0.0019423162530212907,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 0.2242788977844245,
+      "g_premul": 0.15147295918613213,
+      "b_premul": 0.10489116485274708,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 0.00830292635945148,
+      "g_premul": 0.005819449903478249,
+      "b_premul": 0.0037696143515759664,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  },
+  {
+    "draft": "veil-demo",
+    "encoding_max_linear": {
+      "r_premul": 0.0013823007872128534,
+      "g_premul": 0.0013823007872128534,
+      "b_premul": 0.0013823007872128534,
+      "alpha": 0.0
+    },
+    "encoding_rmse_linear": {
+      "r_premul": 0.0009929710384637708,
+      "g_premul": 0.001382300787212823,
+      "b_premul": 0.0009929710384637732,
+      "alpha": 0.0
+    },
+    "coverage_max_linear": {
+      "r_premul": 3.3306690738754696e-16,
+      "g_premul": 1.6653345369377348e-16,
+      "b_premul": 3.3306690738754696e-16,
+      "alpha": 0.0
+    },
+    "coverage_rmse_linear": {
+      "r_premul": 2.633125101432526e-16,
+      "g_premul": 1.6653345369377348e-16,
+      "b_premul": 2.633125101432526e-16,
+      "alpha": 0.0
+    },
+    "reference_vs_production_mismatched_pixels": 0,
+    "reference_vs_production_max_code_delta": 0
+  }
+]

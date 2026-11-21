@@ -1,0 +1,276 @@
+{
+  "boundaries_tested": 255,
+  "diverging_boundaries": 38,
+  "max_abs_code_delta": 1,
+  "cause": "1-ULP libm pow difference at exact half-code ties; the two implementations use the same IEC formula",
+  "inside_one_code_envelope": true,
+  "consequence": "cross-implementation bit equality is not promised at ties; judge against the 1-code envelope, and use flattened perceptual metrics for low-alpha pixels",
+  "divergences": [
+    {
+      "half_code_k": 13,
+      "python_code": 14,
+      "go_code": 13,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 13.5
+    },
+    {
+      "half_code_k": 17,
+      "python_code": 18,
+      "go_code": 17,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 17.5
+    },
+    {
+      "half_code_k": 18,
+      "python_code": 19,
+      "go_code": 18,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 18.500000000000004
+    },
+    {
+      "half_code_k": 19,
+      "python_code": 20,
+      "go_code": 19,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 19.5
+    },
+    {
+      "half_code_k": 23,
+      "python_code": 24,
+      "go_code": 23,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 23.5
+    },
+    {
+      "half_code_k": 30,
+      "python_code": 31,
+      "go_code": 30,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 30.500000000000004
+    },
+    {
+      "half_code_k": 35,
+      "python_code": 36,
+      "go_code": 35,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 35.5
+    },
+    {
+      "half_code_k": 42,
+      "python_code": 43,
+      "go_code": 42,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 42.5
+    },
+    {
+      "half_code_k": 44,
+      "python_code": 45,
+      "go_code": 44,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 44.5
+    },
+    {
+      "half_code_k": 45,
+      "python_code": 46,
+      "go_code": 45,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 45.5
+    },
+    {
+      "half_code_k": 47,
+      "python_code": 48,
+      "go_code": 47,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 47.5
+    },
+    {
+      "half_code_k": 48,
+      "python_code": 49,
+      "go_code": 48,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 48.5
+    },
+    {
+      "half_code_k": 49,
+      "python_code": 50,
+      "go_code": 49,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 49.5
+    },
+    {
+      "half_code_k": 58,
+      "python_code": 59,
+      "go_code": 58,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 58.50000000000001
+    },
+    {
+      "half_code_k": 59,
+      "python_code": 60,
+      "go_code": 59,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 59.5
+    },
+    {
+      "half_code_k": 63,
+      "python_code": 64,
+      "go_code": 63,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 63.5
+    },
+    {
+      "half_code_k": 64,
+      "python_code": 65,
+      "go_code": 64,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 64.5
+    },
+    {
+      "half_code_k": 67,
+      "python_code": 68,
+      "go_code": 67,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 67.5
+    },
+    {
+      "half_code_k": 71,
+      "python_code": 72,
+      "go_code": 71,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 71.50000000000001
+    },
+    {
+      "half_code_k": 72,
+      "python_code": 73,
+      "go_code": 72,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 72.5
+    },
+    {
+      "half_code_k": 76,
+      "python_code": 77,
+      "go_code": 76,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 76.5
+    },
+    {
+      "half_code_k": 81,
+      "python_code": 82,
+      "go_code": 81,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 81.5
+    },
+    {
+      "half_code_k": 89,
+      "python_code": 90,
+      "go_code": 89,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 89.5
+    },
+    {
+      "half_code_k": 90,
+      "python_code": 91,
+      "go_code": 90,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 90.5
+    },
+    {
+      "half_code_k": 91,
+      "python_code": 92,
+      "go_code": 91,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 91.5
+    },
+    {
+      "half_code_k": 100,
+      "python_code": 101,
+      "go_code": 100,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 100.5
+    },
+    {
+      "half_code_k": 101,
+      "python_code": 102,
+      "go_code": 101,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 101.5
+    },
+    {
+      "half_code_k": 102,
+      "python_code": 103,
+      "go_code": 102,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 102.5
+    },
+    {
+      "half_code_k": 109,
+      "python_code": 110,
+      "go_code": 109,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 109.5
+    },
+    {
+      "half_code_k": 121,
+      "python_code": 122,
+      "go_code": 121,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 121.50000000000001
+    },
+    {
+      "half_code_k": 123,
+      "python_code": 124,
+      "go_code": 123,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 123.5
+    },
+    {
+      "half_code_k": 125,
+      "python_code": 126,
+      "go_code": 125,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 125.5
+    },
+    {
+      "half_code_k": 158,
+      "python_code": 159,
+      "go_code": 158,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 158.5
+    },
+    {
+      "half_code_k": 169,
+      "python_code": 170,
+      "go_code": 169,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 169.5
+    },
+    {
+      "half_code_k": 212,
+      "python_code": 213,
+      "go_code": 212,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 212.5
+    },
+    {
+      "half_code_k": 241,
+      "python_code": 241,
+      "go_code": 242,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 241.49999999999997
+    },
+    {
+      "half_code_k": 251,
+      "python_code": 251,
+      "go_code": 252,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 251.49999999999997
+    },
+    {
+      "half_code_k": 254,
+      "python_code": 254,
+      "go_code": 255,
+      "abs_code_delta": 1,
+      "python_roundtrip_x255": 254.49999999999997
+    }
+  ]
+}

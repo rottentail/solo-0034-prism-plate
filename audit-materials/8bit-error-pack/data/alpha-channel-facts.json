@@ -1,0 +1,65 @@
+{
+  "artifact": "alpha-channel-probe.png",
+  "color_type": 6,
+  "pixels_float_alpha_exactly_zero_cleared": 1152,
+  "pixels_positive_float_alpha_rounded_to_code_zero": 240,
+  "pixels_with_positive_alpha_code": 2704,
+  "subcode_alpha_examples": [
+    {
+      "x": 0,
+      "y": 0,
+      "rgba": [
+        230,
+        51,
+        38,
+        0
+      ]
+    },
+    {
+      "x": 1,
+      "y": 0,
+      "rgba": [
+        230,
+        51,
+        38,
+        0
+      ]
+    },
+    {
+      "x": 2,
+      "y": 0,
+      "rgba": [
+        230,
+        51,
+        38,
+        0
+      ]
+    },
+    {
+      "x": 3,
+      "y": 0,
+      "rgba": [
+        230,
+        51,
+        38,
+        0
+      ]
+    },
+    {
+      "x": 4,
+      "y": 0,
+      "rgba": [
+        230,
+        51,
+        38,
+        0
+      ]
+    }
+  ],
+  "subcode_pixel_visually_inert_over_backdrop": true,
+  "rules": [
+    "float alpha == 0 -> RGBA (0,0,0,0) (RGB cleared)",
+    "float alpha > 0 but round(a*255) == 0 -> RGB retained, alpha code 0; visually zero coverage once decoded",
+    "never compare straight RGB of alpha-0 pixels; flatten first or skip RGB entirely"
+  ]
+}

@@ -1,0 +1,83 @@
+[
+  {
+    "source": "alpha-channel-probe.json",
+    "plate_id": "alpha-channel-probe",
+    "artifact_id": "547b777d4b1fd1781bd6507b841678edf16cf4dc8bb6a0148b24c5c2328c4123",
+    "png": "alpha-channel-probe.png",
+    "sha256": "058b4b328ce5ae25bcbe9fe08893b64dcf84430ced67982e01d4ef1962d9254e",
+    "bytes": 292,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "code-lattice-probe.json",
+    "plate_id": "code-lattice-probe",
+    "artifact_id": "dbc6c42988993d7a6cc671f982903c5f274425f6e74c101cb6f5d9641780170c",
+    "png": "code-lattice-probe.png",
+    "sha256": "f1bb0ebeed1ca1dfe1c05fc550c5a7867c9c8e7b6d4b6862ea0719213475b0d2",
+    "bytes": 558,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "quant-probe-blend-swap.json",
+    "plate_id": "quant-probe-blend-swap",
+    "artifact_id": "4deffcbe399313ffc8f483fdf83a5066cafecd8560b99bc5977bf1e9fc655d8a",
+    "png": "quant-probe-blend-swap.png",
+    "sha256": "1f54110f9f5722c789d677271ecd1f9a7906dc1c5cb8d56ab37f7c544d11396c",
+    "bytes": 2311,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "quant-probe-edge-shift.json",
+    "plate_id": "quant-probe-edge-shift",
+    "artifact_id": "7f9e2ebea9203041000b012953ad93118fbc7ab9728bc9fdac1b188a8893cc30",
+    "png": "quant-probe-edge-shift.png",
+    "sha256": "1259c63001606f0b695440407be7039f0299c3b5fe2b5b348d726693d60a9757",
+    "bytes": 2287,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "quant-probe-micro-tint.json",
+    "plate_id": "quant-probe-micro-tint",
+    "artifact_id": "157ffe19721aaee8991b6c5a066ca39b412224a976d1af22f8e734c0320431b9",
+    "png": "quant-probe-micro-tint.png",
+    "sha256": "c3d4471aef592972147a7fc3188e5b74673c03eb2b968562a3d9353be0b9692c",
+    "bytes": 2300,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "quant-probe-opacity.json",
+    "plate_id": "quant-probe-opacity",
+    "artifact_id": "ab5bb8bc3616d2320dc0c04837858bdfef2ec9fd6760ac33966f5432447ce540",
+    "png": "quant-probe-opacity.png",
+    "sha256": "2224751d2a5cf91b623369ac767c64440f53fdb2542c50cc13dfc79245f8ecda",
+    "bytes": 2299,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "quant-probe-recolour.json",
+    "plate_id": "quant-probe-recolour",
+    "artifact_id": "11db4e921b6103885a6299172b0f0afd298690f6dfb32d0fb370f71c4a57c29e",
+    "png": "quant-probe-recolour.png",
+    "sha256": "fdb65338f21458f92ad1afc1a55e30b3e977abecd3b7e5050e736d755ee32c6e",
+    "bytes": 2323,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "quant-probe.json",
+    "plate_id": "quant-probe",
+    "artifact_id": "72725179ba7451e08aac010dcf34bb606372fbc7b78af04e79475e3aded19e0e",
+    "png": "quant-probe.png",
+    "sha256": "8667d71a05b3e9832959a63b341434d1faccab5ce245c366a1ca708d56e24e35",
+    "bytes": 2300,
+    "admission": "production HTTP 201"
+  },
+  {
+    "source": "veil-demo.json",
+    "plate_id": "veil-demo",
+    "artifact_id": "3ebd3373243450711c0872614c9ec57653add1c8d50d4ba0ff9c68f9a4e01043",
+    "png": "veil-demo.png",
+    "sha256": "57d5d2ac65f514606006cec013aaf1f29747538f8e55243f559a239e02722e9c",
+    "bytes": 204,
+    "admission": "production HTTP 201"
+  }
+]

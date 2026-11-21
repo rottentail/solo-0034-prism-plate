@@ -1,0 +1,89 @@
+{
+  "16bit_control": {
+    "artifact": "quant-probe.16bit-control.png",
+    "bit_depth": 16,
+    "max_remaining_lattice_error_in_8bit_code_units": 0.0019455252918287938,
+    "note": "same float pixels as the 8-bit production input; only the output lattice changed"
+  },
+  "decimal_transfer": {
+    "worst_encode_gap_srgb_units": 3.1673814445170014e-16,
+    "worst_at_code": 233,
+    "encode_samples": [
+      {
+        "code": 0,
+        "decimal_linear": 0.0,
+        "binary64_linear": 0.0,
+        "abs_gap": 0.0
+      },
+      {
+        "code": 1,
+        "decimal_linear": 0.049840089845012724,
+        "binary64_linear": 0.04984008984501271,
+        "abs_gap": 1.2256814789684823e-17
+      },
+      {
+        "code": 2,
+        "decimal_linear": 0.08494473023989008,
+        "binary64_linear": 0.08494473023989005,
+        "abs_gap": 3.289103329023826e-17
+      },
+      {
+        "code": 127,
+        "decimal_linear": 0.7340640698793774,
+        "binary64_linear": 0.7340640698793773,
+        "abs_gap": 1.8168392593108928e-16
+      },
+      {
+        "code": 128,
+        "decimal_linear": 0.736646941951587,
+        "binary64_linear": 0.7366469419515869,
+        "abs_gap": 1.1828877760594105e-16
+      },
+      {
+        "code": 254,
+        "decimal_linear": 0.998274167968602,
+        "binary64_linear": 0.9982741679686019,
+        "abs_gap": 1.4319463045636905e-16
+      },
+      {
+        "code": 255,
+        "decimal_linear": 1.0,
+        "binary64_linear": 0.9999999999999999,
+        "abs_gap": 1e-16
+      }
+    ],
+    "decode_samples": [
+      {
+        "linear_input": "0.001",
+        "decimal_srgb": 7.739938080495357e-05,
+        "binary64_srgb": 7.739938080495357e-05,
+        "abs_gap": 9.628482972136223e-21
+      },
+      {
+        "linear_input": "0.0031308",
+        "decimal_srgb": 0.00024232198142414861,
+        "binary64_srgb": 0.00024232198142414861,
+        "abs_gap": 3.1888544891640866e-21
+      },
+      {
+        "linear_input": "0.184507",
+        "decimal_srgb": 0.028481168495970464,
+        "binary64_srgb": 0.028481168495970474,
+        "abs_gap": 9.596642586928548e-18
+      },
+      {
+        "linear_input": "0.5",
+        "decimal_srgb": 0.21404114048223244,
+        "binary64_srgb": 0.21404114048223255,
+        "abs_gap": 1.0759691964752233e-16
+      },
+      {
+        "linear_input": "1.0",
+        "decimal_srgb": 1.0,
+        "binary64_srgb": 1.0,
+        "abs_gap": 0.0
+      }
+    ],
+    "note": "gaps are binary64 rounding inside the transfer itself; the 8-bit lattice gap (1/510) is 2-3 orders larger"
+  }
+}
